@@ -24,11 +24,11 @@
                   :click="appendVarToKey"
                 />
               </h3>
-              <vue-editor
-                :id="name"
+              <ckeditor
+                :editor="editor"
                 v-model="item.value"
-                @selection-change="editorFocus"
-              ></vue-editor>
+                :id="name"
+              ></ckeditor>
             </div>
             <div v-if="item.type == 'file'">
               <h3>{{ item.label }}</h3>
@@ -87,7 +87,7 @@
 </template>
 <script>
 import Axios from "axios";
-import { VueEditor, Quill } from "vue2-editor";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import { createFormData } from "@/assets/helper.js";
@@ -95,7 +95,6 @@ import { createFormData } from "@/assets/helper.js";
 export default {
   name: "EmailEdit",
   components: {
-    VueEditor,
     ColorPicker,
     CustomVariables,
   },
@@ -165,8 +164,7 @@ export default {
       eData: null,
       allData: null,
       dVars: null,
-      quill: null,
-      quillRange: null
+      editor: ClassicEditor,
     };
   },
   computed: {
@@ -185,14 +183,15 @@ export default {
       this.eData.json_fields[name].value = URL.createObjectURL(file);
     },
     appendVarToKey: function (name, item) {
-      console.log(this.quill)
       const { type, value } = this.eData.json_fields[name];
       if (type == "textarea") {
-        this.eData.json_fields[name].value = [
-          value.slice(0, this.quill),
-          item,
-          value.slice(this.quill),
-        ].join("");
+        console.log(editor.model)
+        this.editor.model.change((writer) => {
+          writer.insertText(
+            "Plain text",
+            this.editor.model.document.selection.getFirstPosition()
+          );
+        });
       }
     },
     handleSave: function () {
@@ -214,9 +213,6 @@ export default {
       ).then((res) => {
         console.log(res);
       });
-    },
-    editorFocus: function (range) {
-      if(range) this.quillRange = range.index
     },
   },
   mounted: function () {

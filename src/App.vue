@@ -8,11 +8,13 @@
 // import Home from "@/views/Home.vue";
 import Vue from "vue";
 import VueMaterial from "vue-material";
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default-dark.css";
 import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
+Vue.use(CKEditor)
 
 export default {
   name: "app",
