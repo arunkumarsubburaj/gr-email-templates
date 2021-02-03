@@ -27,7 +27,7 @@
               <ckeditor
                 :editor="editor"
                 v-model="item.value"
-                :id="name"
+                @ready="e => editorReady(e, name)"
               ></ckeditor>
             </div>
             <div v-if="item.type == 'file'">
@@ -100,96 +100,39 @@ export default {
   },
   data: function () {
     return {
-      temp: `<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
-      <td>
-        <table align="center" border="0" cellpadding="0" cellspacing="0" width="550">
-          <tr>
-              <td bgcolor="[[header_background_color]]" align="center" style="padding: 30px 0;">
-                <img src="[[header_image]]" alt="Email header" width="322" height="181" style="display: block;" />
-                <h1 style="color: #ffffff;font-family: Arial, sans-serif; font-weight:bold;font-size: 20px;line-height: 24px;padding: 20px 0 0;margin: 0;">
-                  [[content]]
-              </td>
-          </tr>
-            <tr>
-                <td style="text-align: center;padding: 0 75px 0;">
-                      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
-                        <tr>
-                          <td align="left" width="113" style="padding: 20px 0;border-bottom: 1px solid #d8d8d8;">
-                              <img src="./images/campaign_1.png" alt="Email footer" width="113" height="113" style="display: inline-block;" />
-                          </td>
-                          <td style="padding: 30px 40px 30px 40px;text-align: left;border-bottom: 1px solid #d8d8d8;">
-                            <h2 style="color: #000000;font-family: Arial, sans-serif;font-weight: bold;font-size: 16px;line-height: 19px;">Get more points</h2>
-                            <p style="margin: 0;color: #000000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;">
-                              Have you completed all the actions to earn the maximum rewards?
-                              </p>
-                              <a href="#" style="margin: 15px 0;color: #ffffff;background:#000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;display: inline-block;padding: 15px 40px;border-radius: 4px;text-decoration: none;">Participate Now</a>
-                          </td>
-                    </tr>
-                    <tr>
-                      <td align="left" style="padding: 20px 0;border-bottom: 1px solid #d8d8d8;">
-                          <img src="./images/campaign_2.png" alt="Email footer" width="113" height="113" style="display: inline-block;" />
-                      </td>
-                      <td style="padding: 30px 40px 30px 40px;text-align: left;border-bottom: 1px solid #d8d8d8;">
-                        <h2 style="color: #000000;font-family: Arial, sans-serif;font-weight: bold;font-size: 16px;line-height: 19px;">Chance for rewards</h2>
-                        <p style="margin: 0;color: #000000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;">
-                          Keep participating in our [[Campaign Name]] promotion for chances at more rewards!
-                          </p>
-                      </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="color: #000000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;padding: 20px 0;text-align: center;">
-                        <p style="margin: 0;">More promotions may be on the way! Keep an eye out to win more rewards.</p>
-                    </td>
-                </tr>
-          <tr>
-              <td colspan="2" style="color: #555;font-family: Arial, sans-serif;font-size: 12px;line-height: 15px;padding: 20px 0 40px 0;text-align: center;">
-                  <p style="margin: 0;">Regards,  [[Company Name]]</p>
-              </td>
-          </tr>
-                </table>
-                </td>
-            </tr>
-            <tr>
-                <td bgcolor="#f4f4f4" style="color: #777777;font-family: Arial, sans-serif; font-weight:bold;font-size: 10px;line-height: 12px;padding: 10px 0;text-align: center;">
-                    <p style="margin: 0;">GRATISFACTION <span style="margin: 0 5px;background: #585c8a;border-radius: 50%;width: 3px;height: 3px;display: inline-block;"></span> Made with <img src="./images/heart.png" alt="Email footer" width="8" height="7" style="display: inline-block;" /> Apps Mav</p>
-                </td>
-            </tr>
-        </table>
-
-      </td>
-    </tr>
-  </table>`,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
       dVars: null,
       editor: ClassicEditor,
+      ckEditor: {}
     };
   },
   computed: {
     templateOutput: function () {
-      if (this.eData)
-        return this.temp.replace(/\[\[(.*?)\]]/g, (full, property) =>
+      return this.eData ?
+        this.eData.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
           this.eData.json_fields[property]
             ? this.eData.json_fields[property].value
             : property
-        );
+        ) : null
     },
   },
   methods: {
+    editorReady: function(e, name) {
+      this.ckEditor[name] = e;
+    },
     handleFileChange: function (e, name) {
       const file = e.target.files[0];
       this.eData.json_fields[name].value = URL.createObjectURL(file);
     },
     appendVarToKey: function (name, item) {
-      const { type, value } = this.eData.json_fields[name];
+      const { type } = this.eData.json_fields[name];
       if (type == "textarea") {
-        console.log(editor.model)
-        this.editor.model.change((writer) => {
+        this.ckEditor[name].model.change((writer) => {
           writer.insertText(
-            "Plain text",
-            this.editor.model.document.selection.getFirstPosition()
+            item,
+            this.ckEditor[name].model.document.selection.getFirstPosition()
           );
         });
       }
