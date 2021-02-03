@@ -4,9 +4,9 @@
       <div class="md-layout md-gutter">
         <div class="md-layout-item md-size-40">
           <div v-for="(item, name, key) in eData.json_fields" :key="key">
-            <div v-if="item.type == 'textbox'">
+            <div v-if="item.type == 'text'">
               <h3>{{ item.label }}</h3>
-              <input type="text" v-model="item.value" />
+              <input type="text" :ref="name" v-model="item.value" />
               <CustomVariables
                 v-if="item.show_dynamic_variables"
                 :data="dVars"
@@ -127,7 +127,7 @@ export default {
       this.eData.json_fields[name].value = URL.createObjectURL(file);
     },
     appendVarToKey: function (name, item) {
-      const { type } = this.eData.json_fields[name];
+      const { type, value } = this.eData.json_fields[name];
       if (type == "textarea") {
         this.ckEditor[name].model.change((writer) => {
           writer.insertText(
@@ -135,6 +135,9 @@ export default {
             this.ckEditor[name].model.document.selection.getFirstPosition()
           );
         });
+      } else {
+        const index = this.$refs[name][0].selectionStart;
+        this.eData.json_fields[name].value = value.slice(0, index) + item + value.slice(index);
       }
     },
     handleSave: function () {
@@ -146,6 +149,7 @@ export default {
         type: tpl_name,
         is_enabled: status,
         settings: {},
+        active_id_theme: 7
       };
       Object.keys(json_fields).map(
         (key) => (params.settings[key] = json_fields[key].value)
@@ -165,7 +169,7 @@ export default {
       const { active_id_theme, dynamic_variables, themes } = data.data;
       this.dVars = dynamic_variables.split(",");
       this.allData = themes;
-      this.eData = themes.find(({ id_theme }) => id_theme == active_id_theme);
+      this.eData = themes.find(({ id_theme }) => id_theme == 7); // 7 hard code instead the value should be active_id_theme
     });
   },
 };
