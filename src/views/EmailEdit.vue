@@ -32,13 +32,13 @@
             </div>
             <div v-if="item.type == 'file'">
               <h3>{{ item.label }}</h3>
-              <input type="file" @change="(e) => handleFileChange(e, name)" />
+              <input type="file" @change="e => handleFileChange(e, name)" />
             </div>
             <div v-if="item.type == 'color'">
               <h3>{{ item.label }}</h3>
               <ColorPicker
                 :color="item.value"
-                v-on:input="(e) => (item.value = e)"
+                v-on:input="e => (item.value = e)"
               ></ColorPicker>
             </div>
           </div>
@@ -96,9 +96,9 @@ export default {
   name: "EmailEdit",
   components: {
     ColorPicker,
-    CustomVariables,
+    CustomVariables
   },
-  data: function () {
+  data: function() {
     return {
       temp: `<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
@@ -164,29 +164,32 @@ export default {
       eData: null,
       allData: null,
       dVars: null,
-      editor: ClassicEditor,
+      editor: ClassicEditor
     };
   },
   computed: {
-    templateOutput: function () {
-      if (this.eData)
+    templateOutput: function() {
+      if (this.eData) {
         return this.temp.replace(/\[\[(.*?)\]]/g, (full, property) =>
           this.eData.json_fields[property]
             ? this.eData.json_fields[property].value
             : property
         );
-    },
+      } else {
+        return this.eData;
+      }
+    }
   },
   methods: {
-    handleFileChange: function (e, name) {
+    handleFileChange: function(e, name) {
       const file = e.target.files[0];
       this.eData.json_fields[name].value = URL.createObjectURL(file);
     },
-    appendVarToKey: function (name, item) {
-      const { type, value } = this.eData.json_fields[name];
+    appendVarToKey: function(name) {
+      const { type } = this.eData.json_fields[name];
       if (type == "textarea") {
-        console.log(editor.model)
-        this.editor.model.change((writer) => {
+        console.log(this.editor.model);
+        this.editor.model.change(writer => {
           writer.insertText(
             "Plain text",
             this.editor.model.document.selection.getFirstPosition()
@@ -194,7 +197,7 @@ export default {
         });
       }
     },
-    handleSave: function () {
+    handleSave: function() {
       const { id_theme, tpl_name, subject, status, json_fields } = this.eData;
       const params = {
         id_email: this.id,
@@ -202,20 +205,20 @@ export default {
         id_theme: id_theme,
         type: tpl_name,
         is_enabled: status,
-        settings: {},
+        settings: {}
       };
       Object.keys(json_fields).map(
-        (key) => (params.settings[key] = json_fields[key].value)
+        key => (params.settings[key] = json_fields[key].value)
       );
       Axios.post(
         "https://gr-v1.devam.pro/services/email/saveEmailTemplate",
         createFormData(params)
-      ).then((res) => {
+      ).then(res => {
         console.log(res);
       });
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     Axios.get(
       `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
     ).then(({ data }) => {
@@ -224,7 +227,7 @@ export default {
       this.allData = themes;
       this.eData = themes.find(({ id_theme }) => id_theme == active_id_theme);
     });
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
