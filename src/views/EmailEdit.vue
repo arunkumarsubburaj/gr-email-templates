@@ -32,13 +32,13 @@
             </div>
             <div v-if="item.type == 'file'">
               <h3>{{ item.label }}</h3>
-              <input type="file" @change="(e) => handleFileChange(e, name)" />
+              <input type="file" @change="e => handleFileChange(e, name)" />
             </div>
             <div v-if="item.type == 'color'">
               <h3>{{ item.label }}</h3>
               <ColorPicker
                 :color="item.value"
-                v-on:input="(e) => (item.value = e)"
+                v-on:input="e => (item.value = e)"
               ></ColorPicker>
             </div>
           </div>
@@ -96,9 +96,9 @@ export default {
   name: "EmailEdit",
   components: {
     ColorPicker,
-    CustomVariables,
+    CustomVariables
   },
-  data: function () {
+  data: function() {
     return {
       id: this.$route.params.emailId,
       eData: null,
@@ -126,7 +126,7 @@ export default {
       const file = e.target.files[0];
       this.eData.json_fields[name].value = URL.createObjectURL(file);
     },
-    appendVarToKey: function (name, item) {
+    appendVarToKey: function(name, item) {
       const { type, value } = this.eData.json_fields[name];
       if (type == "textarea") {
         this.ckEditor[name].model.change((writer) => {
@@ -140,7 +140,7 @@ export default {
         this.eData.json_fields[name].value = value.slice(0, index) + item + value.slice(index);
       }
     },
-    handleSave: function () {
+    handleSave: function() {
       const { id_theme, tpl_name, subject, status, json_fields } = this.eData;
       const params = {
         id_email: this.id,
@@ -152,17 +152,17 @@ export default {
         active_id_theme: 7
       };
       Object.keys(json_fields).map(
-        (key) => (params.settings[key] = json_fields[key].value)
+        key => (params.settings[key] = json_fields[key].value)
       );
       Axios.post(
         "https://gr-v1.devam.pro/services/email/saveEmailTemplate",
         createFormData(params)
-      ).then((res) => {
+      ).then(res => {
         console.log(res);
       });
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     Axios.get(
       `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
     ).then(({ data }) => {
@@ -171,7 +171,7 @@ export default {
       this.allData = themes;
       this.eData = themes.find(({ id_theme }) => id_theme == 7); // 7 hard code instead the value should be active_id_theme
     });
-  },
+  }
 };
 </script>
 <style lang="less" scoped>

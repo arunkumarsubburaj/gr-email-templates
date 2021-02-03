@@ -2,9 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import EmailListing from "../views/EmailListing.vue";
 import EmailEdit from "../views/EmailEdit.vue";
-import VueMaterial from 'vue-material';
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/black-green-light.css';
+import VueMaterial from "vue-material";
+import "vue-material/dist/vue-material.min.css";
+import "vue-material/dist/theme/black-green-light.css";
 
 Vue.use(VueMaterial);
 
@@ -19,9 +19,9 @@ const routes = [
   {
     path: "/view/email/templates/:emailId",
     name: "EmailEdit",
-    props: true,    
+    props: true,
     component: EmailEdit
-  },
+  }
 ];
 
 const router = new VueRouter({
