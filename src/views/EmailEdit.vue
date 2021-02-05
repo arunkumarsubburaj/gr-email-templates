@@ -214,8 +214,8 @@
       Axios.get(
         `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
-        //const { active_id_theme, dynamic_variables, themes } = data.data;
-        const { dynamic_variables, themes } = data.data;
+        const { active_id_theme, dynamic_variables, themes } = data.data;
+        //const { dynamic_variables, themes } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.eData = themes.find(({ id_theme }) => id_theme == 7); // 7 hard code instead the value should be active_id_theme
