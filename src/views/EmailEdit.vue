@@ -75,6 +75,36 @@
               </vsa-content>
             </vsa-item>
           </vsa-list>
+        </div>
+
+        <div class="md-layout-item md-size-60">
+          <div class="previewBlock">
+            <div class="subjectEditor">
+              <span>Subject:</span>
+              <div>
+                <input type="text" v-model="eData.subject" />
+              </div>
+            </div>
+            <div class="emailTemplate md-elevation-5">
+              <div v-html="templateOutput"></div>
+            </div>
+          </div>
+        </div>
+        <md-snackbar
+          class="testSnack"
+          md-position="center"
+          :md-duration="400000"
+          :md-active.sync="saveEmailMsg"
+        >
+          <span v-html="saveEmailRes"></span>
+        </md-snackbar>
+      </div>
+    </div>
+  </div>
+    
+  <div v-else>
+    <EmailTemplates :data="allData" :active="activeThemeId" :close="togglePageview" :save="handleChooseTemplate" />
+  </div>
 
 
 
@@ -169,7 +199,6 @@
       <EmailTemplates :data="allData" :active="activeThemeId" :close="togglePageview" :save="handleChooseTemplate" />
     </div>
           -->
-  </div>
 </template>
 <script>
 import Axios from "axios";
