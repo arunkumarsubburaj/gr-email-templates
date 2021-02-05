@@ -23,7 +23,7 @@
   
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-40">
+        <div class="md-layout-item md-size-35">
 
           <vsa-list>
             <!-- Here you can use v-for to loop through items  -->
@@ -77,15 +77,13 @@
           </vsa-list>
         </div>
 
-        <div class="md-layout-item md-size-60">
+        <div class="md-layout-item md-size-65">
           <div class="previewBlock">
             <div class="subjectEditor">
               <span>Subject:</span>
-              <div>
-                <input type="text" v-model="eData.subject" />
-              </div>
+              <input type="text" v-model="eData.subject" />
             </div>
-            <div class="emailTemplate md-elevation-5">
+            <div class="emailTemplate">
               <div v-html="templateOutput"></div>
             </div>
           </div>
@@ -391,6 +389,28 @@ export default {
     .previewBlock {
       background: #fff;
       border: 1px solid #e8e8e8;
+
+      .subjectEditor {
+        border-bottom: 1px solid #e8e8e8;
+        margin-bottom: 20px;
+        padding: 20px;
+        display: flex;
+
+        span {
+          color: #007AFF;
+          font-size: 16px;
+          line-height: 18px;
+          font-weight: 600;
+          padding-right: 15px;
+        }
+        input[type="text"] {
+          border: 0;
+          color: #484848;
+          font-size: 15px;
+          line-height: 18px;
+          width: 100%;
+        }
+      }
     }
   }
 .emailTemplate {
