@@ -10,7 +10,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 import "vue-material/dist/vue-material.min.css";
-import "vue-material/dist/theme/default-dark.css";
+import "vue-material/dist/theme/default.css";
 import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
@@ -124,5 +124,28 @@ export default {
   margin: auto;
   max-width: 1024px;
   padding: 0 20px;
+}
+
+.msgSnack {
+  span {
+    display: flex;
+    align-items: center;
+  }
+  i {
+    font-size: 1.8em;
+    display: inline-flex;
+    margin-right: 0.4em;
+    background: #fff;
+    border-radius: 50%;
+    width: 1.05em;
+    height: 1.05em;
+    align-items: center;
+    &.fa-exclamation-circle {
+      color: #f00;
+    }
+    &.fa-check-circle {
+      color: #2aa900;
+    }
+  }
 }
 </style>
