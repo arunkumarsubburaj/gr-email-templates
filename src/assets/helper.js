@@ -11,3 +11,11 @@ export const createFormData = data => {
   }
   return formData;
 };
+
+export const renderTemplate =  (data) => data.email_template.length > 5
+    ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
+        data.json_fields[property]
+          ? data.json_fields[property].value
+          : property
+      )
+    : '<div>Invalid Template</div>';
