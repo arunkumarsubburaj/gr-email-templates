@@ -120,11 +120,25 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.current-color {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  background-color: #000;
-  cursor: pointer;
+.color-picker {
+  input.form-control {
+      padding: 5px;
+      border: 1px solid #d2d2d2;
+      font-size: 11px;
+      height: 36px;
+  }
+  .color-picker-container {
+    position: relative;
+    right: 30px;
+    top: 8px;
+
+    .current-color {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-color: #000;
+      cursor: pointer;
+    }
+  }
 }
 </style>

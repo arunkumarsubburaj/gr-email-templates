@@ -1,10 +1,23 @@
 <template>
   <div class="changeTemplateView">
+    <div class="fixedHeaderBlock">
+      <div class="fixedHeaderBlockInner">
+        <a class="link-back" @click.prevent="togglePageview">
+          <i class="fa fa-long-arrow-left"></i>
+        </a>
+        <div class="title">
+          <div class="icon far fa-bookmark margin-right-10"></div>
+          <span>Forget password email</span>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-75"><h1>Choose template</h1></div>
-        <div class="md-layout-item md-size-25">
-          <md-button class="md-raised">+ Create a blank email </md-button>
+        <div class="md-layout-item md-size-75"><h1>Forgot email password</h1></div>
+        <div class="md-layout-item md-size-25 dispMidRight">
+          <md-button class="md-raised btn-custom-default">
+            <i class="fas fa-plus"></i> Create a blank email
+          </md-button>
         </div>
         <section class="md-layout-item">
           <div
@@ -21,13 +34,14 @@
                 <small>Template description</small>
               </div>
               <md-button
-                class="md-raised md-accent"
+                class="md-raised md-accent btn-custom-active"
                 v-if="template.status == 1"
                 @click="e => save(template.id_theme)"
               >
+                <i class="far fa-check-circle"></i>
                 activated
               </md-button>
-              <md-button class="md-raised" v-else @click="e => save(template.id_theme)">
+              <md-button class="md-raised btn-custom-default" v-else @click="e => save(template.id_theme)">
                 Preview & Edit
               </md-button>
             </div>
@@ -38,19 +52,26 @@
   </div>
 </template>
 <script>
-export default {
-  name: "EmailTemplates",
-  props: ["data", "close", "save"],
-  mixins: ["renderTemplate"],
-};
+  export default {
+    name: "EmailTemplates",
+    props: ["data", "close", "save"],
+    mixins: ["renderTemplate"],
+  };
 </script>
 <style lang="less" scoped>
+
 .changeTemplateView {
-  padding: 40px 0 20px;
+  margin: 7em 0;
+
   section {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+  }
+  .dispMidRight {
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
   }
 }
 .templateBox {

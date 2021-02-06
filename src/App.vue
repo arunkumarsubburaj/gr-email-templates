@@ -148,4 +148,54 @@ export default {
     }
   }
 }
+
+
+.fixedHeaderBlock {
+  background: #fff;
+  flex: 1;
+  position: fixed;
+  top: 0;
+  display: flex;
+  z-index: 9999;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+
+  .fixedHeaderBlockInner {
+    display: flex;
+    align-items: center;
+
+    a.link-back {
+      color: #333;
+      padding: 10px 25px;
+      font-size: 16px;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .title {
+      border-left: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      color: #333;
+      padding: 12px 20px;
+      font-size: 16px;
+
+      .icon {
+        padding: 10px;
+        border-radius: 50%;
+        width: 35px;
+        background: #e2f3ff;
+        color: #5988bc;
+        position: relative;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .md-button {
+    margin-right: 10px;
+  }
+}
 </style>

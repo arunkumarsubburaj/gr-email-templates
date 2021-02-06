@@ -3,7 +3,7 @@
     <div class="email" v-if="editPageView">
       <div class="fixedHeaderBlock">
         <div class="fixedHeaderBlockInner">
-          <a class="link-back" onclick="">
+          <a class="link-back" @click.prevent="togglePageview">
             <i class="fa fa-long-arrow-left"></i>
           </a>
           <div class="title">
@@ -33,25 +33,27 @@
 
                 <vsa-content>
                   <div v-if="item.type == 'text'">
-                    <h3>{{ item.label }}</h3>
-                    <input type="text" :ref="name" v-model="item.value" />
-                    <CustomVariables
-                      v-if="item.show_dynamic_variables"
-                      :data="dVars"
-                      :name="name"
-                      :click="appendVarToKey"
-                    />
-                  </div>
-                  <div v-if="item.type == 'textarea'">
-                    <h3>
-                      {{ item.label }}
+                    <div class="subTitle">
+                      <h3>{{ item.label }}</h3>
                       <CustomVariables
                         v-if="item.show_dynamic_variables"
                         :data="dVars"
                         :name="name"
                         :click="appendVarToKey"
                       />
-                    </h3>
+                    </div>
+                    <input class="form-control" type="text" :ref="name" v-model="item.value" />
+                  </div>
+                  <div v-if="item.type == 'textarea'">
+                    <div class="subTitle">
+                      <h3>{{ item.label }}</h3>
+                      <CustomVariables
+                        v-if="item.show_dynamic_variables"
+                        :data="dVars"
+                        :name="name"
+                        :click="appendVarToKey"
+                      />
+                    </div>
                     <ckeditor
                       :editor="editor"
                       v-model="item.value"
@@ -59,14 +61,18 @@
                     ></ckeditor>
                   </div>
                   <div v-if="item.type == 'file'">
-                    <h3>{{ item.label }}</h3>
+                    <div class="subTitle">
+                      <h3>{{ item.label }}</h3>
+                    </div>
                     <input
                       type="file"
                       @change="(e) => handleFileChange(e, name)"
                     />
                   </div>
                   <div v-if="item.type == 'color'">
-                    <h3>{{ item.label }}</h3>
+                    <div class="subTitle">
+                      <h3>{{ item.label }}</h3>
+                    </div>
                     <ColorPicker
                       :color="item.value"
                       v-on:input="(e) => (item.value = e)"
@@ -76,7 +82,7 @@
               </vsa-item>
             </vsa-list>
             <div class="changeTemplate">
-              <span>Would you like to change</span>
+              <h3>Would you like to change</h3>
               <md-button @click.prevent="togglePageview" class="md-raised md-accent"
                 >Change Template</md-button
               >
@@ -346,48 +352,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fixedHeaderBlock {
-  background: #fff;
-  flex: 1;
-  position: fixed;
-  top: 0;
-  display: flex;
-  z-index: 9999;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
-
-  .fixedHeaderBlockInner {
-    display: flex;
-    align-items: center;
-
-    a.link-back {
-      color: #333;
-      padding: 10px 25px;
-      font-size: 16px;
-      margin: 0;
-    }
-
-    .title {
-      border-left: 1px solid #eaeaea;
-      display: flex;
-      align-items: center;
-      color: #333;
-      padding: 12px 20px;
-
-      .icon {
-        padding: 10px;
-        border-radius: 50%;
-        width: 35px;
-        background: #e2f3ff;
-        color: #5988bc;
-        position: relative;
-        margin-right: 10px;
-      }
-    }
-  }
-}
 
 .changeTemplate {
   background-color: #fff;
@@ -397,10 +361,11 @@ export default {
   border: 1px solid #e8e8e8;
   margin: 20px 0;
   padding: 10px;
-  span {
+  flex-direction: column;
+
+  h3 {
     color: #007AFF;
-    flex-grow: 1;
-    font-size: 0.9em;
+    margin-top: 0;
   }
 }
 
@@ -413,7 +378,6 @@ export default {
 
   &.md-accent {
     border: 0;
-    background: #5bb74d;
     font-weight: bold;
     color: #fff !important;
   }
@@ -427,6 +391,24 @@ export default {
   }
   .editorContent {
     padding: 20px;
+  }
+
+  .subTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      font-size: 14px;
+      color:#48548E;
+    }
+  }
+  
+  input.form-control {
+      padding: 5px;
+      border: 1px solid #d2d2d2;
+      font-size: 14px;
+      width:100%;
   }
 
   .previewBlock {
@@ -479,6 +461,29 @@ export default {
 </style>
 
 <style lang="less">
+:root {
+    --md-theme-default-accent: #5bb74d !important;
+}
+.md-button {
+    text-transform: capitalize;
+    padding: 0 10px;
+    border-radius: 4px;
+    box-shadow: none !important;
+    margin:0;
+
+  i {
+    margin-right: 10px;
+  }
+}
+
+.btn-custom-default {
+  border: 1px solid #005DFF;
+  color: #005DFF !important;
+  background: transparent !important;
+}
+.btn-custom-active {
+  color: #fff !important;
+}
 .vsa-list {
   border: 1px solid #e8e8e8;
   --vsa-highlight-color: #d2d2d2;
