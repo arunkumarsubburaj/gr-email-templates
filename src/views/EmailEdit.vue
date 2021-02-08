@@ -18,6 +18,11 @@
           >
         </div>
       </div>
+      <div class="upgradeBlock">
+        <p>Would you like to upgrade to our premium services? Have your own branding</p>
+        <md-button @click.prevent="" class="md-raised btnUpgrade">Upgrade now</md-button>
+        <md-button @click.prevent="" class="md-raised btnNotnow">Not now</md-button>
+      </div>
 
       <div class="container">
         <div class="md-layout md-gutter">
@@ -353,6 +358,29 @@ export default {
 </script>
 <style lang="less" scoped>
 
+.upgradeBlock {
+  background: #ED941F;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+
+  p {
+    font-size: 13px;
+    color:#fff;
+  }
+
+  button.btnUpgrade {
+    margin: 0 10px 0 20px;
+  }
+
+  .btnNotnow {
+    border: 1px solid #fff;
+    color: #fff !important;
+    background: transparent !important;
+  }
+}
+
 .changeTemplate {
   background-color: #fff;
   display: flex;
@@ -384,7 +412,7 @@ export default {
 }
 
 .email {
-  margin: 7em 0;
+  margin: 4.3em 0 7em 0;
 
   .md-list {
     padding: 0;
@@ -417,7 +445,6 @@ export default {
 
     .subjectEditor {
       border-bottom: 1px solid #e8e8e8;
-      margin-bottom: 20px;
       padding: 20px;
       display: flex;
 
@@ -441,10 +468,15 @@ export default {
 .emailTemplate {
   width: 100%;
   min-height: 600px;
-  background-color: #fff;
+  background-color:#ddefef;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 0;
+
+  & > div {
+    background: #fff;
+  }
 }
 .subHeader {
   display: flex;
