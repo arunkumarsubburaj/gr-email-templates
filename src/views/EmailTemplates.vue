@@ -15,23 +15,24 @@
       <div class="md-layout md-gutter">
         <div class="md-layout-item md-size-75"><h1>Forgot email password</h1></div>
         <div class="md-layout-item md-size-25 dispMidRight">
-          <md-button class="md-raised btn-custom-default">
+          <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
+          <!-- <md-button class="md-raised btn-custom-default">
             <i class="fas fa-plus"></i> Create a blank email
-          </md-button>
+          </md-button> -->
         </div>
         <section class="md-layout-item">
           <div
             class="templateBox"
-            v-for="template in data"
+            v-for="(template, index) in data"
             :key="template.id_theme"
           >
             <div class="boxView">
-              <div v-if="template" v-html="renderTemplate(template)"></div>
+              <img :src="require(`@/assets/template/email_template_${template.id_theme}.png`)" alt="">
             </div>
             <div class="boxFooter">
               <div>
                 <h4>{{ template.tpl_name }}</h4>
-                <small>Template description</small>
+                <small>Template {{index + 1}}</small>
               </div>
               <md-button
                 class="md-raised md-accent btn-custom-active"
@@ -54,8 +55,7 @@
 <script>
   export default {
     name: "EmailTemplates",
-    props: ["data", "close", "save"],
-    mixins: ["renderTemplate"],
+    props: ["data", "close", "save"]
   };
 </script>
 <style lang="less" scoped>
@@ -81,9 +81,9 @@
   margin: 25px 0;
   .boxView {
     flex-grow: 1;
+    display: flex;
     background-color: #DDEFEF;
-    > div {
-      zoom: 0.5;
+    img {
       width: 50%;
       margin: auto;
       display: block;

@@ -130,12 +130,14 @@
         <span v-html="emailResponse"></span>
       </md-snackbar>
     </div>
+    <Loader :status="loader" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import Loader from "@/components/Loader.vue";
 import Axios from "axios";
 
 export default {
@@ -146,8 +148,10 @@ export default {
       listData: [],
       emailMessage: false,
       emailResponse: null,
+      loader: false
     };
   },
+  components: {Loader},
   mixins: ["createFormData"],
   computed: {
     activeList: function () {
@@ -159,6 +163,7 @@ export default {
   },
   methods: {
     changeEmailStatus: function (id, status) {
+      this.loader = true;
       const params = {
         is_enabled: status ? 0 : 1,
         id_email: id,
@@ -171,10 +176,11 @@ export default {
         "https://gr-v1.devam.pro/services/email/updateEmailStatus",
         formData
       ).then(({ data, status }) => {
+        this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
           this.listData = this.listData.map((item) =>
-            item.id_email == id ? { ...item, is_enabled: status ? 0 : 1 } : item
+            item.id_email == id ? { ...item, is_enabled: params.is_enabled } : item
           );
         } else
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
@@ -182,10 +188,12 @@ export default {
       });
     },
     sendTestEmail: function (id) {
+      this.loader = true;
       Axios.post(
         "https://gr-v1.devam.pro/services/email/sendTestEmail",
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
+        this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
         } else

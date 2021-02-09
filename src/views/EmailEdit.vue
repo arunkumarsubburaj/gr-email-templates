@@ -1,4 +1,5 @@
 <template>
+  <div>    
   <div v-if="eData">
     <div class="email" v-if="editPageView">
       <div class="fixedHeaderBlock">
@@ -27,7 +28,20 @@
       <div class="container">
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-size-35">
-            <vsa-list>
+            <vsa-list>              
+              <vsa-item>
+                <vsa-heading>Subject</vsa-heading>
+                <vsa-icon>
+                  <span class="open"><i class="fas fa-pencil-alt"></i></span>
+                  <span class="close"><i class="fas fa-times"></i></span>
+                </vsa-icon>
+                <vsa-content>
+                  <div class="subjectEditor">
+                    <span>Subject for your email:</span>
+                    <input type="text" v-model="eData.subject" />
+                  </div>                  
+                </vsa-content>
+              </vsa-item>
               <!-- Here you can use v-for to loop through items  -->
               <vsa-item v-for="(item, name, key) in eData.json_fields" :key="key">
                 <vsa-heading>{{ item.label }}</vsa-heading>
@@ -96,10 +110,6 @@
 
           <div class="md-layout-item md-size-65">
             <div class="previewBlock">
-              <div class="subjectEditor">
-                <span>Subject:</span>
-                <input type="text" v-model="eData.subject" />
-              </div>
               <div class="emailTemplate">
                 <div v-html="templateOutput"></div>
               </div>
@@ -125,98 +135,8 @@
       />
     </div>
   </div>
-
-  <!--
-    <div class="container" v-if="editPageView">
-      <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-40">
-          <div v-for="(item, name, key) in eData.json_fields" :key="key">
-            <div v-if="item.type == 'text'">
-              <h3>{{ item.label }}</h3>
-              <input type="text" :ref="name" v-model="item.value" />
-              <CustomVariables
-                v-if="item.show_dynamic_variables"
-                :data="dVars"
-                :name="name"
-                :click="appendVarToKey"
-              />
-            </div>
-            <div v-if="item.type == 'textarea'">
-              <h3>
-                {{ item.label }}
-                <CustomVariables
-                  v-if="item.show_dynamic_variables"
-                  :data="dVars"
-                  :name="name"
-                  :click="appendVarToKey"
-                />
-              </h3>
-              <ckeditor
-                :editor="editor"
-                v-model="item.value"
-                @ready="(e) => editorReady(e, name)"
-              ></ckeditor>
-            </div>
-            <div v-if="item.type == 'file'">
-              <h3>{{ item.label }}</h3>
-              <input type="file" @change="(e) => handleFileChange(e, name)" />
-            </div>
-            <div v-if="item.type == 'color'">
-              <h3>{{ item.label }}</h3>
-              <ColorPicker
-                :color="item.value"
-                v-on:input="(e) => (item.value = e)"
-              ></ColorPicker>
-            </div>
-          </div>
-          <md-list :md-expand-single="true">
-            <md-list-item md-expand>
-              <div class="md-list-item-text">Header Text</div>
-              <md-icon class="md-primary">edit</md-icon>
-              <md-list slot="md-expand"
-                ><div class="editorContent">
-                  Header Text content comes here
-                </div></md-list
-              >
-            </md-list-item>
-            <md-list-item md-expand>
-              <div class="md-list-item-text">Sub Block Text</div>
-              <md-icon class="md-primary">edit</md-icon>
-              <md-list slot="md-expand"
-                ><div class="editorContent">
-                  Sub Block Text content comes here
-                </div></md-list
-              >
-            </md-list-item>
-          </md-list>
-        </div>
-        <div class="md-layout-item md-size-60">
-          <div class="previewBlock">
-            <div class="subjectEditor">
-              <span>Subject:</span>
-              <div>
-                <input type="text" v-model="eData.subject" />
-              </div>
-            </div>
-            <div class="emailTemplate md-elevation-5">
-              <div v-html="templateOutput"></div>
-            </div>
-          </div>
-        </div>
-        <md-snackbar
-          class="testSnack"
-          md-position="center"
-          :md-duration="400000"
-          :md-active.sync="emailMessage"
-        >
-          <span v-html="emailResponse"></span>
-        </md-snackbar>
-      </div>
-    </div>
-    <div v-else>
-      <EmailTemplates :data="allData" :active="activeThemeId" :close="togglePageview" :save="handleChooseTemplate" />
-    </div>
-          -->
+  <Loader :status="loader" />
+  </div>
 </template>
 <script>
 import Axios from "axios";
@@ -224,6 +144,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import EmailTemplates from "./EmailTemplates.vue";
+import Loader from "@/components/Loader.vue";
 import {
   VsaList,
   VsaItem,
@@ -239,6 +160,7 @@ export default {
     ColorPicker,
     CustomVariables,
     EmailTemplates,
+    Loader
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
@@ -253,6 +175,7 @@ export default {
       ckEditor: {},
       emailMessage: false,
       emailResponse: null,
+      loader: false,
       VsaList,
       VsaItem,
       VsaHeading,
@@ -290,8 +213,9 @@ export default {
         });
       } else {
         const index = this.$refs[name][0].selectionStart;
-        this.eData.json_fields[name].value =
-          value.slice(0, index) + item + value.slice(index);
+        const text = value.slice(0, index) + item + value.slice(index);
+        this.eData.json_fields[name].value = text;
+        this.$refs[name][0].value = text;
       }
     },
     handleChooseTemplate: function (id) {
@@ -299,6 +223,7 @@ export default {
       this.togglePageview();
     },
     handleSave: function () {
+      this.loader = true;
       const { id_theme, tpl_name, subject, status, json_fields } = this.eData;
       const params = {
         id_email: this.id,
@@ -316,6 +241,7 @@ export default {
         this.createFormData(params)
       )
         .then(({ data, status }) => {
+          this.loader = false;
           if(status == 200) {
             this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`
             this.fetchTemplateData();
@@ -323,15 +249,18 @@ export default {
           this.emailMessage = true;
         })
         .catch(() => {
+          this.loader = false;
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Something went wrong`;
           this.emailMessage = true;
         });
     },    
     sendTestEmail: function () {
+      this.loader = true;
       Axios.post(
         "https://gr-v1.devam.pro/services/email/sendTestEmail",
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
+        this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
         } else
@@ -340,6 +269,7 @@ export default {
       });
     },
     fetchTemplateData: function() {
+      this.loader = true;
       Axios.get(
         `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
@@ -348,6 +278,7 @@ export default {
         this.allData = themes;
         this.activeThemeId = active_id_theme;
         this.setEdata(active_id_theme)
+        this.loader = false;
       });
     }
   },
@@ -443,26 +374,24 @@ export default {
     background: #fff;
     border: 1px solid #e8e8e8;
 
-    .subjectEditor {
-      border-bottom: 1px solid #e8e8e8;
-      padding: 20px;
-      display: flex;
-
-      span {
-        color: #007aff;
-        font-size: 16px;
-        line-height: 18px;
-        font-weight: 600;
-        padding-right: 15px;
-      }
-      input[type="text"] {
-        border: 0;
-        color: #484848;
-        font-size: 15px;
-        line-height: 18px;
-        width: 100%;
-      }
-    }
+  }
+}
+.subjectEditor {
+  span {
+    display: block;
+    color: #007aff;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 600;
+    padding-bottom: 10px;
+  }
+  input[type="text"] {
+    border: 1px solid #dcdcdc;
+    color: #484848;
+    font-size: 15px;
+    line-height: 18px;
+    width: 100%;
+    padding: 10px;
   }
 }
 .emailTemplate {
