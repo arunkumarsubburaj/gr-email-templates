@@ -1,5 +1,7 @@
 # gr-email-vue
 
+https://logesh1987.github.io/gr-email-templates/dist/#/view/email/templates
+
 ## Project setup
 ```
 yarn install
