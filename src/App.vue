@@ -198,4 +198,14 @@ export default {
     margin-right: 10px;
   }
 }
+.uploadWrap {
+  label {
+    display: inline-flex;
+    align-items: center;
+    input {
+      position: absolute;
+      opacity: 0;
+    }
+  }
+}
 </style>

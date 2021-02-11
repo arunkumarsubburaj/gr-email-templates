@@ -1,141 +1,171 @@
 <template>
-  <div>    
-  <div v-if="eData">
-    <div class="email" v-if="editPageView">
-      <div class="fixedHeaderBlock">
-        <div class="fixedHeaderBlockInner">
-          <a class="link-back" @click.prevent="togglePageview">
-            <i class="fa fa-long-arrow-left"></i>
-          </a>
-          <div class="title">
-            <div class="icon far fa-envelope margin-right-10"></div>
-            <span>Welcome Email</span>
-          </div>
-        </div>
-        <div>
-          <md-button class="md-raised" @click.prevent="sendTestEmail">Sent Test Email</md-button>
-          <md-button @click.prevent="handleSave" class="md-raised md-accent"
-            >Save</md-button
-          >
-        </div>
-      </div>
-      <div class="upgradeBlock">
-        <p>Would you like to upgrade to our premium services? Have your own branding</p>
-        <md-button @click.prevent="" class="md-raised btnUpgrade">Upgrade now</md-button>
-        <md-button @click.prevent="" class="md-raised btnNotnow">Not now</md-button>
-      </div>
-
-      <div class="container">
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item md-size-35">
-            <vsa-list>              
-              <vsa-item>
-                <vsa-heading>Subject</vsa-heading>
-                <vsa-icon>
-                  <span class="open"><i class="fas fa-pencil-alt"></i></span>
-                  <span class="close"><i class="fas fa-times"></i></span>
-                </vsa-icon>
-                <vsa-content>
-                  <div class="subjectEditor">
-                    <span>Subject for your email:</span>
-                    <input type="text" v-model="eData.subject" />
-                  </div>                  
-                </vsa-content>
-              </vsa-item>
-              <!-- Here you can use v-for to loop through items  -->
-              <vsa-item v-for="(item, name, key) in eData.json_fields" :key="key">
-                <vsa-heading>{{ item.label }}</vsa-heading>
-                <vsa-icon>
-                  <span class="open"><i class="fas fa-pencil-alt"></i></span>
-                  <span class="close"><i class="fas fa-times"></i></span>
-                </vsa-icon>
-
-                <vsa-content>
-                  <div v-if="item.type == 'text'">
-                    <div class="subTitle">
-                      <h3>{{ item.label }}</h3>
-                      <CustomVariables
-                        v-if="item.show_dynamic_variables"
-                        :data="dVars"
-                        :name="name"
-                        :click="appendVarToKey"
-                      />
-                    </div>
-                    <input class="form-control" type="text" :ref="name" v-model="item.value" />
-                  </div>
-                  <div v-if="item.type == 'textarea'">
-                    <div class="subTitle">
-                      <h3>{{ item.label }}</h3>
-                      <CustomVariables
-                        v-if="item.show_dynamic_variables"
-                        :data="dVars"
-                        :name="name"
-                        :click="appendVarToKey"
-                      />
-                    </div>
-                    <ckeditor
-                      :editor="editor"
-                      v-model="item.value"
-                      @ready="(e) => editorReady(e, name)"
-                    ></ckeditor>
-                  </div>
-                  <div v-if="item.type == 'file'">
-                    <div class="subTitle">
-                      <h3>{{ item.label }}</h3>
-                    </div>
-                    <input
-                      type="file"
-                      @change="(e) => handleFileChange(e, name)"
-                    />
-                  </div>
-                  <div v-if="item.type == 'color'">
-                    <div class="subTitle">
-                      <h3>{{ item.label }}</h3>
-                    </div>
-                    <ColorPicker
-                      :color="item.value"
-                      v-on:input="(e) => (item.value = e)"
-                    ></ColorPicker>
-                  </div>
-                </vsa-content>
-              </vsa-item>
-            </vsa-list>
-            <div class="changeTemplate">
-              <h3>Would you like to change</h3>
-              <md-button @click.prevent="togglePageview" class="md-raised md-accent"
-                >Change Template</md-button
-              >
+  <div>
+    <div v-if="eData">
+      <div class="email" v-if="editPageView">
+        <div class="fixedHeaderBlock">
+          <div class="fixedHeaderBlockInner">
+            <a class="link-back" @click.prevent="togglePageview">
+              <i class="fa fa-long-arrow-left"></i>
+            </a>
+            <div class="title">
+              <div class="icon far fa-envelope margin-right-10"></div>
+              <span>Welcome Email</span>
             </div>
           </div>
+          <div>
+            <md-button class="md-raised" @click.prevent="sendTestEmail"
+              >Sent Test Email</md-button
+            >
+            <md-button @click.prevent="handleSave" class="md-raised md-accent"
+              >Save</md-button
+            >
+          </div>
+        </div>
+        <div class="upgradeBlock">
+          <p>
+            Would you like to upgrade to our premium services? Have your own
+            branding
+          </p>
+          <md-button @click.prevent="" class="md-raised btnUpgrade"
+            >Upgrade now</md-button
+          >
+          <md-button @click.prevent="" class="md-raised btnNotnow"
+            >Not now</md-button
+          >
+        </div>
 
-          <div class="md-layout-item md-size-65">
-            <div class="previewBlock">
-              <div class="emailTemplate">
-                <div v-html="templateOutput"></div>
+        <div class="container">
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-size-35">
+              <vsa-list>
+                <vsa-item>
+                  <vsa-heading>Subject</vsa-heading>
+                  <vsa-icon>
+                    <span class="open"><i class="fas fa-pencil-alt"></i></span>
+                    <span class="close"><i class="fas fa-times"></i></span>
+                  </vsa-icon>
+                  <vsa-content>
+                    <div class="subjectEditor">
+                      <span>Subject for your email:</span>
+                      <input type="text" v-model="eData.subject" />
+                    </div>
+                  </vsa-content>
+                </vsa-item>
+                <!-- Here you can use v-for to loop through items  -->
+                <vsa-item
+                  v-for="(item, name, key) in eData.json_fields"
+                  :key="key"
+                >
+                  <vsa-heading>{{ item.label }}</vsa-heading>
+                  <vsa-icon>
+                    <span class="open"><i class="fas fa-pencil-alt"></i></span>
+                    <span class="close"><i class="fas fa-times"></i></span>
+                  </vsa-icon>
+
+                  <vsa-content>
+                    <div v-if="item.type == 'text'">
+                      <div class="subTitle">
+                        <h3>{{ item.label }}</h3>
+                        <CustomVariables
+                          v-if="item.show_dynamic_variables"
+                          :data="dVars"
+                          :name="name"
+                          :click="appendVarToKey"
+                        />
+                      </div>
+                      <input
+                        class="form-control"
+                        type="text"
+                        :ref="name"
+                        v-model="item.value"
+                      />
+                    </div>
+                    <div v-if="item.type == 'textarea'">
+                      <div class="subTitle">
+                        <h3>{{ item.label }}</h3>
+                        <CustomVariables
+                          v-if="item.show_dynamic_variables"
+                          :data="dVars"
+                          :name="name"
+                          :click="appendVarToKey"
+                        />
+                      </div>
+                      <ckeditor
+                        :editor="editor"
+                        v-model="item.value"
+                        @ready="(e) => editorReady(e, name)"
+                      ></ckeditor>
+                    </div>
+                    <div v-if="item.type == 'file'">
+                      <div class="subTitle">
+                        <h3>{{ item.label }}</h3>
+                      </div>
+                      <div class="uploadWrap">
+                        <label class="md-button md-raised md-accent md-theme-default" :for="name">
+                          <i class="fal fa-upload"></i>
+                          <span v-if="item.value.length > 0">Replace Image</span>
+                          <span v-else>Add Image</span>
+                          <input
+                            :id="name"
+                            type="file"
+                            accept="image/*"
+                            @change="(e) => handleFileChange(e, name)"
+                          />
+                        </label>
+                        <span>wtf: {{ item.value }}</span>
+                        <img :src="item.value" alt="">
+                      </div>
+                    </div>
+                    <div v-if="item.type == 'color'">
+                      <div class="subTitle">
+                        <h3>{{ item.label }}</h3>
+                      </div>
+                      <ColorPicker
+                        :color="item.value"
+                        v-on:input="(e) => (item.value = e)"
+                      ></ColorPicker>
+                    </div>
+                  </vsa-content>
+                </vsa-item>
+              </vsa-list>
+              <div class="changeTemplate">
+                <h3>Would you like to change</h3>
+                <md-button
+                  @click.prevent="togglePageview"
+                  class="md-raised md-accent"
+                  >Change Template</md-button
+                >
               </div>
             </div>
+
+            <div class="md-layout-item md-size-65">
+              <div class="previewBlock">
+                <div class="emailTemplate">
+                  <div v-html="templateOutput"></div>
+                </div>
+              </div>
+            </div>
+            <md-snackbar
+              class="msgSnack"
+              md-position="center"
+              :md-duration="4000"
+              :md-active.sync="emailMessage"
+            >
+              <span v-html="emailResponse"></span>
+            </md-snackbar>
           </div>
-          <md-snackbar
-            class="msgSnack"
-            md-position="center"
-            :md-duration="4000"
-            :md-active.sync="emailMessage"
-          >
-            <span v-html="emailResponse"></span>
-          </md-snackbar>
         </div>
       </div>
-    </div>
 
-    <div v-else>
-      <EmailTemplates
-        :data="allData"
-        :close="togglePageview"
-        :save="handleChooseTemplate"
-      />
+      <div v-else>
+        <EmailTemplates
+          :data="allData"
+          :close="togglePageview"
+          :save="handleChooseTemplate"
+        />
+      </div>
     </div>
-  </div>
-  <Loader :status="loader" />
+    <Loader :status="loader" />
   </div>
 </template>
 <script>
@@ -160,7 +190,7 @@ export default {
     ColorPicker,
     CustomVariables,
     EmailTemplates,
-    Loader
+    Loader,
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
@@ -189,8 +219,8 @@ export default {
     },
   },
   methods: {
-    setEdata: function(id) {
-      this.eData = this.allData.find(({ id_theme }) => id_theme == id)
+    setEdata: function (id) {
+      this.eData = this.allData.find(({ id_theme }) => id_theme == id);
     },
     togglePageview: function () {
       this.editPageView = !this.editPageView;
@@ -200,7 +230,37 @@ export default {
     },
     handleFileChange: function (e, name) {
       const file = e.target.files[0];
-      this.eData.json_fields[name].value = URL.createObjectURL(file);
+      this.loader = true;
+      let formData = new FormData();
+      formData.append("Filedata", file);
+      formData.append("suffix", "header_image");
+      formData.append("id_template", 1);
+
+      setTimeout(() => {
+        this.eData.json_fields[name].value = 'https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1613014829.jpg';
+        this.loader = false;
+        console.log('shit')
+        console.log(this.eData)
+      }, 2000);
+
+      // Axios.post("https://gr-v1.devam.pro/S3Uploader/emailTemplate", formData)
+      //   .then(({ data }) => {
+      //     this.loader = false;
+      //     if (!data.error) {
+      //       this.eData.json_fields[name].value =
+      //         "https://cdn.devam.pro/gr/master/" + data.img_name;
+      //         console.log(this.eData.json_fields, '465654654')
+      //     } else {
+      //       this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+      //       this.emailMessage = true;
+      //     }
+      //     Vue.forceUpdate();
+      //   })
+      //   .catch(({ data }) => {
+      //     this.loader = false;
+      //     this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+      //     this.emailMessage = true;
+      //   });
     },
     appendVarToKey: function (name, item) {
       const { type, value } = this.eData.json_fields[name];
@@ -242,10 +302,11 @@ export default {
       )
         .then(({ data, status }) => {
           this.loader = false;
-          if(status == 200) {
-            this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`
+          if (status == 200) {
+            this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
             this.fetchTemplateData();
-          } else this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`
+          } else
+            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
           this.emailMessage = true;
         })
         .catch(() => {
@@ -253,7 +314,7 @@ export default {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Something went wrong`;
           this.emailMessage = true;
         });
-    },    
+    },
     sendTestEmail: function () {
       this.loader = true;
       Axios.post(
@@ -268,7 +329,7 @@ export default {
         this.emailMessage = true;
       });
     },
-    fetchTemplateData: function() {
+    fetchTemplateData: function () {
       this.loader = true;
       Axios.get(
         `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
@@ -277,10 +338,10 @@ export default {
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.activeThemeId = active_id_theme;
-        this.setEdata(active_id_theme)
+        this.setEdata(active_id_theme);
         this.loader = false;
       });
-    }
+    },
   },
   mounted: function () {
     this.fetchTemplateData();
@@ -288,9 +349,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 .upgradeBlock {
-  background: #ED941F;
+  background: #ed941f;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -298,7 +358,7 @@ export default {
 
   p {
     font-size: 13px;
-    color:#fff;
+    color: #fff;
   }
 
   button.btnUpgrade {
@@ -323,7 +383,7 @@ export default {
   flex-direction: column;
 
   h3 {
-    color: #007AFF;
+    color: #007aff;
     margin-top: 0;
   }
 }
@@ -359,21 +419,20 @@ export default {
 
     h3 {
       font-size: 14px;
-      color:#48548E;
+      color: #48548e;
     }
   }
-  
+
   input.form-control {
-      padding: 5px;
-      border: 1px solid #d2d2d2;
-      font-size: 14px;
-      width:100%;
+    padding: 5px;
+    border: 1px solid #d2d2d2;
+    font-size: 14px;
+    width: 100%;
   }
 
   .previewBlock {
     background: #fff;
     border: 1px solid #e8e8e8;
-
   }
 }
 .subjectEditor {
@@ -397,7 +456,7 @@ export default {
 .emailTemplate {
   width: 100%;
   min-height: 600px;
-  background-color:#ddefef;
+  background-color: #ddefef;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -423,14 +482,14 @@ export default {
 
 <style lang="less">
 :root {
-    --md-theme-default-accent: #5bb74d !important;
+  --md-theme-default-accent: #5bb74d !important;
 }
 .md-button {
-    text-transform: capitalize;
-    padding: 0 10px;
-    border-radius: 4px;
-    box-shadow: none !important;
-    margin:0;
+  text-transform: capitalize;
+  padding: 0 10px;
+  border-radius: 4px;
+  box-shadow: none !important;
+  margin: 0;
 
   i {
     margin-right: 10px;
@@ -438,8 +497,8 @@ export default {
 }
 
 .btn-custom-default {
-  border: 1px solid #005DFF;
-  color: #005DFF !important;
+  border: 1px solid #005dff;
+  color: #005dff !important;
   background: transparent !important;
 }
 .btn-custom-active {
