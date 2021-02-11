@@ -37,32 +37,26 @@
         <div class="container">
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-35">
-              <vsa-list>
-                <vsa-item>
-                  <vsa-heading>Subject</vsa-heading>
-                  <vsa-icon>
-                    <span class="open"><i class="fas fa-pencil-alt"></i></span>
-                    <span class="close"><i class="fas fa-times"></i></span>
-                  </vsa-icon>
-                  <vsa-content>
+              <md-list :md-expand-single="true">
+                <md-list-item md-expand>
+                  <span class="md-list-item-text">Subject</span>
+
+                  <div slot="md-expand">
                     <div class="subjectEditor">
                       <span>Subject for your email:</span>
                       <input type="text" v-model="eData.subject" />
                     </div>
-                  </vsa-content>
-                </vsa-item>
-                <!-- Here you can use v-for to loop through items  -->
-                <vsa-item
+                  </div>
+                </md-list-item>
+
+                <md-list-item
+                  md-expand
                   v-for="(item, name, key) in eData.json_fields"
                   :key="key"
                 >
-                  <vsa-heading>{{ item.label }}</vsa-heading>
-                  <vsa-icon>
-                    <span class="open"><i class="fas fa-pencil-alt"></i></span>
-                    <span class="close"><i class="fas fa-times"></i></span>
-                  </vsa-icon>
+                  <span class="md-list-item-text">{{ item.label }}</span>
 
-                  <vsa-content>
+                  <div slot="md-expand">
                     <div v-if="item.type == 'text'">
                       <div class="subTitle">
                         <h3>{{ item.label }}</h3>
@@ -101,9 +95,14 @@
                         <h3>{{ item.label }}</h3>
                       </div>
                       <div class="uploadWrap">
-                        <label class="md-button md-raised md-accent md-theme-default" :for="name">
+                        <label
+                          class="md-button md-raised md-accent md-theme-default"
+                          :for="name"
+                        >
                           <i class="fal fa-upload"></i>
-                          <span v-if="item.value.length > 0">Replace Image</span>
+                          <span v-if="item.value.length > 0"
+                            >Replace Image</span
+                          >
                           <span v-else>Add Image</span>
                           <input
                             :id="name"
@@ -112,8 +111,11 @@
                             @change="(e) => handleFileChange(e, name)"
                           />
                         </label>
-                        <span>wtf: {{ item.value }}</span>
-                        <img :src="item.value" alt="">
+                        <img
+                          v-if="item.value.length > 0"
+                          :src="item.value"
+                          alt=""
+                        />
                       </div>
                     </div>
                     <div v-if="item.type == 'color'">
@@ -125,9 +127,9 @@
                         v-on:input="(e) => (item.value = e)"
                       ></ColorPicker>
                     </div>
-                  </vsa-content>
-                </vsa-item>
-              </vsa-list>
+                  </div>
+                </md-list-item>
+              </md-list>
               <div class="changeTemplate">
                 <h3>Would you like to change</h3>
                 <md-button
@@ -175,14 +177,6 @@ import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import EmailTemplates from "./EmailTemplates.vue";
 import Loader from "@/components/Loader.vue";
-import {
-  VsaList,
-  VsaItem,
-  VsaHeading,
-  VsaContent,
-  VsaIcon,
-} from "vue-simple-accordion";
-import "vue-simple-accordion/dist/vue-simple-accordion.css";
 
 export default {
   name: "EmailEdit",
@@ -195,7 +189,7 @@ export default {
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
     return {
-      editPageView: false,
+      editPageView: true,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
@@ -206,11 +200,6 @@ export default {
       emailMessage: false,
       emailResponse: null,
       loader: false,
-      VsaList,
-      VsaItem,
-      VsaHeading,
-      VsaContent,
-      VsaIcon,
     };
   },
   computed: {
@@ -236,31 +225,22 @@ export default {
       formData.append("suffix", "header_image");
       formData.append("id_template", 1);
 
-      setTimeout(() => {
-        this.eData.json_fields[name].value = 'https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1613014829.jpg';
-        this.loader = false;
-        console.log('shit')
-        console.log(this.eData)
-      }, 2000);
-
-      // Axios.post("https://gr-v1.devam.pro/S3Uploader/emailTemplate", formData)
-      //   .then(({ data }) => {
-      //     this.loader = false;
-      //     if (!data.error) {
-      //       this.eData.json_fields[name].value =
-      //         "https://cdn.devam.pro/gr/master/" + data.img_name;
-      //         console.log(this.eData.json_fields, '465654654')
-      //     } else {
-      //       this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-      //       this.emailMessage = true;
-      //     }
-      //     Vue.forceUpdate();
-      //   })
-      //   .catch(({ data }) => {
-      //     this.loader = false;
-      //     this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-      //     this.emailMessage = true;
-      //   });
+      Axios.post("https://gr-v1.devam.pro/S3Uploader/emailTemplate", formData)
+        .then(({ data }) => {
+          this.loader = false;
+          if (!data.error) {
+            this.eData.json_fields[name].value =
+              "https://cdn.devam.pro/gr/master/" + data.img_name;
+          } else {
+            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            this.emailMessage = true;
+          }
+        })
+        .catch(({ data }) => {
+          this.loader = false;
+          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+          this.emailMessage = true;
+        });
     },
     appendVarToKey: function (name, item) {
       const { type, value } = this.eData.json_fields[name];
@@ -418,8 +398,8 @@ export default {
     justify-content: space-between;
 
     h3 {
+      color: #007aff;
       font-size: 14px;
-      color: #48548e;
     }
   }
 
@@ -439,7 +419,7 @@ export default {
   span {
     display: block;
     color: #007aff;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 18px;
     font-weight: 600;
     padding-bottom: 10px;
@@ -478,6 +458,15 @@ export default {
     color: #757575;
   }
 }
+.uploadWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  img {
+    max-width: 50%;
+    margin: 20px auto 0;
+  }
+}
 </style>
 
 <style lang="less">
@@ -504,43 +493,23 @@ export default {
 .btn-custom-active {
   color: #fff !important;
 }
-.vsa-list {
+.md-list {
   border: 1px solid #e8e8e8;
   --vsa-highlight-color: #d2d2d2;
 
   &--is-active .vsa-item__heading,
-  .vsa-item:not(:last-of-type) {
+  .md-list-item:not(:last-of-type) {
     border-bottom: 1px solid #e8e8e8;
   }
 
-  .vsa-item__trigger__content {
+  .md-list-item-text {
     font-weight: 600;
     font-size: 1.7rem;
     font-size: 14px;
     color: #757575;
   }
-}
-
-.vsa-item {
-  &--is-active {
-    .vsa-item__trigger__icon {
-      .open {
-        display: none;
-      }
-
-      .close {
-        display: block;
-      }
-    }
-  }
-  &__trigger__icon {
-    .open {
-      display: block;
-    }
-
-    .close {
-      display: none;
-    }
+  .md-list-item-expand.md-active .md-list-expand {
+    padding: 10px;
   }
 }
 </style>
