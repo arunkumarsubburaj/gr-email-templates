@@ -9,6 +9,7 @@ import "vue-material/dist/theme/black-green-light.css";
 
 
 import FomoListing from "../views/fomo/FomoListing.vue";
+import FomoSelectTemplate from "../views/fomo/SelectTemplates.vue";
 
 Vue.use(VueMaterial);
 Vue.use(VueSimpleAccordion);
@@ -28,9 +29,14 @@ const routes = [
     component: EmailEdit
   },
   {
-    path: "/view/fomo/templates/",
+    path: "/view/fomo/listing/",
     name: "FomoListing",
     component: FomoListing
+  },
+  {
+    path: "/view/fomo/templates/",
+    name: "FomoSelectTemplate",
+    component: FomoSelectTemplate
   }
 ];
 

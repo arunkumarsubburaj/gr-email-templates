@@ -29,7 +29,7 @@
                               </tr>
                           </thead>
                           <tbody class="sort-item">                                
-                              <tr v-for="data in datasPaused" :key="data.fomoName">
+                              <tr v-for="data in datasActive" :key="data.fomoName">
                                   <td class="font-size-mid" v-text="data.fomoName">
                                       {{data.fomoName}}
                                   </td>
@@ -41,20 +41,29 @@
                                   </td>
                                   <td>
                                       <div class="icon_block">
-                                          <div class="fomo_icon visible-green" v-bind:class="data.visibleGreen"></div>
-                                          <div class="fomo_icon visible-pink" v-bind:class="data.visiblePink"></div>
-                                          <div class="fomo_icon visible-orange" v-bind:class="data.visibleOrange"></div>
+                                          <md-icon class="fomo_icon visible-green">person</md-icon>
+                                          <md-icon class="fomo_icon visible-pink">person</md-icon>
+                                          <md-icon class="fomo_icon visible-orange">person</md-icon>
                                       </div>
                                   </td>
-                                  <td>
-                                      <label class="toggle-checkbox">
-                                          <input type="checkbox" onchange="" checked>
-                                          <span class="togglebox"><span></span></span>
-                                      </label>
+                                  <td>                                      
+                                    <label
+                                      class="switch"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        name="mainSwitch"
+                                        checked
+                                      />
+                                      <i></i>
+                                    </label>
                                   </td>
                                   <td class="align-center">
-                                      <div v-bind:class="data.action"></div>
+                                    <md-icon>edit</md-icon>
                                   </td>
+                              </tr>                              
+                              <tr v-if="activeList && activeList.length == 0">
+                                <td colspan="6">No data</td>
                               </tr>
                           </tbody>
                       </table>
@@ -101,115 +110,6 @@
           </div>
       </div>
     </div>
-
-
-    
-    <div class="emailListingContainer container">
-      <ul class="emailList">
-        <li class="head">
-          <div class="name">Email Name</div>
-          <div>Sent to</div>
-          <div>Opened</div>
-          <div>Status</div>
-          <div>Action</div>
-        </li>
-        <li v-for="(mail, key) in activeList" :key="key">
-          <div class="name">
-            <i class="fal fa-envelope"></i>
-            <div>
-              <h5>{{ mail.title }}</h5>
-              <p>{{ mail.type }}</p>
-            </div>
-          </div>
-          <div>12,789</div>
-          <div>12,789</div>
-          <div>
-            <label
-              class="switch"
-              @click.prevent="changeEmailStatus(mail.id_email, mail.is_enabled)"
-              :for="mail.id_email"
-              v-if="mail.id_email !== 2"
-            >
-              <input
-                type="checkbox"
-                name="mainSwitch"
-                :checked="mail.is_enabled == 1"
-                :id="mail.id_email"
-              />
-              <i></i>
-            </label>
-          </div>
-          <div class="actions">
-            <router-link :to="'/view/email/templates/' + mail.id_email">
-              <i class="fal fa-edit"></i>
-            </router-link>
-            <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-              <i class="far fa-paper-plane"></i>
-            </a>
-          </div>
-        </li>
-        <li v-if="activeList && activeList.length == 0">
-          <div>No data</div>
-        </li>
-      </ul>
-      <div v-if="inactiveList.length > 0" class="otherEmail">
-        <h2>Activate these email</h2>
-        <ul class="emailList">
-          <li class="head">
-            <div class="name">Email Name</div>
-            <div>Sent to</div>
-            <div>Opened</div>
-            <div>Status</div>
-            <div>Action</div>
-          </li>
-          <li v-for="(mail, key) in inactiveList" :key="key">
-            <div class="name">
-              <i class="fal fa-envelope"></i>
-              <div>
-                <h5>{{ mail.title }}</h5>
-                <p>{{ mail.type }}</p>
-              </div>
-            </div>
-            <div>12,789</div>
-            <div>12,789</div>
-            <div>
-              <label
-                class="switch"
-                @click.prevent="
-                  changeEmailStatus(mail.id_email, mail.is_enabled)
-                "
-                :for="mail.id_email"
-                v-if="mail.id_email !== 2"
-              >
-                <input
-                  type="checkbox"
-                  name="mainSwitch"
-                  :checked="mail.is_enabled == 1"
-                  :id="mail.id_email"
-                />
-                <i></i>
-              </label>
-            </div>
-            <div class="actions">
-              <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i class="fal fa-edit"></i>
-              </router-link>
-              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-                <i class="far fa-paper-plane"></i>
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <md-snackbar
-        class="msgSnack"
-        md-position="center"
-        :md-duration="4000"
-        :md-active.sync="emailMessage"
-      >
-        <span v-html="emailResponse"></span>
-      </md-snackbar>
-    </div>
   </div>
 </template>
     
@@ -220,7 +120,7 @@
 import Axios from "axios";
 
 export default {
-  name: "EmailListing",
+  name: "FomoListing",
   data: function () {
     return {
       bol: 1,
@@ -238,21 +138,11 @@ export default {
       tab2:'Paused Prompts', notification2:' (3)',
       tab3:'Drafts', notification3:' (10)',
       datasActive: [
-          {fomoName:'Welcome Bonus', category:'Bonus Point', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'You get 5. Your friend get(s) 50.', category:'Referral', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Custom FOMO', category:'Custom', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Gust User FOMO', category:'Pay with Points', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Subscribe to our newsletter', category:'Newsletter', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'}
-      ],
-      datasPaused: [
-          {fomoName:'Gust User FOMO', category:'Pay with Points', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Subscribe to our newsletter', category:'Newsletter', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Welcome Bonus', category:'Bonus Point', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'You get 5. Your friend get(s) 50.', category:'Referral', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'}
-      ],
-      datasDrafts: [
-          {fomoName:'You get 5. Your friend get(s) 50.', category:'Referral', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'},
-          {fomoName:'Welcome Bonus', category:'Bonus Point', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit'}
+          {"id_email":6,fomoName:'Welcome Bonus', category:'Bonus Point', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit', "is_enabled":1, "show_disable":1},
+          {"id_email":2,fomoName:'You get 5. Your friend get(s) 50.', category:'Referral', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit', "is_enabled":1, "show_disable":1},
+          {"id_email":3,fomoName:'Custom FOMO', category:'Custom', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit', "is_enabled":1, "show_disable":1},
+          {"id_email":4,fomoName:'Gust User FOMO', category:'Pay with Points', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit', "is_enabled":1, "show_disable":1},
+          {"id_email":5,fomoName:'Subscribe to our newsletter', category:'Newsletter', clicks:'12,789', visibleGreen:'icon-Users', visiblePink:'icon-Users', visibleOrange:'icon-Users', action:'icon-lineedit', "is_enabled":1, "show_disable":0}
       ],
       records: [
         {fomoIcon:'settings', fomoHead:'Signup Bonus', fomoNotification:'3'},
@@ -277,41 +167,7 @@ export default {
     },
   },
   methods: {
-    changeEmailStatus: function (id, status) {
-      const params = {
-        is_enabled: status ? 0 : 1,
-        id_email: id,
-      };
-      const formData = new FormData();
-      for (var key in params) {
-        formData.append(key, params[key]);
-      }
-      Axios.post(
-        "https://gr-v1.devam.pro/services/email/updateEmailStatus",
-        formData
-      ).then(({ data, status }) => {
-        if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-          this.listData = this.listData.map((item) =>
-            item.id_email == id ? { ...item, is_enabled: status ? 0 : 1 } : item
-          );
-        } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-        this.emailMessage = true;
-      });
-    },
-    sendTestEmail: function (id) {
-      Axios.post(
-        "https://gr-v1.devam.pro/services/email/sendTestEmail",
-        this.createFormData({ id_email: id })
-      ).then(({ data, status }) => {
-        if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-        } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-        this.emailMessage = true;
-      });
-    },
+    
   },
   mounted: function () {
     Axios.get("https://gr-v1.devam.pro/services/email/getEmailTemplates").then(
@@ -322,225 +178,62 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/* Fomo */
-.fomoContainer {
+  /* Fomo */
+  .fomoContainer {
     background: #f9f9f9;
-}
-.fomoContainer h2 {
-    font-size: 36px;
-    letter-spacing: -0.94px;
-    line-height: 41px;
-    color: #333;
-    margin: 30px 0 10px;
-}
-.fomoContainer p {
-    font-size: 13px;
-    color: #202020;
-    line-height: 16px;
-    margin: 0;
-}
-.fomo_block {
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row;
-}
-@media only screen and (max-width: 989px) {
-	.fomo_block {
-		flex-direction: column;
-	}
-}
 
-/* Active FOMO */
-.emailListing {
-  padding-bottom: 5em;
-}
-.emailListingHead {
-  color: #fff;
-  padding: 5em 0 5em;
+    h2 {
+      font-size: 36px;
+      letter-spacing: -0.94px;
+      line-height: 41px;
+      color: #333;
+      margin: 30px 0 10px;
+    }
 
-  h2 {
-    font-size: 3.6em;
-    font-weight: 100;
-    margin: 0;
-    line-height: normal;
+    p {
+      font-size: 13px;
+      color: #202020;
+      line-height: 16px;
+      margin: 0;
+    }
   }
 
-  h4 {
-    font-size: 2em;
-    font-weight: 100;
-    margin: 0;
-    line-height: normal;
-  }
-
-  p {
-    font-size: 13px;
-    line-height: 16px;
-  }
-
-  ul {
+  .fomo_block {
     display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 2.5em 0;
+    justify-content: space-between;
+    flex-direction: row;
   }
 
-  li:not(:first-child) {
-    border-left: 1px solid #546882;
-    padding-left: 3em;
-    margin-left: 3em;
-  }
-}
-.activateEmail {
-  margin: 2em 0 1.5em;
-}
-.emailNav {
-  display: flex;
-  background: #333333;
-  margin-top: -56px;
-  li {
-    flex-grow: 1;
-    flex-shrink: 0;
-    &:not(:last-child) {
-      border-right: 1px solid #ccc;
-    }
-
-    a {
-      color: #9a9a9a;
-    }
-
-    &.active {
-      background: #fff;
-      pointer-events: none;
-      a {
-        border: none;
-        color: #007aff;
-      }
+  @media only screen and (max-width: 989px) {
+    .fomo_block {
+      flex-direction: column;
     }
   }
-}
 
-.emailListingContainer {
-  margin-top: -52px;
-}
-
-.otherEmail {
-  overflow: hidden;
-}
-
-.emailList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: #fff;
-  border: 1px solid #e2e2e2;
-  margin-bottom: 50px;
-
-  .noData {
-    padding: 50px 0;
-    text-align: center;
-    justify-content: center;
-    font-size: 1.2em;
+  /* Active FOMO */
+  .emailListing {
+    padding-bottom: 5em;
   }
-
-  p,
-  h5 {
-    margin: 0;
-    font-size: 12px;
-  }
-
-  h5 {
-    font-weight: 500;
-    line-height: normal;
-    margin-bottom: 0.3em;
-  }
-
-  li {
-    display: flex;
-    padding: 0 40px;
-
-    &.head {
-      background: #e4f3f9;
-      border-bottom: 1px solid #e2e2e2;
-
-      div {
-        font-weight: bold;
-      }
-    }
-  }
-}
-
-.emailList li > div {
-  flex-grow: 1;
-  padding: 15px 0;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-}
-
-.emailList li:not(.head) {
-  color: #000;
-}
-
-.emailList li:not(.head):not(:last-child) > div {
-  border-bottom: 1px solid #e2e2e2;
-}
-
-.emailList li > div.name {
-  width: 60%;
-  line-height: 1;
-  align-items: center;
-}
-
-.emailList li > div:not(.name) {
-  text-align: center;
-  width: 10%;
-}
-
-.emailList .actions a {
-  font-size: 1.5em;
-  color: rgba(34, 43, 69, 0.5);
-  line-height: 1;
-
-  &:first-child {
-    margin-right: 10px;
-  }
-}
-
-.emailList .fa-envelope {
-  font-size: 1.7em;
-  width: 2em;
-  height: 2em;
-  border: 1px solid #e2e2e2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 15px;
-
-  &:before {
-    color: #bdbdbd;
-  }
-}
-
-.emailListingContainer h3 {
-  font-size: 2em;
-  font-weight: 400;
-  margin: 3em 0 1.5em;
-}
-
 
   /* Create FOMO */
   .create_fomo {
     background: white;
     flex: 1;
+
+    .create-new .fomo_icon  {
+      color: #333;
+      background: none;
+      border: 1px dashed #979797;
+    }
   }
+
   @media only screen and (max-width: 989px) {
     .active_fomo, .create_fomo {
       width: 96%;
         margin: 2%;
     }
   }
+
   .titleBlock {
       display: flex;
       justify-content: space-between;
@@ -565,32 +258,35 @@ export default {
     padding: 50px 10% 72px;
   }
   .statusBlock {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 30px;
-  }
-  .statusBlock div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+
+    div {
       padding: 0 30px;
       flex-grow: 1;
       border-left: 1px solid #bbb;
-  }
-  .statusBlock div:first-child {
-      padding-left: 0;
-      border-left: 0;
-  }
-  .statusBlock div h3 {
-      color: #333;
-      margin: 0;
-      font-size: 26px;
-      line-height: 31px;
-  }
-  .statusBlock div p {
-      font-size: 12px;
-      color: #333;
-      line-height: 15px;
-  }
 
+      &:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      h3 {
+        color: #333;
+        margin: 0;
+        font-size: 26px;
+        line-height: 31px;
+      }
+      
+      p {
+        font-size: 12px;
+        color: #333;
+        line-height: 15px;
+      }
+    }
+  }
   
   .fomoList {
     margin-top: -68px;
@@ -628,71 +324,83 @@ export default {
   }
 
   /* tableList table */
-  .tableList thead tr th {
-    background: #fff;
-    font-weight: 500;
-    border-bottom: 1px solid #eee;
-    font-size: 12px;
-    line-height: 15px;
-    color: #999;
-    padding: 10px;
-    text-align: left;
+  .tableList {
+    thead tr th {
+      background: #fff;
+      font-weight: 500;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+      line-height: 15px;
+      color: #999;
+      padding: 10px;
+      text-align: left;
+    }
 
-  }
-  .tableList tbody tr td:first-child {
-    border-left: 1px solid #eee;
-  }
-  .tableList tbody tr td:last-child {
-    border-right: 1px solid #eee;
-  }
-  .tableList tr:nth-child(odd)>td {
-    background-color: #f9f9f9;
-  }
-  .tableList tbody tr td {
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-    padding: 10px;
-  }
-  .tableList .icon_block {
+    tr:nth-child(odd)>td {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr td {
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+      padding: 10px;
+
+      &:first-child {
+        border-left: 1px solid #eee;
+      }
+      &:last-child {
+        border-right: 1px solid #eee;
+      }
+    }
+
+    .icon_block {
       display: flex;
       align-items: center;
-  }
-  .tableList .icon_block .fomo_icon {
-      width: 25px;
-      height: 25px;
-      padding: 6px;
-      box-sizing: border-box;
-      margin: 1px;
-      border-radius: 50%;
-  }
-  .tableList .fomo_icon.visible-green {
-      border: 1px solid #adda86;
-      color: #adda86;
-  }
-  .tableList .fomo_icon.visible-pink {
-      border: 1px solid #ffbaba;
-      color: #ffbaba;
-  }
-  .tableList .fomo_icon.visible-orange {
-      border: 1px solid #ffca74;
-      color: #ffca74;
-  }
-  .tableList .font-size-mid {
-    font-size: 12px;
+
+      .fomo_icon {
+        width: 25px;
+        height: 25px;
+        padding: 6px;
+        box-sizing: border-box;
+        margin: 1px;
+        border-radius: 50%;
+
+        &.visible-green {
+          border: 1px solid #adda86;
+          color: #adda86;
+        }
+
+        &.visible-pink {
+          border: 1px solid #ffbaba;
+          color: #ffbaba;
+        }
+
+        &.visible-orange {
+          border: 1px solid #ffca74;
+          color: #ffca74;
+        }
+      }
+    }
+
+    .font-size-mid {
+      font-size: 12px;
       color: #202020;
-  }
-  .tableList .font-size-small {
+    }
+
+    .font-size-small {
       font-size: 10px;
       color: #999;
-  }
-  .tableList .table.table-striped {
-    border-collapse: collapse;
+    }
+
+    .table.table-striped {
+      border-collapse: collapse;
+    }
   }
 
   .btn_link {
     color: #333;
-      text-decoration: underline;
-      line-height: 15px;
+    text-decoration: underline;
+    line-height: 15px;
   }
   .btn_link:hover {
     text-decoration: none;
@@ -701,15 +409,43 @@ export default {
     font-size: 12px;
   }
   .newFomoList {
-      padding: 20px 50px;
-  }
-  .newFomoList .new_list {
-    display: flex;
+    padding: 20px 50px;
+
+    .new_list {
+      display: flex;
       align-items: center;
       border-bottom: 1px solid #f5f5f5;
       padding: 10px 0;
-  }
-  .newFomoList .fomo_icon {
+      
+      .fomo_details {
+        width: 100%;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      h3 {
+        font-size: 12px;
+        margin: 0;
+        font-weight: normal;
+        color: #555;
+      }
+
+      .btn {
+        border: 1px solid #d5d5d5;
+        padding: 0;
+        color: #202020;
+        font-size: 12px;
+        font-weight: 600;
+
+        &.btn-setup {
+          background: #f0f0f0;
+          border: 1px solid #f0f0f0;
+        }
+      }
+    }
+
+    .fomo_icon {
       border-radius: 50%;
       width: 48px;
       background: #e2f3ff;
@@ -717,50 +453,27 @@ export default {
       position: relative;
       height: 35px;
       padding: 10px;
-  }
-  .newFomoList .fomo_icon span {
-      background: #007aff;
-      border-radius: 50%;
-      padding: 3px 5px;
-      font-size: 9px;
-      color: #fff;
-      position: absolute;
-      top: 0;
-      right: -5px;
-      font-family: sans-serif;
-      line-height: 8px;
-  }
-  .newFomoList .new_list .fomo_details {
-    width: 100%;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-  }
-  .newFomoList .new_list h3 {
-    font-size: 12px;
-      margin: 0;
-      font-weight: normal;
-      color: #555;
-  }
-  .newFomoList .new_list .btn {
-    border: 1px solid #d5d5d5;
-    padding: 0;
-    color: #202020;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .newFomoList .new_list .btn.btn-setup {
-      background: #f0f0f0;
-      border: 1px solid #f0f0f0;
-  }
-  .create_fomo .create-new .fomo_icon  {
-    color: #333;
-    background: none;
-    border: 1px dashed #979797;
+
+      span {
+        background: #007aff;
+        border-radius: 50%;
+        padding: 3px 5px;
+        font-size: 9px;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        right: -5px;
+        font-family: sans-serif;
+        line-height: 8px;
+      }
+    }
   }
 </style>
 
-<style lang="less">  
+<style lang="less">
+  .md-icon {
+    font-size: 18px !important;
+  }
   .fomoList {
     margin-top: -68px;
       padding: 0 10%;
