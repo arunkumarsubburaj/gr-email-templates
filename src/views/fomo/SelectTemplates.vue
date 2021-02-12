@@ -32,32 +32,32 @@
     </div>
 
     <!-- Add class="info_block disabled" instead of class="info_block" if toggle btn in disabled mode -->
-    <div class="info_block">
+    <div class="info_block" v-bind:class="[{ 'disabled': !isDisable }]">
         <div class="info_block-spacing">
             <h4 class="font-size-14">Welcome bonus points</h4>
-            <p>100 points = $5 <a href="#" class="info-link-blue">Change</a></p>            
+            <p v-if="isDisable">100 points = $5 <a href="#" class="info-link-blue">Change</a></p>            
         </div>
-        <div class="info_block-spacing flex align--centered">
+        <div class="info_block-spacing">
           <div class="form-group">
-            <input type="text" id="" class="form-control form-control-sm" value="100" style="width: 60px;min-width: 0;vertical-align: initial;margin: 0 8px;" maxlength="6">
+            <input type="text" id="" class="form-control form-control-sm" value="100" style="width: 60px;min-width: 0;vertical-align: initial;margin: 0 8px;" maxlength="6" :disabled="!isDisable" >
             <span>point(s)</span>
           </div>
         </div>
         <div class="info_block-spacing highAlert"> 
           <label class="switch margin-bottom-0" for="toggle_button">
+            <input type="checkbox" name="mainSwitch" id="toggle_button" :checked="isDisable" @click="changeDisabled()">
             <i></i>
-            <input type="checkbox" id="toggle_button" checked v-model="checkedValue">
           </label>
-          <i v-if="isActive">Enabled</i>
-          <i v-if="! isActive">Disabled</i>
-          <div class="popBox">
+          <span class="enabled" v-if="isDisable">Enabled</span>
+          <span v-if="! isDisable">Disabled</span>
+          <div v-if="! isDisable" class="popBox">
               <i class="fa fa-long-arrow-left"></i>
               Enable welcome bonus point (Reward users when sign up)
           </div>
-        </div>
-        <div class="info_block-spacing text-right">
-            <a class="btn btn-success btn-space" id="save_review_btn">Save</a>
-        </div>
+        </div>        
+        <md-button v-if="isDisable" @click.prevent="handleSave" class="md-raised md-accent"
+          >Save</md-button
+        >
     </div>
 
     <div class="fomo_inner_block">
@@ -65,7 +65,7 @@
           <h2>Select template</h2>
       </div>
       <div class="choose_template_block">
-          <div class="template" v-for="template in templates" :key="template.id">
+          <div class="template" v-bind:class="[{ 'disabled': isDisable }]" v-for="template in templates" :key="template.id">
               <div class="template-overlay"></div>
               <p class="template-overlay-msg">Enable welcome bonus points to use this template</p>
               <div class="template-inner">
@@ -103,7 +103,7 @@
     data: function () {
       return {
         isChecked: false,
-        currentState: false,
+        isDisable: false,
 
         templates: [
           {id: '1', subTitle: '', title: 'Sign up now and explore exclusive deals for this festive seasons', desc: '', btnSignup:'SIGN UP NOW', count: '', countDesc: '', btnClose: 'close', linkClose: ''},
@@ -116,18 +116,10 @@
       };
     },
 
-    computed: {
-      isActive() {
-          return this.currentState;
-      },        
-
-      checkedValue: {
-        get() {
-            return this.currentState
-        },
-        set(newValue) {
-            this.currentState = newValue;
-        }
+    
+    methods: {
+      changeDisabled() {
+        this.isDisable = !this.isDisable
       }
     }
   };
@@ -202,6 +194,7 @@
     border-right: 0;
     color: #333;
     margin: 0 0 20px;
+    padding: 15px 0;
 
     &.disabled {
       background: #ebecec;
@@ -212,7 +205,11 @@
     }
 
     .info_block-spacing {
-      padding: 10px 20px;
+      padding: 0 20px;
+
+      .form-group {
+        margin: 10px 0;
+      }
 
       h4, p {
         margin: 0;
@@ -240,7 +237,7 @@
     color: #fff;
     padding: 20px;
     border-radius: 0 20px 20px 20px;
-    margin-top: 10px;
+    top:45px;
     z-index: 1;
     width: 250px;
     line-height: 13px;
@@ -253,6 +250,24 @@
   }
   .highAlert {
     position: relative;
+    display: flex;
+    align-items: center;
+    
+    span {
+      font-size: 12px;
+      margin-left: 10px;
+      color: #d12e2e;
+
+      &.enabled {
+        color: #1bcc69;
+      }
+    }
+  }
+
+  .md-raised.md-accent {
+    border: 0;
+    font-weight: bold;
+    color: #fff !important;
   }
 
   .changeTemplateView {
@@ -344,6 +359,7 @@
         width: 100%;
         border: 1px solid #e3d1b4;
         border-bottom: 0;
+        margin: 0;
       }
 
       .template-inner {	
@@ -559,6 +575,7 @@
       font-size: 12px;
       color: #fff;
       text-transform: uppercase;
+      margin-top: 0;
     }
 
     h3 {
