@@ -1,0 +1,882 @@
+<template>
+  <div>
+    <div class="fixedHeaderBlock">
+      <div class="fixedHeaderBlockInner">
+        <div class="linkBackBlock">
+          <a class="link-back" @click.prevent="togglePageview">
+            <i class="fa fa-long-arrow-left"></i>
+          </a>
+          <div class="title">
+            <md-icon class="icon margin-right-10">bookmark_outline</md-icon>
+            <span>Signup bonus Fomo</span>
+          </div>
+        </div>
+        <div>
+          <md-button class="md-raised" @click.prevent="sendTestEmail"
+            >Sent Test Email</md-button
+          >
+          <md-button @click.prevent="handleSave" class="md-raised md-accent"
+            >Save</md-button
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="editTemplate">
+      <div class="settingsBlock">
+        dsvs
+
+        <!-- Display settings -->
+        <div class="btn-toggle" v-on:click="isToggleDisplay = !isToggleDisplay">
+          <div class="btn-toggle-title">
+            <span>
+              <img src="../../assets/fomo/icon-display.svg" alt="" />
+            </span>
+            <h2>Display Settings</h2>
+          </div>
+          <span class="material-icons">
+            <span v-if="isToggleDisplay">keyboard_arrow_down</span>
+            <span v-if="!isToggleDisplay">keyboard_arrow_right</span>
+          </span>
+        </div>
+
+        <div class="item" v-if="isToggleDisplay">
+          <div class="display-settings">
+            <div class="form-group">
+              <label class="control-label" for="competition_start_date">
+                <md-icon class="icon-checkmark">done</md-icon>
+                <span>Start Date</span>
+              </label>
+              <div
+                class="input-group date margin-top-10"
+                id="competition_start_datepicker"
+              >
+                <input class="form-control" type="text" />
+                <md-icon>event</md-icon>
+              </div>
+            </div>
+            <div class="form-group">
+              <label
+                class="control-label"
+                for="end_date"
+                @click="disabled = (disabled + 1) % 2"
+              >
+                <md-icon
+                  class="icon-checkmark"
+                  :class="disabled ? '' : 'emptyIcon'"
+                >
+                  <span v-if="!disabled">circle</span>
+                  <span v-if="disabled">done</span>
+                </md-icon>
+                <span :class="disabled ? '' : 'disableOpacity'">End Date</span>
+              </label>
+
+              <div
+                class="input-group date margin-top-10"
+                id="competition_end_datepicker"
+              >
+                <div class="disable-overlay" v-if="disabled"></div>
+                <input
+                  :disabled="!disabled == 1"
+                  class="form-control"
+                  type="text"
+                  value=""
+                  id="end_date"
+                />
+                <md-icon>event</md-icon>
+              </div>
+            </div>
+
+            <div class="vis_block-status">
+              Visible to:
+              <span class="status-btn status-btn-active dis-flex-noJustify">
+                <md-icon class="icon-checkmark">done</md-icon>
+                <span>Logged out</span>
+              </span>
+              <span class="status-btn status-btn-active dis-flex-noJustify">
+                <md-icon class="icon-checkmark">done</md-icon>
+                <span>Guest</span>
+              </span>
+            </div>
+          </div>
+          <div class="display-settings">
+            <div id="desktop_show_specific_page_only_div" class="form-group">
+              <label class="control-label">Show on specific page(s)</label>
+              <select id="desktop_show_specific_page_only" multiple>
+                {$styles_data['desktop_show_specific_page_only']}
+              </select>
+              <div class="text-info gr-info small">
+                <span class="material-icons">info</span>
+                <span
+                  >Enter Slug, Part URL (E.g. products, myaccount, cart ..etc)
+                  to show the widget on the page(s) or page name</span
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="checkbox" id="checkbox0" v-model="checked" />
+              <label class="label-text" for="checkbox0"
+                >Show on home page</label
+              >
+            </div>
+          </div>
+
+          <div class="display-settings">
+            <div class="form-group dis-flex">
+              <label for="whentoShow">
+                When to show
+              </label>
+              <div class="divHalf">
+                <select class="form-control" v-model="selectedShow">
+                  <option disabled value="">Please select one</option>
+                  <option>On exit intent</option>
+                  <option>B</option>
+                  <option>C</option>
+                </select>
+                <span>Selected: {{ selectedShow }}</span>
+              </div>
+            </div>
+            <div class="form-group dis-flex">
+              <label for="disFreq">
+                Display frequency
+              </label>
+              <div class="divHalf">
+                <select class="form-control" v-model="selectedFrequency">
+                  <option disabled value="">Please select one</option>
+                  <option>Once a month</option>
+                  <option>B</option>
+                  <option>C</option>
+                </select>
+                <span>Selected: {{ selectedFrequency }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="display-settings">
+            <div class="form-group dis-flex">
+              <label for="WidPosition">
+                Prompts Position
+              </label>
+              <div class="divHalf">
+                <select class="form-control" v-model="selectedPosition">
+                  <option disabled value="">Please select one</option>
+                  <option>Mid Right</option>
+                  <option>Mid Left</option>
+                  <option>Bottom Bar</option>
+                  <option>Bottom Left</option>
+                  <option>Bottom Right</option>
+                  <option>Bottom Center</option>
+                </select>
+                <span>Selected: {{ selectedPosition }}</span>
+              </div>
+            </div>
+            <div class="form-group dis-flex">
+              <label for="label_x_d">Horizontal Position(px)</label>
+              <div class="divHalf">
+                <input
+                  type="number"
+                  class="form-control"
+                  value=""
+                  id="label_x_d"
+                  min="0"
+                  max="100"
+                />
+                <div class="small note" id="">Enter between 0 and 100</div>
+              </div>
+            </div>
+            <div class="form-group dis-flex">
+              <label for="label_y_d">Vertical Position(px)</label>
+              <div class="divHalf">
+                <input
+                  type="number"
+                  class="form-control"
+                  value=""
+                  id="label_y_d"
+                  min="0"
+                  max="100"
+                />
+                <div class="small note" id="">Enter between 0 and 100</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="display-settings">
+            <div
+              class="dis-flex dis-flex-center"
+              v-on:click="geoLocation = !geoLocation"
+            >
+              <label>
+                Setup geo restriction<br />
+                <a href="#" class="linkTxt">Display selected areas only</a>
+              </label>
+              <span class="material-icons">
+                <span v-if="geoLocation">remove</span>
+                <span v-if="!geoLocation">add</span>
+              </span>
+            </div>
+
+            <div v-if="geoLocation" class="margin-top-20">
+              Show geo restriction
+            </div>
+          </div>
+
+          <div class="display-settings">
+            <div
+              class="dis-flex dis-flex-center"
+              v-on:click="popVisibility = !popVisibility"
+            >
+              <label class="control-label">
+                Pop up visibility rules<br />
+                <a href="#" class="linkTxt">Show on selected pages</a>
+              </label>
+              <span class="material-icons">
+                <span v-if="popVisibility">remove</span>
+                <span v-if="!popVisibility">add</span>
+              </span>
+            </div>
+
+            <div v-if="popVisibility" class="margin-top-20">
+              <div class="form-group">
+                <label class="control-label">Show on first visit</label>
+                <div class="form-group dis-flex-alignStart">
+                  <input type="checkbox" id="checkbox1" />
+                  <label class="label-text" for="checkbox1"
+                    >Pop up will appear on the first visit</label
+                  >
+                </div>
+
+                <div class="height-20"></div>
+
+                <label class="control-label">Show on scroll percentage</label>
+                <div class="form-group dis-flex-alignStart">
+                  <input
+                    type="checkbox"
+                    id="checkbox2"
+                    v-model="showPercentage"
+                  />
+                  <label class="label-text" for="checkbox2"
+                    >Set the percentage a visitor needs to scroll down the page
+                    for the pop up to appear</label
+                  >
+                </div>
+                <div v-if="showPercentage" class="dis-flex-noJustify">
+                  <input
+                    class="form-control margin-right-10 width-100"
+                    id=""
+                    maxlength="100"
+                    name=""
+                    value=""
+                    initial-value=""
+                    type="text"
+                  />
+                  %
+                </div>
+
+                <div class="height-20"></div>
+
+                <label class="control-label">Show after time on page</label>
+                <div class="form-group dis-flex-alignStart">
+                  <input type="checkbox" id="checkbox3" v-model="showSeconds" />
+                  <label class="label-text" for="checkbox3"
+                    >Set the number of seconds a visitor needs to be on your
+                    webpage before the pop up appears</label
+                  >
+                </div>
+                <div v-if="showSeconds" class="dis-flex-noJustify">
+                  <input
+                    class="form-control margin-right-10 width-100"
+                    id=""
+                    maxlength="100"
+                    name=""
+                    value=""
+                    initial-value=""
+                    type="text"
+                  />
+                  Seconds
+                </div>
+
+                <div class="height-20"></div>
+
+                <label class="control-label">Show on exit intent</label>
+                <div class="form-group dis-flex-alignStart">
+                  <input type="checkbox" id="checkbox4" />
+                  <label class="label-text" for="checkbox4"
+                    >Popup will appear if a visitor’s mouse movement shows
+                    intent to leave your website</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview_block">
+        <div class="preview_block-title">
+          <h2>Fomo Preview</h2>
+          <div class="previewBlockBtn">
+            <md-button
+              class="md-raised btn-default"
+              v-on:click="isHidden = !isHidden"
+              >Embed</md-button
+            >
+            <md-button class="md-raised btn-preview">Preview</md-button>
+          </div>
+        </div>
+        <div class="preview_block-template">
+          <div class="template-inner-6">
+            <div class="template-inner-6-inner">
+              <div>
+                <h3>CONGRATULATIONS!</h3>
+                <p>Sign up and explore exiciting deals + Coupon</p>
+              </div>
+              <div class="split"></div>
+              <a class="btn">GRCOUPON</a>
+            </div>
+          </div>
+        </div>
+        <div class="embed_visible" v-if="isHidden">
+          <div class="title">
+            <h3>Embed FOMO</h3>
+            <md-button class="md-raised btn-default" @click="doCopy"
+              >Copy</md-button
+            >
+          </div>
+          <textarea
+            class="iframe-block"
+            id="copiedText"
+            v-model="message"
+          ></textarea>
+          <div class="link-block">
+            <a href="#" class="">API Reference</a>
+            <a href="#" class="">Developer Sample</a>
+          </div>
+          <p>
+            By embedding our program on your site, you are agreeing to our API
+            Terms of Service.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+// @ is an alias to /src
+// import HelloWorld from "@/components/HelloWorld.vue";
+import Axios from "axios";
+
+export default {
+  name: "EditTemplate",
+  data: function() {
+    return {
+      isToggleDisplay: false,
+      isHidden: false,
+      geoLocation: false,
+      popVisibility: false,
+      showPercentage: false,
+      showSeconds: false,
+      isSwitchEndDate: false,
+      disabled: 0,
+      selectedShow: "",
+      selectedFrequency: "",
+      selectedPosition: "",
+      message:
+        '<iframe width="560" height="315" src="https://www.youtube.com/embed/H4SXxphcII8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+    };
+  },
+  mixins: ["createFormData"],
+  computed: {
+    activeList: function() {
+      return this.listData.filter(({ is_enabled }) => is_enabled == 1);
+    },
+    inactiveList: function() {
+      return this.listData.filter(({ is_enabled }) => is_enabled == 0);
+    }
+  },
+  methods: {
+    doCopy: function() {
+      this.$copyText(this.message).then(
+        function(e) {
+          alert("Copied");
+          console.log(e);
+        },
+        function(e) {
+          alert("Can not copy");
+          console.log(e);
+        }
+      );
+    }
+  },
+  mounted: function() {
+    Axios.get("https://gr-v1.devam.pro/services/email/getEmailTemplates").then(
+      ({ data }) => (this.listData = data.data)
+    );
+  }
+};
+</script>
+<style lang="less" scoped>
+.fixedHeaderBlock .fixedHeaderBlockInner {
+  justify-content: space-between;
+  width: 100%;
+
+  .linkBackBlock {
+    display: flex;
+    align-items: center;
+  }
+
+  .title {
+    border-right: 1px solid #eaeaea;
+
+    .icon {
+      height: 35px;
+    }
+  }
+
+  .md-raised {
+    border: 1px solid #d5d5d5;
+    color: #202020;
+    border-radius: 5px;
+    box-shadow: none !important;
+    text-transform: capitalize;
+
+    &.md-accent {
+      border: 0;
+      font-weight: bold;
+      color: #fff !important;
+    }
+  }
+}
+
+.editTemplate {
+  margin: 8em 50px;
+  display: flex;
+  justify-content: flex-start;
+
+  .settingsBlock {
+    flex: 1;
+    margin-right: 20px;
+
+    .btn-toggle {
+      border: 1px solid #e4e3e3;
+      padding: 10px 20px;
+      border-top: 2px solid #007aff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      .btn-toggle-title {
+        display: flex;
+        align-items: center;
+
+        span {
+          color: #007aff;
+          margin-right: 10px;
+          font-weight: bold;
+        }
+
+        h2 {
+          margin: 10px 0;
+          font-size: 18px;
+        }
+      }
+    }
+
+    .btn-toggle-sub {
+      border: 5px solid #e8e8e8;
+      border-top: 0;
+      border-bottom: 0;
+
+      &:first-child {
+        border-top: 5px solid #e8e8e8;
+        border-bottom: 0 !important;
+      }
+
+      &.bor-bot {
+        border-bottom: 5px solid #e8e8e8;
+      }
+
+      h3 {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        margin: 0;
+        color: #007aff;
+        border-bottom: 1px solid #e8e8e8;
+      }
+    }
+
+    .item-sub {
+      border: 5px solid #e8e8e8;
+      border-top: 0;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    ul.inner-settings {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        border: 1px solid #e4e3e3;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        border-top: 0;
+        color: #48548e;
+        font-size: 14px;
+        font-weight: 400;
+
+        &:last-child {
+          margin-top: 10px;
+          border-top: 1px solid #e4e3e3;
+          box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        &:nth-last-child(2) {
+          box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+
+  /* Choose Background images */
+  ul.chooseImg {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0px -5px 20px;
+    align-items: center;
+    justify-content: center;
+
+    li {
+      list-style: none;
+      width: 68px;
+      border: 1px solid #979797;
+      background: #ddd;
+      margin: 5px;
+      position: relative;
+
+      &:hover {
+        border-color: #007aff;
+      }
+
+      &.active {
+        border-color: #007aff;
+
+        .icon-checkmark {
+          color: #fff;
+          border-radius: 50%;
+          background: #007aff;
+          font-size: 7px;
+          padding: 5px;
+          position: absolute;
+          top: -8px;
+          right: -8px;
+        }
+      }
+    }
+  }
+
+  .item-sub {
+    .btn-info {
+      border-radius: 0;
+    }
+
+    .btn-secondary {
+      border-radius: 0;
+      color: #6c757d;
+      background-color: #c4c9ce;
+      border-color: #c4c9ce;
+    }
+
+    .btn-secondary:not(:disabled):not(.disabled).active,
+    .btn-secondary:not(:disabled):not(.disabled):active,
+    .show > .btn-secondary.dropdown-toggle {
+      color: #fff;
+      background-color: #545b62;
+      border-color: #4e555b;
+    }
+
+    label {
+      font-size: 12px;
+      color: #333;
+    }
+
+    .dis-flex label {
+      font-size: 12px;
+      color: #333;
+      margin: 0;
+    }
+
+    .textarea-block {
+      border: 1px solid #e8e8e8;
+      padding: 20px;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+  .btn-group-toggle .btn-secondary:first-child {
+    margin-right: 5px;
+  }
+
+  .dis-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dis-flex-noJustify {
+    display: flex;
+    align-items: center;
+  }
+  .dis-flex-alignBase {
+    display: flex;
+    align-items: baseline;
+  }
+  .dis-flex-alignStart {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  /* Display settings */
+  .display-settings {
+    padding: 20px;
+    border: 5px solid #e8e8e8;
+    border-top: 0;
+
+    &:first-child {
+      border-top: 5px solid #e8e8e8;
+    }
+
+    .dis-flex {
+      align-items: baseline;
+    }
+
+    .dis-flex-center {
+      align-items: center;
+    }
+
+    a.linkTxt {
+      color: #428bca;
+      font-weight: 600;
+    }
+
+    select,
+    input[type="number"],
+    input[type="text"],
+    label input[type="text"] {
+      width: 100%;
+      border: 1px solid #e8e8e8;
+      overflow: hidden;
+      border-radius: 4px;
+      padding: 6px 12px;
+    }
+
+    .form-group {
+      margin: 10px 0;
+
+      input[type="check"] {
+        margin-right: 10px;
+      }
+
+      label,
+      .divHalf {
+        flex: 1;
+      }
+
+      .form-control {
+        display: block;
+        width: 100%;
+
+        &.width-100 {
+          width: 100px;
+        }
+      }
+
+      .date {
+        position: relative;
+
+        .md-icon {
+          position: absolute;
+          right: 0;
+          top: 3px;
+        }
+      }
+    }
+
+    label {
+      font-size: 12px;
+      color: #333;
+
+      .icon-checkmark {
+        color: #fff;
+        border-radius: 50%;
+        background: green;
+        padding: 5px;
+        margin-right: 5px;
+        font-size: 12px !important;
+        width: 20px;
+        min-width: 20px;
+        height: 20px;
+
+        &.emptyIcon {
+          border: 2px solid #000;
+          background: transparent;
+        }
+      }
+
+      .icon-radio-unchecked {
+        font-size: 20px;
+        margin-right: 5px;
+      }
+    }
+
+    .vis_block-status {
+      display: flex;
+      align-items: center;
+      background: #e2f3ff;
+      padding: 5px 10px;
+      color: #333;
+      border-radius: 4px;
+      justify-content: center;
+    }
+
+    label.checkbox .label-text,
+    label.label-text {
+      color: #808080;
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+  .disableOpacity {
+    opacity: 0.3;
+  }
+
+  .preview_block {
+    flex: 2;
+    position: relative;
+
+    .btn-default {
+      border: 1px solid #ccc;
+      color: #000;
+      padding: 5px 15px;
+    }
+
+    .btn-preview {
+      border: 1px solid #007aff;
+      padding: 5px 15px;
+      color: #007aff;
+      margin-left: 10px;
+    }
+
+    .preview_block-title {
+      border: 1px solid #e8e8e8;
+      border-radius: 4px;
+      padding: 10px 20px;
+      display: flex;
+      background: #fff;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+
+      h2 {
+        font-size: 18px;
+        margin: 0;
+      }
+    }
+  }
+  .preview_block-template {
+    background: #333;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 15px;
+    border-radius: 4px;
+    box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.1);
+  }
+  .embed_visible {
+    position: absolute;
+    top: 55px;
+    background: #fff;
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 20px;
+    right: 128px;
+
+    p {
+      font-size: 11px;
+    }
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      h3 {
+        margin: 0;
+        font-size: 14px;
+        color: #007aff;
+      }
+    }
+
+    .iframe-block {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 4px;
+      width: 100%;
+      height: 130px;
+      font-size: 12px;
+      color: #66788a;
+    }
+
+    .link-block {
+      margin: 10px 0;
+
+      a {
+        font-size: 11px;
+        color: #428bca;
+        text-decoration: underline;
+        margin-right: 10px;
+        display: inline-block;
+
+        &:hover {
+          color: #2a6496;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+.height-10 {
+  height: 10px;
+}
+.height-20 {
+  height: 20px;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+</style>
