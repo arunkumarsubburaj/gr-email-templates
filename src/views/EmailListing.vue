@@ -211,7 +211,7 @@ import Axios from "axios";
 
 export default {
   name: "EmailListing",
-  data: function () {
+  data: function() {
     return {
       bol: 1,
       listData: [],
@@ -223,19 +223,19 @@ export default {
   components: { Loader },
   mixins: ["createFormData"],
   computed: {
-    activeList: function () {
+    activeList: function() {
       return this.listData.filter(({ is_enabled }) => is_enabled == 1);
     },
-    inactiveList: function () {
+    inactiveList: function() {
       return this.listData.filter(({ is_enabled }) => is_enabled == 0);
-    },
+    }
   },
   methods: {
-    changeEmailStatus: function (id, status) {
+    changeEmailStatus: function(id, status) {
       this.loader = true;
       const params = {
         is_enabled: status ? 0 : 1,
-        id_email: id,
+        id_email: id
       };
       const formData = new FormData();
       for (var key in params) {
@@ -258,7 +258,7 @@ export default {
         this.emailMessage = true;
       });
     },
-    sendTestEmail: function (id) {
+    sendTestEmail: function(id) {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/sendTestEmail`,
@@ -271,7 +271,7 @@ export default {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
         this.emailMessage = true;
       });
-    },
+    }
   },
   mounted: function () {
     this.loader = true;

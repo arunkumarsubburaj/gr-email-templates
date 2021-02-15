@@ -18,7 +18,7 @@ Vue.use(VueMaterial);
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
   methods: {
-    renderTemplate: (data) =>
+    renderTemplate: data =>
       data.email_template.length > 5
         ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
             data.json_fields[property]
@@ -26,7 +26,7 @@ Vue.mixin({
               : property
           )
         : "<div>Invalid Template</div>",
-    createFormData: (data) => {
+    createFormData: data => {
       let formData = new FormData();
       for (let key in data) {
         if (typeof data[key] === "object") {
@@ -38,12 +38,12 @@ Vue.mixin({
         }
       }
       return formData;
-    },
-  },
+    }
+  }
 });
 
 export default {
-  name: "app",
+  name: "app"
 };
 </script>
 

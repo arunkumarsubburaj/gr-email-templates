@@ -514,7 +514,7 @@ export default {
     draggable,
   },
   mixins: ["createFormData", "renderTemplate"],
-  data: function () {
+  data: function() {
     return {
       isWl: 1,
       showWlMsg: 1,
@@ -578,7 +578,7 @@ export default {
     },
   },
   methods: {
-    setEdata: function (id) {
+    setEdata: function(id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
       this.disableTest = false;
     },
@@ -647,11 +647,11 @@ export default {
         }
       }
     },
-    handleChooseTemplate: function (id) {
+    handleChooseTemplate: function(id) {
       this.setEdata(id);
       this.togglePageview();
     },
-    handleSave: function () {
+    handleSave: function() {
       this.loader = true;
 
       const { id_theme, subject, json_fields } = this.eData;
@@ -685,7 +685,7 @@ export default {
           this.showMsg = true;
         });
     },
-    sendTestEmail: function () {
+    sendTestEmail: function() {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/sendTestEmail`,
@@ -718,7 +718,7 @@ export default {
         this.showMsg = true;
       });
     },
-    fetchTemplateData: function () {
+    fetchTemplateData: function() {
       this.loader = true;
       this.eData = null;
       Axios.get(

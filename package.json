@@ -7,10 +7,12 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "build": "npm run lint -- --fix && vue-cli-service build",
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-color": "^2.8.1",
     "vue-material": "^1.0.0-beta-15",
     "vue-quill-editor": "^3.0.6",
