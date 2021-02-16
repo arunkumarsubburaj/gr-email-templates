@@ -38,7 +38,7 @@
             <i class="fal fa-envelope"></i>
             <div>
               <h5>{{ mail.title }}</h5>
-              <p>{{ mail.type }}</p>
+              <!-- <p>{{ mail.type }}</p> -->
             </div>
           </div>
           <div>12,789</div>
@@ -46,6 +46,7 @@
           <div>
             <label
               class="switch"
+              title="Update status"
               @click.prevent="changeEmailStatus(mail.id_email, mail.is_enabled)"
               :for="mail.id_email"
               v-if="mail.id_email !== 2"
@@ -61,10 +62,10 @@
           </div>
           <div class="actions">
             <router-link :to="'/view/email/templates/' + mail.id_email">
-              <i class="fal fa-edit"></i>
+              <i title="Edit" class="fal fa-edit"></i>
             </router-link>
             <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-              <i class="far fa-paper-plane"></i>
+              <i title="Send Test Email" class="far fa-paper-plane"></i>
             </a>
           </div>
         </li>
@@ -87,7 +88,7 @@
               <i class="fal fa-envelope"></i>
               <div>
                 <h5>{{ mail.title }}</h5>
-                <p>{{ mail.type }}</p>
+                <!-- <p>{{ mail.type }}</p> -->
               </div>
             </div>
             <div>12,789</div>
@@ -95,6 +96,7 @@
             <div>
               <label
                 class="switch"
+                title="Update status"
                 @click.prevent="
                   changeEmailStatus(mail.id_email, mail.is_enabled)
                 "
@@ -112,10 +114,10 @@
             </div>
             <div class="actions">
               <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i class="fal fa-edit"></i>
+                <i title="Edit" class="fal fa-edit"></i>
               </router-link>
               <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-                <i class="far fa-paper-plane"></i>
+                <i title="Send Test Email" class="far fa-paper-plane"></i>
               </a>
             </div>
           </li>
@@ -148,11 +150,11 @@ export default {
       listData: [],
       emailMessage: false,
       emailResponse: null,
-      loader: false
+      loader: false,
     };
   },
-  components: {Loader},
-  mixins: ["createFormData"],
+  components: { Loader },
+  mixins: ["createFormData", "getBaseUrl"],
   computed: {
     activeList: function () {
       return this.listData.filter(({ is_enabled }) => is_enabled == 1);
@@ -173,14 +175,16 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        "https://gr-v1.devam.pro/services/email/updateEmailStatus",
+        `${this.getBaseUrl()}/services/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
           this.listData = this.listData.map((item) =>
-            item.id_email == id ? { ...item, is_enabled: params.is_enabled } : item
+            item.id_email == id
+              ? { ...item, is_enabled: params.is_enabled }
+              : item
           );
         } else
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
@@ -190,21 +194,25 @@ export default {
     sendTestEmail: function (id) {
       this.loader = true;
       Axios.post(
-        "https://gr-v1.devam.pro/services/email/sendTestEmail",
+        `${this.getBaseUrl()}/services/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
         if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
+          this.emailResponse = `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`;
         } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
         this.emailMessage = true;
       });
     },
   },
   mounted: function () {
-    Axios.get("https://gr-v1.devam.pro/services/email/getEmailTemplates").then(
-      ({ data }) => (this.listData = data.data)
+    this.loader = true;
+    Axios.get(`${this.getBaseUrl()}/services/email/getEmailTemplates`).then(
+      ({ data }) => {
+        this.listData = data.data;
+        this.loader = false;
+      }
     );
   },
 };
@@ -212,7 +220,7 @@ export default {
 
 <style lang="less" scoped>
 .emailheader {
-  background: url(../assets/email-header-bg.jpg) no-repeat;
+  background: url(https://s3.us-east-1.amazonaws.com/devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg) no-repeat;
   background-size: cover;
 }
 .emailListing {

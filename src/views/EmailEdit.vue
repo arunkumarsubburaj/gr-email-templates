@@ -4,7 +4,7 @@
       <div class="email" v-if="editPageView">
         <div class="fixedHeaderBlock">
           <div class="fixedHeaderBlockInner">
-            <a class="link-back" @click.prevent="togglePageview">
+            <a class="link-back" @click.prevent="() => history.back()">
               <i class="fa fa-long-arrow-left"></i>
             </a>
             <div class="title">
@@ -21,24 +21,26 @@
             >
           </div>
         </div>
-        <div class="upgradeBlock">
+        <div class="upgradeBlock" v-if="upgrade">
           <p>
             Would you like to upgrade to our premium services? Have your own
             branding
           </p>
-          <md-button @click.prevent="" class="md-raised btnUpgrade"
+          <md-button href="#/plan" class="md-raised btnUpgrade"
             >Upgrade now</md-button
           >
-          <md-button @click.prevent="" class="md-raised btnNotnow"
+          <md-button
+            @click.prevent="upgrade = false"
+            class="md-raised btnNotnow"
             >Not now</md-button
           >
         </div>
 
-        <div class="container">
+        <div class="container editWrap">
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-35">
               <md-list :md-expand-single="true">
-                <md-list-item md-expand>
+                <md-list-item md-expand md-expanded>
                   <span class="md-list-item-text">Subject</span>
 
                   <div slot="md-expand">
@@ -186,10 +188,11 @@ export default {
     EmailTemplates,
     Loader,
   },
-  mixins: ["createFormData", "renderTemplate"],
+  mixins: ["createFormData", "renderTemplate", "getBaseUrl"],
   data: function () {
     return {
-      editPageView: true,
+      upgrade: true,
+      editPageView: false,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
@@ -225,7 +228,7 @@ export default {
       formData.append("suffix", "header_image");
       formData.append("id_template", 1);
 
-      Axios.post("https://gr-v1.devam.pro/S3Uploader/emailTemplate", formData)
+      Axios.post(`${this.getBaseUrl()}/S3Uploader/emailTemplate`, formData)
         .then(({ data }) => {
           this.loader = false;
           if (!data.error) {
@@ -277,7 +280,7 @@ export default {
         (key) => (params.settings[key] = json_fields[key].value)
       );
       Axios.post(
-        "https://gr-v1.devam.pro/services/email/saveEmailTemplate",
+        `${this.getBaseUrl()}/services/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -298,21 +301,21 @@ export default {
     sendTestEmail: function () {
       this.loader = true;
       Axios.post(
-        "https://gr-v1.devam.pro/services/email/sendTestEmail",
+        `${this.getBaseUrl()}/services/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
         if (status == 200) {
-          this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
+          this.emailResponse = `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`;
         } else
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
         this.emailMessage = true;
       });
     },
     fetchTemplateData: function () {
       this.loader = true;
       Axios.get(
-        `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
+        `${this.getBaseUrl()}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
         const { active_id_theme, dynamic_variables, themes } = data.data;
         this.dVars = dynamic_variables.split(",");
@@ -329,20 +332,25 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.editWrap {
+  // padding-top: 50px;
+}
 .upgradeBlock {
   background: #ed941f;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  padding: 10px;
 
   p {
     font-size: 13px;
     color: #fff;
+    margin: 0;
   }
 
-  button.btnUpgrade {
+  .btnUpgrade {
     margin: 0 10px 0 20px;
+    text-decoration: none;
   }
 
   .btnNotnow {
@@ -365,6 +373,7 @@ export default {
   h3 {
     color: #007aff;
     margin-top: 0;
+    font-size: 16px;
   }
 }
 

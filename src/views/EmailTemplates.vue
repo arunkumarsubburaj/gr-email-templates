@@ -2,7 +2,7 @@
   <div class="changeTemplateView">
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
-        <a class="link-back" @click.prevent="togglePageview">
+        <a class="link-back" @click.prevent="close">
           <i class="fa fa-long-arrow-left"></i>
         </a>
         <div class="title">
@@ -27,11 +27,11 @@
             :key="template.id_theme"
           >
             <div class="boxView">
-              <img :src="require(`@/assets/template/email_template_${template.id_theme}.png`)" alt="">
+              <img :src="getImg(template.id_theme)" alt="">
             </div>
             <div class="boxFooter">
               <div>
-                <h4>{{ template.tpl_name }}</h4>
+                <!-- <h4>{{ template.tpl_name }}</h4> -->
                 <small>Template {{index + 1}}</small>
               </div>
               <md-button
@@ -55,7 +55,11 @@
 <script>
   export default {
     name: "EmailTemplates",
-    props: ["data", "close", "save"]
+    props: ["data", "close", "save"],
+    mixins: ["getBaseUrl"],
+    methods: {
+      getImg: function(id) { return `${this.getBaseUrl()}/public/assets/img/email_assets/email_template_${id}.png`}
+    }
   };
 </script>
 <style lang="less" scoped>

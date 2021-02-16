@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918">
     <router-view />
   </div>
 </template>
@@ -11,7 +12,6 @@ import VueMaterial from "vue-material";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 Vue.use(CKEditor);
@@ -40,11 +40,12 @@ Vue.mixin({
       }
       return formData;
     },
+    getBaseUrl: () => new RegExp('localhost|github').test(window.location.origin) ? 'https://gr-v1.devam.pro' : ''
   },
 });
 
 export default {
-  name: "app",
+  name: "app"
 };
 </script>
 
@@ -160,7 +161,10 @@ export default {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 3px 0px rgb(0, 0, 0, 0.2);
+  .show-notification & {
+    top: 36px;
+  }
 
   .fixedHeaderBlockInner {
     display: flex;
