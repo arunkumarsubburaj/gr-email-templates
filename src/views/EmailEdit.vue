@@ -333,7 +333,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .editWrap {
-  // padding-top: 50px;
+  padding-top: 50px;
 }
 .upgradeBlock {
   background: #ed941f;
@@ -392,7 +392,7 @@ export default {
 }
 
 .email {
-  margin: 4.3em 0 7em 0;
+  margin: 0 0 7em 0;
 
   .md-list {
     padding: 0;
