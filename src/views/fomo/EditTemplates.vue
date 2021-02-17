@@ -24,7 +24,205 @@
 
     <div class="editTemplate">
       <div class="settingsBlock">
-        dsvs
+        <!-- Basic settings -->
+        <div class="btn-toggle" v-on:click="isToggleBasic = !isToggleBasic">
+          <div class="btn-toggle-title">
+            <span>
+              <img src="../../assets/fomo/icon-paint.svg" alt="" />
+            </span>
+            <h2>Basic Settings</h2>
+          </div>
+          <span class="material-icons">
+            <span v-if="isToggleBasic">keyboard_arrow_down</span>
+            <span v-if="!isToggleBasic">keyboard_arrow_right</span>
+          </span>
+        </div>
+        <ul class="inner-settings" v-if="!isToggleBasic">
+          <li v-for="basicSetting in basicSettings" :key="basicSetting.name">
+            <span>{{ basicSetting.name }}</span>
+            <span v-on:click="isToggleBasic = !isToggleBasic">
+              <img src="../../assets/fomo/IconLineedit.svg" alt="" />
+            </span>
+          </li>
+        </ul>
+
+        <div class="item" v-if="isToggleBasic">
+          <!-- Layout -->
+          <div
+            class="btn-toggle-sub"
+            :class="!isToggleLayout ? 'bor-bot' : ''"
+            v-on:click="isToggleLayout = !isToggleLayout"
+          >
+            <h3>
+              Layout
+              <span class="material-icons">
+                <span v-if="isToggleLayout">keyboard_arrow_down</span>
+                <span v-if="!isToggleLayout">keyboard_arrow_right</span>
+              </span>
+            </h3>
+          </div>
+          <div class="item-sub" v-if="isToggleLayout">
+            <ul class="chooseImg">
+              <li
+                v-for="chooselayout in chooselayouts"
+                :key="chooselayout.id"
+                :class="ChooseLayout($event) ? 'active' : ''"
+              >
+                <img
+                  src="../../assets/fomo/layout_row.png"
+                  :alt="chooselayout.name"
+                  :id="chooselayout.id"
+                  v-on:click="ChooseLayout($event)"
+                />
+                <span class="material-icons select">
+                  <span>done</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Setup messages -->
+          <div
+            class="btn-toggle-sub"
+            v-on:click="isToggleSetUpMsg = !isToggleSetUpMsg"
+          >
+            <h3>
+              Setup messages
+              <span class="material-icons">
+                <span v-if="isToggleSetUpMsg">keyboard_arrow_down</span>
+                <span v-if="!isToggleSetUpMsg">keyboard_arrow_right</span>
+              </span>
+            </h3>
+          </div>
+          <div class="item-sub" v-if="isToggleSetUpMsg">
+            <label class="control-label">Title Text</label>
+            <textarea
+              id="titleText"
+              class="textarea-block"
+              ng-model="titleText"
+            >
+                  Setup messages
+              </textarea
+            >
+            <div class="height-10"></div>
+            <label class="control-label">Sub Title</label>
+            <textarea class="textarea-block" ng-model="subTitleText">
+                  Setup messages
+              </textarea
+            >
+          </div>
+
+          <!-- Button Setup -->
+          <div
+            class="btn-toggle-sub"
+            v-on:click="isToggleBtnSetUp = !isToggleBtnSetUp"
+          >
+            <h3>
+              Button Setup
+              <span class="material-icons">
+                <span v-if="isToggleBtnSetUp">keyboard_arrow_down</span>
+                <span v-if="!isToggleBtnSetUp">keyboard_arrow_right</span>
+              </span>
+            </h3>
+          </div>
+          <div class="item-sub" v-if="isToggleBtnSetUp">
+            <label class="control-label">Button Text</label>
+            <textarea class="textarea-block" ng-model="btnText">
+                    Button Setup
+                </textarea
+            >
+            <div class="height-10"></div>
+            <div class="dis-flex">
+              <label class="control-label">Button URL</label>
+              <a href="#">Check redirection</a>
+            </div>
+            <textarea class="textarea-block" ng-model="btnUrl">
+                    www.signupurl/hello
+                </textarea
+            >
+          </div>
+
+          <!-- Choose background images -->
+          <div
+            class="btn-toggle-sub"
+            v-on:click="isToggleChooseBg = !isToggleChooseBg"
+          >
+            <h3>
+              Choose background images
+              <span class="material-icons">
+                <span v-if="isToggleChooseBg">keyboard_arrow_down</span>
+                <span v-if="!isToggleChooseBg">keyboard_arrow_right</span>
+              </span>
+            </h3>
+          </div>
+          <div class="item-sub" v-if="isToggleChooseBg">
+            <ul class="chooseImg">
+              <li v-for="chooseImage in chooseImages" :key="chooseImage.id">
+                <img
+                  src="../../assets/fomo/bg-card-day.png"
+                  alt="chooseImage.name"
+                  id="chooseImage.id"
+                />
+                <span class="icon-checkmark"></span>
+              </li>
+            </ul>
+            <div class="btn btn-info fileinput-button btn-block">
+              <span>Upload Image</span>
+              <input id="choose_image" type="file" name="Filedata" />
+            </div>
+            <div class="height-1 bg-gray margin-top-20 margin-bottom-20"></div>
+            <div class="form-group dis-flex">
+              <label>Color Overlay</label>
+            </div>
+            <div class="form-group dis-flex">
+              <label>Fields</label>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="dark"
+                    autocomplete="off"
+                  />
+                  Dark
+                </label>
+                <label class="btn btn-secondary">
+                  <input
+                    type="radio"
+                    name="options"
+                    id="light"
+                    autocomplete="off"
+                  />
+                  Light
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thank you message -->
+          <div
+            class="btn-toggle-sub"
+            v-on:click="isToggleThankMsg = !isToggleThankMsg"
+          >
+            <h3>
+              Thank you message
+              <span class="material-icons">
+                <span v-if="isToggleThankMsg">keyboard_arrow_down</span>
+                <span v-if="!isToggleThankMsg">keyboard_arrow_right</span>
+              </span>
+            </h3>
+          </div>
+          <div class="item-sub" v-if="isToggleThankMsg">
+            <div class="dis-flex">
+              <label class="control-label">Text</label>
+              <a href="#">Insert dynamic variables</a>
+            </div>
+            <textarea class="textarea-block" ng-model="thankText">
+                    Thank you message
+                </textarea
+            >
+          </div>
+        </div>
 
         <!-- Display settings -->
         <div class="btn-toggle" v-on:click="isToggleDisplay = !isToggleDisplay">
@@ -365,24 +563,75 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import ColorPicker from "../../components/ColorPicker";
 
 export default {
   name: "EditTemplate",
+  components: {
+    //ColorPicker
+  },
   data: function() {
     return {
       isToggleDisplay: false,
+      isToggleBasic: false,
+      isToggleLayout: false,
+      isToggleSetUpMsg: false,
+      isToggleBtnSetUp: false,
+      isToggleChooseBg: false,
+      isToggleThankMsg: false,
       isHidden: false,
       geoLocation: false,
       popVisibility: false,
       showPercentage: false,
       showSeconds: false,
       isSwitchEndDate: false,
+      isChooseLayout: false,
+      editor: ClassicEditor,
       disabled: 0,
       selectedShow: "",
       selectedFrequency: "",
       selectedPosition: "",
       message:
-        '<iframe width="560" height="315" src="https://www.youtube.com/embed/H4SXxphcII8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+        '<iframe width="560" height="315" src="https://www.youtube.com/embed/H4SXxphcII8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+      basicSettings: [
+        { name: "Layout" },
+        { name: "Setup Messages" },
+        { name: "Button Setup" },
+        { name: "Choose Background Images" },
+        { name: "Thank you message" }
+      ],
+      chooselayouts: [
+        { id: "1", src: "layout_row.png", name: "layoutStyle_1", style: "row" },
+        {
+          id: "2",
+          src: "layout_col.png",
+          name: "layoutStyle_2",
+          style: "column"
+        },
+        {
+          id: "3",
+          src: "layout_row_reverse.png",
+          name: "layoutStyle_3",
+          style: "row_reverse"
+        },
+        {
+          id: "4",
+          src: "layout_col_reverse.png",
+          name: "layoutStyle_4",
+          style: "column_reverse"
+        }
+      ],
+      chooseImages: [
+        { id: "1", src: "bg-card-day.png", name: "Backfround_1" },
+        { id: "2", src: "bg-card-2x.jpg", name: "Backfround_2" },
+        { id: "3", src: "bg-card-custom.jpg", name: "Backfround_3" },
+        { id: "4", src: "bg-card-10p.png", name: "Backfround_4" },
+        { id: "5", src: "bg-card-minimum.png", name: "Backfround_5" },
+        { id: "6", src: "bg-card-bonus.png", name: "Backfround_6" },
+        { id: "7", src: "bg-card-season.png", name: "Backfround_7" },
+        { id: "8", src: "bg_template-6.png", name: "Backfround_8" }
+      ]
     };
   },
   mixins: ["createFormData"],
@@ -406,6 +655,10 @@ export default {
           console.log(e);
         }
       );
+    },
+    ChooseLayout: function(event) {
+      this.targetId = event.chooselayout.id;
+      console.log(this.targetId); // returns 'foo'
     }
   },
   mounted: function() {
@@ -497,6 +750,12 @@ export default {
         border-bottom: 0 !important;
       }
 
+      &:last-child {
+        margin-top: 10px;
+        border-top: 1px solid #e8e8e8;
+        border-bottom: 5px solid #e8e8e8;
+      }
+
       &.bor-bot {
         border-bottom: 5px solid #e8e8e8;
       }
@@ -573,7 +832,7 @@ export default {
       &.active {
         border-color: #007aff;
 
-        .icon-checkmark {
+        .select {
           color: #fff;
           border-radius: 50%;
           background: #007aff;

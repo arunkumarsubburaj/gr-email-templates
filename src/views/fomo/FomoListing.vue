@@ -1,17 +1,25 @@
 <template>
   <div class="home">
     <div class="fomoContainer">
-      <div class="fomo_block">
+      <div class="fomo_block" v-if="errored">
+        <div class="warning">
+          We're sorry, we're not able to retrieve this information at the
+          moment, please try back later
+        </div>
+      </div>
+      <div class="fomo_block" v-else>
+        <div v-if="loading">Loading...</div>
         <div class="active_fomo">
           <div class="fomoHeader">
             <h2>Fomo Prompts</h2>
             <p>Some text explains about this FOMO prompts can be here.</p>
-            <div class="statusBlock">
+            <!--<div class="statusBlock">
               <div v-for="status in statuses" :key="status.count">
                 <h3>{{ status.count }}</h3>
                 <p>{{ status.attr }}</p>
               </div>
-            </div>
+            </div>-->
+            {{ info }}
           </div>
           <div class="fomoList">
             <md-tabs md-alignment="fixed">
@@ -20,23 +28,24 @@
                   <table class="table table-striped snap-top">
                     <thead>
                       <tr>
-                        <th style="width: 25%;">FOMO Name</th>
+                        <th>FOMO Name</th>
                         <th>Category</th>
-                        <th>Clicks</th>
-                        <th>Visible to</th>
+                        <!--<th>Clicks</th>
+                        <th>Visible to</th>-->
                         <th class="align-center">Status</th>
                         <th class="align-center">Action</th>
                       </tr>
                     </thead>
                     <tbody class="sort-item">
-                      <tr v-for="data in datasActive" :key="data.fomoName">
-                        <td class="font-size-mid" v-text="data.fomoName">
-                          {{ data.fomoName }}
+                      <tr v-for="data in info" :key="data.id_fomo">
+                        <td class="font-size-mid" v-text="data.description">
+                          {{ data.title }}
+                          {{ data.description }}
                         </td>
-                        <td class="font-size-small" v-text="data.category">
-                          {{ data.category }}
+                        <td class="font-size-small">
+                          {{ data.type }}
                         </td>
-                        <td class="font-size-mid" v-text="data.clicks">
+                        <!--<td class="font-size-mid" v-text="data.clicks">
                           {{ data.clicks }}
                         </td>
                         <td>
@@ -51,7 +60,7 @@
                               >person</md-icon
                             >
                           </div>
-                        </td>
+                        </td>-->
                         <td>
                           <label class="switch">
                             <input type="checkbox" name="mainSwitch" checked />
@@ -138,6 +147,9 @@ export default {
     return {
       bol: 1,
       listData: [],
+      info: null,
+      loading: true,
+      errored: false,
       emailMessage: false,
       emailResponse: null,
 
@@ -263,9 +275,13 @@ export default {
   },
   methods: {},
   mounted: function() {
-    Axios.get("https://gr-v1.devam.pro/services/email/getEmailTemplates").then(
-      ({ data }) => (this.listData = data.data)
-    );
+    Axios.get("https://jai.devam.pro/gr/admin/fomo/getFomo/1")
+      .then(response => (this.info = response))
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
   }
 };
 </script>
@@ -295,6 +311,25 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+
+  .error,
+  .warning {
+    text-align: center;
+    width: 100%;
+    border: 1px solid;
+    margin: 100px 0px;
+    padding: 15px 10px 15px 50px;
+  }
+
+  .error {
+    color: #9f6000;
+    background-color: #feefb3;
+  }
+
+  .warning {
+    color: #d8000c;
+    background-color: #ffbaba;
+  }
 }
 
 @media only screen and (max-width: 989px) {
