@@ -3,9 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <div class="linkBackBlock">
-          <a class="link-back" @click.prevent="togglePageview">
+          <router-link :to="'../../../view/fomo/listing/'" class="link-back">
             <i class="fa fa-long-arrow-left"></i>
-          </a>
+          </router-link>
           <div class="title">
             <md-icon class="icon margin-right-10">bookmark_outline</md-icon>
             <span>Signup bonus Fomo</span>

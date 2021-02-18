@@ -3,9 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <div class="linkBackBlock">
-          <a class="link-back" @click.prevent="togglePageview">
+          <router-link :to="'../../../view/fomo/listing/'" class="link-back">
             <i class="fa fa-long-arrow-left"></i>
-          </a>
+          </router-link>
           <div class="title">
             <md-icon class="icon margin-right-10">bookmark_outline</md-icon>
             <span>Signup bonus Fomo</span>
@@ -66,13 +66,11 @@
               <li
                 v-for="chooselayout in chooselayouts"
                 :key="chooselayout.id"
-                :class="ChooseLayout($event) ? 'active' : ''"
               >
                 <img
                   src="../../assets/fomo/layout_row.png"
                   :alt="chooselayout.name"
                   :id="chooselayout.id"
-                  v-on:click="ChooseLayout($event)"
                 />
                 <span class="material-icons select">
                   <span>done</span>
@@ -104,6 +102,10 @@
                   Setup messages
               </textarea
             >
+            
+                      <ckeditor
+                        :editor="editor"
+                      ></ckeditor>
             <div class="height-10"></div>
             <label class="control-label">Sub Title</label>
             <textarea class="textarea-block" ng-model="subTitleText">
@@ -173,6 +175,10 @@
             <div class="height-1 bg-gray margin-top-20 margin-bottom-20"></div>
             <div class="form-group dis-flex">
               <label>Color Overlay</label>
+              
+                      <ColorPicker
+                        color="#ff0000"
+                      ></ColorPicker>
             </div>
             <div class="form-group dis-flex">
               <label>Fields</label>
@@ -564,15 +570,16 @@
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-//import ColorPicker from "../../components/ColorPicker";
+import ColorPicker from "../../components/ColorPicker";
 
 export default {
   name: "EditTemplate",
   components: {
-    //ColorPicker
+    ColorPicker
   },
   data: function() {
     return {
+      id: this.$route.params.fomoId,
       isToggleDisplay: false,
       isToggleBasic: false,
       isToggleLayout: false,
@@ -588,6 +595,7 @@ export default {
       isSwitchEndDate: false,
       isChooseLayout: false,
       editor: ClassicEditor,
+      ckEditor: {},
       disabled: 0,
       selectedShow: "",
       selectedFrequency: "",
@@ -656,14 +664,21 @@ export default {
         }
       );
     },
-    ChooseLayout: function(event) {
-      this.targetId = event.chooselayout.id;
-      console.log(this.targetId); // returns 'foo'
-    }
+    editorReady: function(e, name) {
+      this.ckEditor[name] = e;
+    },
+    //ChooseLayout: function(event) {
+      //this.targetId = event.chooselayout.id;
+      //console.log(this.targetId); // returns 'foo'
+    //}
   },
   mounted: function() {
-    Axios.get("https://gr-v1.devam.pro/services/email/getEmailTemplates").then(
-      ({ data }) => (this.listData = data.data)
+    Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1").then(
+      ({ data }) => {
+        (this.listData = data.data)
+        
+        console.log("@@@", data);
+      }
     );
   }
 };
@@ -709,6 +724,7 @@ export default {
   .settingsBlock {
     flex: 1;
     margin-right: 20px;
+    max-width: 33%;
 
     .btn-toggle {
       border: 1px solid #e4e3e3;
@@ -775,7 +791,7 @@ export default {
     .item-sub {
       border: 5px solid #e8e8e8;
       border-top: 0;
-      overflow: hidden;
+      /*overflow: hidden;*/
       padding: 20px;
     }
 
