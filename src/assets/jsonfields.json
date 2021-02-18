@@ -1,0 +1,1140 @@
+{
+	"welcome_campaign_1": {
+		"content1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub block text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"content2": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Sub block text 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Get more points"
+		},
+		"content3": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub block text 3",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Have you completed all the actions to earn the maximum rewards?"
+		},
+		"content4": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Sub block text 4",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Participate Now"
+		},
+		"content5": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Sub block text 5",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Chance for rewards"
+		},
+		"content6": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub block text 6",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+		},
+		"content7": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub block text 7",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "More promotions may be on the way! Keep an eye out to win more rewards."
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"header_background_color": {
+			"type": "color",
+			"label": "header bg color",
+			"value": "#f93744"
+		}
+	},
+	"welcome_campaign_2": {
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"subtitle1": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtitle 1",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Get more points"
+		},
+		"subtext1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Have you completed all the actions to earn the maximum rewards?"
+		},
+		"subtitle2": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtitle 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Chance for rewards"
+		},
+		"subtext2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub text 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+		},
+		"subbg1": {
+			"type": "color",
+			"label": "Subblock bg color 1",
+			"value": "#f26968"
+		},
+		"subbg2": {
+			"type": "color",
+			"label": "Subblock bg color 2",
+			"value": "#87165f"
+		},
+		"desctext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "More promotions may be on the way! Keep an eye out to win more rewards."
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"welcome_campaign_3": {
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"subtitle1": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtitle 1",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Get more points"
+		},
+		"subtext1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Have you completed all the actions to earn the maximum rewards?"
+		},
+		"subtitle2": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtitle 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Chance for rewards"
+		},
+		"subtext2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Sub text 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#9aeef6"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#ffdcb8"
+		},
+		"desctext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "More promotions may be on the way! Keep an eye out to win more rewards."
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"loyalty_campaign_1": {
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our Loyalty & Referral Program"
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"description1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can now earn points for many activities and redeem them for great rewards."
+		},
+		"description2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can check your points balance and much more by visiting [[Loyalty Program Name]]"
+		},
+		"bgcolor": {
+			"type": "color",
+			"label": "Background color",
+			"value": "#d4b462"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"loyalty_campaign_2": {
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our Loyalty & Referral Program"
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"description1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can now earn points for many activities and redeem them for great rewards."
+		},
+		"description2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can check your points balance and much more by visiting [[Loyalty Program Name]]"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#450050"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#ffdcb8"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"loyalty_campaign_3": {
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our Loyalty & Referral Program"
+		},
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"description1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can now earn points for many activities and redeem them for great rewards."
+		},
+		"description2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You can check your points balance and much more by visiting [[Loyalty Program Name]]"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#ffffff"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#f5d1cf"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"welcome_purchase_1": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"bgcolor": {
+			"type": "color",
+			"label": "Background color",
+			"value": "#024597"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep shopping to gain more entries for your chance to win!"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep an eye out to win more rewards. Regards, [[Company Name]]"
+		}
+	},
+	"welcome_purchase_2": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"bgcolor": {
+			"type": "color",
+			"label": "Background color",
+			"value": "#024597"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep shopping to gain more entries for your chance to win!"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep an eye out to win more rewards. Regards, [[Company Name]]"
+		}
+	},
+	"welcome_purchase_3": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"bgcolor": {
+			"type": "color",
+			"label": "Background color",
+			"value": "#024597"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "We are pleased to welcome you to our [[Campaign Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep shopping to gain more entries for your chance to win!"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Keep an eye out to win more rewards. Regards, [[Company Name]]"
+		}
+	},
+	"congrats_mail_1": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#7343c3"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#3c0775"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#ffdcb8"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You have redeemed <br/>Reward [[Reward Title]]"
+		},
+		"subtext1": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 1",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your current balance is"
+		},
+		"subtext2": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your current balance is"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"congrats_mail_2": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#ffdcb8"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#3c0775"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#ffdcb8"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You have redeemed <br/>Reward [[Reward Title]]"
+		},
+		"subtext1": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 1",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your current balance is"
+		},
+		"subtext2": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your current balance is"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"congrats_mail_3": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#f5d1cf"
+		},
+		"bgcolor1": {
+			"type": "color",
+			"label": "Background color 1",
+			"value": "#2c2b2b"
+		},
+		"bgcolor2": {
+			"type": "color",
+			"label": "Background color 2",
+			"value": "#c2397e"
+		},
+		"footerbgcolor": {
+			"type": "color",
+			"label": "Footer Background color",
+			"value": "#ffdcb8"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Email title",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "You have redeemed <br/>Reward [[Reward Title]]"
+		},
+		"subtitle": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtitle",
+			"max_length": 100,
+			"rows": 4,
+			"value": "CouponCode"
+		},
+		"subtext1": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 1",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your Redeemed Points"
+		},
+		"subtext2": {
+			"type": "text",
+			"show_dynamic_variables": 0,
+			"label": "Subtext 2",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Your Redeemed Points"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Regards, [[Company Name]]"
+		}
+	},
+	"forgot_password_1": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#292D5C"
+		},
+		"buttoncolor": {
+			"type": "color",
+			"label": "Button color",
+			"value": "#FB3636"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[First Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Click here to reset your password"
+		},
+		"buttontext": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Button Text",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Reset Password"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Not you? Please discard this email"
+		}
+	},
+	"forgot_password_2": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#292D5C"
+		},
+		"subbgcolor": {
+			"type": "color",
+			"label": "Sub Background color",
+			"value": "#f8f8f8"
+		},
+		"buttoncolor": {
+			"type": "color",
+			"label": "Button color",
+			"value": "#FB3636"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[First Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Click here to reset your password"
+		},
+		"buttontext": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Button Text",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Reset Password"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Not you? Please discard this email"
+		}
+	},
+	"forgot_password_3": {
+		"header_image": {
+			"type": "file",
+			"label": "header image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#292D5C"
+		},
+		"subbgcolor": {
+			"type": "color",
+			"label": "Sub Background color",
+			"value": "#fff2e1"
+		},
+		"buttoncolor": {
+			"type": "color",
+			"label": "Button color",
+			"value": "#FB3636"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[First Name]]"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Click here to reset your password"
+		},
+		"buttontext": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Button Text",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Reset Password"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Not you? Please discard this email"
+		}
+	},
+	"referral_campaign_1": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#423a82"
+		},
+		"subbgcolor1": {
+			"type": "color",
+			"label": "Sub background color 1",
+			"value": "#ffffff"
+		},
+		"subbgcolor2": {
+			"type": "color",
+			"label": "Sub background color 2",
+			"value": "#342d6c"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[Name]]!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations on your <br>successful referrals!"
+		},
+		"rewardtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Reward text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<small>Here is your referral reward:</small><br>[[Coupon Code]]"
+		},
+		"linkinfo": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Link info",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Earn rewards for inviting your<br>friends to sign up to our promotion"
+		},
+		"footer": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Thanks for spreading the word!"
+		}
+	},
+	"referral_campaign_2": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#ff5c40"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[Name]]!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations <br>on your <br>successful <br>referrals!"
+		},
+		"rewardtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Reward text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Here is your <br>referral reward:"
+		},
+		"linkinfo": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Link info",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Earn rewards for inviting your<br>friends to sign up to our promotion"
+		},
+		"footer": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Thanks for spreading the word!"
+		}
+	},
+	"referral_campaign_3": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#060e18"
+		},
+		"title": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Title",
+			"max_length": 100,
+			"rows": 4,
+			"value": "HI [[Name]]!"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Congratulations<br>on your successful<br>referrals!"
+		},
+		"rewardtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Reward text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Here is your <br>referral reward:"
+		},
+		"linkinfo": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Link info",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Earn rewards for inviting your<br>friends to sign up to our promotion"
+		},
+		"footer": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 100,
+			"rows": 4,
+			"value": "Thanks for spreading the word!"
+		}
+	},
+	"referral_enrollment_1": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#2672c5"
+		},
+		"text_1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Hey! I thought you might like this store.<br><br>They have some awesome<br>products that I think you’ll love!"
+		},
+		"text_2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Make sure you use this link to get your free gift."
+		},
+		"text_3": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 3",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Use this coupon at [[Site Name]]"
+		},
+		"footer": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Best wishes <br>[[Referrer Name]]"
+		}
+	},
+	"referral_enrollment_2": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"footer_image": {
+			"type": "file",
+			"label": "Footer image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#4dd5f5"
+		},
+		"subbgcolor": {
+			"type": "color",
+			"label": "Sub Background color",
+			"value": "#ffffff"
+		},
+		"text_1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Hey! I thought you might like this store.<br><br><strong>They have some awesome<br>products that I think you’ll love!</strong>"
+		},
+		"text_2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Make sure you use this link to get your free gift."
+		},
+		"text_3": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 3",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Use this coupon at [[Site Name]]"
+		},
+		"footer": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Best wishes <br>[[Referrer Name]]"
+		}
+	},
+	"referral_enrollment_3": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"footer_image": {
+			"type": "file",
+			"label": "Footer image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#2498c7"
+		},
+		"subbgcolor": {
+			"type": "color",
+			"label": "Sub Background color",
+			"value": "#fdbf2e"
+		},
+		"text_1": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 1",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Hey! I thought you might like this store.<br><br><strong>They have some awesome<br>products that I think you’ll love!</strong>"
+		},
+		"text_2": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 2",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Make sure you use this link to get your free gift."
+		},
+		"text_3": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Text 3",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Use this coupon at [[Site Name]]"
+		},
+		"footer": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Best wishes <br>[[Referrer Name]]"
+		}
+	}
+}
