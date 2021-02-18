@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="fomo_block" v-else>
-        <div v-if="loading">Loading...</div>
+        <div v-if="loading">Loading....</div>
         <div class="active_fomo">
           <div class="fomoHeader">
             <h2>Fomo Prompts</h2>
@@ -19,7 +19,6 @@
                 <p>{{ status.attr }}</p>
               </div>
             </div>-->
-            {{ info }}
           </div>
           <div class="fomoList">
             <md-tabs md-alignment="fixed">
@@ -37,10 +36,9 @@
                       </tr>
                     </thead>
                     <tbody class="sort-item">
-                      <tr v-for="data in info" :key="data.id_fomo">
-                        <td class="font-size-mid" v-text="data.description">
+                      <tr v-for="data in listData" :key="data.id_fomo">
+                        <td class="font-size-mid">
                           {{ data.title }}
-                          {{ data.description }}
                         </td>
                         <td class="font-size-small">
                           {{ data.type }}
@@ -62,17 +60,25 @@
                           </div>
                         </td>-->
                         <td>
-                          <label class="switch">
-                            <input type="checkbox" name="mainSwitch" checked />
+                          <label
+                            class="switch"
+                            :for="data.id_fomo"
+                            v-if="data.id_fomo !== 2"
+                          >
+                            <input
+                              type="checkbox"
+                              name="mainSwitch"
+                              :checked="data.status == 1"
+                              :id="data.id_fomo"
+                            />
                             <i></i>
                           </label>
                         </td>
                         <td class="align-center">
-                          <md-icon>edit</md-icon>
+                          <router-link :to="'../../../view/fomo/templates/' + data.id_fomo">
+                            <md-icon>edit</md-icon>
+                          </router-link>
                         </td>
-                      </tr>
-                      <tr v-if="activeList && activeList.length == 0">
-                        <td colspan="6">No data</td>
                       </tr>
                     </tbody>
                   </table>
@@ -93,6 +99,28 @@
             <a href="#" class="btn_link btn_link-small">View all templates</a>
           </div>
           <div class="newFomoList">
+            <div
+              class="new_list"
+              v-for="record in template"
+              :key="record.id_fomo"
+            >
+              <md-icon class="fomo_icon">
+                {{ record.fomoIcon }}
+                <span v-if="record.fomoNotification">{{
+                  record.fomoNotification
+                }}</span>
+              </md-icon>
+              <div class="fomo_details">
+                <h3>{{ record.title }}</h3>
+              </div>
+              <md-button :md-ripple="false" class="md-dense btn">Add</md-button>
+            </div>
+          </div>
+          <div class="titleBlock">
+            <h2>Upcoming templates</h2>
+          </div>
+          <div class="newFomoList">
+            <div class="upcomingFomoList"></div>
             <div
               class="new_list"
               v-for="record in records"
@@ -140,18 +168,20 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "FomoListing",
   data: function() {
     return {
       bol: 1,
-      listData: [],
-      info: null,
+      listData: null,
+      template: [],
       loading: true,
       errored: false,
       emailMessage: false,
       emailResponse: null,
+      loader: false,
 
       statuses: [
         { count: "147,789", attr: "Active clicks" },
@@ -165,74 +195,7 @@ export default {
       notification2: " (3)",
       tab3: "Drafts",
       notification3: " (10)",
-      datasActive: [
-        {
-          id_email: 6,
-          fomoName: "Welcome Bonus",
-          category: "Bonus Point",
-          clicks: "12,789",
-          visibleGreen: "icon-Users",
-          visiblePink: "icon-Users",
-          visibleOrange: "icon-Users",
-          action: "icon-lineedit",
-          is_enabled: 1,
-          show_disable: 1
-        },
-        {
-          id_email: 2,
-          fomoName: "You get 5. Your friend get(s) 50.",
-          category: "Referral",
-          clicks: "12,789",
-          visibleGreen: "icon-Users",
-          visiblePink: "icon-Users",
-          visibleOrange: "icon-Users",
-          action: "icon-lineedit",
-          is_enabled: 1,
-          show_disable: 1
-        },
-        {
-          id_email: 3,
-          fomoName: "Custom FOMO",
-          category: "Custom",
-          clicks: "12,789",
-          visibleGreen: "icon-Users",
-          visiblePink: "icon-Users",
-          visibleOrange: "icon-Users",
-          action: "icon-lineedit",
-          is_enabled: 1,
-          show_disable: 1
-        },
-        {
-          id_email: 4,
-          fomoName: "Gust User FOMO",
-          category: "Pay with Points",
-          clicks: "12,789",
-          visibleGreen: "icon-Users",
-          visiblePink: "icon-Users",
-          visibleOrange: "icon-Users",
-          action: "icon-lineedit",
-          is_enabled: 1,
-          show_disable: 1
-        },
-        {
-          id_email: 5,
-          fomoName: "Subscribe to our newsletter",
-          category: "Newsletter",
-          clicks: "12,789",
-          visibleGreen: "icon-Users",
-          visiblePink: "icon-Users",
-          visibleOrange: "icon-Users",
-          action: "icon-lineedit",
-          is_enabled: 1,
-          show_disable: 0
-        }
-      ],
       records: [
-        {
-          fomoIcon: "settings",
-          fomoHead: "Signup Bonus",
-          fomoNotification: "3"
-        },
         {
           fomoIcon: "mail_outline",
           fomoHead: "Newsletter",
@@ -265,23 +228,43 @@ export default {
     };
   },
   mixins: ["createFormData"],
-  computed: {
-    activeList: function() {
-      return this.listData.filter(({ is_enabled }) => is_enabled == 1);
+  computed: { Loader },
+  methods: {
+    fetchListData: function() {
+      Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1")
+
+        .then(response => {
+          this.listData = response.data;
+        })
+
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+
+        .finally(() => (this.loading = false));
     },
-    inactiveList: function() {
-      return this.listData.filter(({ is_enabled }) => is_enabled == 0);
+
+    fetchViewTemplateData: function() {
+      Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomos")
+
+        .then(response => {
+          const { fomos } = response.data.data;
+          console.log("@@@", response);
+          this.template = fomos;
+        })
+
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+
+        .finally(() => (this.loading = false));
     }
   },
-  methods: {},
   mounted: function() {
-    Axios.get("https://jai.devam.pro/gr/admin/fomo/getFomo/1")
-      .then(response => (this.info = response))
-      .catch(error => {
-        console.log(error);
-        this.errored = true;
-      })
-      .finally(() => (this.loading = false));
+    this.fetchListData();
+    this.fetchViewTemplateData();
   }
 };
 </script>
@@ -644,6 +627,21 @@ export default {
         }
       }
     }
+  }
+}
+
+.newFomoList {
+  position: relative;
+
+  .upcomingFomoList {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9;
+    opacity: 0.7;
+    left: 0;
+    top: 0;
   }
 }
 </style>

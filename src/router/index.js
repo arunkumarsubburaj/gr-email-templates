@@ -39,8 +39,9 @@ const routes = [
     component: FomoSelectTemplate
   },
   {
-    path: "/view/fomo/templates/edit",
+    path: "/view/fomo/templates/:fomoId",
     name: "FomoEditTemplate",
+    props: true,
     component: FomoEditTemplate
   }
 ];
