@@ -1136,5 +1136,238 @@
 			"rows": 4,
 			"value": "Best wishes <br>[[Referrer Name]]"
 		}
+	},
+	"celebrate_events_1": {
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#f1a9db"
+		},
+		"title": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Title Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<h5 style='color:#fff;'>Hi [[Name]]!</h5><h2>It’s your [[Event Name]]!</h2>"
+		},
+		"description": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Earn rewards for inviting your<br>friends to sign up to our promotion"
+		},
+		"pointstext": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Points text",
+			"max_length": 100,
+			"rows": 4,
+			"value": "[[NB Points]]"
+		},
+		"couponstext": {
+			"type": "text",
+			"show_dynamic_variables": 1,
+			"label": "Coupons text",
+			"max_length": 100,
+			"rows": 4,
+			"value": "[[Coupons]]"
+		},
+		"footertext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<small>*Subject to purchase, Valid until 21/01/2021</small><br><p>You can claim a whole range of exciting products and rewards. They’ll add that little extra sparkle to your day.</p><h4>We hope you have a great time!</h4>"
+		},
+		"celebrate_events_2": {
+			"mainbgcolor": {
+				"type": "color",
+				"label": "Main Background color",
+				"value": "#8bc8cb"
+			},
+			"subbgcolor": {
+				"type": "color",
+				"label": "Sub Background color",
+				"value": "#fc6e4e"
+			},
+			"highlightcolor": {
+				"type": "color",
+				"label": "Highlight color",
+				"value": "#fc6e4e"
+			},
+			"headtext": {
+				"type": "textarea",
+				"show_dynamic_variables": 1,
+				"label": "Head Text",
+				"max_length": 3000,
+				"rows": 4,
+				"value": "<p style='color: #000000;font-family: Arial, sans-serif;font-weight:bold;font-size: 18px;line-height: 26px;padding: 0 0 20px 0;margin: 0;'>Hi [[Name]]!</p><p style='margin: 0;color: [[highlightcolor]]; font-family: Arial, sans-serif;font-size: 35px;line-height: 39px; font-weight:bold;display: inline-block;padding: 0 0 20px 0;border-radius: 10px;'>It’s your birthday!</p><p style='color: #000000;font-family: Arial, sans-serif;font-weight:normal;font-size: 18px;line-height: 22px;padding: 0;margin: 0;'>Earn rewards for inviting your<br>friends to sign up to our promotion</p>"
+			},
+			"pointstext": {
+				"type": "text",
+				"show_dynamic_variables": 1,
+				"label": "Points text",
+				"max_length": 100,
+				"rows": 4,
+				"value": "[[NB Points]]"
+			},
+			"couponstext": {
+				"type": "text",
+				"show_dynamic_variables": 1,
+				"label": "Coupons text",
+				"max_length": 100,
+				"rows": 4,
+				"value": "[[Coupons]]"
+			},
+			"foottext": {
+				"type": "textarea",
+				"show_dynamic_variables": 1,
+				"label": "Footer Text",
+				"max_length": 3000,
+				"rows": 4,
+				"value": "<p style='color: #000000;font-family: Arial, sans-serif;font-size: 12px; font-weight:normal;line-height: 17px;padding: 25px 0;margin: 0;'>*Subject to purchase, Valid until 21/01/2021<br><br>You can claim a whole range of exciting products and rewards. They’ll add that little extra sparkle to your day.</p><p style='color: [[highlightcolor]];font-family: Arial, sans-serif;font-size: 18px; font-weight:bold;line-height: 22px;padding: 0px 0 50px 0;margin: 0;'>We hope you have a great time!<br></p>"
+			}
+		},
+		"celebrate_events_3": {
+			"headtext": {
+				"type": "textarea",
+				"show_dynamic_variables": 1,
+				"label": "Head Text",
+				"max_length": 3000,
+				"rows": 4,
+				"value": "<p style='color: #ffffff;font-family: Arial, sans-serif;font-weight:bold;font-size: 18px;line-height: 26px;padding: 0 0 20px 0;margin: 0;'>Hi [[Name]]!</p><p href='#' style='margin: 0;color: #8d5e2a; font-family: Arial, sans-serif;font-size: 40px;line-height: 39px; font-weight:bold;display: inline-block;padding: 0 0 20px 0;border-radius: 10px;'>It’s your Anniversary!</p><p style='color: #876d60;font-family: Arial, sans-serif;font-weight:normal;font-size: 17px;line-height: 20px;padding: 0 0 20px 0;margin: 0;'>Earn rewards for inviting your<br>friends to sign up to our promotion</p>"
+			},
+			"pointstext": {
+				"type": "text",
+				"show_dynamic_variables": 1,
+				"label": "Points text",
+				"max_length": 100,
+				"rows": 4,
+				"value": "[[NB Points]]"
+			},
+			"couponstext": {
+				"type": "text",
+				"show_dynamic_variables": 1,
+				"label": "Coupons text",
+				"max_length": 100,
+				"rows": 4,
+				"value": "[[Coupons]]"
+			},
+			"foottext": {
+				"type": "textarea",
+				"show_dynamic_variables": 1,
+				"label": "Footer Text",
+				"max_length": 3000,
+				"rows": 4,
+				"value": "<p style='color: #000000;font-family: Arial, sans-serif;font-size: 12px; font-weight:normal;line-height: 17px;padding: 25px 0;margin: 0;'> *Subject to purchase, Valid until 21/01/2021<br><br>You can claim a whole range of exciting products and rewards. They’ll add that little extra sparkle to your day.</p><p style='color: #8d5e2a;font-family: Arial, sans-serif;font-size: 18px; font-weight:bold;line-height: 22px;padding: 0px 0 50px 0;margin: 0;'> We hope you have a great time!</p>"
+			}
+		}
+	},
+	"loyalty_referral_reward_1": {
+		"headtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Head Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<p style='color: #ffffff;font-family: Arial, sans-serif;font-weight:bold;font-size: 18px;line-height: 26px;padding: 0 0 20px 0;margin: 0;'> Hi [[Name]]!</p><p href='#' style='margin: 0;color: #fdbf2e; font-family: Arial, sans-serif;font-size: 18px;line-height: 22px; font-weight:normal;padding: 0 0 20px 0;'>Thank you for shopping<br>at our [[Business Name]]</p><p style='margin: 0;color: #ffffff; font-family: Arial, sans-serif;font-size: 18px;line-height: 22px; font-weight:normal;padding: 0 0 20px 0;'> Now you can earn more rewards &amp; points!</p>"
+		},
+		"desctext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Forward your unique referral URL to your friends. They will see an offer when they visit our store on clicking your unique referral link below:<span style='display: block; color: #f67448;'>[[Referral URL]]</span>"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "When they shop at our store, you get additional rewards.<br>Thank you once again for shopping with us.<br><br>Regards, [[Business Name]]"
+		}
+	},
+	"loyalty_referral_reward_2": {
+		"headtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Head Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<p style='color: #333333;font-family: Arial, sans-serif;font-weight:normal;font-size: 18px;line-height: 26px;padding: 0 0 10px 0;margin: 0;'> Hey! I thought you might like this store.</p><p href='#' style='margin: 0;color: #ff457a; font-family: Arial, sans-serif;font-size: 18px;line-height: 22px; font-weight:bold;padding: 0 0 20px 0;'> They have some awesome<br>products that I think you’ll love!</p>"
+		},
+		"desctext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Forward your unique referral URL to your friends. They will see an offer when they visit our store on clicking your unique referral link below:"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "When they shop at our store, you get additional rewards.<br>Thank you once again for shopping with us.<br><br>Regards, [[Business Name]]"
+		}
+	},
+	"loyalty_referral_reward_3": {
+		"mainbgcolor": {
+			"type": "color",
+			"label": "Main Background color",
+			"value": "#251b3d"
+		},
+		"subbgcolor": {
+			"type": "color",
+			"label": "Sub Background color",
+			"value": "#ea6868"
+		},
+		"highlightcolor": {
+			"type": "color",
+			"label": "Highlight color",
+			"value": "#ffead5"
+		},
+		"main_image": {
+			"type": "file",
+			"label": "Main image",
+			"value": ""
+		},
+		"headtext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Head Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "<p style='color: #fa6e82;font-family: Arial, sans-serif;font-weight:normal;font-size: 18px;line-height: 26px;padding: 0 0 10px 0;margin: 0;'> Hey! I thought you might like this store.</p><p style='margin: 0;color: #fa6e82; font-family: Arial, sans-serif;font-size: 18px;line-height: 22px; font-weight:bold;padding: 0 0 20px 0;'> They have some awesome<br>products that I think you’ll love!</p>"
+		},
+		"desctext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Description Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "Forward your unique referral URL to your friends. They will see an offer when they visit our store on clicking your unique referral link below:"
+		},
+		"foottext": {
+			"type": "textarea",
+			"show_dynamic_variables": 1,
+			"label": "Footer Text",
+			"max_length": 3000,
+			"rows": 4,
+			"value": "When they shop at our store, you get additional rewards.<br>Thank you once again for shopping with us.<br><br>Regards, [[Business Name]]"
+		}
 	}
 }

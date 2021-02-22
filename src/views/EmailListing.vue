@@ -154,7 +154,7 @@ export default {
     };
   },
   components: { Loader },
-  mixins: ["createFormData", "getBaseUrl"],
+  mixins: ["createFormData"],
   computed: {
     activeList: function () {
       return this.listData.filter(({ is_enabled }) => is_enabled == 1);
@@ -175,7 +175,7 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        `${this.getBaseUrl()}/services/email/updateEmailStatus`,
+        `${Config.callback_url}/services/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
@@ -194,7 +194,7 @@ export default {
     sendTestEmail: function (id) {
       this.loader = true;
       Axios.post(
-        `${this.getBaseUrl()}/services/email/sendTestEmail`,
+        `${Config.callback_url}/services/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -208,7 +208,7 @@ export default {
   },
   mounted: function () {
     this.loader = true;
-    Axios.get(`${this.getBaseUrl()}/services/email/getEmailTemplates`).then(
+    Axios.get(`${Config.callback_url}/services/email/getEmailTemplates`).then(
       ({ data }) => {
         this.listData = data.data;
         this.loader = false;

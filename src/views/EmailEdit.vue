@@ -4,7 +4,7 @@
       <div class="email" v-if="editPageView">
         <div class="fixedHeaderBlock">
           <div class="fixedHeaderBlockInner">
-            <a class="link-back" @click.prevent="() => history.back()">
+            <a class="link-back" @click.prevent="handleBack">
               <i class="fa fa-long-arrow-left"></i>
             </a>
             <div class="title">
@@ -166,6 +166,7 @@
           :data="allData"
           :close="togglePageview"
           :save="handleChooseTemplate"
+          :fromEditPage="fromEditPage"
         />
       </div>
     </div>
@@ -188,9 +189,10 @@ export default {
     EmailTemplates,
     Loader,
   },
-  mixins: ["createFormData", "renderTemplate", "getBaseUrl"],
+  mixins: ["createFormData", "renderTemplate"],
   data: function () {
     return {
+
       upgrade: true,
       editPageView: false,
       id: this.$route.params.emailId,
@@ -203,6 +205,7 @@ export default {
       emailMessage: false,
       emailResponse: null,
       loader: false,
+      fromEditPage: false,
     };
   },
   computed: {
@@ -215,6 +218,7 @@ export default {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
     },
     togglePageview: function () {
+      if(!this.editPageView) this.fromEditPage = true;
       this.editPageView = !this.editPageView;
     },
     editorReady: function (e, name) {
@@ -228,7 +232,7 @@ export default {
       formData.append("suffix", "header_image");
       formData.append("id_template", 1);
 
-      Axios.post(`${this.getBaseUrl()}/S3Uploader/emailTemplate`, formData)
+      Axios.post(`${Config.callback_url}/S3Uploader/emailTemplate`, formData)
         .then(({ data }) => {
           this.loader = false;
           if (!data.error) {
@@ -273,14 +277,15 @@ export default {
         subject: subject,
         id_theme: id_theme,
         type: tpl_name,
-        is_enabled: status,
+        is_enabled: 1,
         settings: {},
       };
       Object.keys(json_fields).map(
         (key) => (params.settings[key] = json_fields[key].value)
       );
+      console.log(params)
       Axios.post(
-        `${this.getBaseUrl()}/services/email/saveEmailTemplate`,
+        `${Config.callback_url}/services/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -301,7 +306,7 @@ export default {
     sendTestEmail: function () {
       this.loader = true;
       Axios.post(
-        `${this.getBaseUrl()}/services/email/sendTestEmail`,
+        `${Config.callback_url}/services/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -315,7 +320,7 @@ export default {
     fetchTemplateData: function () {
       this.loader = true;
       Axios.get(
-        `${this.getBaseUrl()}/services/email/getEmailTemplate/${this.id}`
+        `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
         const { active_id_theme, dynamic_variables, themes } = data.data;
         this.dVars = dynamic_variables.split(",");
@@ -325,6 +330,9 @@ export default {
         this.loader = false;
       });
     },
+    handleBack: function() {
+      window.history.back();
+    }
   },
   mounted: function () {
     this.fetchTemplateData();

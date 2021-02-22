@@ -2,7 +2,7 @@
   <div class="changeTemplateView">
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
-        <a class="link-back" @click.prevent="close">
+        <a class="link-back" @click.prevent="handleBack">
           <i class="fa fa-long-arrow-left"></i>
         </a>
         <div class="title">
@@ -55,10 +55,14 @@
 <script>
   export default {
     name: "EmailTemplates",
-    props: ["data", "close", "save"],
-    mixins: ["getBaseUrl"],
+    props: ["data", "close", "save", "fromEditPage"],
     methods: {
-      getImg: function(id) { return `${this.getBaseUrl()}/public/assets/img/email_assets/email_template_${id}.png`}
+      getImg: function(id) { return `${Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
+      handleBack: function() {
+        if(this.fromEditPage) {
+          this.close()
+        } else window.history.back();
+      }
     }
   };
 </script>

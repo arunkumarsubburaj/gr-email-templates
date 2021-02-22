@@ -39,8 +39,7 @@ Vue.mixin({
         }
       }
       return formData;
-    },
-    getBaseUrl: () => new RegExp('localhost|github').test(window.location.origin) ? 'https://gr-v1.devam.pro' : ''
+    }
   },
 });
 
