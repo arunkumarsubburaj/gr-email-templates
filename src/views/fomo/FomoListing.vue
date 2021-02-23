@@ -75,7 +75,9 @@
                           </label>
                         </td>
                         <td class="align-center">
-                          <router-link :to="'../../../view/fomo/templates/' + data.id_fomo">
+                          <router-link
+                            :to="'../../../view/fomo/templates/' + data.id_fomo"
+                          >
                             <md-icon>edit</md-icon>
                           </router-link>
                         </td>
@@ -113,7 +115,11 @@
               <div class="fomo_details">
                 <h3>{{ record.title }}</h3>
               </div>
-              <md-button :md-ripple="false" class="md-dense btn">Add</md-button>
+              <router-link :to="'../../../view/fomo/templates/'">
+                <md-button :md-ripple="false" class="md-dense btn"
+                  >Add</md-button
+                >
+              </router-link>
             </div>
           </div>
           <div class="titleBlock">
@@ -168,7 +174,7 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
-import Loader from "@/components/Loader.vue";
+//import Loader from "@/components/Loader.vue";
 
 export default {
   name: "FomoListing",
@@ -181,7 +187,7 @@ export default {
       errored: false,
       emailMessage: false,
       emailResponse: null,
-      loader: false,
+      //loader: false,
 
       statuses: [
         { count: "147,789", attr: "Active clicks" },
@@ -228,7 +234,7 @@ export default {
     };
   },
   mixins: ["createFormData"],
-  computed: { Loader },
+  computed: {},
   methods: {
     fetchListData: function() {
       Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1")

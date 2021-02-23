@@ -152,9 +152,9 @@ export default {
 }
 </style>
 <style lang="less">
-  .vc-chrome {
-      position: absolute;
-      right: -6px;
-      top: 30px;
-  }
+.vc-chrome {
+  position: absolute;
+  right: -6px;
+  top: 30px;
+}
 </style>
