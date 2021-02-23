@@ -82,7 +82,7 @@
       <div class="header_block">
         <h2>Select template</h2>
       </div>
-      <div class="choose_template_block">
+      <!--<div class="choose_template_block">
         <div
           class="template"
           v-bind:class="[{ disabled: !isActive }]"
@@ -99,12 +99,11 @@
                 <md-icon class="btn-close" v-if="template.btnClose !== ''">{{
                   template.btnClose
                 }}</md-icon>
-                <a
-                  v-if="template.linkClose !== ''"
-                  href="#"
-                  class="link-close"
-                  >{{ template.linkClose }}</a
-                >
+                <div class="outer link-close" v-if="template.linkClose !== ''">
+                  <div class="inner">
+                    <label>{{ template.linkClose }}</label>
+                  </div>
+                </div>
                 <p v-if="template.subTitle !== ''">{{ template.subTitle }}</p>
                 <h3 v-if="template.title !== ''">{{ template.title }}</h3>
                 <p v-if="template.desc !== ''">{{ template.desc }}</p>
@@ -123,6 +122,44 @@
             <a href="#" class="btn btn-edit">Select & Edit</a>
           </div>
         </div>
+      </div>-->
+      <div class="choose_template_block">
+        <div
+          class="template"
+          v-bind:class="[{ disabled: !isActive }]"
+          v-for="template in templateData.templates"
+          :key="template.id_template"
+        >
+          <div class="template-overlay"></div>
+          <p class="template-overlay-msg">
+            Enable welcome bonus points to use this template
+          </p>
+          <div class="template-inner">
+            <div :class="'template-inner-' + template.id_template">
+              <div :class="'template-inner-' + template.id_template + '-inner'">
+                <md-icon class="btn-close" v-if="template.btnClose !== ''">{{
+                  template.btnClose
+                }}</md-icon>
+                <div class="outer link-close" v-if="template.linkClose !== ''">
+                  <div class="inner">
+                    <label>{{ template.linkClose }}</label>
+                  </div>
+                </div>
+                <a v-if="template.buttons !== ''" href="#" class="btn">{{
+                  template.buttons
+                }}</a>
+                <div v-if="template.count !== ''" class="pts rotate">
+                  111
+                  <p>dfbfgbfgb</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="template-info">
+            <p>Welcome Bonus Point</p>
+            <a href="#" class="btn btn-edit">Select & Edit</a>
+          </div>
+        </div>
       </div>
 
       <p class="upcomingTemplate">
@@ -132,6 +169,8 @@
   </div>
 </template>
 <script>
+import Axios from "axios";
+
 export default {
   name: "SelectTemplates",
   props: ["data", "close", "save"],
@@ -140,78 +179,8 @@ export default {
     return {
       isChecked: false,
       isActive: false,
-
-      templates: [
-        {
-          id: "1",
-          subTitle: "",
-          title:
-            "Sign up now and explore exclusive deals for this festive seasons",
-          desc: "",
-          btnSignup: "SIGN UP NOW",
-          count: "",
-          countDesc: "",
-          btnClose: "close",
-          linkClose: ""
-        },
-        {
-          id: "2",
-          subTitle: "Hi FRIEND,",
-          title: "Sign up now to get welcome points!",
-          desc: "",
-          btnSignup: "",
-          count: "100",
-          countDesc: "welcome points",
-          btnClose: "",
-          linkClose: "Close"
-        },
-        {
-          id: "3",
-          subTitle: "Hi FRIEND,",
-          title: "Sign up now to get exicting offers!",
-          desc: "",
-          btnSignup: "Sign up",
-          count: "",
-          countDesc: "",
-          btnClose: "close",
-          linkClose: ""
-        },
-        {
-          id: "4",
-          subTitle: "",
-          title: "HEY FRIEND!",
-          desc:
-            "Sign up now and explore exiciting deals during this festive seasons",
-          btnSignup: "Sign up now",
-          count: "",
-          countDesc: "",
-          btnClose: "",
-          linkClose: "Close"
-        },
-        {
-          id: "5",
-          subTitle: "",
-          title: "New to [[website_Name]]?",
-          desc:
-            "Sign up now and explore exclusive deals for this festive seasons",
-          btnSignup: "Sign up now",
-          count: "",
-          countDesc: "",
-          btnClose: "close",
-          linkClose: ""
-        },
-        {
-          id: "6",
-          subTitle: "",
-          title: "CONGRATULATIONS!",
-          desc: "Sign up and explore exiciting deals + Coupon",
-          btnSignup: "GRCOUPON",
-          count: "",
-          countDesc: "",
-          btnClose: "close",
-          linkClose: ""
-        }
-      ]
+      templateData: null,
+      contentData: null,
     };
   },
 
@@ -219,6 +188,15 @@ export default {
     changeDisabled() {
       this.isActive = !this.isActive;
     }
+  },
+  mounted: function() {
+    Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1").then(
+      ({ data }) => {
+        this.templateData = data.data;
+
+        console.log("@@@", data);
+      }
+    );
   }
 };
 </script>
@@ -441,21 +419,82 @@ export default {
         position: absolute;
         top: -8px;
         right: -8px;
+        transition: transform 0.5s, opacity 0.25s;
+        cursor: pointer;
 
         &:hover,
         &:focus {
           text-decoration: none;
         }
-      }
 
-      .link-close {
-        color: #eee;
-        font-size: 12px;
-        padding: 5px;
-        text-decoration: underline;
+        &:hover {
+          transform: rotate(180deg);
+        }
+      }
+      .outer.link-close {
+        position: relative;
+        margin: auto;
+        width: 40px;
+        text-decoration: none;
         position: absolute;
         right: calc(50% - 20px);
-        bottom: -40px;
+        bottom: -30px;
+      }
+
+      .inner {
+        width: inherit;
+        text-align: center;
+      }
+
+      .outer label {
+        font-size: 12px;
+        line-height: 2em;
+        color: #fff;
+        transition: all 0.3s ease-in;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .outer .inner:before,
+      .outer .inner:after {
+        position: absolute;
+        content: "";
+        height: 1px;
+        width: inherit;
+        background: #fff;
+        left: 0;
+        transition: all 0.3s ease-in;
+      }
+
+      .outer:hover .inner:before {
+        top: 50%;
+        transform: rotate(45deg);
+      }
+
+      .outer:hover .inner:after {
+        bottom: 50%;
+        transform: rotate(-45deg);
+      }
+
+      .outer label {
+        opacity: 1;
+      }
+
+      .outer:hover label {
+        opacity: 0;
+      }
+
+      .outer .inner:before,
+      .outer .inner:after {
+        transform: rotate(0);
+      }
+
+      .outer .inner:before {
+        top: 0;
+      }
+
+      .outer .inner:after {
+        bottom: 0;
       }
     }
   }

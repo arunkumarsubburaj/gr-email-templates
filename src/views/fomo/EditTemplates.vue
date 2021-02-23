@@ -63,10 +63,7 @@
           </div>
           <div class="item-sub" v-if="isToggleLayout">
             <ul class="chooseImg">
-              <li
-                v-for="chooselayout in chooselayouts"
-                :key="chooselayout.id"
-              >
+              <li v-for="chooselayout in chooselayouts" :key="chooselayout.id">
                 <img
                   src="../../assets/fomo/layout_row.png"
                   :alt="chooselayout.name"
@@ -102,10 +99,12 @@
                   Setup messages
               </textarea
             >
-            
-                      <ckeditor
-                        :editor="editor"
-                      ></ckeditor>
+
+            <ckeditor
+              :editor="editor"
+              v-model="setupMsg"
+              @ready="e => editorReady(e, name)"
+            ></ckeditor>
             <div class="height-10"></div>
             <label class="control-label">Sub Title</label>
             <textarea class="textarea-block" ng-model="subTitleText">
@@ -175,10 +174,8 @@
             <div class="height-1 bg-gray margin-top-20 margin-bottom-20"></div>
             <div class="form-group dis-flex">
               <label>Color Overlay</label>
-              
-                      <ColorPicker
-                        color="#ff0000"
-                      ></ColorPicker>
+
+              <ColorPicker color="#ff0000"></ColorPicker>
             </div>
             <div class="form-group dis-flex">
               <label>Fields</label>
@@ -532,7 +529,7 @@
           <div class="template-inner-6">
             <div class="template-inner-6-inner">
               <div>
-                <h3>CONGRATULATIONS!</h3>
+                <h3>{{ setupMsg }}</h3>
                 <p>Sign up and explore exiciting deals + Coupon</p>
               </div>
               <div class="split"></div>
@@ -571,15 +568,18 @@
 import Axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ColorPicker from "../../components/ColorPicker";
+//import CustomVariables from "../../components/CustomVariables.vue";
 
 export default {
   name: "EditTemplate",
   components: {
-    ColorPicker
+    ColorPicker,
+    //CustomVariables
   },
   data: function() {
     return {
       id: this.$route.params.fomoId,
+      listData: null,
       isToggleDisplay: false,
       isToggleBasic: false,
       isToggleLayout: false,
@@ -600,6 +600,7 @@ export default {
       selectedShow: "",
       selectedFrequency: "",
       selectedPosition: "",
+      setupMsg: "CONGRATULATIONS!",
       message:
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/H4SXxphcII8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
       basicSettings: [
@@ -666,17 +667,17 @@ export default {
     },
     editorReady: function(e, name) {
       this.ckEditor[name] = e;
-    },
+    }
     //ChooseLayout: function(event) {
-      //this.targetId = event.chooselayout.id;
-      //console.log(this.targetId); // returns 'foo'
+    //this.targetId = event.chooselayout.id;
+    //console.log(this.targetId); // returns 'foo'
     //}
   },
   mounted: function() {
     Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1").then(
       ({ data }) => {
-        (this.listData = data.data)
-        
+        this.listData = data.data;
+
         console.log("@@@", data);
       }
     );
