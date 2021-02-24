@@ -175,7 +175,7 @@
 </template>
 <script>
 import Axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import EmailTemplates from "./EmailTemplates.vue";
@@ -192,7 +192,6 @@ export default {
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
     return {
-
       upgrade: true,
       editPageView: false,
       id: this.$route.params.emailId,
@@ -401,6 +400,23 @@ export default {
 
 .email {
   margin: 0 0 7em 0;
+  .color-picker .color-picker-container {
+    position: relative;
+    right: 30px;
+    top: 8px;
+    padding: 0px;
+    margin: 0;
+    z-index: 12;
+    vertical-align: baseline;
+    background: none;
+    border: none;
+    display: inline;
+    .vc-chrome {
+      position: relative;
+      right: -30px;
+      top: -8px;
+    }
+  }
 
   .md-list {
     padding: 0;
