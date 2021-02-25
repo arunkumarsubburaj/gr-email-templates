@@ -9,12 +9,10 @@
 // import Home from "@/views/Home.vue";
 import Vue from "vue";
 import VueMaterial from "vue-material";
-import CKEditor from "@ckeditor/ckeditor5-vue2";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
 
 Vue.use(VueMaterial);
-Vue.use(CKEditor);
 
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
@@ -157,10 +155,11 @@ export default {
   top: 0;
   display: flex;
   z-index: 9999;
-  width: 100%;
+  right: 0;
+  left: 64px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 1px 1px 3px 0px rgb(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 1px 0px rgb(0, 0, 0, 0.2);
   .show-notification & {
     top: 36px;
   }

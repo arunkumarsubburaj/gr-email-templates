@@ -21,7 +21,7 @@
             >
           </div>
         </div>
-        <div class="upgradeBlock" v-if="upgrade">
+        <div class="upgradeBlock" v-if="isWl == 0">
           <p>
             Would you like to upgrade to our premium services? Have your own
             branding
@@ -29,9 +29,7 @@
           <md-button href="#/plan" class="md-raised btnUpgrade"
             >Upgrade now</md-button
           >
-          <md-button
-            @click.prevent="upgrade = false"
-            class="md-raised btnNotnow"
+          <md-button @click.prevent="isWl = 1" class="md-raised btnNotnow"
             >Not now</md-button
           >
         </div>
@@ -86,11 +84,11 @@
                           :click="appendVarToKey"
                         />
                       </div>
-                      <ckeditor
-                        :editor="editor"
+                      <quillEditor
                         v-model="item.value"
-                        @ready="(e) => editorReady(e, name)"
-                      ></ckeditor>
+                        @focus="onEditorFocus($event, name)"
+                        :ref="name"
+                      ></quillEditor>
                     </div>
                     <div v-if="item.type == 'file'">
                       <div class="subTitle">
@@ -175,7 +173,10 @@
 </template>
 <script>
 import Axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
+import { quillEditor } from "vue-quill-editor"; // require styles
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import EmailTemplates from "./EmailTemplates.vue";
@@ -188,19 +189,19 @@ export default {
     CustomVariables,
     EmailTemplates,
     Loader,
+    quillEditor,
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
     return {
-      upgrade: true,
+      isWl: 1,
       editPageView: false,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
       activeThemeId: null,
       dVars: null,
-      editor: ClassicEditor,
-      ckEditor: {},
+      quillEditor: {},
       emailMessage: false,
       emailResponse: null,
       loader: false,
@@ -217,18 +218,18 @@ export default {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
     },
     togglePageview: function () {
-      if(!this.editPageView) this.fromEditPage = true;
+      if (!this.editPageView) this.fromEditPage = true;
       this.editPageView = !this.editPageView;
     },
-    editorReady: function (e, name) {
-      this.ckEditor[name] = e;
+    onEditorFocus: function (quill, name) {
+      this.quillEditor[name] = quill.selection.savedRange.index;
     },
     handleFileChange: function (e, name) {
       const file = e.target.files[0];
       this.loader = true;
       let formData = new FormData();
       formData.append("Filedata", file);
-      formData.append("suffix", "header_image");
+      formData.append("suffix", name);
       formData.append("id_template", 1);
 
       Axios.post(`${Config.callback_url}/S3Uploader/emailTemplate`, formData)
@@ -251,12 +252,8 @@ export default {
     appendVarToKey: function (name, item) {
       const { type, value } = this.eData.json_fields[name];
       if (type == "textarea") {
-        this.ckEditor[name].model.change((writer) => {
-          writer.insertText(
-            item,
-            this.ckEditor[name].model.document.selection.getFirstPosition()
-          );
-        });
+        const position = this.quillEditor[name] || 0;
+        this.$refs[name][0].quill.insertText(position, item);
       } else {
         const index = this.$refs[name][0].selectionStart;
         const text = value.slice(0, index) + item + value.slice(index);
@@ -282,7 +279,7 @@ export default {
       Object.keys(json_fields).map(
         (key) => (params.settings[key] = json_fields[key].value)
       );
-      console.log(params)
+      console.log(params);
       Axios.post(
         `${Config.callback_url}/services/email/saveEmailTemplate`,
         this.createFormData(params)
@@ -321,17 +318,18 @@ export default {
       Axios.get(
         `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
-        const { active_id_theme, dynamic_variables, themes } = data.data;
+        const { active_id_theme, dynamic_variables, themes, is_wl } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
+        this.isWl = is_wl;
         this.activeThemeId = active_id_theme;
         this.setEdata(active_id_theme);
         this.loader = false;
       });
     },
-    handleBack: function() {
+    handleBack: function () {
       window.history.back();
-    }
+    },
   },
   mounted: function () {
     this.fetchTemplateData();
