@@ -13,16 +13,12 @@
         </div>
         <div class="header_block-status">
           visible only to:
-          <span class="status-btn">
-            All visitors
-          </span>
+          <span class="status-btn"> All visitors </span>
           <span class="status-btn status-btn-active dis-flex-noJustify">
             <md-icon class="icon-checkmark">done</md-icon>
             <span>Logged out</span>
           </span>
-          <span class="status-btn">
-            Logged in
-          </span>
+          <span class="status-btn"> Logged in </span>
           <span class="status-btn status-btn-active dis-flex-noJustify">
             <md-icon class="icon-checkmark">done</md-icon>
             <span>Guest</span>
@@ -45,7 +41,12 @@
             id=""
             class="form-control form-control-sm"
             value="100"
-            style="width: 60px;min-width: 0;vertical-align: initial;margin: 0 8px;"
+            style="
+              width: 60px;
+              min-width: 0;
+              vertical-align: initial;
+              margin: 0 8px;
+            "
             maxlength="6"
             :disabled="!isActive"
           />
@@ -137,27 +138,46 @@
           <div class="template-inner">
             <div :class="'template-inner-' + template.id_template">
               <div :class="'template-inner-' + template.id_template + '-inner'">
-                <md-icon class="btn-close" v-if="template.btnClose !== ''">{{
-                  template.btnClose
-                }}</md-icon>
-                <div class="outer link-close" v-if="template.linkClose !== ''">
+                <md-icon
+                  class="btn-close"
+                  v-if="template.default_settings.close !== ''"
+                  >{{ template.default_settings.bg_img.overlay }}</md-icon
+                >
+                <div
+                  class="outer link-close"
+                  v-if="template.default_settings.close !== ''"
+                >
                   <div class="inner">
-                    <label>{{ template.linkClose }}</label>
+                    <label>{{
+                      template.default_settings.bg_img.overlay
+                    }}</label>
                   </div>
                 </div>
-                <a v-if="template.buttons !== ''" href="#" class="btn">{{
-                  template.buttons
-                }}</a>
-                <div v-if="template.count !== ''" class="pts rotate">
-                  111
-                  <p>dfbfgbfgb</p>
+                <div
+                  v-for="txt in template.default_settings.text_boxes"
+                  :key="txt.size"
+                >
+                  <p v-if="txt.subTitle !== ''">{{ txt.subTitle }}</p>
+                  <h3 v-if="txt.text !== ''">{{ txt.text }}</h3>
+                  <p v-if="txt.desc !== ''">{{ txt.desc }}</p>
                 </div>
+                <a
+                  v-for="CTA in template.default_settings.buttons"
+                  :key="CTA.bold"
+                  href="#"
+                  class="btn"
+                  >{{ CTA.text }}</a
+                >
               </div>
             </div>
           </div>
           <div class="template-info">
-            <p>Welcome Bonus Point</p>
-            <a href="#" class="btn btn-edit">Select & Edit</a>
+            <p>{{ templateData.title }}</p>
+            <router-link
+              :to="'../../../view/fomo/templates/' + templateData.id_fomo"
+              class="btn btn-edit"
+              >Select & Edit</router-link
+            >
           </div>
         </div>
       </div>
@@ -180,7 +200,7 @@ export default {
       isChecked: false,
       isActive: false,
       templateData: null,
-      contentData: null,
+      contentData: null
     };
   },
 
