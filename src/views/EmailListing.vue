@@ -217,7 +217,7 @@ export default {
       listData: [],
       emailMessage: false,
       emailResponse: null,
-      loader: false,
+      loader: false
     };
   },
   components: { Loader },
@@ -248,7 +248,7 @@ export default {
         this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-          this.listData = this.listData.map((item) =>
+          this.listData = this.listData.map(item =>
             item.id_email == id
               ? { ...item, is_enabled: params.is_enabled }
               : item
@@ -273,7 +273,7 @@ export default {
       });
     }
   },
-  mounted: function () {
+  mounted: function() {
     this.loader = true;
     Axios.get(
       `${window.Config.callback_url}/services/email/getEmailTemplates`

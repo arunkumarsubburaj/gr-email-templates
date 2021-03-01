@@ -22,6 +22,58 @@
       </div>
     </div>
 
+    <div class="info_block" v-bind:class="[{ disabled: !isActive }]">
+      <div class="info_block-spacing">
+        <h4 class="font-size-14">Welcome bonus points</h4>
+        <p v-if="isActive">
+          100 points = $5 <a href="#" class="info-link-blue">Change</a>
+        </p>
+      </div>
+      <div class="info_block-spacing">
+        <div class="form-group">
+          <input
+            type="text"
+            id=""
+            class="form-control form-control-sm"
+            value="100"
+            style="
+              width: 60px;
+              min-width: 0;
+              vertical-align: initial;
+              margin: 0 8px;
+            "
+            maxlength="6"
+            :disabled="!isActive"
+          />
+          <span>point(s)</span>
+        </div>
+      </div>
+      <div class="info_block-spacing highAlert">
+        <label class="switch margin-bottom-0" for="toggle_button">
+          <input
+            type="checkbox"
+            name="mainSwitch"
+            id="toggle_button"
+            :checked="isActive"
+            @click="changeDisabled()"
+          />
+          <i></i>
+        </label>
+        <span class="enabled" v-if="isActive">Enabled</span>
+        <span v-if="!isActive">Disabled</span>
+        <div v-if="!isActive" class="popBox">
+          <i class="fa fa-long-arrow-left"></i>
+          Enable welcome bonus point (Reward users when sign up)
+        </div>
+      </div>
+      <md-button
+        v-if="isActive"
+        @click.prevent="handleSave"
+        class="md-raised md-accent"
+        >Save</md-button
+      >
+    </div>
+
     <div class="editTemplate">
       <div class="settingsBlock">
         <!-- Basic settings -->
@@ -91,15 +143,6 @@
           </div>
           <div class="item-sub" v-if="isToggleSetUpMsg">
             <label class="control-label">Title Text</label>
-            <textarea
-              id="titleText"
-              class="textarea-block"
-              ng-model="titleText"
-            >
-                  Setup messages
-              </textarea
-            >
-
             <ckeditor
               :editor="editor"
               v-model="setupMsg"
@@ -107,10 +150,11 @@
             ></ckeditor>
             <div class="height-10"></div>
             <label class="control-label">Sub Title</label>
-            <textarea class="textarea-block" ng-model="subTitleText">
-                  Setup messages
-              </textarea
-            >
+            <ckeditor
+              :editor="editor"
+              v-model="setupMsgDesc"
+              @ready="e => editorReady(e, name)"
+            ></ckeditor>
           </div>
 
           <!-- Button Setup -->
@@ -530,7 +574,7 @@
             <div class="template-inner-6-inner">
               <div>
                 <h3>{{ setupMsg }}</h3>
-                <p>Sign up and explore exiciting deals + Coupon</p>
+                <p>{{ setupMsgDesc }}</p>
               </div>
               <div class="split"></div>
               <a class="btn">GRCOUPON</a>
@@ -573,12 +617,13 @@ import ColorPicker from "../../components/ColorPicker";
 export default {
   name: "EditTemplate",
   components: {
-    ColorPicker,
+    ColorPicker
     //CustomVariables
   },
   data: function() {
     return {
       id: this.$route.params.fomoId,
+      isActive: false,
       listData: null,
       isToggleDisplay: false,
       isToggleBasic: false,
@@ -601,6 +646,7 @@ export default {
       selectedFrequency: "",
       selectedPosition: "",
       setupMsg: "CONGRATULATIONS!",
+      setupMsgDesc: "Sign up and explore exiciting deals + Coupon!",
       message:
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/H4SXxphcII8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
       basicSettings: [
@@ -653,6 +699,9 @@ export default {
     }
   },
   methods: {
+    changeDisabled() {
+      this.isActive = !this.isActive;
+    },
     doCopy: function() {
       this.$copyText(this.message).then(
         function(e) {
@@ -717,8 +766,90 @@ export default {
   }
 }
 
+.info_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fef9ec;
+  border-bottom: 1px solid #ebecec;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  color: #333;
+  margin: 4em 0 20px;
+  padding: 15px 0;
+
+  &.disabled {
+    background: #ebecec;
+  }
+
+  .displayNone {
+    display: none;
+  }
+
+  .info_block-spacing {
+    padding: 0 20px;
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    h4,
+    p {
+      margin: 0;
+    }
+
+    .btn-space {
+      padding: 8px 25px;
+    }
+  }
+
+  .icon-info {
+    margin-right: 10px;
+  }
+
+  .info-link-blue {
+    color: #007aff !important;
+    margin-left: 10px;
+  }
+}
+
+/* PopBox */
+.popBox {
+  position: absolute;
+  background: #326ae0;
+  color: #fff;
+  padding: 20px;
+  border-radius: 0 20px 20px 20px;
+  top: 45px;
+  z-index: 1;
+  width: 250px;
+  line-height: 13px;
+  font-size: 11px;
+  display: flex;
+
+  i {
+    padding-right: 10px;
+  }
+}
+.highAlert {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 12px;
+    margin-left: 10px;
+    color: #d12e2e;
+
+    &.enabled {
+      color: #1bcc69;
+    }
+  }
+}
+
 .editTemplate {
-  margin: 8em 50px;
+  margin: 4em 50px;
   display: flex;
   justify-content: flex-start;
 
