@@ -7,13 +7,13 @@
         </a>
         <div class="title">
           <div class="icon far fa-bookmark margin-right-10"></div>
-          <span>Forget password email</span>
+          <span>{{title}}</span>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-75"><h1>Forgot email password</h1></div>
+        <div class="md-layout-item md-size-75"><h1>{{title}}</h1></div>
         <div class="md-layout-item md-size-25 dispMidRight">
           <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
           <!-- <md-button class="md-raised btn-custom-default">
@@ -55,7 +55,7 @@
 <script>
   export default {
     name: "EmailTemplates",
-    props: ["data", "close", "save", "fromEditPage"],
+    props: ["data", "close", "save", "fromEditPage", "title"],
     methods: {
       getImg: function(id) { return `${Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
       handleBack: function() {

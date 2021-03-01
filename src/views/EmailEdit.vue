@@ -9,7 +9,7 @@
             </a>
             <div class="title">
               <div class="icon far fa-envelope margin-right-10"></div>
-              <span>Welcome Email</span>
+              <span>{{emailTitle}}</span>
             </div>
           </div>
           <div>
@@ -165,6 +165,7 @@
           :close="togglePageview"
           :save="handleChooseTemplate"
           :fromEditPage="fromEditPage"
+          :title="emailTitle"
         />
       </div>
     </div>
@@ -200,6 +201,7 @@ export default {
       eData: null,
       allData: null,
       activeThemeId: null,
+      emailTitle: null,
       dVars: null,
       quillEditor: {},
       emailMessage: false,
@@ -318,11 +320,12 @@ export default {
       Axios.get(
         `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
-        const { active_id_theme, dynamic_variables, themes, is_wl } = data.data;
+        const { active_id_theme, dynamic_variables, themes, is_wl, title } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.isWl = is_wl;
         this.activeThemeId = active_id_theme;
+        this.emailTitle = title;
         this.setEdata(active_id_theme);
         this.loader = false;
       });
