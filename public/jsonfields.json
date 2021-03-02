@@ -1,0 +1,301 @@
+{
+	"data": {
+		"themes": [
+			{
+				"id_theme": 1,
+				"id_template": 0,
+				"tpl_name": "default_template",
+				"json_data": "",
+				"json_fields": {
+					"content": {
+						"type": "textarea",
+						"label": "Sub block text 1",
+						"max_length": 3000,
+						"show_dynamic_variables": 1,
+						"rows": 4,
+						"value": "<p>Hi [[Name]],</p><p>We are pleased to welcome you to our [[Campaign Name]]</p><p>Have you completed all the actions to earn the maximum rewards? Keep participating in our [[Campaign Name]] promotion for chances at more rewards!</p><p>More promotions may be on the way! Keep an eye out to win more rewards.</p><br><p>Good Luck!<br>[[Site Name]].</p>"
+					},
+					"header_image": { "type": "file", "label": "header image", "value": "" }
+				},
+				"subject": "Welcome to our [[Campaign Name]]",
+				"is_default": 1,
+				"status": 0,
+				"email_template": "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n  <tr>\n    <td>\n      <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"550\" style=\"padding: 30px 0 0;\">\n        <!-- <tr>\n          <td align=\"center\" bgcolor=\"#ffffff\">\n            <img src=\"https://gr-v1.devam.pro/public/assets/img/email_assets/header_password_1.png\"\n              alt=\"Email header\" width=\"550\" height=\"\" style=\"display: block;\" />\n          </td>\n        </tr> -->\n        <tr>\n          <td>\n            <img src=\"[[header_image]]\" alt=\"\">\n          </td>\n        </tr>\n        <tr>\n          <td bgcolor=\"#ffffff\" style=\"padding: 0 75px 75px 75px; text-align: left;\">\n            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"70%\" style=\"border-collapse: collapse;\">\n              [[content]]\n            </table>\n          </td>\n        </tr>\n      </table>\n      <tfoot>\n        <tr><td style=\"text-align: center;overflow: hidden;padding: 0;\"><div class=\"footerWlImage\">\n    <img src=\"https://cdn.devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg\" alt=\"agent sites & testing & new\" style=\"width:100%;display: block;object-fit: contain;\" />\n</div></td></tr>\n        <tr><td style=\"color: #aaa; padding: 10px 40px 30px; font-size: 11px;text-align: center;\">This is an auto-generated email. Please do not hit reply. If you have any questions about agent sites & testing & new,  Please contact thamizh82@gmail.com. [UNSUBSCRIBE]</td></tr>\n      </tfoot>\n    </td>\n  </tr>\n</table>"
+			},
+			{
+				"id_theme": 7,
+				"id_template": 4776,
+				"tpl_name": "welcome_campaign_1",
+				"json_data": {
+					"content1": "We are pleased to welcome you to our [[Campaign Name]]",
+					"content2": "Get more points",
+					"content3": "Have you completed all the actions to earn the maximum rewards?",
+					"content4": "Participate Now test test",
+					"content5": "Chance for rewards",
+					"content6": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!",
+					"content7": "<p>More promotions may be on the way! Keep an eye out to win more rewards. tetasdfasf</p><p><br></p><p>[[Campaign Name]]test</p><p><br></p><p>test</p><p><br></p><p>test</p><p><br></p><p>asdf</p><p>asd</p>",
+					"wc1_header_image": "https://cdn.devam.pro/gr/master/upload/img/email/1_wc1_header_image_1614271438.png",
+					"side_image1": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image1_1614271474.jpg",
+					"side_image2": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image2_1614271490.jpg",
+					"header_background_color": "#024597"
+				},
+				"json_fields": [
+					{
+						"name": "header_block",
+						"label": "Header component",
+						"clone": 1,
+						"data": {
+							"header_image": {
+								"type": "file",
+								"label": "header image",
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_wc1_header_image_1614271438.png"
+							},
+							"header_background_color": {
+								"type": "color",
+								"label": "header bg color",
+								"value": "#024597"
+							},
+							"content": {
+								"type": "textarea",
+								"show_dynamic_variables": 1,
+								"label": "Sub block text 1",
+								"max_length": 3000,
+								"rows": 4,
+								"value": "We are pleased to welcome you to our [[Campaign Name]]"
+							}
+						}
+					},
+					{
+						"name": "block_1",
+						"label": "Block Component with CTA",
+						"clone": 1,
+						"data": {
+							"side_image": {
+								"type": "file",
+								"label": "Image",
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image1_1614271474.jpg"
+							},
+							"title": {
+								"type": "text",
+								"show_dynamic_variables": 1,
+								"label": "Title",
+								"max_length": 100,
+								"rows": 4,
+								"value": "Get more points"
+							},
+							"desc": {
+								"type": "textarea",
+								"show_dynamic_variables": 1,
+								"label": "Description",
+								"max_length": 3000,
+								"rows": 4,
+								"value": "Have you completed all the actions to earn the maximum rewards?"
+							},
+							"button": {
+								"type": "text",
+								"show_dynamic_variables": 0,
+								"label": "Button Text",
+								"max_length": 100,
+								"rows": 4,
+								"value": "Participate Now test test"
+							}
+						}
+					},
+					{
+						"name": "block_2",
+						"label": "Block Component",
+						"clone": 1,
+						"data": {
+							"side_image": {
+								"type": "file",
+								"label": "Image",
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image2_1614271490.jpg"
+							},
+							"title": {
+								"type": "text",
+								"show_dynamic_variables": 0,
+								"label": "Title",
+								"max_length": 100,
+								"rows": 4,
+								"value": "Chance for rewards"
+							},
+							"desc": {
+								"type": "textarea",
+								"show_dynamic_variables": 1,
+								"label": "Description",
+								"max_length": 3000,
+								"rows": 4,
+								"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+							}
+						}
+					},
+					{
+						"name": "footer",
+						"label": "Footer Component",
+						"clone": 0,
+						"data": {
+							"content7": {
+								"type": "textarea",
+								"show_dynamic_variables": 1,
+								"label": "Footer content",
+								"max_length": 3000,
+								"rows": 4,
+								"value": "<p>More promotions may be on the way! Keep an eye out to win more rewards. tetasdfasf</p><p><br></p><p>[[Campaign Name]]test</p><p><br></p><p>test</p><p><br></p><p>test</p><p><br></p><p>asdf</p><p>asd</p>"
+							}
+						}
+					}
+				],
+				"subject": "Welcome to our [[Campaign Name]] 1",
+				"is_default": 0,
+				"status": 1,
+				"email_template": "<div>\n  <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n    <tr>\n      <td>\n        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"550\">[[dynamic_blocks]]</table>\n\n      </td>\n    </tr>\n  </table>\n</div>"
+			},
+			{
+				"id_theme": 8,
+				"id_template": 0,
+				"tpl_name": "welcome_campaign_2",
+				"json_data": "",
+				"json_fields": {
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Email title",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "We are pleased to welcome you to our [[Campaign Name]]"
+					},
+					"wc2_header_image": { "type": "file", "label": "header image", "value": "" },
+					"subtitle1": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Subtitle 1",
+						"max_length": 100,
+						"rows": 4,
+						"value": "Get more points"
+					},
+					"subtext1": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Sub text 1",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Have you completed all the actions to earn the maximum rewards?"
+					},
+					"subtitle2": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Subtitle 2",
+						"max_length": 100,
+						"rows": 4,
+						"value": "Chance for rewards"
+					},
+					"subtext2": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Sub text 2",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+					},
+					"subbg1": { "type": "color", "label": "Subblock bg color 1", "value": "#024597" },
+					"subbg2": { "type": "color", "label": "Subblock bg color 2", "value": "#024597" },
+					"desctext": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "More promotions may be on the way! Keep an eye out to win more rewards."
+					},
+					"foottext": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Footer text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Regards, [[Company Name]]"
+					}
+				},
+				"subject": "Welcome to our [[Campaign Name]] 2",
+				"is_default": 0,
+				"status": 0,
+				"email_template": "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n  <tr>\n    <td>\n      <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"550\">\n        <tr>\n          <td align=\"center\" style=\"padding: 30px 0 0;\">\n            <h1\n              style=\"color: [[subbg2]];font-family: Arial, sans-serif; font-weight:bold;font-size: 20px;line-height: 24px;padding:0 0 40px 0;margin: 0;\">\n              [[title]]\n            </h1>\n              <img src=\"[[wc2_header_image]]\" alt=\"Email header\" width=\"550\" height=\"197\" style=\"display: block;\" />\n          </td>\n        </tr>\n        <tr>\n          <td style=\"text-align: center;\">\n            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse;\">\n              <tr>\n                <td bgcolor=\"[[subbg1]]\" align=\"center\" width=\"50%\" style=\"padding: 40px 50px;\">\n                  <img src=\"https://gr-v1.devam.pro/public/assets/img/email_assets/campaign_2.png\" width=\"113\" height=\"113\"\n                    style=\"display: inline-block;\" />\n                  <h2\n                    style=\"color: #ffffff;font-family: Arial, sans-serif;font-weight: bold;font-size: 14px;line-height: 17px; padding-top: 30px;\">\n                    [[subtitle1]]</h2>\n                  <p style=\"margin: 0;color: #ffffff;font-family: Arial, sans-serif;font-size: 13px;line-height: 15px;\">\n                    [[subtext1]]\n                  </p>\n                </td>\n                <td bgcolor=\"[[subbg2]]\" align=\"center\" width=\"50%\" style=\"padding: 40px 50px;\">\n                  <img src=\"https://gr-v1.devam.pro/public/assets/img/email_assets/campaign_1.png\" width=\"113\" height=\"113\"\n                    style=\"display: inline-block;\" />\n                  <h2\n                    style=\"color: #ffffff;font-family: Arial, sans-serif;font-weight: bold;font-size: 14px;line-height: 17px; padding-top: 30px;\">\n                    [[subtitle2]]</h2>\n                  <p style=\"margin: 0;color: #ffffff;font-family: Arial, sans-serif;font-size: 13px;line-height: 15px;\">\n                    [[subtext2]]\n                  </p>\n                </td>\n              </tr>\n            </table>\n          </td>\n        </tr>\n        <tr>\n          <td bgcolor=\"#ffdcb8\"\n            style=\"color: #000000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;padding: 20px 0;text-align: center;\">\n            <p style=\"margin: 0;\">[[desctext]]</p>\n          </td>\n        </tr>\n        <tr>\n          <td\n            style=\"color: #555;font-family: Arial, sans-serif;font-size: 12px;line-height: 15px;padding: 20px 0 20px 0;text-align: center;\">\n            <p style=\"margin: 0;\">[[foottext]]</p>\n          </td>\n        </tr>\n        <tr><td style=\"text-align: center;overflow: hidden;padding: 0;\"><div class=\"footerWlImage\">\n    <img src=\"https://cdn.devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg\" alt=\"agent sites & testing & new\" style=\"width:100%;display: block;object-fit: contain;\" />\n</div></td></tr>\n        <tr><td style=\"color: #aaa; padding: 10px 40px 30px; font-size: 11px;text-align: center;\">This is an auto-generated email. Please do not hit reply. If you have any questions about agent sites & testing & new,  Please contact thamizh82@gmail.com. [UNSUBSCRIBE]</td></tr>\n      </table>\n\n    </td>\n  </tr>\n</table>"
+			},
+			{
+				"id_theme": 9,
+				"id_template": 0,
+				"tpl_name": "welcome_campaign_3",
+				"json_data": "",
+				"json_fields": {
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Email title",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "We are pleased to welcome you to our [[Campaign Name]]"
+					},
+					"wc3_header_image": { "type": "file", "label": "header image", "value": "" },
+					"subtitle1": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Subtitle 1",
+						"max_length": 100,
+						"rows": 4,
+						"value": "Get more points"
+					},
+					"subtext1": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Sub text 1",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Have you completed all the actions to earn the maximum rewards?"
+					},
+					"subtitle2": {
+						"type": "text",
+						"show_dynamic_variables": 0,
+						"label": "Subtitle 2",
+						"max_length": 100,
+						"rows": 4,
+						"value": "Chance for rewards"
+					},
+					"subtext2": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Sub text 2",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Keep participating in our [[Campaign Name]] promotion for chances at more rewards!"
+					},
+					"bgcolor1": { "type": "color", "label": "Background color 1", "value": "#024597" },
+					"bgcolor2": { "type": "color", "label": "Background color 2", "value": "#024597" },
+					"desctext": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "More promotions may be on the way! Keep an eye out to win more rewards."
+					},
+					"foottext": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Footer text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Regards, [[Company Name]]"
+					}
+				},
+				"subject": "Welcome to our [[Campaign Name]] 3",
+				"is_default": 0,
+				"status": 0,
+				"email_template": "<table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n  <tr>\n    <td>\n      <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"550\">\n        <tr>\n          <td bgcolor=\"[[bgcolor1]]\" align=\"center\" style=\"padding: 30px 0 0;\">\n            <img src=\"[[wc3_header_image]]\" width=\"390\" height=\"211\" style=\"display: block;\" />\n            <h1\n              style=\"color: #000000;font-family: Arial, sans-serif; font-weight:bold;font-size: 20px;line-height: 24px;padding:20px 0 40px 0;margin: 0;\">\n              [[title]]\n          </td>\n        </tr>\n        <tr>\n          <td bgcolor=\"[[bgcolor1]]\" style=\"text-align: center; padding: 0 75px 50px;\">\n            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse;\">\n              <tr>\n                <td align=\"center\" width=\"50%\" style=\"padding: 20px 50px;\">\n                  <img src=\"https://gr-v1.devam.pro/public/assets/img/email_assets/campaign_5.png\" width=\"269\" height=\"97\"\n                    style=\"display: inline-block;\" />\n                  <h2\n                    style=\"color: #333333;font-family: Arial, sans-serif;font-weight: bold;font-size: 16px;line-height: 19px\">\n                    [[subtitle1]]</h2>\n                  <p style=\"margin: 0;color: #333333;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;\">\n                    [[subtext1]]\n                  </p>\n                </td>\n              </tr>\n              <tr>\n                <td align=\"center\" width=\"50%\" style=\"padding: 20px 50px;\">\n                  <img src=\"https://gr-v1.devam.pro/public/assets/img/email_assets/campaign_6.png\" width=\"269\" height=\"97\"\n                    style=\"display: inline-block;\" />\n                  <h2\n                    style=\"color: #333333;font-family: Arial, sans-serif;font-weight: bold;font-size: 16px;line-height: 19px\">\n                    [[subtitle2]]</h2>\n                  <p style=\"margin: 0;color: #333333;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;\">\n                    [[subtext2]]\n                  </p>\n                </td>\n              </tr>\n            </table>\n          </td>\n        </tr>\n        <tr>\n          <td bgcolor=\"[[bgcolor2]]\"\n            style=\"color: #000000;font-family: Arial, sans-serif;font-size: 14px;line-height: 17px;padding: 20px 0;text-align: center;\">\n            <p style=\"margin: 0;\">[[desctext]]</p>\n          </td>\n        </tr>\n        <tr>\n          <td bgcolor=\"[[bgcolor2]]\"\n            style=\"color: #555;font-family: Arial, sans-serif;font-size: 12px;line-height: 15px;padding: 20px 0 20px 0;text-align: center;\">\n            <p style=\"margin: 0;\">[[foottext]]</p>\n          </td>\n        </tr>        \n        <tr><td style=\"text-align: center;overflow: hidden;padding: 0;\"><div class=\"footerWlImage\">\n    <img src=\"https://cdn.devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg\" alt=\"agent sites & testing & new\" style=\"width:100%;display: block;object-fit: contain;\" />\n</div></td></tr>\n        <tr><td style=\"color: #aaa; padding: 10px 40px 30px; font-size: 11px;text-align: center;\">This is an auto-generated email. Please do not hit reply. If you have any questions about agent sites & testing & new,  Please contact thamizh82@gmail.com. [UNSUBSCRIBE]</td></tr>\n      </table>\n\n    </td>\n  </tr>\n</table>"
+			}
+		],
+		"dynamic_variables": "[[Name]],[[Site Name]],[[Campaign Name]]",
+		"title": "Campaign Welcome Email",
+		"active_id_theme": 7,
+		"is_wl": 1
+	}
+}

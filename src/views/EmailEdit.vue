@@ -9,7 +9,7 @@
             </a>
             <div class="title">
               <div class="icon far fa-envelope margin-right-10"></div>
-              <span>{{emailTitle}}</span>
+              <span>{{ emailTitle }}</span>
             </div>
           </div>
           <div>
@@ -48,87 +48,113 @@
                     </div>
                   </div>
                 </md-list-item>
+                <draggable v-model="eData.json_fields">
+                  <transition-group
+                    name="flip-list"
+                    v-bind="dragOptions"
+                    @start="isDragging = true"
+                    @end="isDragging = false"
+                  >
+                    <md-list-item
+                      md-expand
+                      v-for="(item, key) in eData.json_fields"
+                      :key="key"
+                    >
+                      <span class="md-list-item-text"
+                        >{{ item.label }} {{ key }}
+                        <a
+                          v-if="item.clone"
+                          @click.prevent="(e) => cloneBlock(key)"
+                          href="#"
+                          >Clone</a
+                        > <a
+                          v-if="item.clone"
+                          @click.prevent="(e) => deleteBlock(key)"
+                          href="#"
+                          >del</a
+                        ></span
+                      >
 
-                <md-list-item
-                  md-expand
-                  v-for="(item, name, key) in eData.json_fields"
-                  :key="key"
-                >
-                  <span class="md-list-item-text">{{ item.label }}</span>
-
-                  <div slot="md-expand">
-                    <div v-if="item.type == 'text'">
-                      <div class="subTitle">
-                        <h3>{{ item.label }}</h3>
-                        <CustomVariables
-                          v-if="item.show_dynamic_variables"
-                          :data="dVars"
-                          :name="name"
-                          :click="appendVarToKey"
-                        />
-                      </div>
-                      <input
-                        class="form-control"
-                        type="text"
-                        :ref="name"
-                        v-model="item.value"
-                      />
-                    </div>
-                    <div v-if="item.type == 'textarea'">
-                      <div class="subTitle">
-                        <h3>{{ item.label }}</h3>
-                        <CustomVariables
-                          v-if="item.show_dynamic_variables"
-                          :data="dVars"
-                          :name="name"
-                          :click="appendVarToKey"
-                        />
-                      </div>
-                      <quillEditor
-                        v-model="item.value"
-                        @focus="onEditorFocus($event, name)"
-                        :ref="name"
-                      ></quillEditor>
-                    </div>
-                    <div v-if="item.type == 'file'">
-                      <div class="subTitle">
-                        <h3>{{ item.label }}</h3>
-                      </div>
-                      <div class="uploadWrap">
-                        <label
-                          class="md-button md-raised md-accent md-theme-default"
-                          :for="name"
+                      <div slot="md-expand">
+                        <div
+                          v-for="(control, name, index) in item.data"
+                          :key="index"
                         >
-                          <i class="fal fa-upload"></i>
-                          <span v-if="item.value.length > 0"
-                            >Replace Image</span
-                          >
-                          <span v-else>Add Image</span>
-                          <input
-                            :id="name"
-                            type="file"
-                            accept="image/*"
-                            @change="(e) => handleFileChange(e, name)"
-                          />
-                        </label>
-                        <img
-                          v-if="item.value.length > 0"
-                          :src="item.value"
-                          alt=""
-                        />
+                          <div v-if="control.type == 'text'">
+                            <div class="subTitle">
+                              <h3>{{ control.label }}</h3>
+                              <CustomVariables
+                                v-if="control.show_dynamic_variables"
+                                :data="dVars"
+                                :name="name"
+                                :click="appendVarToKey"
+                              />
+                            </div>
+                            <input
+                              class="form-control"
+                              type="text"
+                              :ref="name"
+                              v-model="control.value"
+                            />
+                          </div>
+                          <div v-if="control.type == 'textarea'">
+                            <div class="subTitle">
+                              <h3>{{ control.label }}</h3>
+                              <CustomVariables
+                                v-if="control.show_dynamic_variables"
+                                :data="dVars"
+                                :name="name"
+                                :click="appendVarToKey"
+                              />
+                            </div>
+                            <quillEditor
+                              v-model="control.value"
+                              @focus="onEditorFocus($event, name)"
+                              :ref="name"
+                            ></quillEditor>
+                          </div>
+                          <div v-if="control.type == 'file'">
+                            <div class="subTitle">
+                              <h3>{{ control.label }}</h3>
+                            </div>
+                            <div class="uploadWrap">
+                              <label
+                                class="md-button md-raised md-accent md-theme-default"
+                                :for="name"
+                              >
+                                <i class="fal fa-upload"></i>
+                                <span v-if="control.value.length > 0"
+                                  >Replace Image</span
+                                >
+                                <span v-else>Add Image</span>
+                                <input
+                                  :id="name"
+                                  type="file"
+                                  accept="image/*"
+                                  @change="(e) => handleFileChange(e, name)"
+                                />
+                              </label>
+                              <img
+                                v-if="control.value.length > 0"
+                                :src="control.value"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                          <div v-if="control.type == 'color'">
+                            <div class="subTitle">
+                              <h3>{{ control.label }}</h3>
+                            </div>
+                            <ColorPicker
+                              :color="control.value"
+                              v-on:input="(e) => (control.value = e)"
+                            ></ColorPicker>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div v-if="item.type == 'color'">
-                      <div class="subTitle">
-                        <h3>{{ item.label }}</h3>
-                      </div>
-                      <ColorPicker
-                        :color="item.value"
-                        v-on:input="(e) => (item.value = e)"
-                      ></ColorPicker>
-                    </div>
-                  </div>
-                </md-list-item>
+                    </md-list-item>
+                  </transition-group>
+                </draggable>
               </md-list>
               <div class="changeTemplate">
                 <h3>Would you like to change</h3>
@@ -143,7 +169,34 @@
             <div class="md-layout-item md-size-65">
               <div class="previewBlock">
                 <div class="emailTemplate">
-                  <div v-html="templateOutput"></div>
+                  <table
+                    role="presentation"
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    width="100%"
+                  >
+                    <tr>
+                      <td>
+                        <table
+                          bgcolor="#fff"
+                          align="center"
+                          border="0"
+                          cellpadding="0"
+                          cellspacing="0"
+                          width="550"
+                        >
+                          <PreviewRenderer
+                            v-for="(block, index) in eData.json_fields"
+                            :key="index"
+                            :tData="block.data"
+                            :tHtml="activeThemeHtml[block.name]"
+                          />
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <!-- <div v-html="templateOutput"></div> -->
                 </div>
               </div>
             </div>
@@ -182,6 +235,8 @@ import ColorPicker from "../components/ColorPicker.vue";
 import CustomVariables from "../components/CustomVariables.vue";
 import EmailTemplates from "./EmailTemplates.vue";
 import Loader from "@/components/Loader.vue";
+import PreviewRenderer from "@/components/PreviewRenderer.vue";
+import draggable from "vuedraggable";
 
 export default {
   name: "EmailEdit",
@@ -191,16 +246,19 @@ export default {
     EmailTemplates,
     Loader,
     quillEditor,
+    PreviewRenderer,
+    draggable,
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function () {
     return {
       isWl: 1,
-      editPageView: false,
+      editPageView: true,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
       activeThemeId: null,
+      activeThemeHtml: null,
       emailTitle: null,
       dVars: null,
       quillEditor: {},
@@ -211,13 +269,22 @@ export default {
     };
   },
   computed: {
-    templateOutput: function () {
-      return this.eData ? this.renderTemplate(this.eData) : null;
-    },
+    // templateOutput: function () {
+    //   return this.eData ? this.renderTemplate(this.eData) : null;
+    // },
+    dragOptions() {
+      return {
+        animation: 0,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost"
+      };
+    }
   },
   methods: {
     setEdata: function (id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
+      console.log(this.eData);
     },
     togglePageview: function () {
       if (!this.editPageView) this.fromEditPage = true;
@@ -269,7 +336,7 @@ export default {
     },
     handleSave: function () {
       this.loader = true;
-      const { id_theme, tpl_name, subject, status, json_fields } = this.eData;
+      const { id_theme, tpl_name, subject, json_fields } = this.eData;
       const params = {
         id_email: this.id,
         subject: subject,
@@ -317,22 +384,41 @@ export default {
     },
     fetchTemplateData: function () {
       this.loader = true;
-      Axios.get(
-        `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
-      ).then(({ data }) => {
-        const { active_id_theme, dynamic_variables, themes, is_wl, title } = data.data;
+      // `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+      Axios.get(`jsonfields.json`).then(({ data }) => {
+        const {
+          active_id_theme,
+          dynamic_variables,
+          themes,
+          is_wl,
+          title,
+        } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.isWl = is_wl;
         this.activeThemeId = active_id_theme;
         this.emailTitle = title;
         this.setEdata(active_id_theme);
-        this.loader = false;
+        Axios.get(`template_${active_id_theme}.json`).then(({ data }) => {
+          this.activeThemeHtml = data.data;
+          this.loader = false;
+        });
       });
     },
     handleBack: function () {
       window.history.back();
     },
+    cloneBlock: function (index) {
+      let jFields = [...this.eData.json_fields];
+      jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
+      this.eData = { ...this.eData, json_fields: jFields };
+    },
+    deleteBlock: function(index) {
+      let jFields = [...this.eData.json_fields];
+      jFields.splice(index, 1);
+      this.eData = { ...this.eData, json_fields: jFields };
+
+    }
   },
   mounted: function () {
     this.fetchTemplateData();
@@ -340,6 +426,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
 .editWrap {
   padding-top: 50px;
 }
