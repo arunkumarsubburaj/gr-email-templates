@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918">
+    <link
+      rel="stylesheet"
+      href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"
+    />
     <router-view />
   </div>
 </template>
@@ -17,7 +20,7 @@ Vue.use(VueMaterial);
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
   methods: {
-    renderTemplate: (data) =>
+    renderTemplate: data =>
       data.email_template.length > 5
         ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
             data.json_fields[property]
@@ -25,7 +28,7 @@ Vue.mixin({
               : property
           )
         : "<div>Invalid Template</div>",
-    createFormData: (data) => {
+    createFormData: data => {
       let formData = new FormData();
       for (let key in data) {
         if (typeof data[key] === "object") {
@@ -38,7 +41,7 @@ Vue.mixin({
       }
       return formData;
     }
-  },
+  }
 });
 
 export default {
@@ -47,13 +50,13 @@ export default {
 </script>
 
 <style lang="less">
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    background: #fafafa;
-  }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  background: #fafafa;
+}
 
 #nav {
   padding: 30px;
@@ -146,7 +149,6 @@ export default {
     }
   }
 }
-
 
 .fixedHeaderBlock {
   background: #fff;

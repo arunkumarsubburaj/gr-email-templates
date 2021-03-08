@@ -122,10 +122,10 @@ export default {
 <style lang="less" scoped>
 .color-picker {
   input.form-control {
-      padding: 5px;
-      border: 1px solid #d2d2d2;
-      font-size: 11px;
-      height: 36px;
+    padding: 5px;
+    border: 1px solid #d2d2d2;
+    font-size: 11px;
+    height: 36px;
   }
   .color-picker-container {
     position: relative;

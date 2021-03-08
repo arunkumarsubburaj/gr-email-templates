@@ -7,13 +7,15 @@
         </a>
         <div class="title">
           <div class="icon far fa-bookmark margin-right-10"></div>
-          <span>{{title}}</span>
+          <span>{{ title }}</span>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-75"><h1>{{title}}</h1></div>
+        <div class="md-layout-item md-size-75">
+          <h1>{{ title }}</h1>
+        </div>
         <div class="md-layout-item md-size-25 dispMidRight">
           <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
           <!-- <md-button class="md-raised btn-custom-default">
@@ -27,12 +29,12 @@
             :key="template.id_theme"
           >
             <div class="boxView">
-              <img :src="getImg(template.id_theme)" alt="">
+              <img :src="getImg(template.id_theme)" alt="" />
             </div>
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
-                <small>Template {{index + 1}}</small>
+                <small>Template {{ index + 1 }}</small>
               </div>
               <md-button
                 class="md-raised md-accent btn-custom-active"
@@ -42,7 +44,11 @@
                 <i class="far fa-check-circle"></i>
                 activated
               </md-button>
-              <md-button class="md-raised btn-custom-default" v-else @click="e => save(template.id_theme)">
+              <md-button
+                class="md-raised btn-custom-default"
+                v-else
+                @click="e => save(template.id_theme)"
+              >
                 Preview & Edit
               </md-button>
             </div>
@@ -53,28 +59,29 @@
   </div>
 </template>
 <script>
-  export default {
-    name: "EmailTemplates",
-    props: ["data", "close", "save", "fromEditPage", "title"],
-    methods: {
-      getImg: function(id) { return `${Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
-      handleBack: function() {
-        if(this.fromEditPage) {
-          this.close()
-        } else window.history.back();
-      }
+export default {
+  name: "EmailTemplates",
+  props: ["data", "close", "save", "fromEditPage", "title"],
+  methods: {
+    getImg: function(id) {
+      return `https://gr-v1.devam.pro/public/assets/img/email_assets/email_template_${id}.png`;
+    },
+    handleBack: function() {
+      if (this.fromEditPage) {
+        this.close();
+      } else window.history.back();
     }
-  };
+  }
+};
 </script>
 <style lang="less" scoped>
-
 .changeTemplateView {
   margin: 7em 0;
 
   section {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
   .dispMidRight {
     justify-content: flex-end;
@@ -90,7 +97,7 @@
   .boxView {
     flex-grow: 1;
     display: flex;
-    background-color: #DDEFEF;
+    background-color: #ddefef;
     img {
       width: 50%;
       margin: auto;

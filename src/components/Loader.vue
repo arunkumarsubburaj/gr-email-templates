@@ -9,15 +9,17 @@
 </template>
 <script>
 export default {
-    name: "Loader",
-    props: ["status"]
-}
+  name: "Loader",
+  props: ["status"]
+};
 </script>
 <style lang="less" scoped>
-.loader-enter-active, .loader-leave-active {
+.loader-enter-active,
+.loader-leave-active {
   transition: opacity 0.5s;
 }
-.loader-enter, .loader-leave-to {
+.loader-enter,
+.loader-leave-to {
   opacity: 0;
 }
 .loaderWrapper {

@@ -9,7 +9,7 @@
             </a>
             <div class="title">
               <div class="icon far fa-envelope margin-right-10"></div>
-              <span>{{emailTitle}}</span>
+              <span>{{ emailTitle }}</span>
             </div>
           </div>
           <div>
@@ -108,7 +108,7 @@
                             :id="name"
                             type="file"
                             accept="image/*"
-                            @change="(e) => handleFileChange(e, name)"
+                            @change="e => handleFileChange(e, name)"
                           />
                         </label>
                         <img
@@ -124,7 +124,7 @@
                       </div>
                       <ColorPicker
                         :color="item.value"
-                        v-on:input="(e) => (item.value = e)"
+                        v-on:input="e => (item.value = e)"
                       ></ColorPicker>
                     </div>
                   </div>
@@ -190,10 +190,10 @@ export default {
     CustomVariables,
     EmailTemplates,
     Loader,
-    quillEditor,
+    quillEditor
   },
   mixins: ["createFormData", "renderTemplate"],
-  data: function () {
+  data: function() {
     return {
       isWl: 1,
       editPageView: false,
@@ -207,26 +207,26 @@ export default {
       emailMessage: false,
       emailResponse: null,
       loader: false,
-      fromEditPage: false,
+      fromEditPage: false
     };
   },
   computed: {
-    templateOutput: function () {
+    templateOutput: function() {
       return this.eData ? this.renderTemplate(this.eData) : null;
-    },
+    }
   },
   methods: {
-    setEdata: function (id) {
+    setEdata: function(id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
     },
-    togglePageview: function () {
+    togglePageview: function() {
       if (!this.editPageView) this.fromEditPage = true;
       this.editPageView = !this.editPageView;
     },
-    onEditorFocus: function (quill, name) {
+    onEditorFocus: function(quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
-    handleFileChange: function (e, name) {
+    handleFileChange: function(e, name) {
       const file = e.target.files[0];
       this.loader = true;
       let formData = new FormData();
@@ -234,7 +234,7 @@ export default {
       formData.append("suffix", name);
       formData.append("id_template", 1);
 
-      Axios.post(`${Config.callback_url}/S3Uploader/emailTemplate`, formData)
+      Axios.post(`https://gr-v1.devam.pro/S3Uploader/emailTemplate`, formData)
         .then(({ data }) => {
           this.loader = false;
           if (!data.error) {
@@ -251,7 +251,7 @@ export default {
           this.emailMessage = true;
         });
     },
-    appendVarToKey: function (name, item) {
+    appendVarToKey: function(name, item) {
       const { type, value } = this.eData.json_fields[name];
       if (type == "textarea") {
         const position = this.quillEditor[name] || 0;
@@ -263,27 +263,27 @@ export default {
         this.$refs[name][0].value = text;
       }
     },
-    handleChooseTemplate: function (id) {
+    handleChooseTemplate: function(id) {
       this.setEdata(id);
       this.togglePageview();
     },
-    handleSave: function () {
+    handleSave: function() {
       this.loader = true;
-      const { id_theme, tpl_name, subject, status, json_fields } = this.eData;
+      const { id_theme, tpl_name, subject, json_fields } = this.eData;
       const params = {
         id_email: this.id,
         subject: subject,
         id_theme: id_theme,
         type: tpl_name,
         is_enabled: 1,
-        settings: {},
+        settings: {}
       };
       Object.keys(json_fields).map(
-        (key) => (params.settings[key] = json_fields[key].value)
+        key => (params.settings[key] = json_fields[key].value)
       );
       console.log(params);
       Axios.post(
-        `${Config.callback_url}/services/email/saveEmailTemplate`,
+        `https://gr-v1.devam.pro/services/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -301,10 +301,10 @@ export default {
           this.emailMessage = true;
         });
     },
-    sendTestEmail: function () {
+    sendTestEmail: function() {
       this.loader = true;
       Axios.post(
-        `${Config.callback_url}/services/email/sendTestEmail`,
+        `https://gr-v1.devam.pro/services/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -315,12 +315,18 @@ export default {
         this.emailMessage = true;
       });
     },
-    fetchTemplateData: function () {
+    fetchTemplateData: function() {
       this.loader = true;
       Axios.get(
-        `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+        `https://gr-v1.devam.pro/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
-        const { active_id_theme, dynamic_variables, themes, is_wl, title } = data.data;
+        const {
+          active_id_theme,
+          dynamic_variables,
+          themes,
+          is_wl,
+          title
+        } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.isWl = is_wl;
@@ -330,13 +336,13 @@ export default {
         this.loader = false;
       });
     },
-    handleBack: function () {
+    handleBack: function() {
       window.history.back();
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     this.fetchTemplateData();
-  },
+  }
 };
 </script>
 <style lang="less" scoped>
