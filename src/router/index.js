@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import EmailListing from "../views/EmailListing.vue";
-import EmbedLanding from "../views/embed/EmbedLanding.vue";
 import EmailEdit from "../views/EmailEdit.vue";
+import EmbedLanding from "../views/embed/EmbedLanding.vue";
+import EmbedStyle from "../views/embed/EmbedStyle.vue";
 import VueMaterial from "vue-material";
 import VueSimpleAccordion from "vue-simple-accordion";
 import "vue-material/dist/vue-material.min.css";
@@ -29,6 +30,11 @@ const routes = [
     path: "/view/embed/landing/",
     name: "EmbedLanding",
     component: EmbedLanding
+  },
+  {
+    path: "/view/embed/style/",
+    name: "EmbedStyle",
+    component: EmbedStyle
   }
 ];
 
