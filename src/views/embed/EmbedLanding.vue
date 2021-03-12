@@ -68,7 +68,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/* PopBox */
 
 .embedLanding {
   margin: 4em 50px;
