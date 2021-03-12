@@ -12,6 +12,12 @@
         </ul>
       </div>
     </div>
+    <!--<img src="../../assets/img/template1.png" alt="" />
+    <img src="../../assets/img/template2.png" alt="" />
+    <img src="../../assets/img/template3.png" alt="" />
+    <img src="../../assets/img/template4.png" alt="" />
+    <img src="../../assets/img/template5.png" alt="" />
+    <img src="../../assets/img/template6.png" alt="" />-->
     <div v-if="isTab1" class="selectTemplateBlock">
       <h1>Select Template</h1>
       <section class="md-layout-item">
@@ -28,12 +34,6 @@
               <!-- <h4>{{ template.tpl_name }}</h4> -->
               <small>Template {{ index + 1 }}</small>
             </div>
-            <md-button
-              class="md-raised md-accent btn-custom-active"
-            >
-              <i class="far fa-check-circle"></i>
-              activated
-            </md-button>
             <md-button
               class="md-raised btn-custom-default"
             >
@@ -152,6 +152,33 @@ export default {
   .selectTemplateBlock,
   .snipBlock {
     padding: 120px 55px 55px 55px;
+
+    section {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .templateBox {
+        flex: 0 31%;
+        margin-top: 2%;
+        margin-right: 2%;
+        @media only screen and (max-width: 989px) {
+          flex: 0 48%;
+        }
+        @media only screen and (max-width: 599px) {
+          flex: 0 100%;
+        }
+        .boxView img {
+          border: 5px solid #000;
+        }
+        .boxFooter {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 0 0;
+        }
+      }
+    }
   }
 }
 </style>

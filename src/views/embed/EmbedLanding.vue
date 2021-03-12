@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="prviewPan">
-      <img src="../../assets/embed_template.png" alt="" />
+      <img src="../../assets/img/embed_template.png" alt="" />
 
     </div>                  
   </div>
