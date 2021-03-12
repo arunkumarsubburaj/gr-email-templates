@@ -4,8 +4,12 @@
       <div class="embed_visible change_design">
         <div class="title">
           <h3>Change embed design</h3>
-          <p>Default template enabled</p>          
-          <md-button class="md-raised md-primary" @click="$router.push('../style')">Change design</md-button>
+          <p>Default template enabled</p>
+          <md-button
+            class="md-raised md-primary"
+            @click="$router.push('../embed/style')"
+            >Change design</md-button
+          >
         </div>
       </div>
       <div class="embed_visible">
@@ -25,54 +29,59 @@
           <a href="#" class="">Developer Sample</a>
         </div>
         <p>
-          By embedding our program on your site, you are agreeing to our API Terms of Service.
+          By embedding our program on your site, you are agreeing to our API
+          Terms of Service.
         </p>
       </div>
     </div>
-    <div class="prviewPan">
+    <div class="previewPan">
       <img src="../../assets/img/embed_template.png" alt="" />
-
-    </div>                  
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "../../components/Footer.vue";
+
 export default {
   name: "EmailListing",
+  components: {
+    Footer
+  },
   data: function() {
     return {
-        testingCode: "1234",
+      testingCode: "1234",
       message:
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/wd-deKqm3AU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     };
   },
-  components: {},
   mixins: ["createFormData"],
   computed: {},
   methods: {
-        doCopy () {
-          let codeToCopy = document.querySelector('#copiedText')
-          codeToCopy.select()
+    doCopy() {
+      let codeToCopy = document.querySelector("#copiedText");
+      codeToCopy.select();
 
-          try {
-            var successful = document.execCommand('copy');
-            var msg = successful ? 'successful' : 'unsuccessful';
-            alert('Embed code was copied ' + msg);
-          } catch (err) {
-            alert('Oops, unable to copy');
-          }
-        },
+      try {
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        alert("Embed code was copied " + msg);
+      } catch (err) {
+        alert("Oops, unable to copy");
+      }
+    }
   },
   mounted: function() {}
 };
 </script>
 
 <style lang="less" scoped>
-
 .embedLanding {
   margin: 4em 50px;
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   .leftPan {
     flex: 1;
     margin-right: 40px;
@@ -144,7 +153,7 @@ export default {
       }
     }
   }
-  .prviewPan {
+  .previewPan {
     flex: 2;
   }
 }
