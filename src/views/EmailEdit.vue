@@ -37,125 +37,135 @@
         <div class="container editWrap">
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-35">
-              <md-list :md-expand-single="true">
-                <md-list-item md-expand md-expanded>
-                  <span class="md-list-item-text">Subject</span>
-
-                  <div slot="md-expand">
-                    <div class="subjectEditor">
-                      <span>Subject for your email:</span>
-                      <input type="text" v-model="eData.subject" />
-                    </div>
-                  </div>
-                </md-list-item>
-                <draggable v-model="eData.json_fields">
+              <div class="subjectEditor">
+                <span>Subject for your email:</span>
+                <input type="text" v-model="eData.subject" />
+              </div>
+              <div class="eAccordion">
+                <draggable v-model="eData.json_fields" handle=".handle">
                   <transition-group
                     name="flip-list"
                     v-bind="dragOptions"
                     @start="isDragging = true"
                     @end="isDragging = false"
                   >
-                    <md-list-item
-                      md-expand
+                    <div
+                      :class="[
+                        'eAccordion-items',
+                        { active: activeAccordion == key },
+                      ]"
                       v-for="(item, key) in eData.json_fields"
                       :key="key"
                     >
-                      <span class="md-list-item-text"
-                        >{{ item.label }} {{ key }}
-                        <a
-                          v-if="item.clone"
-                          @click.prevent="(e) => cloneBlock(key)"
-                          href="#"
-                          >Clone</a
-                        > <a
-                          v-if="item.clone"
-                          @click.prevent="(e) => deleteBlock(key)"
-                          href="#"
-                          >del</a
-                        ></span
-                      >
-
-                      <div slot="md-expand">
-                        <div
-                          v-for="(control, name, index) in item.data"
-                          :key="index"
+                      <div v-if="item.data" class="eAccordion-title" @click.prevent="(e) => item.data.length !== 0 && toggleAccordion(key)">
+                        <i v-if="item.data.length !== 0" class="far fa-bars handle"></i>
+                        <span
+                          class="title"
                         >
-                          <div v-if="control.type == 'text'">
-                            <div class="subTitle">
-                              <h3>{{ control.label }}</h3>
-                              <CustomVariables
-                                v-if="control.show_dynamic_variables"
-                                :data="dVars"
-                                :name="name"
-                                :click="appendVarToKey"
-                              />
-                            </div>
-                            <input
-                              class="form-control"
-                              type="text"
-                              :ref="name"
-                              v-model="control.value"
-                            />
-                          </div>
-                          <div v-if="control.type == 'textarea'">
-                            <div class="subTitle">
-                              <h3>{{ control.label }}</h3>
-                              <CustomVariables
-                                v-if="control.show_dynamic_variables"
-                                :data="dVars"
-                                :name="name"
-                                :click="appendVarToKey"
-                              />
-                            </div>
-                            <quillEditor
-                              v-model="control.value"
-                              @focus="onEditorFocus($event, name)"
-                              :ref="name"
-                            ></quillEditor>
-                          </div>
-                          <div v-if="control.type == 'file'">
-                            <div class="subTitle">
-                              <h3>{{ control.label }}</h3>
-                            </div>
-                            <div class="uploadWrap">
-                              <label
-                                class="md-button md-raised md-accent md-theme-default"
-                                :for="name"
-                              >
-                                <i class="fal fa-upload"></i>
-                                <span v-if="control.value.length > 0"
-                                  >Replace Image</span
-                                >
-                                <span v-else>Add Image</span>
-                                <input
-                                  :id="name"
-                                  type="file"
-                                  accept="image/*"
-                                  @change="(e) => handleFileChange(e, name)"
+                          {{ item.label }}
+                        </span>
+                        <nav v-if="item.data.length !== 0">
+                          <a
+                            v-if="item.clone"
+                            @click.prevent="(e) => cloneBlock(key)"
+                            href="#"
+                            ><i class="fal fa-clone"></i
+                          ></a>
+                          <a
+                            v-if="item.clone"
+                            @click.prevent="(e) => deleteBlock(key)"
+                            href="#"
+                            ><i class="fal fa-trash-alt"></i
+                          ></a>
+                          <i class="far fa-chevron-right"></i>
+                        </nav>
+                      </div>
+
+                      <div class="eAccordion-content">
+                        <div v-if="item.data">
+                          <div
+                            class="item-types"
+                            v-for="(control, name, index) in item.data"
+                            :key="index"
+                          >
+                            <div v-if="control.type == 'text'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                                <CustomVariables
+                                  v-if="control.show_dynamic_variables"
+                                  :data="dVars"
+                                  :name="name"
+                                  :click="appendVarToKey"
                                 />
-                              </label>
-                              <img
-                                v-if="control.value.length > 0"
-                                :src="control.value"
-                                alt=""
+                              </div>
+                              <input
+                                class="form-control"
+                                type="text"
+                                :ref="name"
+                                v-model="control.value"
                               />
                             </div>
-                          </div>
-                          <div v-if="control.type == 'color'">
-                            <div class="subTitle">
-                              <h3>{{ control.label }}</h3>
+                            <div v-if="control.type == 'textarea'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                                <CustomVariables
+                                  v-if="control.show_dynamic_variables"
+                                  :data="dVars"
+                                  :name="name"
+                                  :click="appendVarToKey"
+                                />
+                              </div>
+                              <quillEditor
+                                v-model="control.value"
+                                 :options="eOptions"
+                                @focus="onEditorFocus($event, name)"
+                                :ref="name"
+                              ></quillEditor>
                             </div>
-                            <ColorPicker
-                              :color="control.value"
-                              v-on:input="(e) => (control.value = e)"
-                            ></ColorPicker>
+                            <div v-if="control.type == 'file'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                              </div>
+                              <div class="uploadWrap">
+                                <label
+                                  class="md-button md-raised md-accent md-theme-default"
+                                  :for="name"
+                                >
+                                  <i class="fal fa-upload"></i>
+                                  <span v-if="control.value.length > 0"
+                                    >Replace Image</span
+                                  >
+                                  <span v-else>Add Image</span>
+                                  <input
+                                    :id="name"
+                                    type="file"
+                                    accept="image/*"
+                                    @change="(e) => handleFileChange(e, key, name)"
+                                  />
+                                </label>
+                                <img
+                                  v-if="control.value.length > 0"
+                                  :src="control.value"
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                            <div v-if="control.type == 'color'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                              </div>
+                              <ColorPicker
+                                :color="control.value"
+                                v-on:input="(e) => (control.value = e)"
+                              ></ColorPicker>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </md-list-item>
+                    </div>
                   </transition-group>
                 </draggable>
-              </md-list>
+              </div>
               <div class="changeTemplate">
                 <h3>Would you like to change</h3>
                 <md-button
@@ -190,13 +200,12 @@
                             v-for="(block, index) in eData.json_fields"
                             :key="index"
                             :tData="block.data"
-                            :tHtml="activeThemeHtml[block.name]"
+                            :tHtml="eData.templates[block.name]"
                           />
                         </table>
                       </td>
                     </tr>
                   </table>
-                  <!-- <div v-html="templateOutput"></div> -->
                 </div>
               </div>
             </div>
@@ -227,6 +236,7 @@
 </template>
 <script>
 import Axios from "axios";
+import Quill from 'quill';
 import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -237,6 +247,83 @@ import EmailTemplates from "./EmailTemplates.vue";
 import Loader from "@/components/Loader.vue";
 import PreviewRenderer from "@/components/PreviewRenderer.vue";
 import draggable from "vuedraggable";
+
+var Parchment = Quill.import('parchment');
+var Delta = Quill.import('delta');
+let Break = Quill.import('blots/break');
+let Embed = Quill.import('blots/embed');
+function lineBreakMatcher() {
+  var newDelta = new Delta();
+  newDelta.insert({'break': ''});
+  return newDelta;
+}
+var options = {
+  modules: {
+    clipboard: {
+      matchers: [
+        ['BR', lineBreakMatcher] 
+      ]
+    },
+    keyboard: {
+      bindings: {
+        handleEnter: {
+          key: 13,
+          handler: function (range, context) {
+            if (range.length > 0) {
+              this.quill.scroll.deleteAt(range.index, range.length);  // So we do not trigger text-change
+            }
+            let lineFormats = Object.keys(context.format).reduce(function(lineFormats, format) {
+              if (Parchment.query(format, Parchment.Scope.BLOCK) && !Array.isArray(context.format[format])) {
+                lineFormats[format] = context.format[format];
+              }
+              return lineFormats;
+            }, {});
+            var previousChar = this.quill.getText(range.index - 1, 1);
+            // Earlier scroll.deleteAt might have messed up our selection,
+            // so insertText's built in selection preservation is not reliable
+            this.quill.insertText(range.index, '\n', lineFormats, Quill.sources.USER);
+            if (previousChar == '' || previousChar == '\n') {
+              this.quill.setSelection(range.index + 2, Quill.sources.SILENT);
+            } else {
+              this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+            }
+            this.quill.selection.scrollIntoView();
+            Object.keys(context.format).forEach((name) => {
+              if (lineFormats[name] != null) return;
+              if (Array.isArray(context.format[name])) return;
+              if (name === 'link') return;
+              this.quill.format(name, context.format[name], Quill.sources.USER);
+            });
+          }
+        },
+        linebreak: {
+          key: 13,
+          shiftKey: true,
+            handler: function (range) {
+              console.log(range)
+              var nextChar = this.quill.getText(range.index + 1, 1)
+              this.quill.insertEmbed(range.index, 'break', true, 'user');
+              if (nextChar.length == 0) {
+                // second line break inserts only at the end of parent element
+                this.quill.insertEmbed(range.index, 'break', true, 'user');
+              }
+              this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+            }
+          }
+        }
+      }
+    }
+};
+
+Break.prototype.insertInto = function(parent, ref) {
+    Embed.prototype.insertInto.call(this, parent, ref)
+};
+Break.prototype.length= function() {
+    return 1;
+}
+Break.prototype.value= function() {
+    return '\n';
+}
 
 export default {
   name: "EmailEdit",
@@ -259,9 +346,11 @@ export default {
       allData: null,
       activeThemeId: null,
       activeThemeHtml: null,
+      activeAccordion: null,
       emailTitle: null,
       dVars: null,
       quillEditor: {},
+      eOptions: options,
       emailMessage: false,
       emailResponse: null,
       loader: false,
@@ -277,14 +366,16 @@ export default {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
-    }
+    },
   },
   methods: {
     setEdata: function (id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
-      console.log(this.eData);
+    },
+    toggleAccordion: function (index) {
+      this.activeAccordion = this.activeAccordion === index ? null : index;
     },
     togglePageview: function () {
       if (!this.editPageView) this.fromEditPage = true;
@@ -293,7 +384,7 @@ export default {
     onEditorFocus: function (quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
-    handleFileChange: function (e, name) {
+    handleFileChange: function (e, index, name) {
       const file = e.target.files[0];
       this.loader = true;
       let formData = new FormData();
@@ -301,14 +392,18 @@ export default {
       formData.append("suffix", name);
       formData.append("id_template", 1);
 
-      Axios.post(`${Config.callback_url}/S3Uploader/emailTemplate`, formData)
+      Axios.post(
+        `${window.Config.callback_url}/S3Uploader/emailTemplate`,
+        formData
+      )
         .then(({ data }) => {
           this.loader = false;
+          console.log(data)
           if (!data.error) {
-            this.eData.json_fields[name].value =
+            this.eData.json_fields[index].data[name].value =
               "https://cdn.devam.pro/gr/master/" + data.img_name;
           } else {
-            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
             this.emailMessage = true;
           }
         })
@@ -336,21 +431,25 @@ export default {
     },
     handleSave: function () {
       this.loader = true;
+
       const { id_theme, tpl_name, subject, json_fields } = this.eData;
+
+      console.log(json_fields);
+
       const params = {
         id_email: this.id,
         subject: subject,
         id_theme: id_theme,
         type: tpl_name,
         is_enabled: 1,
-        settings: {},
+        json_fields: JSON.stringify(json_fields)
       };
-      Object.keys(json_fields).map(
-        (key) => (params.settings[key] = json_fields[key].value)
-      );
-      console.log(params);
+
+      // Object.keys(json_fields).map(
+      //   (key) => (params.json_fields[key] = json_fields[key].value)
+      // );
       Axios.post(
-        `${Config.callback_url}/services/email/saveEmailTemplate`,
+        `${window.Config.callback_url}/services/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -371,7 +470,7 @@ export default {
     sendTestEmail: function () {
       this.loader = true;
       Axios.post(
-        `${Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -384,8 +483,9 @@ export default {
     },
     fetchTemplateData: function () {
       this.loader = true;
-      // `${Config.callback_url}/services/email/getEmailTemplate/${this.id}`
-      Axios.get(`jsonfields.json`).then(({ data }) => {
+      Axios.get(
+        `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+      ).then(({ data }) => {
         const {
           active_id_theme,
           dynamic_variables,
@@ -399,10 +499,7 @@ export default {
         this.activeThemeId = active_id_theme;
         this.emailTitle = title;
         this.setEdata(active_id_theme);
-        Axios.get(`template_${active_id_theme}.json`).then(({ data }) => {
-          this.activeThemeHtml = data.data;
-          this.loader = false;
-        });
+        this.loader = false;
       });
     },
     handleBack: function () {
@@ -413,12 +510,11 @@ export default {
       jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
       this.eData = { ...this.eData, json_fields: jFields };
     },
-    deleteBlock: function(index) {
+    deleteBlock: function (index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
-
-    }
+    },
   },
   mounted: function () {
     this.fetchTemplateData();
@@ -546,6 +642,10 @@ export default {
   }
 }
 .subjectEditor {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  margin: 0 0 20px;
   span {
     display: block;
     color: #007aff;
@@ -571,6 +671,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px 0;
+  line-height: initial;
 
   & > div {
     background: #fff;
@@ -633,13 +734,79 @@ export default {
   }
 
   .md-list-item-text {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-left: 10px;
     font-weight: 600;
     font-size: 1.7rem;
     font-size: 14px;
     color: #757575;
+    nav {
+      width: auto;
+      display: flex;
+      a {
+        margin-left: 5px;
+      }
+    }
+  }
+  .md-list-expand-icon {
+    margin-left: 0 !important;
   }
   .md-list-item-expand.md-active .md-list-expand {
     padding: 10px;
+  }
+}
+.eAccordion {
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  &-title {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #e8e8e8;
+    position: relative;
+    nav {
+      display: flex;
+      align-items: center;
+      padding-right: 5px;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      a {
+        opacity: 0;
+        pointer-events: none;        
+        transition: opacity 0.5s;
+      }
+      i {
+        margin: 0 5px;
+        transition: transform 0.5s;
+      }
+    }
+    &:hover a {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  &-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s;
+    > div {
+      border: 1px solid #e8e8e8;
+      padding: 10px;
+    }
+  }
+  &-items {
+    &.active {
+      .eAccordion-content {
+        max-height: 2000px;
+      }
+      .eAccordion-title .fa-chevron-right {
+        transform: rotate(90deg);
+      }
+    }
   }
 }
 </style>

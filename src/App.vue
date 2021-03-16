@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918">
+    <!-- <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"> -->
     <router-view />
   </div>
 </template>
@@ -11,6 +11,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
+import "@/assets/icon/fontawesome.min.css"
 
 Vue.use(VueMaterial);
 
