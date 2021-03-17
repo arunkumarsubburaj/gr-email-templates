@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group color-picker" ref="colorpicker">
+  <div class="color-picker" ref="colorpicker">
     <input
       type="text"
       class="form-control"
@@ -7,7 +7,7 @@
       @focus="showPicker"
       @input="updateFromInput"
     />
-    <span class="input-group-addon color-picker-container">
+    <span class="color-picker-container">
       <span
         class="current-color"
         :style="'background-color: ' + colorValue"
@@ -27,18 +27,18 @@ export default {
   name: "ColorPicker",
   props: ["color"],
   components: {
-    "chrome-picker": Chrome
+    "chrome-picker": Chrome,
   },
-  data: function() {
+  data: function () {
     return {
       colors: {
-        hex: "#000000"
+        hex: "#000000",
       },
       colorValue: "",
-      displayPicker: false
+      displayPicker: false,
     };
   },
-  mounted: function() {
+  mounted: function () {
     this.setColor(this.color || "#000000");
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
     updateColors(color) {
       if (color.slice(0, 1) == "#") {
         this.colors = {
-          hex: color
+          hex: color,
         };
       } else if (color.slice(0, 4) == "rgba") {
         var rgba = color.replace(/^rgba?\(|\s+|\)$/g, "").split(","),
@@ -65,7 +65,7 @@ export default {
               .slice(1);
         this.colors = {
           hex: hex,
-          a: rgba[3]
+          a: rgba[3],
         };
       }
     },
@@ -106,7 +106,7 @@ export default {
       if (el !== target && !el.contains(target)) {
         this.hidePicker();
       }
-    }
+    },
   },
   watch: {
     colorValue(val) {
@@ -115,22 +115,29 @@ export default {
         this.$emit("input", val);
         //document.body.style.background = val;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 .color-picker {
+  display: flex;
+  width: 200px;
   input.form-control {
-      padding: 5px;
-      border: 1px solid #d2d2d2;
-      font-size: 11px;
-      height: 36px;
+    padding: 5px;
+    border: 1px solid #d2d2d2;
+    font-size: 11px;
+    height: 36px;
+    width: 80%;
   }
   .color-picker-container {
     position: relative;
-    right: 30px;
-    top: 8px;
+    right: 33px;
+    top: 6px;
+    display: flex;
+    flex-direction: column;
+    width: 29px;
+    align-items: center;
 
     .current-color {
       display: inline-block;
