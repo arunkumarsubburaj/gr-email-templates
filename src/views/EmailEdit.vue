@@ -198,6 +198,7 @@
                         >
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
+                            :activeBlock="activeAccordion === index"
                             :key="index"
                             :tData="block.data"
                             :tHtml="eData.templates[block.name]"
@@ -346,7 +347,7 @@ export default {
       allData: null,
       activeThemeId: null,
       activeThemeHtml: null,
-      activeAccordion: null,
+      activeAccordion: 0,
       emailTitle: null,
       dVars: null,
       quillEditor: {},
