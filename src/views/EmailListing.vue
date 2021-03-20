@@ -4,9 +4,9 @@
       <div class="container">
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-size-100 emailListingHead">
-            <h2>Email</h2>
-            <p>Some text to explain about the email templates</p>
-            <ul>
+            <h2>Email Templates</h2>
+            <p>In this section you can setup email content which will be triggered when certain actions or activities occur</p>
+            <!-- <ul>
               <li>
                 <h4>147,789</h4>
                 <small>Mails Opened</small>
@@ -19,7 +19,7 @@
                 <h4>154</h4>
                 <small>Unsubscribed</small>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
@@ -28,21 +28,16 @@
       <ul class="emailList">
         <li class="head">
           <div class="name">Email Name</div>
-          <div>Sent to</div>
-          <div>Opened</div>
           <div>Status</div>
           <div>Action</div>
         </li>
         <li v-for="(mail, key) in activeList" :key="key">
           <div class="name">
-            <i class="fal fa-envelope"></i>
             <div>
               <h5>{{ mail.title }}</h5>
               <!-- <p>{{ mail.type }}</p> -->
             </div>
           </div>
-          <div>12,789</div>
-          <div>12,789</div>
           <div>
             <label
               class="switch"
@@ -65,7 +60,7 @@
               <i title="Edit" class="fal fa-edit"></i>
             </router-link>
             <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-              <i title="Send Test Email" class="far fa-paper-plane"></i>
+              <i title="Send Test Email" class="fal fa-envelope"></i>
             </a>
           </div>
         </li>
@@ -78,8 +73,6 @@
         <ul class="emailList">
           <li class="head">
             <div class="name">Email Name</div>
-            <div>Sent to</div>
-            <div>Opened</div>
             <div>Status</div>
             <div>Action</div>
           </li>
@@ -91,8 +84,6 @@
                 <!-- <p>{{ mail.type }}</p> -->
               </div>
             </div>
-            <div>12,789</div>
-            <div>12,789</div>
             <div>
               <label
                 class="switch"
@@ -175,7 +166,7 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        `${Config.callback_url}/services/email/updateEmailStatus`,
+        `${window.Config.callback_url}/services/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
@@ -194,7 +185,7 @@ export default {
     sendTestEmail: function (id) {
       this.loader = true;
       Axios.post(
-        `${Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -208,7 +199,7 @@ export default {
   },
   mounted: function () {
     this.loader = true;
-    Axios.get(`${Config.callback_url}/services/email/getEmailTemplates`).then(
+    Axios.get(`${window.Config.callback_url}/services/email/getEmailTemplates`).then(
       ({ data }) => {
         this.listData = data.data;
         this.loader = false;
@@ -379,21 +370,6 @@ export default {
   }
 }
 
-.emailList .fa-envelope {
-  font-size: 1.7em;
-  width: 2em;
-  height: 2em;
-  border: 1px solid #e2e2e2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 15px;
-
-  &:before {
-    color: #bdbdbd;
-  }
-}
 
 .emailListingContainer h3 {
   font-size: 2em;

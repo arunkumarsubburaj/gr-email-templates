@@ -13,7 +13,10 @@
             </div>
           </div>
           <div>
-            <md-button class="md-raised" @click.prevent="sendTestEmail"
+            <md-button
+              class="md-raised"
+              :disabled="disableTest"
+              @click.prevent="sendTestEmail"
               >Sent Test Email</md-button
             >
             <md-button @click.prevent="handleSave" class="md-raised md-accent"
@@ -42,13 +45,14 @@
                 <input type="text" v-model="eData.subject" />
               </div>
               <div class="eAccordion">
-                <draggable v-model="eData.json_fields" handle=".handle">
-                  <transition-group
-                    name="flip-list"
-                    v-bind="dragOptions"
-                    @start="isDragging = true"
-                    @end="isDragging = false"
-                  >
+                <draggable
+                  v-model="eData.json_fields"
+                  handle=".handle"
+                  v-bind="dragOptions"
+                  @start="isDragging = true"
+                  @end="isDragging = false"
+                >
+                  <transition-group name="flip-list">
                     <div
                       :class="[
                         'eAccordion-items',
@@ -57,11 +61,18 @@
                       v-for="(item, key) in eData.json_fields"
                       :key="key"
                     >
-                      <div v-if="item.data" class="eAccordion-title" @click.prevent="(e) => item.data.length !== 0 && toggleAccordion(key)">
-                        <i v-if="item.data.length !== 0" class="far fa-bars handle"></i>
-                        <span
-                          class="title"
-                        >
+                      <div
+                        v-if="item.data && item.name !== 'footer'"
+                        class="eAccordion-title"
+                        @click.prevent="
+                          (e) => item.data.length !== 0 && toggleAccordion(key)
+                        "
+                      >
+                        <i
+                          v-if="item.data.length !== 0"
+                          class="far fa-bars handle"
+                        ></i>
+                        <span class="title">
                           {{ item.label }}
                         </span>
                         <nav v-if="item.data.length !== 0">
@@ -95,13 +106,14 @@
                                   v-if="control.show_dynamic_variables"
                                   :data="dVars"
                                   :name="name"
+                                  :index="key"
                                   :click="appendVarToKey"
                                 />
                               </div>
                               <input
                                 class="form-control"
                                 type="text"
-                                :ref="name"
+                                :ref="`${key}-${name}`"
                                 v-model="control.value"
                               />
                             </div>
@@ -112,14 +124,15 @@
                                   v-if="control.show_dynamic_variables"
                                   :data="dVars"
                                   :name="name"
+                                  :index="key"
                                   :click="appendVarToKey"
                                 />
                               </div>
                               <quillEditor
                                 v-model="control.value"
-                                 :options="eOptions"
+                                :options="eOptions"
                                 @focus="onEditorFocus($event, name)"
-                                :ref="name"
+                                :ref="`${key}-${name}`"
                               ></quillEditor>
                             </div>
                             <div v-if="control.type == 'file'">
@@ -140,14 +153,16 @@
                                     :id="name"
                                     type="file"
                                     accept="image/*"
-                                    @change="(e) => handleFileChange(e, key, name)"
+                                    @change="
+                                      (e) => handleFileChange(e, key, name)
+                                    "
                                   />
                                 </label>
-                                <img
+                                <!-- <img
                                   v-if="control.value.length > 0"
                                   :src="control.value"
                                   alt=""
-                                />
+                                /> -->
                               </div>
                             </div>
                             <div v-if="control.type == 'color'">
@@ -165,14 +180,32 @@
                     </div>
                   </transition-group>
                 </draggable>
+                <div
+                  :class="[
+                    'eAccordion-items',
+                    { active: activeAccordion == key },
+                  ]"
+                  v-for="(item, key) in eData.json_fields"
+                  :key="key"
+                >
+                  <div v-if="item.name === 'footer'" class="eAccordion-title">
+                    <span class="title">
+                      {{ item.label }}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div class="changeTemplate">
+              <div class="panelBlock">
                 <h3>Would you like to change</h3>
                 <md-button
                   @click.prevent="togglePageview"
                   class="md-raised md-accent"
                   >Change Template</md-button
                 >
+              </div>
+              <div class="panelBlock resetPanel">
+                <h3>Reset template to defaults</h3>
+                <md-button size="small" class="md-raised md-accent">Reset</md-button>
               </div>
             </div>
 
@@ -198,7 +231,7 @@
                         >
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
-                            :activeBlock="activeAccordion === index"
+                            :handleClick="(e) => (activeAccordion = index)"
                             :key="index"
                             :tData="block.data"
                             :tHtml="eData.templates[block.name]"
@@ -237,7 +270,7 @@
 </template>
 <script>
 import Axios from "axios";
-import Quill from 'quill';
+import Quill from "quill";
 import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -249,21 +282,19 @@ import Loader from "@/components/Loader.vue";
 import PreviewRenderer from "@/components/PreviewRenderer.vue";
 import draggable from "vuedraggable";
 
-var Parchment = Quill.import('parchment');
-var Delta = Quill.import('delta');
-let Break = Quill.import('blots/break');
-let Embed = Quill.import('blots/embed');
+var Parchment = Quill.import("parchment");
+var Delta = Quill.import("delta");
+let Break = Quill.import("blots/break");
+let Embed = Quill.import("blots/embed");
 function lineBreakMatcher() {
   var newDelta = new Delta();
-  newDelta.insert({'break': ''});
+  newDelta.insert({ break: "" });
   return newDelta;
 }
 var options = {
   modules: {
     clipboard: {
-      matchers: [
-        ['BR', lineBreakMatcher] 
-      ]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
@@ -271,19 +302,31 @@ var options = {
           key: 13,
           handler: function (range, context) {
             if (range.length > 0) {
-              this.quill.scroll.deleteAt(range.index, range.length);  // So we do not trigger text-change
+              this.quill.scroll.deleteAt(range.index, range.length); // So we do not trigger text-change
             }
-            let lineFormats = Object.keys(context.format).reduce(function(lineFormats, format) {
-              if (Parchment.query(format, Parchment.Scope.BLOCK) && !Array.isArray(context.format[format])) {
+            let lineFormats = Object.keys(context.format).reduce(function (
+              lineFormats,
+              format
+            ) {
+              if (
+                Parchment.query(format, Parchment.Scope.BLOCK) &&
+                !Array.isArray(context.format[format])
+              ) {
                 lineFormats[format] = context.format[format];
               }
               return lineFormats;
-            }, {});
+            },
+            {});
             var previousChar = this.quill.getText(range.index - 1, 1);
             // Earlier scroll.deleteAt might have messed up our selection,
             // so insertText's built in selection preservation is not reliable
-            this.quill.insertText(range.index, '\n', lineFormats, Quill.sources.USER);
-            if (previousChar == '' || previousChar == '\n') {
+            this.quill.insertText(
+              range.index,
+              "\n",
+              lineFormats,
+              Quill.sources.USER
+            );
+            if (previousChar == "" || previousChar == "\n") {
               this.quill.setSelection(range.index + 2, Quill.sources.SILENT);
             } else {
               this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
@@ -292,39 +335,53 @@ var options = {
             Object.keys(context.format).forEach((name) => {
               if (lineFormats[name] != null) return;
               if (Array.isArray(context.format[name])) return;
-              if (name === 'link') return;
+              if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
           shiftKey: true,
-            handler: function (range) {
-              console.log(range)
-              var nextChar = this.quill.getText(range.index + 1, 1)
-              this.quill.insertEmbed(range.index, 'break', true, 'user');
-              if (nextChar.length == 0) {
-                // second line break inserts only at the end of parent element
-                this.quill.insertEmbed(range.index, 'break', true, 'user');
-              }
-              this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+          handler: function (range) {
+            var nextChar = this.quill.getText(range.index + 1, 1);
+            this.quill.insertEmbed(range.index, "break", true, "user");
+            if (nextChar.length == 0) {
+              // second line break inserts only at the end of parent element
+              this.quill.insertEmbed(range.index, "break", true, "user");
             }
-          }
-        }
-      }
-    }
+            this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+          },
+        },
+      },
+    },
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote", "code-block"],
+      [{ header: 1 }, { header: 2 }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+      [{ direction: "rtl" }],
+      [{ size: ["small", false, "large", "huge"] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ font: [] }],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
+      ["clean"],
+    ],
+  },
 };
 
-Break.prototype.insertInto = function(parent, ref) {
-    Embed.prototype.insertInto.call(this, parent, ref)
+Break.prototype.insertInto = function (parent, ref) {
+  Embed.prototype.insertInto.call(this, parent, ref);
 };
-Break.prototype.length= function() {
-    return 1;
-}
-Break.prototype.value= function() {
-    return '\n';
-}
+Break.prototype.length = function () {
+  return 1;
+};
+Break.prototype.value = function () {
+  return "\n";
+};
 
 export default {
   name: "EmailEdit",
@@ -341,13 +398,13 @@ export default {
   data: function () {
     return {
       isWl: 1,
-      editPageView: true,
+      editPageView: false,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
       activeThemeId: null,
       activeThemeHtml: null,
-      activeAccordion: 0,
+      activeAccordion: null,
       emailTitle: null,
       dVars: null,
       quillEditor: {},
@@ -356,12 +413,27 @@ export default {
       emailResponse: null,
       loader: false,
       fromEditPage: false,
+      disableTest: false,
     };
   },
+  watch: {
+    activeAccordion: function (index) {
+      const active = document.querySelectorAll(".eAccordion-items")[index];
+      if (active) {
+        setTimeout(() => {
+          const ele = active.querySelector(".eAccordion-content");
+          ele.focus();
+        }, 500);
+      }
+    },
+    eData: {
+      deep: true,
+      handler: function (val, oldVal) {
+        if (oldVal !== null) this.disableTest = true;
+      },
+    },
+  },
   computed: {
-    // templateOutput: function () {
-    //   return this.eData ? this.renderTemplate(this.eData) : null;
-    // },
     dragOptions() {
       return {
         animation: 0,
@@ -399,7 +471,6 @@ export default {
       )
         .then(({ data }) => {
           this.loader = false;
-          console.log(data)
           if (!data.error) {
             this.eData.json_fields[index].data[name].value =
               "https://cdn.devam.pro/gr/master/" + data.img_name;
@@ -414,16 +485,16 @@ export default {
           this.emailMessage = true;
         });
     },
-    appendVarToKey: function (name, item) {
-      const { type, value } = this.eData.json_fields[name];
+    appendVarToKey: function (id, name, item) {
+      const { type, value } = this.eData.json_fields[id].data[name];
       if (type == "textarea") {
         const position = this.quillEditor[name] || 0;
-        this.$refs[name][0].quill.insertText(position, item);
+        this.$refs[`${id}-${name}`][0].quill.insertText(position, item);
       } else {
-        const index = this.$refs[name][0].selectionStart;
+        const index = this.$refs[`${id}-${name}`][0].selectionStart;
         const text = value.slice(0, index) + item + value.slice(index);
-        this.eData.json_fields[name].value = text;
-        this.$refs[name][0].value = text;
+        this.eData.json_fields[id].data[name].value = text;
+        this.$refs[`${id}-${name}`][0].value = text;
       }
     },
     handleChooseTemplate: function (id) {
@@ -435,7 +506,6 @@ export default {
 
       const { id_theme, tpl_name, subject, json_fields } = this.eData;
 
-      console.log(json_fields);
 
       const params = {
         id_email: this.id,
@@ -443,12 +513,9 @@ export default {
         id_theme: id_theme,
         type: tpl_name,
         is_enabled: 1,
-        json_fields: JSON.stringify(json_fields)
+        json_fields: JSON.stringify(json_fields),
       };
 
-      // Object.keys(json_fields).map(
-      //   (key) => (params.json_fields[key] = json_fields[key].value)
-      // );
       Axios.post(
         `${window.Config.callback_url}/services/email/saveEmailTemplate`,
         this.createFormData(params)
@@ -461,6 +528,7 @@ export default {
           } else
             this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
           this.emailMessage = true;
+          this.disableTest = false;
         })
         .catch(() => {
           this.loader = false;
@@ -523,16 +591,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.no-move {
-  transition: transform 0s;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
 .editWrap {
   padding-top: 50px;
 }
@@ -561,7 +619,7 @@ export default {
   }
 }
 
-.changeTemplate {
+.panelBlock {
   background-color: #fff;
   display: flex;
   align-items: center;
@@ -575,6 +633,15 @@ export default {
     color: #007aff;
     margin-top: 0;
     font-size: 16px;
+  }
+  &.resetPanel {
+    h3 {
+      font-size: 14px;
+    }
+    button {
+      height: auto;
+      padding: 4px 8px;
+    }
   }
 }
 
@@ -705,6 +772,17 @@ export default {
 :root {
   --md-theme-default-accent: #5bb74d !important;
 }
+
+.flip-list-move {
+  transition: transform 5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
 .md-button {
   text-transform: capitalize;
   padding: 0 10px;
@@ -777,7 +855,7 @@ export default {
       transform: translateY(-50%);
       a {
         opacity: 0;
-        pointer-events: none;        
+        pointer-events: none;
         transition: opacity 0.5s;
       }
       i {

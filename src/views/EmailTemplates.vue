@@ -32,6 +32,7 @@
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
+                <strong v-if="template.status == 1">Active: </strong>
                 <small>Template {{index + 1}}</small>
               </div>
               <md-button
@@ -40,10 +41,10 @@
                 @click="e => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
-                activated
+                Customize
               </md-button>
-              <md-button class="md-raised btn-custom-default" v-else @click="e => save(template.id_theme)">
-                Preview & Edit
+              <md-button class="md-raised btn-custom-primary" v-else @click="e => save(template.id_theme)">
+                Edit & Activate
               </md-button>
             </div>
           </div>
@@ -57,7 +58,7 @@
     name: "EmailTemplates",
     props: ["data", "close", "save", "fromEditPage", "title"],
     methods: {
-      getImg: function(id) { return `${Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
+      getImg: function(id) { return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
       handleBack: function() {
         if(this.fromEditPage) {
           this.close()
@@ -87,6 +88,14 @@
   display: flex;
   flex-direction: column;
   margin: 25px 0;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    .boxFooter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   .boxView {
     flex-grow: 1;
     display: flex;
@@ -98,10 +107,19 @@
     }
   }
   .boxFooter {
+    background-color: rgba(0,0,0,0.8);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0 0;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s;
+    padding: 10px;
     h4 {
       margin: 0;
     }

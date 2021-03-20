@@ -1,12 +1,12 @@
 <template>
-  <tr :style="[activeBlock ? {'opacity': 1} : {'opacity': 0.2}]">
-    <td v-html="templateOutput"></td>
+  <tr>
+    <td @click="handleClick" v-html="templateOutput"></td>
   </tr>
 </template>
 <script>
 export default {
   name: "PreviewRenderer",
-  props: ["tData", "tHtml", "activeBlock"],
+  props: ["tData", "tHtml", "handleClick"],
   computed: {
     templateOutput: function () {
       return this.tData ? this.renderTemplate(this.tData, this.tHtml) : null;
