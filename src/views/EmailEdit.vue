@@ -78,13 +78,13 @@
                         <nav v-if="item.data.length !== 0">
                           <a
                             v-if="item.clone"
-                            @click.prevent="(e) => cloneBlock(key)"
+                            v-on:click.stop.prevent="promptAction = { type: 'clone', key: key }"
                             href="#"
                             ><i class="fal fa-clone"></i
                           ></a>
                           <a
                             v-if="item.clone"
-                            @click.prevent="(e) => deleteBlock(key)"
+                            v-on:click.stop.prevent="promptAction = { type: 'delete', key: key }"
                             href="#"
                             ><i class="fal fa-trash-alt"></i
                           ></a>
@@ -205,7 +205,9 @@
               </div>
               <div class="panelBlock resetPanel">
                 <h3>Reset template to defaults</h3>
-                <md-button size="small" class="md-raised md-accent">Reset</md-button>
+                <md-button size="small" class="md-raised md-accent"
+                  >Reset</md-button
+                >
               </div>
             </div>
 
@@ -251,6 +253,15 @@
             >
               <span v-html="emailResponse"></span>
             </md-snackbar>
+            <md-dialog-confirm
+              :md-active.sync="promptAction"
+              :md-title="`${promptAction.type} Section`"
+              :md-content="`Are you sure, Do you wish to ${promptAction.type} this section`"
+              md-confirm-text="Confirm"
+              md-cancel-text="Cancel"
+              @md-cancel="(e) => (promptAction = null)"
+              @md-confirm="confirmAction"
+            />
           </div>
         </div>
       </div>
@@ -414,6 +425,7 @@ export default {
       loader: false,
       fromEditPage: false,
       disableTest: false,
+      promptAction: false,
     };
   },
   watch: {
@@ -506,7 +518,6 @@ export default {
 
       const { id_theme, tpl_name, subject, json_fields } = this.eData;
 
-
       const params = {
         id_email: this.id,
         subject: subject,
@@ -584,9 +595,22 @@ export default {
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
     },
+    confirmAction: function () {
+      if (this.promptAction.type == "clone")
+        this.cloneBlock(this.promptAction.key);
+      else this.deleteBlock(this.promptAction.key);
+
+      this.promptAction = false
+    },
+    showReloadAlert: function (e) {
+      if (this.disableTest) {
+        e.returnValue = "Are you sure you want to exit?";
+      }
+    },
   },
   mounted: function () {
     this.fetchTemplateData();
+    window.addEventListener("beforeunload", this.showReloadAlert);
   },
 };
 </script>
@@ -771,6 +795,12 @@ export default {
 <style lang="less">
 :root {
   --md-theme-default-accent: #5bb74d !important;
+}
+.md-overlay {
+  z-index: 10000;
+}
+.md-dialog {
+  z-index: 10001;
 }
 
 .flip-list-move {
