@@ -8,6 +8,7 @@ import VueMaterial from "vue-material";
 import VueSimpleAccordion from "vue-simple-accordion";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/black-green-light.css";
+import "vue-simple-accordion/dist/vue-simple-accordion.css";
 
 Vue.use(VueMaterial);
 Vue.use(VueSimpleAccordion);
