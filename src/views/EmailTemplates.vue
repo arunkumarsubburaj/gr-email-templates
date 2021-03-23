@@ -7,13 +7,15 @@
         </a>
         <div class="title">
           <div class="icon far fa-bookmark margin-right-10"></div>
-          <span>{{title}}</span>
+          <span>{{ title }}</span>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="md-layout md-gutter">
-        <div class="md-layout-item md-size-75"><h1>{{title}}</h1></div>
+        <div class="md-layout-item md-size-75">
+          <h1>{{ title }}</h1>
+        </div>
         <div class="md-layout-item md-size-25 dispMidRight">
           <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
           <!-- <md-button class="md-raised btn-custom-default">
@@ -22,28 +24,32 @@
         </div>
         <section class="md-layout-item">
           <div
-            class="templateBox"
+            :class="['templateBox', { active: template.status == 1 }]"
             v-for="(template, index) in data"
             :key="template.id_theme"
           >
             <div class="boxView">
-              <img :src="getImg(template.id_theme)" alt="">
+              <img :src="getImg(template.id_theme)" alt="" />
             </div>
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
                 <strong v-if="template.status == 1">Active: </strong>
-                <small>Template {{index + 1}}</small>
+                <small>Template {{ index + 1 }}</small>
               </div>
               <md-button
                 class="md-raised md-accent btn-custom-active"
                 v-if="template.status == 1"
-                @click="e => save(template.id_theme)"
+                @click="(e) => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
                 Customize
               </md-button>
-              <md-button class="md-raised btn-custom-primary" v-else @click="e => save(template.id_theme)">
+              <md-button
+                class="md-raised btn-custom-primary"
+                v-else
+                @click="(e) => save(template.id_theme)"
+              >
                 Edit & Activate
               </md-button>
             </div>
@@ -54,28 +60,31 @@
   </div>
 </template>
 <script>
-  export default {
-    name: "EmailTemplates",
-    props: ["data", "close", "save", "fromEditPage", "title"],
-    methods: {
-      getImg: function(id) { return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`},
-      handleBack: function() {
-        if(this.fromEditPage) {
-          this.close()
-        } else window.history.back();
-      }
-    }
-  };
+export default {
+  name: "EmailTemplates",
+  props: ["data", "close", "save", "fromEditPage", "title"],
+  methods: {
+    getImg: function (id) {
+      return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`;
+    },
+    handleBack: function () {
+      if (this.fromEditPage) {
+        this.close();
+      } else window.history.back();
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
-
 .changeTemplateView {
   margin: 7em 0;
-
+  .container {
+    max-width: 1024px;
+  }
   section {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
   .dispMidRight {
     justify-content: flex-end;
@@ -90,6 +99,7 @@
   margin: 25px 0;
   position: relative;
   overflow: hidden;
+  &.active,
   &:hover {
     .boxFooter {
       opacity: 1;
@@ -99,7 +109,7 @@
   .boxView {
     flex-grow: 1;
     display: flex;
-    background-color: #DDEFEF;
+    background-color: #ddefef;
     img {
       width: 50%;
       margin: auto;
@@ -107,7 +117,7 @@
     }
   }
   .boxFooter {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: space-between;
     align-items: center;

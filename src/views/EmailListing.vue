@@ -78,7 +78,6 @@
           </li>
           <li v-for="(mail, key) in inactiveList" :key="key">
             <div class="name">
-              <i class="fal fa-envelope"></i>
               <div>
                 <h5>{{ mail.title }}</h5>
                 <!-- <p>{{ mail.type }}</p> -->
@@ -108,7 +107,7 @@
                 <i title="Edit" class="fal fa-edit"></i>
               </router-link>
               <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-                <i title="Send Test Email" class="far fa-paper-plane"></i>
+                <i title="Send Test Email" class="fal fa-envelope"></i>
               </a>
             </div>
           </li>

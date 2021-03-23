@@ -121,7 +121,7 @@ export default {
 
 .container {
   margin: auto;
-  max-width: 1024px;
+  max-width: 1400px;
   padding: 0 20px;
 }
 

@@ -78,13 +78,17 @@
                         <nav v-if="item.data.length !== 0">
                           <a
                             v-if="item.clone"
-                            v-on:click.stop.prevent="promptAction = { type: 'clone', key: key }"
+                            v-on:click.stop.prevent="
+                              promptAction = { type: 'clone', key: key }
+                            "
                             href="#"
                             ><i class="fal fa-clone"></i
                           ></a>
                           <a
                             v-if="item.clone"
-                            v-on:click.stop.prevent="promptAction = { type: 'delete', key: key }"
+                            v-on:click.stop.prevent="
+                              promptAction = { type: 'delete', key: key }
+                            "
                             href="#"
                             ><i class="fal fa-trash-alt"></i
                           ></a>
@@ -205,7 +209,7 @@
               </div>
               <div class="panelBlock resetPanel">
                 <h3>Reset template to defaults</h3>
-                <md-button size="small" class="md-raised md-accent"
+                <md-button size="small" @click.prevent="resetTemplate" class="md-raised md-accent"
                   >Reset</md-button
                 >
               </div>
@@ -367,19 +371,14 @@ var options = {
       },
     },
     toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block"],
-      [{ header: 1 }, { header: 2 }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ script: "sub" }, { script: "super" }],
       [{ indent: "-1" }, { indent: "+1" }],
-      [{ direction: "rtl" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }][{ direction: "rtl" }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
       [{ size: ["small", false, "large", "huge"] }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ font: [] }],
-      [{ color: [] }, { background: [] }],
-      [{ align: [] }],
-      ["clean"],
     ],
   },
 };
@@ -561,6 +560,22 @@ export default {
         this.emailMessage = true;
       });
     },
+    resetTemplate: function () {
+      this.loader = true;
+      Axios.post(
+        `${window.Config.callback_url}/services/email/resetEmailTemplate`,
+        this.createFormData({ id_email: this.id, id_theme: this.eData.id_theme })
+      ).then(res => {
+        if (res.status == 200) {
+          this.fetchTemplateData();
+          this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;
+        } else {
+          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error in resetting`;
+          this.loader = true;          
+        }
+        this.emailMessage = true;
+      });
+    },
     fetchTemplateData: function () {
       this.loader = true;
       Axios.get(
@@ -600,7 +615,7 @@ export default {
         this.cloneBlock(this.promptAction.key);
       else this.deleteBlock(this.promptAction.key);
 
-      this.promptAction = false
+      this.promptAction = false;
     },
     showReloadAlert: function (e) {
       if (this.disableTest) {
@@ -795,6 +810,14 @@ export default {
 <style lang="less">
 :root {
   --md-theme-default-accent: #5bb74d !important;
+}
+.ql-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .ql-formats {
+    margin-right: 10px;
+  }
 }
 .md-overlay {
   z-index: 10000;
