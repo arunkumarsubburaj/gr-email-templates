@@ -62,39 +62,41 @@
           </vsa-heading>
 
           <vsa-content>
-            <div class="partiAction">
-              <div :class="'partiActions ' + 'partiActions' + index" v-for="(action, index) in actions" :key="action.id">
-                <div class="imgDiv">
-                  <span class="material-icons">
-                    {{action.imgDiv}}
-                  </span>
-                </div>
-                <div class="pointDiv">
-                  <span class="material-icons">
-                    card_giftcard
-                  </span>
-                  <div>
-                    <span class="material-icons">
-                      stars
-                    </span>
-                    <span>100</span>
-                  </div>
-                </div>
-                <p>{{action.desc}}</p>
-              </div>
-            </div>
+            <ParticipateActions />
           </vsa-content>
         </vsa-item>
         <vsa-item>
           <vsa-heading>
-            This is the heading
+            Newsletter
             <md-button class="md-raised btn-custom-default">
               Copy Embed Code
             </md-button>
           </vsa-heading>
 
           <vsa-content>
-            This is the content
+            <Newsletter />
+          </vsa-content>
+        </vsa-item>
+        <vsa-item>
+          <vsa-heading>
+            Rewards
+            <md-button class="md-raised btn-custom-default">
+              Copy Embed Code
+            </md-button>
+          </vsa-heading>
+
+          <vsa-content>
+            <div class="cntrlBlock">
+              <md-button-group>
+                <md-button class="md-raised active">All</md-button>
+                <md-button class="md-raised">Daily</md-button>
+                <md-button class="md-raised">Weekly</md-button>
+                <md-button class="md-raised">Monthly</md-button>
+                <md-button class="md-raised">Grand</md-button>
+              </md-button-group>
+              <a href="#">You have earned 395 points</a>
+            </div>
+            <Carouselslide />
           </vsa-content>
         </vsa-item>
       </vsa-list>
@@ -106,11 +108,17 @@
 
 <script>
 import Footer from "../../components/Footer.vue";
+import ParticipateActions from "../../components/ParticipateActions.vue";
+import Newsletter from "../../components/Newsletter.vue";
+import Carouselslide from "../../components/Carouselslide.vue";
 
 export default {
   name: "EmailListing",
   components: {
-    Footer
+    Footer,
+    ParticipateActions,
+    Newsletter,
+    Carouselslide
   },
   data: function() {
     return {
@@ -126,12 +134,6 @@ export default {
         { id: 4, name: "Template4", img: "template4.png" },
         { id: 5, name: "Template5", img: "template5.png" },
         { id: 6, name: "Template6", img: "template6.png" }
-      ],
-      actions: [
-        { id: 1, imgDiv: "engineering", desc: "Visit our Facebook page and consider liking it" },
-        { id: 2, imgDiv: "fact_check", desc: "Visit our Facebook page and consider liking it" },
-        { id: 3, imgDiv: "facebook", desc: "Visit our Facebook page and consider liking it" },
-        { id: 4, imgDiv: "public", desc: "Visit our Facebook page and consider liking it" }
       ]
     };
   },
@@ -252,66 +254,41 @@ export default {
       text-align: center;
     }
 
-    .partiAction {
+    .cntrlBlock {
       display: flex;
-      flex-wrap: wrap;
-      padding: 5px;
-      margin: 20px 30px 30px 20px;
-      position: relative;
-      .partiActions {
-        display: flex;
-        padding: 20px;
-        width: 150px;
-        margin: 20px 0 0 2%;
-        background-color: #fff;
-        border: 1px solid #e8e8e8;
-        flex-grow: 1;
-        border-radius: 4px;
-        align-items: center;
-        flex-direction: column;
-        text-align: center;
-        .imgDiv {
-          border-radius: 50%;
-          border: 1px solid #fde6bb;
-          width: 120px;
-          height: 120px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 35px;
-          .material-icons {
-            font-size: 50px;
-            color: #df8550;
-            box-sizing: border-box;
-            margin: 0;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 40px;
+      padding: 0 30px;
+
+      a {
+        color: #1f6bff;
+      }
+
+      md-button-group {
+        .md-button.md-theme-default.md-raised {
+          border: 1px solid #dfdfdf;
+          border-left: none;
+          border-radius: 0;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 15px;
+          min-width: auto;
+
+          &:first-child {
+            border-left: 1px solid #dfdfdf;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
           }
-        }
-        .pointDiv {
-          display: flex;
-          margin: 20px 0 0;
-          span.material-icons {
-            margin-right: 4px;
-            border: 1px solid #8f75be;
-            border-radius: 50%;
-            color: #8f75be;
-            font-size: 18px;
-            padding: 6px;
+
+          &:last-child {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
           }
-          div {
-            background: #8f75be;
-            border-radius: 25px;
+
+          &.active {
+            background:#8f75be;
             color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            padding: 4px 10px 4px 4px;
-              span.material-icons {
-                color: #fff;
-                margin-right: 4px;
-                font-size: 24px;
-                padding: 0;
-              }
           }
         }
       }
@@ -321,44 +298,48 @@ export default {
 </style>
 <style lang="less">
 .selectTemplateBlock,
-  .snipBlock {
-    .vsa-list {
-      --vsa-max-width: 100%;
-      --vsa-border-width: 0px;
-      --vsa-highlight-color: rgba(190, 190, 190, 1);
-      .vsa-item__trigger {
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-        border-top: 1px solid #d1d1d1 !important;
-        &:focus,
-        &:hover {
-          outline: none;
-          background-color: #f8f8f8;
-          color: var(--vsa-text-color);
-          .vsa-item__trigger__icon--is-default {
-            &:before,
-            &:after {
-              background-color: var(--vsa-text-color);
-            }
+.snipBlock {
+  .vsa-list {
+    --vsa-max-width: 100%;
+    --vsa-border-width: 0px;
+    --vsa-highlight-color: rgba(190, 190, 190, 1);
+    .vsa-item__trigger {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      border-top: 1px solid #d1d1d1 !important;
+      &:focus,
+      &:hover {
+        outline: none;
+        background-color: #f8f8f8;
+        color: var(--vsa-text-color);
+        .vsa-item__trigger__icon--is-default {
+          &:before,
+          &:after {
+            background-color: var(--vsa-text-color);
           }
         }
-        .vsa-item__trigger__icon {
-          margin-left: 0;
-          margin-right: 20px;
-        }
-        .vsa-item__trigger__content {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-        }
       }
-      .vsa-item__content {
-        margin: 0;
-        padding: var(--vsa-content-padding);
-        background: rgb(239,239,239);
-        background: linear-gradient(180deg, rgba(239,239,239,1) 0%, rgba(251,251,251,1) 100%);
+      .vsa-item__trigger__icon {
+        margin-left: 0;
+        margin-right: 20px;
+      }
+      .vsa-item__trigger__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
       }
     }
+    .vsa-item__content {
+      margin: 0;
+      padding: var(--vsa-content-padding);
+      background: rgb(239, 239, 239);
+      background: linear-gradient(
+        180deg,
+        rgba(239, 239, 239, 1) 0%,
+        rgba(251, 251, 251, 1) 100%
+      );
+    }
   }
+}
 </style>
