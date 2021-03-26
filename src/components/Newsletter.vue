@@ -98,7 +98,7 @@ export default {
   .newsLetter {
     .md-field {
       border-radius: 4px;
-      border: dashed 1px #e5e5e5;
+      border: solid 1px #e5e5e5;
       background: #ffffff;
       padding: 15px;
       margin: 0;

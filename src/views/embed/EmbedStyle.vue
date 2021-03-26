@@ -67,6 +67,18 @@
         </vsa-item>
         <vsa-item>
           <vsa-heading>
+            Celebrate Events
+            <md-button class="md-raised btn-custom-default">
+              Copy Embed Code
+            </md-button>
+          </vsa-heading>
+
+          <vsa-content>
+            <CelebrateEvents />
+          </vsa-content>
+        </vsa-item>
+        <vsa-item>
+          <vsa-heading>
             Newsletter
             <md-button class="md-raised btn-custom-default">
               Copy Embed Code
@@ -75,6 +87,18 @@
 
           <vsa-content>
             <Newsletter />
+          </vsa-content>
+        </vsa-item>
+        <vsa-item>
+          <vsa-heading>
+            Refer & Earn
+            <md-button class="md-raised btn-custom-default">
+              Copy Embed Code
+            </md-button>
+          </vsa-heading>
+
+          <vsa-content>
+            <ReferNearn />
           </vsa-content>
         </vsa-item>
         <vsa-item>
@@ -110,6 +134,8 @@
 import Footer from "../../components/Footer.vue";
 import ParticipateActions from "../../components/ParticipateActions.vue";
 import Newsletter from "../../components/Newsletter.vue";
+import ReferNearn from "../../components/ReferNearn.vue";
+import CelebrateEvents from "../../components/CelebrateEvents.vue";
 import Carouselslide from "../../components/Carouselslide.vue";
 
 export default {
@@ -118,6 +144,8 @@ export default {
     Footer,
     ParticipateActions,
     Newsletter,
+    ReferNearn,
+    CelebrateEvents,
     Carouselslide
   },
   data: function() {
