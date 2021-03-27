@@ -79,7 +79,7 @@
                           <a
                             v-if="item.clone"
                             v-on:click.stop.prevent="
-                              promptAction = { type: 'clone', key: key }
+                              promptAction = { type: 'Clone', key: key }
                             "
                             href="#"
                             ><i class="fal fa-clone"></i
@@ -87,7 +87,7 @@
                           <a
                             v-if="item.clone"
                             v-on:click.stop.prevent="
-                              promptAction = { type: 'delete', key: key }
+                              promptAction = { type: 'Delete', key: key }
                             "
                             href="#"
                             ><i class="fal fa-trash-alt"></i
@@ -185,17 +185,68 @@
                   </transition-group>
                 </draggable>
                 <div
+                  v-if="footerSection"
                   :class="[
                     'eAccordion-items',
-                    { active: activeAccordion == key },
+                    { active: activeAccordion == 'foooter' },
                   ]"
-                  v-for="(item, key) in eData.json_fields"
-                  :key="key"
                 >
-                  <div v-if="item.name === 'footer'" class="eAccordion-title">
+                  <div
+                    class="eAccordion-title"
+                    @click.prevent="
+                      (e) =>
+                        footerSection.data.length !== 0 &&
+                        toggleAccordion('foooter')
+                    "
+                  >
                     <span class="title">
-                      {{ item.label }}
+                      {{ footerSection.label }}
                     </span>
+                    <nav>
+                      <i class="far fa-chevron-right"></i>
+                    </nav>
+                  </div>
+                  <div class="eAccordion-content">
+                    <div>
+                      <div
+                        class="item-types"
+                        v-for="(control, name, index) in footerSection.data"
+                        :key="index"
+                      >
+                        <div v-if="control.type == 'checkbox'">
+                          <div class="subTitle">
+                            <h3 style="display: flex; align-items: center">
+                              <label
+                                class="switch"
+                                style="margin-right: 10px"
+                                title="Update status"
+                                for="footer"
+                                @click.prevent="
+                                  (e) => {
+                                    if (control.value === 1) {
+                                      control.value = 0;
+                                      handleWlImg(true);
+                                    } else {
+                                      control.value = 1;
+                                      handleWlImg(false);
+                                    }
+                                  }
+                                "
+                              >
+                                <input
+                                  type="checkbox"
+                                  name="mainSwitch"
+                                  :checked="control.value == 1"
+                                  id="footer"
+                                />
+                                <i></i>
+                              </label>
+                              {{ control.label }}
+                            </h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -209,7 +260,10 @@
               </div>
               <div class="panelBlock resetPanel">
                 <h3>Reset template to defaults</h3>
-                <md-button size="small" @click.prevent="resetTemplate" class="md-raised md-accent"
+                <md-button
+                  size="small"
+                  v-on:click.stop.prevent="promptAction = { type: 'Reset' }"
+                  class="md-raised md-accent"
                   >Reset</md-button
                 >
               </div>
@@ -259,8 +313,12 @@
             </md-snackbar>
             <md-dialog-confirm
               :md-active.sync="promptAction"
-              :md-title="`${promptAction.type} Section`"
-              :md-content="`Are you sure, Do you wish to ${promptAction.type} this section`"
+              :md-title="`${promptAction.type} ${
+                promptAction.type == 'Reset' ? 'Template' : 'Section'
+              }`"
+              :md-content="`Are you sure, Do you wish to ${
+                promptAction.type
+              } this ${promptAction.type == 'Reset' ? 'template' : 'section'}`"
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
               @md-cancel="(e) => (promptAction = null)"
@@ -445,6 +503,9 @@ export default {
     },
   },
   computed: {
+    footerSection() {
+      return this.eData.json_fields.find((item) => item.name === "footer");
+    },
     dragOptions() {
       return {
         animation: 0,
@@ -467,6 +528,11 @@ export default {
     },
     onEditorFocus: function (quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
+    },
+    handleWlImg: function (status) {
+      const footerimg = document.querySelector(".footerWlImage");
+      if (status) footerimg.classList.add("hide");
+      else footerimg.classList.remove("hide");
     },
     handleFileChange: function (e, index, name) {
       const file = e.target.files[0];
@@ -517,6 +583,8 @@ export default {
 
       const { id_theme, tpl_name, subject, json_fields } = this.eData;
 
+      console.log(json_fields);
+
       const params = {
         id_email: this.id,
         subject: subject,
@@ -564,14 +632,17 @@ export default {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/resetEmailTemplate`,
-        this.createFormData({ id_email: this.id, id_theme: this.eData.id_theme })
-      ).then(res => {
+        this.createFormData({
+          id_email: this.id,
+          id_theme: this.eData.id_theme,
+        })
+      ).then((res) => {
         if (res.status == 200) {
           this.fetchTemplateData();
           this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;
         } else {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error in resetting`;
-          this.loader = true;          
+          this.loader = true;
         }
         this.emailMessage = true;
       });
@@ -611,9 +682,11 @@ export default {
       this.eData = { ...this.eData, json_fields: jFields };
     },
     confirmAction: function () {
-      if (this.promptAction.type == "clone")
+      if (this.promptAction.type == "Clone")
         this.cloneBlock(this.promptAction.key);
-      else this.deleteBlock(this.promptAction.key);
+      else if (this.promptAction.type == "Delete")
+        this.deleteBlock(this.promptAction.key);
+      else this.resetTemplate();
 
       this.promptAction = false;
     },
@@ -825,7 +898,9 @@ export default {
 .md-dialog {
   z-index: 10001;
 }
-
+.hide {
+  display: none !important;
+}
 .flip-list-move {
   transition: transform 5s;
 }

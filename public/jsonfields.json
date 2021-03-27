@@ -38,6 +38,18 @@
 								"value": "<h1>We are pleased to welcome<br>you to our [[Campaign Name]]</h1><p><br></p><p><br></p><h2><strong>Get more points</strong></h2><p>Have you completed all the actions to earn the maximum rewards ?<br></p><p><br></p><h2>Chance for rewards</h2><p>Keep participating in our [[Campaign Name]] promotion for chances at more rewards!</p><p><br></p><p>More promotions may be on the way! Keep an eye out to win more rewards.</p><p>Regards, [[Company Name]]</p><p><br></p><p><br></p>"
 							}
 						}
+					},
+					{
+						"name": "footer",
+						"label": "Footer Section",
+						"clone": 0,
+						"data": {
+							"white_label_image": {
+								"type": "checkbox",
+								"label": "Show white label image",
+								"value": 1
+							}
+						}
 					}
 				],
 				"subject": "Welcome to our [[Campaign Name]]",
@@ -179,7 +191,13 @@
 						"name": "footer",
 						"label": "Footer Section",
 						"clone": 0,
-						"data": []
+						"data": {
+							"white_label_image": {
+								"type": "checkbox",
+								"label": "Show white label image",
+								"value": 1
+							}
+						}
 					}
 				],
 				"subject": "Welcome to our [[Campaign Name]] 1",
@@ -309,7 +327,13 @@
 						"name": "footer",
 						"label": "Footer Section",
 						"clone": 0,
-						"data": []
+						"data": {
+							"white_label_image": {
+								"type": "checkbox",
+								"label": "Show white label image",
+								"value": 1
+							}
+						}
 					}
 				],
 				"subject": "Welcome to our [[Campaign Name]] 2",
@@ -451,7 +475,13 @@
 						"name": "footer",
 						"label": "Footer Section",
 						"clone": 0,
-						"data": []
+						"data": {
+							"white_label_image": {
+								"type": "checkbox",
+								"label": "Show white label image",
+								"value": 1
+							}
+						}
 					}
 				],
 				"subject": "Welcome to our [[Campaign Name]] 3",

@@ -50,7 +50,7 @@
                 v-else
                 @click="(e) => save(template.id_theme)"
               >
-                Edit & Activate
+                Edit
               </md-button>
             </div>
           </div>
