@@ -26,12 +26,10 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "ParticipateActions",
-  components: {
-  },
-  
+  components: {},
+
   data: function() {
     return {
       actions: [
@@ -61,71 +59,70 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-  .partiAction {
+.partiAction {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  margin: 20px 30px 30px 20px;
+  position: relative;
+  .partiActions {
     display: flex;
-    flex-wrap: wrap;
-    padding: 5px;
-    margin: 20px 30px 30px 20px;
-    position: relative;
-    .partiActions {
+    padding: 20px;
+    width: 150px;
+    margin: 20px 0 0 2%;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    flex-grow: 1;
+    border-radius: 4px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    .imgDiv {
+      border-radius: 50%;
+      border: 1px solid #fde6bb;
+      width: 120px;
+      height: 120px;
       display: flex;
-      padding: 20px;
-      width: 150px;
-      margin: 20px 0 0 2%;
-      background-color: #fff;
-      border: 1px solid #e8e8e8;
-      flex-grow: 1;
-      border-radius: 4px;
       align-items: center;
-      flex-direction: column;
-      text-align: center;
-      .imgDiv {
+      justify-content: center;
+      padding: 35px;
+      .material-icons {
+        font-size: 50px;
+        color: #df8550;
+        box-sizing: border-box;
+        margin: 0;
+      }
+    }
+    .pointDiv {
+      display: flex;
+      margin: 20px 0 0;
+      span.material-icons {
+        margin-right: 4px;
+        border: 1px solid #8f75be;
         border-radius: 50%;
-        border: 1px solid #fde6bb;
-        width: 120px;
-        height: 120px;
+        color: #8f75be;
+        font-size: 18px;
+        padding: 6px;
+      }
+      div {
+        background: #8f75be;
+        border-radius: 25px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 35px;
-        .material-icons {
-          font-size: 50px;
-          color: #df8550;
-          box-sizing: border-box;
-          margin: 0;
-        }
-      }
-      .pointDiv {
-        display: flex;
-        margin: 20px 0 0;
+        padding: 4px 10px 4px 4px;
         span.material-icons {
-          margin-right: 4px;
-          border: 1px solid #8f75be;
-          border-radius: 50%;
-          color: #8f75be;
-          font-size: 18px;
-          padding: 6px;
-        }
-        div {
-          background: #8f75be;
-          border-radius: 25px;
           color: #fff;
-          font-size: 12px;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          padding: 4px 10px 4px 4px;
-          span.material-icons {
-            color: #fff;
-            margin-right: 4px;
-            font-size: 24px;
-            padding: 0;
-          }
+          margin-right: 4px;
+          font-size: 24px;
+          padding: 0;
         }
       }
     }
   }
+}
 </style>
 
-<style lang="less">
-</style>
+<style lang="less"></style>

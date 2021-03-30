@@ -2,24 +2,24 @@
   <carousel :per-page="3" :navigationEnabled="true">
     <slide v-for="(reward, index) in rewards" :key="reward.id">
       <div :class="'rewardBlock ' + 'rewardBlock' + index">
-              <div class="rewardBlocks">
-                <img src="../assets/img/rewards1.png" alt="" />
-                <!--<img
+        <div class="rewardBlocks">
+          <img src="../assets/img/rewards1.png" alt="" />
+          <!--<img
                   :src="'../assets/img/rewards' + reward.id +'.png'"
                   alt=""
                 />-->
-                <p>{{ reward.desc }}</p>
-                <div class="pointDiv">
-                  <div class="eligiblePts">
-                    <span>Eligible</span>
-                    <span>145</span>
-                  </div>
-                  <span class="requiredPts">95</span>
-                  <!-- redeem class needs to add dynamically -->
-                  <p class="redeem">{{ reward.status }}</p>
-                </div>
-              </div>
+          <p>{{ reward.desc }}</p>
+          <div class="pointDiv">
+            <div class="eligiblePts">
+              <span>Eligible</span>
+              <span>145</span>
             </div>
+            <span class="requiredPts">95</span>
+            <!-- redeem class needs to add dynamically -->
+            <p class="redeem">{{ reward.status }}</p>
+          </div>
+        </div>
+      </div>
     </slide>
   </carousel>
 </template>
@@ -32,7 +32,7 @@ export default {
     Carousel,
     Slide
   },
-  
+
   data: function() {
     return {
       rewards: [
@@ -77,74 +77,74 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-  .rewardBlock {
+.rewardBlock {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  position: relative;
+  .rewardBlocks {
     display: flex;
-    flex-wrap: wrap;
-    padding: 5px;
-    position: relative;
-    .rewardBlocks {
-      display: flex;
-      padding: 10px;
-      margin: 20px 0 0 2%;
-      background-color: #fff;
-      border: 1px solid #e8e8e8;
-      border-radius: 4px;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      max-width: 310px;
-      img  {
-        max-width: 100%;
-        margin-bottom: 20px;
+    padding: 10px;
+    margin: 20px 0 0 2%;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    max-width: 310px;
+    img {
+      max-width: 100%;
+      margin-bottom: 20px;
 
-        & + p {
-          padding: 0 20px;
+      & + p {
+        padding: 0 20px;
+      }
+    }
+    .pointDiv {
+      .eligiblePts {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+
+        span:first-child {
+          color: #2da815;
+          padding: 1px 6px;
+          background: #e0fbcd;
+        }
+        span:last-child {
+          color: #d84133;
+          text-decoration: line-through;
         }
       }
-      .pointDiv {
-        .eligiblePts {
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 16px;
-          
-          span:first-child {
-            color: #2da815;            
-            padding: 1px 6px;
-            background: #e0fbcd;
-          }
-          span:last-child {
-            color: #d84133;
-            text-decoration: line-through;
-          }
-        }
-        .requiredPts {
-          color: #ff6a6a;
-          font-size: 20px;
-          font-weight: 600;
-          line-height: 16px;
-          background: #fff4e0;
-          padding: 0 10px;
-        }
-        p {
-          color: #8f8f8f;
-          font-size: 12px;
-          font-weight: 300;
-          line-height: 16px;
+      .requiredPts {
+        color: #ff6a6a;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 16px;
+        background: #fff4e0;
+        padding: 0 10px;
+      }
+      p {
+        color: #8f8f8f;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 16px;
 
-          &.redeem {
-            color: #007aff;
-          }
+        &.redeem {
+          color: #007aff;
         }
       }
     }
   }
+}
 </style>
 
 <style lang="less">
-  .VueCarousel {
-    margin: 0 40px;
-    .VueCarousel-wrapper {
-      margin: 0 20px;
-    }
+.VueCarousel {
+  margin: 0 40px;
+  .VueCarousel-wrapper {
+    margin: 0 20px;
   }
+}
 </style>

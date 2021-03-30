@@ -26,95 +26,92 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "Newsletter",
-  components: {
-  },
-  
+  components: {},
+
   data: function() {
-    return {
-    };
+    return {};
   }
 };
 </script>
 <style lang="less" scoped>
-  .newsLetter {
-    width: 478px;
-    border-radius: 4px;
-    background: radial-gradient(circle, #733FDA, #191272);
-    padding: 50px;
-    margin: 50px 60px;
-    .imgDiv {
-      text-align: center;
-      margin-top: 50px;
-    }
-    .pointDiv {
-      display: flex;
-      margin: 20px 0 0;
-      span.material-icons {
-        margin-right: 4px;
-        border: 1px solid #8f75be;
-        border-radius: 50%;
-        color: #8f75be;
-        font-size: 18px;
-        padding: 6px;
-      }
-      div {
-        background: #8f75be;
-        border-radius: 25px;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        padding: 4px 10px 4px 4px;
-        span.material-icons {
-          color: #fff;
-          margin-right: 4px;
-          font-size: 24px;
-          padding: 0;
-        }
-      }
-    }
-    h2 {
-      color: #fff;
+.newsLetter {
+  width: 478px;
+  border-radius: 4px;
+  background: radial-gradient(circle, #733fda, #191272);
+  padding: 50px;
+  margin: 50px 60px;
+  .imgDiv {
+    text-align: center;
+    margin-top: 50px;
+  }
+  .pointDiv {
+    display: flex;
+    margin: 20px 0 0;
+    span.material-icons {
+      margin-right: 4px;
+      border: 1px solid #8f75be;
+      border-radius: 50%;
+      color: #8f75be;
       font-size: 18px;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: -0.19285715px;
-      margin-bottom: 0;
+      padding: 6px;
     }
-    p {
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 16px;
+    div {
+      background: #8f75be;
+      border-radius: 25px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      padding: 4px 10px 4px 4px;
+      span.material-icons {
+        color: #fff;
+        margin-right: 4px;
+        font-size: 24px;
+        padding: 0;
+      }
     }
   }
+  h2 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.19285715px;
+    margin-bottom: 0;
+  }
+  p {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+}
 </style>
 
 <style lang="less">
-  .newsLetter {
-    .md-field {
-      border-radius: 4px;
-      border: solid 1px #e5e5e5;
-      background: #ffffff;
-      padding: 15px;
-      margin: 0;
+.newsLetter {
+  .md-field {
+    border-radius: 4px;
+    border: solid 1px #e5e5e5;
+    background: #ffffff;
+    padding: 15px;
+    margin: 0;
 
-      &:after,
-      &:before {
-        height: 0;
-      }
+    &:after,
+    &:before {
+      height: 0;
+    }
 
-      label {
-        left: 15px;
-      }
-      
-      .material-icons {
-        margin-top: 5px;
-      }
+    label {
+      left: 15px;
+    }
+
+    .material-icons {
+      margin-top: 5px;
     }
   }
+}
 </style>

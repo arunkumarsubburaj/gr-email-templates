@@ -29,6 +29,7 @@
           class="templateBox"
           v-for="(template, index) in templates"
           :key="template.id"
+          :id="template.id"
         >
           <div class="boxView">
             <img :src="'../../img/template' + template.id + '.png'" alt="" />
@@ -38,9 +39,11 @@
               <!-- <h4>{{ template.tpl_name }}</h4> -->
               <small>Template {{ index + 1 }}</small>
             </div>
-            <md-button class="md-raised btn-custom-default">
-              Select & Edit
-            </md-button>
+            <router-link :to="'/view/embed/style/' + template.id">
+              <md-button class="md-raised btn-custom-default">
+                Select & Edit
+              </md-button>
+            </router-link>
           </div>
         </div>
       </section>
@@ -315,7 +318,7 @@ export default {
           }
 
           &.active {
-            background:#8f75be;
+            background: #8f75be;
             color: #fff;
           }
         }
