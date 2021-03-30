@@ -24,7 +24,7 @@
         </div>
         <section class="md-layout-item">
           <div
-            :class="['templateBox', { active: template.status == 1 }]"
+            :class="['templateBox', { active: template.id_theme == activeThemeId }]"
             v-for="(template, index) in data"
             :key="template.id_theme"
           >
@@ -34,12 +34,12 @@
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
-                <strong v-if="template.status == 1">Active: </strong>
+                <strong v-if="template.id_theme == activeThemeId">Active: </strong>
                 <small>Template {{ index + 1 }}</small>
               </div>
               <md-button
                 class="md-raised md-accent btn-custom-active"
-                v-if="template.status == 1"
+                v-if="template.id_theme == activeThemeId"
                 @click="(e) => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
@@ -62,7 +62,7 @@
 <script>
 export default {
   name: "EmailTemplates",
-  props: ["data", "close", "save", "fromEditPage", "title"],
+  props: ["data", "close", "save", "fromEditPage", "title", "activeThemeId"],
   methods: {
     getImg: function (id) {
       return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`;

@@ -72,9 +72,7 @@
                           v-if="item.data.length !== 0"
                           class="far fa-bars handle"
                         ></i>
-                        <span class="title">
-                          {{ item.label }}
-                        </span>
+                        <span class="title"> {{ item.label }} {{ key }} </span>
                         <nav v-if="item.data.length !== 0">
                           <a
                             v-if="item.clone"
@@ -146,7 +144,7 @@
                               <div class="uploadWrap">
                                 <label
                                   class="md-button md-raised md-accent md-theme-default"
-                                  :for="name"
+                                  :for="`${key}-${name}`"
                                 >
                                   <i class="fal fa-upload"></i>
                                   <span v-if="control.value.length > 0"
@@ -154,7 +152,7 @@
                                   >
                                   <span v-else>Add Image</span>
                                   <input
-                                    :id="name"
+                                    :id="`${key}-${name}`"
                                     type="file"
                                     accept="image/*"
                                     @change="
@@ -188,7 +186,8 @@
                   v-if="footerSection"
                   :class="[
                     'eAccordion-items',
-                    { active: activeAccordion == 'foooter' },
+                    'eAccordion-footer',
+                    { active: activeAccordion == 'footer' },
                   ]"
                 >
                   <div
@@ -196,7 +195,7 @@
                     @click.prevent="
                       (e) =>
                         footerSection.data.length !== 0 &&
-                        toggleAccordion('foooter')
+                        toggleAccordion('footer')
                     "
                   >
                     <span class="title">
@@ -291,7 +290,11 @@
                         >
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
-                            :handleClick="(e) => (activeAccordion = index)"
+                            :handleClick="
+                              (e) =>
+                                (activeAccordion =
+                                  block.name == 'footer' ? 'footer' : index)
+                            "
                             :key="index"
                             :tData="block.data"
                             :tHtml="eData.templates[block.name]"
@@ -331,6 +334,7 @@
       <div v-else>
         <EmailTemplates
           :data="allData"
+          :activeThemeId="activeThemeId"
           :close="togglePageview"
           :save="handleChooseTemplate"
           :fromEditPage="fromEditPage"
@@ -474,6 +478,7 @@ export default {
       activeThemeHtml: null,
       activeAccordion: null,
       emailTitle: null,
+      emailType: null,
       dVars: null,
       quillEditor: {},
       eOptions: options,
@@ -487,7 +492,10 @@ export default {
   },
   watch: {
     activeAccordion: function (index) {
-      const active = document.querySelectorAll(".eAccordion-items")[index];
+      let active = null;
+      if (index == "footer")
+        active = document.querySelector(".eAccordion-footer");
+      else active = document.querySelectorAll(".eAccordion-items")[index];
       if (active) {
         setTimeout(() => {
           const ele = active.querySelector(".eAccordion-content");
@@ -518,6 +526,7 @@ export default {
   methods: {
     setEdata: function (id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
+      this.disableTest = false;
     },
     toggleAccordion: function (index) {
       this.activeAccordion = this.activeAccordion === index ? null : index;
@@ -531,10 +540,12 @@ export default {
     },
     handleWlImg: function (status) {
       const footerimg = document.querySelector(".footerWlImage");
+      console.log(footerimg);
       if (status) footerimg.classList.add("hide");
       else footerimg.classList.remove("hide");
     },
     handleFileChange: function (e, index, name) {
+      console.log(index);
       const file = e.target.files[0];
       this.loader = true;
       let formData = new FormData();
@@ -581,15 +592,13 @@ export default {
     handleSave: function () {
       this.loader = true;
 
-      const { id_theme, tpl_name, subject, json_fields } = this.eData;
-
-      console.log(json_fields);
+      const { id_theme, subject, json_fields } = this.eData;
 
       const params = {
         id_email: this.id,
         subject: subject,
         id_theme: id_theme,
-        type: tpl_name,
+        type: this.emailType,
         is_enabled: 1,
         json_fields: JSON.stringify(json_fields),
       };
@@ -649,6 +658,7 @@ export default {
     },
     fetchTemplateData: function () {
       this.loader = true;
+      this.eData = null;
       Axios.get(
         `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
@@ -658,12 +668,14 @@ export default {
           themes,
           is_wl,
           title,
+          type,
         } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.isWl = is_wl;
         this.activeThemeId = active_id_theme;
         this.emailTitle = title;
+        this.emailType = type;
         this.setEdata(active_id_theme);
         this.loader = false;
       });
@@ -897,6 +909,9 @@ export default {
 }
 .md-dialog {
   z-index: 10001;
+}
+.previewBlock a {
+  pointer-events: none;
 }
 .hide {
   display: none !important;

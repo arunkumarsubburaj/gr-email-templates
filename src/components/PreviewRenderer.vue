@@ -15,9 +15,15 @@ export default {
   methods: {
     renderTemplate: (data, html) =>
       html.length > 5
-        ? html.replace(/\[\[(.*?)\]]/g, (full, property) =>
-            data[property] ? data[property].value : property
-          )
+        ? html.replace(/\[\[(.*?)\]]/g, (full, property) => {
+            if (data[property]) {
+              if (property == "white_label_image")
+                return data[property].value ? "block" : "none";
+              else return data[property].value;
+            } else {
+              return property;
+            }
+          })
         : "<div>Invalid Template</div>",
   },
 };
