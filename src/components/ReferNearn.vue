@@ -95,6 +95,8 @@ export default {
   }
   .referNearnInner {
     padding: 50px;
+    border: 1px solid #e8e8e8;
+    border-top: none;
     .pointDiv {
       display: flex;
       span.material-icons {

@@ -40,8 +40,7 @@
           <div class="previewBlock">
             <div class="ctaBlock">
               <div class="views">
-                <span class="material-icons active">laptop</span>
-                <span class="material-icons mobile">ad_units</span>
+                 <span class="material-icons" @click="activate(menu.id)" :class="{ active : active_el == menu.id }" v-for="(menu) in menus" :key="menu.id">{{menu.texto}}</span>   
               </div>
               <md-button class="md-raised btn-custom-default">
                 Preview
@@ -51,7 +50,31 @@
             <div class="">
               <img src="../../assets/img/template_header.png" alt="" />
             </div>
-            <div class="cardBlock">
+            <div class="cardBlock" :class="{ mobileActive : active_el == '2' }">
+              <div class="item">
+                <div class="title">
+                  <h2>Earn Rewards</h2>
+                  <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                </div>
+                
+                <div class="cntrlBlock">
+                  <div class="btnGr">
+                    <md-button-group>
+                      <md-button class="md-raised active">Active</md-button>
+                      <md-button class="md-raised">Completed</md-button>
+                    </md-button-group>
+                    <md-field>
+                      <md-select v-model="order" name="order" id="order" placeholder="Order">
+                        <md-option value="australia">Highest First</md-option>
+                        <md-option value="brazil">Lowest First</md-option>
+                      </md-select>
+                    </md-field>
+                  </div>
+                  <div>
+                    fdgdg
+                  </div>
+                </div>
+              </div>
               <div class="item">
                 <CelebrateEvents />
               </div>
@@ -63,6 +86,13 @@
               </div>
               <div class="item">
                 <ReferNearn />
+              </div>
+              <div class="item">
+                <div class="title">
+                  <h2>Redeem Rewards</h2>
+                  <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                </div>
+                <Carouselslide />
               </div>
             </div>
           </div>
@@ -83,7 +113,7 @@ import ParticipateActions from "../../components/ParticipateActions.vue";
 import Newsletter from "../../components/Newsletter.vue";
 import ReferNearn from "../../components/ReferNearn.vue";
 import CelebrateEvents from "../../components/CelebrateEvents.vue";
-//import Carouselslide from "../../components/Carouselslide.vue";
+import Carouselslide from "../../components/Carouselslide.vue";
 
 export default {
   name: "EmailEdit",
@@ -97,17 +127,24 @@ export default {
     Newsletter,
     ReferNearn,
     CelebrateEvents,
-    //Carouselslide
+    Carouselslide
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function() {
     return {
       loader: false,
+      isActive: false,
+      ex3: { label: 'thumb-color', val: 50, color: 'red' },
+      menus:[{"id":"1","texto":"laptop", "class":"active"},{"id":"2","texto":"ad_units"}],
+      active_el:0
     };
   },
   computed: {
   },
   methods: {
+    activate:function(el){
+        this.active_el = el;
+    }
   },
   mounted: function() {
   }
@@ -238,17 +275,19 @@ export default {
           cursor: pointer;
           &:hover {
             background: #d1d1d1;
+            color: #000;
           }
-        }
 
-        .mobile {
-          -ms-transform: rotate(180deg); /* IE 9 */
-          transform: rotate(180deg); /* Standard syntax */
-        }
+          &.active,
+          &.active:hover {
+            background: #333333;
+            color: #fff;
+          }
 
-        .active {
-          background: #333333;
-          color: #fff;
+          &:last-child {
+            -ms-transform: rotate(180deg); /* IE 9 */
+            transform: rotate(180deg); /* Standard syntax */
+          }
         }
       }
     }
@@ -263,13 +302,33 @@ export default {
     .cardBlock {
       display: flex;
       flex-wrap: wrap;
+      .mobileActive {
+        background: red;
+      }
       .item {
         width: 50%;
+
+        &:first-child {
+          width: 100%;
+          margin-top: 20px;
+          padding-bottom: 20px;
+        }
+
+        &:last-child {
+          width: 100%;
+          background: #fff7ef;
+          margin-top: 20px;
+          padding-bottom: 20px;
+        }
 
         .celebrateEvents,
         .newsLetter {
           width: calc(100% - 20px);
           margin: 20px 0 0 20px;
+        }
+
+        .celebrateEvents {
+          min-height: 560px;
         }
 
         .referNearn {
@@ -278,8 +337,27 @@ export default {
         }
 
         .partiAction {
-          margin: 0 20px 20px 10px;
+          margin: 0 20px 0px 10px;
           padding: 0;
+          p {
+            margin-bottom: 0;
+          }
+        }
+        .title {
+          max-width: 50%;
+          margin: 0 auto;
+          text-align: center;
+          padding: 30px 0 0px;
+        }
+  
+        .cntrlBlock {
+          margin: 20px;
+          .btnGr {
+            display: flex;
+            md-button-group {
+              width: 100%;
+            }
+          }
         }
       }
     }
@@ -294,7 +372,53 @@ export default {
 .md-button.md-theme-default.md-raised:not([disabled]) {
   border: 1px solid #d1d1d1;
 }
-.md-button:first-child {
-  margin: 0 15px 0 0;
+.topCta {
+  .md-button:first-child {
+    margin: 0 15px 0 0;
+  }
+}
+.embedEdit .previewBlock .cardBlock .item {
+  .partiAction {
+    .partiActions {
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .newsLetter {
+    .imgDiv {
+      margin-top: 15px;
+    }
+  }
+  .VueCarousel {
+    margin: 0 20px;
+    .VueCarousel-wrapper {
+      margin: 0;
+    }
+  }
+  
+  .cntrlBlock {
+    margin: 20px 30px;
+    padding: 0;
+    .btnGr {
+      .md-field {
+          margin: 0 0 0 10px;
+          min-height: auto;
+          background: #ddd;
+          border-radius: 4px;
+          padding: 0 10px;
+
+          &::after {
+            display: none;
+          }
+          &::before {
+            background-color: #8f75be;
+          }
+          .md-menu.md-select {
+            align-items: center;
+          }
+      }
+    }
+  }
 }
 </style>

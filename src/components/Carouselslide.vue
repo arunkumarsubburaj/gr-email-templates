@@ -1,27 +1,39 @@
 <template>
-  <carousel :per-page="3" :navigationEnabled="true">
-    <slide v-for="(reward, index) in rewards" :key="reward.id">
-      <div :class="'rewardBlock ' + 'rewardBlock' + index">
-        <div class="rewardBlocks">
-          <img src="../assets/img/rewards1.png" alt="" />
-          <!--<img
-                  :src="'../assets/img/rewards' + reward.id +'.png'"
-                  alt=""
-                />-->
-          <p>{{ reward.desc }}</p>
-          <div class="pointDiv">
-            <div class="eligiblePts">
-              <span>Eligible</span>
-              <span>145</span>
+  <div>
+    <div class="cntrlBlock">
+      <md-button-group>
+        <md-button class="md-raised active">All</md-button>
+        <md-button class="md-raised">Daily</md-button>
+        <md-button class="md-raised">Weekly</md-button>
+        <md-button class="md-raised">Monthly</md-button>
+        <md-button class="md-raised">Grand</md-button>
+      </md-button-group>
+      <a href="#">You have earned 395 points</a>
+    </div>
+    <carousel :per-page="3" :navigationEnabled="true">
+      <slide v-for="(reward, index) in rewards" :key="reward.id">
+        <div :class="'rewardBlock ' + 'rewardBlock' + index">
+          <div class="rewardBlocks">
+            <img src="../assets/img/rewards1.png" alt="" />
+            <!--<img
+                    :src="'../assets/img/rewards' + reward.id +'.png'"
+                    alt=""
+                  />-->
+            <p>{{ reward.desc }}</p>
+            <div class="pointDiv">
+              <div class="eligiblePts">
+                <span>Eligible</span>
+                <span>145</span>
+              </div>
+              <span class="requiredPts">95</span>
+              <!-- redeem class needs to add dynamically -->
+              <p class="redeem">{{ reward.status }}</p>
             </div>
-            <span class="requiredPts">95</span>
-            <!-- redeem class needs to add dynamically -->
-            <p class="redeem">{{ reward.status }}</p>
           </div>
         </div>
-      </div>
-    </slide>
-  </carousel>
+      </slide>
+    </carousel>
+  </div>
 </template>
 <script>
 import { Carousel, Slide } from "vue-carousel";
@@ -145,6 +157,47 @@ export default {
   margin: 0 40px;
   .VueCarousel-wrapper {
     margin: 0 20px;
+  }
+}
+.cntrlBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 40px;
+  padding: 0 30px;
+
+  a {
+    color: #1f6bff !important;
+    text-decoration: underline !important;
+  }
+
+  md-button-group {
+    .md-button.md-theme-default.md-raised {
+      border: 1px solid #dfdfdf;
+      border-left: none;
+      border-radius: 0;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 15px;
+      min-width: auto;
+
+      &:first-child {
+        border-left: 1px solid #dfdfdf;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      &.active {
+        background: #8f75be;
+        color: #fff;
+        border-color: #8f75be;
+      }
+    }
   }
 }
 </style>

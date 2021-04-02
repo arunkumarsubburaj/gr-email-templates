@@ -113,16 +113,6 @@
           </vsa-heading>
 
           <vsa-content>
-            <div class="cntrlBlock">
-              <md-button-group>
-                <md-button class="md-raised active">All</md-button>
-                <md-button class="md-raised">Daily</md-button>
-                <md-button class="md-raised">Weekly</md-button>
-                <md-button class="md-raised">Monthly</md-button>
-                <md-button class="md-raised">Grand</md-button>
-              </md-button-group>
-              <a href="#">You have earned 395 points</a>
-            </div>
             <Carouselslide />
           </vsa-content>
         </vsa-item>
@@ -283,46 +273,6 @@ export default {
       color: #c1b4b4;
       margin: 40px 0;
       text-align: center;
-    }
-
-    .cntrlBlock {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 20px 40px;
-      padding: 0 30px;
-
-      a {
-        color: #1f6bff;
-      }
-
-      md-button-group {
-        .md-button.md-theme-default.md-raised {
-          border: 1px solid #dfdfdf;
-          border-left: none;
-          border-radius: 0;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 15px;
-          min-width: auto;
-
-          &:first-child {
-            border-left: 1px solid #dfdfdf;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-          }
-
-          &:last-child {
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-          }
-
-          &.active {
-            background: #8f75be;
-            color: #fff;
-          }
-        }
-      }
     }
   }
 }
