@@ -5,7 +5,10 @@
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-size-100 emailListingHead">
             <h2>Email Templates</h2>
-            <p>In this section you can setup email content which will be triggered when certain actions or activities occur</p>
+            <p>
+              In this section you can setup email content which will be
+              triggered when certain actions or activities occur
+            </p>
             <!-- <ul>
               <li>
                 <h4>147,789</h4>
@@ -35,17 +38,17 @@
           <div class="name">
             <div>
               <h5>{{ mail.title }}</h5>
-              <!-- <p>{{ mail.type }}</p> -->
+              <p>Email dummy sample text shown here. Text must be replaced from api data.</p>
             </div>
           </div>
           <div>
             <label
               class="switch"
-              title="Update status"
               @click.prevent="changeEmailStatus(mail.id_email, mail.is_enabled)"
               :for="mail.id_email"
               v-if="mail.id_email !== 2"
             >
+              <md-tooltip md-direction="left">Update Status</md-tooltip>
               <input
                 type="checkbox"
                 name="mainSwitch"
@@ -57,10 +60,16 @@
           </div>
           <div class="actions">
             <router-link :to="'/view/email/templates/' + mail.id_email">
-              <i title="Edit" class="fal fa-edit"></i>
+              <i class="fal fa-edit"
+                ><md-tooltip md-direction="left">Edit</md-tooltip></i
+              >
             </router-link>
             <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-              <i title="Send Test Email" class="fal fa-envelope"></i>
+              <i class="fal fa-envelope"
+                ><md-tooltip md-direction="left"
+                  >Send Test Email</md-tooltip
+                ></i
+              >
             </a>
           </div>
         </li>
@@ -80,19 +89,18 @@
             <div class="name">
               <div>
                 <h5>{{ mail.title }}</h5>
-                <!-- <p>{{ mail.type }}</p> -->
+                <p>Email dummy sample text shown here. Text must be replaced from api data.</p>
               </div>
             </div>
             <div>
               <label
                 class="switch"
-                title="Update status"
                 @click.prevent="
                   changeEmailStatus(mail.id_email, mail.is_enabled)
                 "
                 :for="mail.id_email"
                 v-if="mail.id_email !== 2"
-              >
+                ><md-tooltip md-direction="left">Update Status</md-tooltip>
                 <input
                   type="checkbox"
                   name="mainSwitch"
@@ -104,10 +112,16 @@
             </div>
             <div class="actions">
               <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i title="Edit" class="fal fa-edit"></i>
+                <i class="fal fa-edit"
+                  ><md-tooltip md-direction="left">Edit</md-tooltip></i
+                >
               </router-link>
               <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
-                <i title="Send Test Email" class="fal fa-envelope"></i>
+                <i class="fal fa-envelope"
+                  ><md-tooltip md-direction="left"
+                    >Send Test Email</md-tooltip
+                  ></i
+                >
               </a>
             </div>
           </li>
@@ -198,19 +212,20 @@ export default {
   },
   mounted: function () {
     this.loader = true;
-    Axios.get(`${window.Config.callback_url}/services/email/getEmailTemplates`).then(
-      ({ data }) => {
-        this.listData = data.data;
-        this.loader = false;
-      }
-    );
+    Axios.get(
+      `${window.Config.callback_url}/services/email/getEmailTemplates`
+    ).then(({ data }) => {
+      this.listData = data.data;
+      this.loader = false;
+    });
   },
 };
 </script>
 
 <style lang="less" scoped>
 .emailheader {
-  background: url(https://s3.us-east-1.amazonaws.com/devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg) no-repeat;
+  background: url(https://s3.us-east-1.amazonaws.com/devam.pro/gr/master/upload/img/395/95/4395_logo_1613395827.jpg)
+    no-repeat;
   background-size: cover;
 }
 .emailListing {
@@ -304,16 +319,15 @@ export default {
     font-size: 1.2em;
   }
 
-  p,
-  h5 {
+  p {
     margin: 0;
     font-size: 12px;
   }
 
   h5 {
-    font-weight: 500;
+    font-size: 1.15em;
     line-height: normal;
-    margin-bottom: 0.3em;
+    margin: 0 0 0.3em;
   }
 
   li {
@@ -368,7 +382,6 @@ export default {
     margin-right: 10px;
   }
 }
-
 
 .emailListingContainer h3 {
   font-size: 2em;

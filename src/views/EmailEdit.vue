@@ -5,7 +5,8 @@
         <div class="fixedHeaderBlock">
           <div class="fixedHeaderBlockInner">
             <a class="link-back" @click.prevent="handleBack">
-              <i class="fa fa-long-arrow-left"></i>
+              <i class="fa fa-long-arrow-left"></i
+              ><md-tooltip md-direction="right">Back</md-tooltip>
             </a>
             <div class="title">
               <div class="icon far fa-envelope margin-right-10"></div>
@@ -18,6 +19,11 @@
               :disabled="disableTest"
               @click.prevent="sendTestEmail"
               >Sent Test Email</md-button
+            >
+            <md-button
+              @click.prevent="togglePageview"
+              class="md-raised md-accent"
+              >Change Template</md-button
             >
             <md-button @click.prevent="handleSave" class="md-raised md-accent"
               >Save</md-button
@@ -41,7 +47,10 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-35">
               <div class="subjectEditor">
-                <span>Subject for your email:</span>
+                <div class="subTitle">
+                  <span>Subject for your email:</span>
+                  <CustomVariables :data="dVars" id="subject" name="subject" :click="appendVarToKey" />
+                </div>
                 <input type="text" v-model="eData.subject" />
               </div>
               <div class="eAccordion">
@@ -70,9 +79,12 @@
                       >
                         <i
                           v-if="item.data.length !== 0"
-                          class="far fa-bars handle"
-                        ></i>
-                        <span class="title"> {{ item.label }} {{ key }} </span>
+                          class="fas fa-arrows-alt"
+                          ><md-tooltip md-direction="right"
+                            >Shift order</md-tooltip
+                          ></i
+                        >
+                        <span class="title"> {{ item.label }} </span>
                         <nav v-if="item.data.length !== 0">
                           <a
                             v-if="item.clone"
@@ -81,15 +93,21 @@
                             "
                             href="#"
                             ><i class="fal fa-clone"></i
-                          ></a>
+                            ><md-tooltip md-direction="left"
+                              >Clone</md-tooltip
+                            ></a
+                          >
                           <a
                             v-if="item.clone"
                             v-on:click.stop.prevent="
                               promptAction = { type: 'Delete', key: key }
                             "
                             href="#"
-                            ><i class="fal fa-trash-alt"></i
-                          ></a>
+                            ><i class="fal fa-trash-alt"></i>
+                            <md-tooltip md-direction="left"
+                              >Delete</md-tooltip
+                            ></a
+                          >
                           <i class="far fa-chevron-right"></i>
                         </nav>
                       </div>
@@ -160,11 +178,11 @@
                                     "
                                   />
                                 </label>
-                                <!-- <img
+                                <img
                                   v-if="control.value.length > 0"
                                   :src="control.value"
                                   alt=""
-                                /> -->
+                                />
                               </div>
                             </div>
                             <div v-if="control.type == 'color'">
@@ -249,14 +267,14 @@
                   </div>
                 </div>
               </div>
-              <div class="panelBlock">
+              <!-- <div class="panelBlock">
                 <h3>Would you like to change</h3>
                 <md-button
                   @click.prevent="togglePageview"
                   class="md-raised md-accent"
                   >Change Template</md-button
                 >
-              </div>
+              </div> -->
               <div class="panelBlock resetPanel">
                 <h3>Reset template to defaults</h3>
                 <md-button
@@ -295,9 +313,11 @@
                                 (activeAccordion =
                                   block.name == 'footer' ? 'footer' : index)
                             "
+                            :active="activeAccordion === index"
                             :key="index"
                             :tData="block.data"
                             :tHtml="eData.templates[block.name]"
+                            :name="block.name"
                           />
                         </table>
                       </td>
@@ -326,6 +346,15 @@
               md-cancel-text="Cancel"
               @md-cancel="(e) => (promptAction = null)"
               @md-confirm="confirmAction"
+            /><md-dialog-confirm
+              v-if="name === 'footer'"
+              :md-active.sync="footerAction"
+              md-title="Change this in the Languages tab"
+              md-content="This is a global change and it should be done in the languages tab"
+              md-confirm-text="Take me there"
+              md-cancel-text="I'll do it later"
+              @md-cancel="() => (footerAction = false)"
+              @md-confirm="() => console.log('dpsadp')"
             />
           </div>
         </div>
@@ -488,6 +517,7 @@ export default {
       fromEditPage: false,
       disableTest: false,
       promptAction: false,
+      footerAction: false,
     };
   },
   watch: {
@@ -574,6 +604,7 @@ export default {
         });
     },
     appendVarToKey: function (id, name, item) {
+      console.log(id, name);
       const { type, value } = this.eData.json_fields[id].data[name];
       if (type == "textarea") {
         const position = this.quillEditor[name] || 0;
@@ -711,6 +742,7 @@ export default {
   mounted: function () {
     this.fetchTemplateData();
     window.addEventListener("beforeunload", this.showReloadAlert);
+    // const ft = document.querySelector(".emailFooterTxt");
   },
 };
 </script>
@@ -896,6 +928,9 @@ export default {
 :root {
   --md-theme-default-accent: #5bb74d !important;
 }
+.quill-editor {
+  background-color: #fff;
+}
 .ql-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -988,6 +1023,7 @@ export default {
     padding: 10px;
     border: 1px solid #e8e8e8;
     position: relative;
+    transition: background-color 0.5s;
     nav {
       display: flex;
       align-items: center;
@@ -1014,7 +1050,7 @@ export default {
   &-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.8s;
+    transition: max-height 0.8s, background-color 0.5s;
     > div {
       border: 1px solid #e8e8e8;
       padding: 10px;
@@ -1024,9 +1060,17 @@ export default {
     &.active {
       .eAccordion-content {
         max-height: 2000px;
+        background-color: #efefef;
+        > div {
+          border-color: #afafaf;
+        }
       }
-      .eAccordion-title .fa-chevron-right {
-        transform: rotate(90deg);
+      .eAccordion-title {
+        border-color: #afafaf;
+        background-color: #bfbfbf;
+        .fa-chevron-right {
+          transform: rotate(90deg);
+        }
       }
     }
   }

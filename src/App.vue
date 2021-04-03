@@ -38,23 +38,23 @@ Vue.mixin({
         }
       }
       return formData;
-    }
+    },
   },
 });
 
 export default {
-  name: "app"
+  name: "app",
 };
 </script>
 
 <style lang="less">
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    background: #fafafa;
-  }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  background: #fafafa;
+}
 
 #nav {
   padding: 30px;
@@ -67,6 +67,34 @@ export default {
       color: #42b983;
     }
   }
+}
+.md-tooltip:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent rgba(97,97,97,0.9);
+  position: absolute;
+}
+.md-tooltip-left {
+  transform: translateX(10px);
+  &:before {
+    right: 0;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+}
+.md-tooltip-right {
+  transform: translateX(-10px);
+  &:before {
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%) rotateY(180deg);
+  }
+}
+.md-tooltip-bottom {
+  transform: translateY(-8px);
 }
 
 .switch {
@@ -147,7 +175,6 @@ export default {
     }
   }
 }
-
 
 .fixedHeaderBlock {
   background: #fff;

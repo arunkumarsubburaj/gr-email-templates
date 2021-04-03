@@ -3,7 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <a class="link-back" @click.prevent="handleBack">
-          <i class="fa fa-long-arrow-left"></i>
+          <i class="fa fa-long-arrow-left"
+            ><md-tooltip md-direction="right">Back</md-tooltip></i
+          >
         </a>
         <div class="title">
           <div class="icon far fa-bookmark margin-right-10"></div>
@@ -24,7 +26,10 @@
         </div>
         <section class="md-layout-item">
           <div
-            :class="['templateBox', { active: template.id_theme == activeThemeId }]"
+            :class="[
+              'templateBox',
+              { active: template.id_theme == activeThemeId },
+            ]"
             v-for="(template, index) in data"
             :key="template.id_theme"
           >
@@ -34,7 +39,9 @@
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
-                <strong v-if="template.id_theme == activeThemeId">Active: </strong>
+                <strong v-if="template.id_theme == activeThemeId"
+                  >Active:
+                </strong>
                 <small>Template {{ index + 1 }}</small>
               </div>
               <md-button

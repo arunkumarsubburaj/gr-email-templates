@@ -2,6 +2,9 @@
 
 https://logesh1987.github.io/gr-email-templates/dist/#/view/email/templates
 
+### URLS
+http://localhost:8080/#/view/email/templates/ - to view the email module
+
 ## Project setup
 ```
 yarn install

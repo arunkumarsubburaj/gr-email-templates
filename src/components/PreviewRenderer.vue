@@ -1,12 +1,16 @@
 <template>
   <tr>
-    <td @click="handleClick" v-html="templateOutput"></td>
+    <td
+      :class="[{ activeBlk: active }]"
+      @click="handleClick"
+      v-html="templateOutput"
+    ></td>
   </tr>
 </template>
 <script>
 export default {
   name: "PreviewRenderer",
-  props: ["tData", "tHtml", "handleClick"],
+  props: ["tData", "tHtml", "handleClick", "active"],
   computed: {
     templateOutput: function () {
       return this.tData ? this.renderTemplate(this.tData, this.tHtml) : null;
@@ -25,6 +29,11 @@ export default {
             }
           })
         : "<div>Invalid Template</div>",
-  },
+  }
 };
 </script>
+<style lang="less" scoped>
+.activeBlk {
+  border: 2px dashed;
+}
+</style>
