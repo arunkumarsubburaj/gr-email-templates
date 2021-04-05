@@ -51,12 +51,12 @@
                   <span>Subject for your email:</span>
                   <CustomVariables
                     :data="dVars"
-                    id="subject"
+                    index="subject"
                     name="subject"
                     :click="appendVarToKey"
                   />
                 </div>
-                <input type="text" v-model="eData.subject" />
+                <input type="text" ref="subject" v-model="eData.subject" />
               </div>
               <h3 class="bodyHead">Body for your Email</h3>
               <div class="eAccordion">
@@ -85,7 +85,7 @@
                       >
                         <i
                           v-if="item.data.length !== 0"
-                          class="fas fa-arrows-alt"
+                          class="fas fa-arrows-alt handle"
                           ><md-tooltip md-direction="right"
                             >Shift order</md-tooltip
                           ></i
@@ -477,7 +477,7 @@ var options = {
         { align: [] },
         { direction: "rtl" },
         { size: ["small", false, "large", "huge"] },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        { header: [1, 2, 3, 4, 5, 6, false] },
       ],
       [
         { color: [] },
@@ -488,9 +488,9 @@ var options = {
         "strike",
         "link",
         "image",
-        'blockquote', 
-        'code-block'
-      ]
+        "blockquote",
+        "code-block",
+      ],
     ],
   },
 };
@@ -625,16 +625,23 @@ export default {
         });
     },
     appendVarToKey: function (id, name, item) {
-      console.log(id, name);
-      const { type, value } = this.eData.json_fields[id].data[name];
-      if (type == "textarea") {
-        const position = this.quillEditor[name] || 0;
-        this.$refs[`${id}-${name}`][0].quill.insertText(position, item);
-      } else {
-        const index = this.$refs[`${id}-${name}`][0].selectionStart;
+      if (name == "subject") {
+        const value = this.eData.subject;
+        const index = this.$refs["subject"].selectionStart;
         const text = value.slice(0, index) + item + value.slice(index);
-        this.eData.json_fields[id].data[name].value = text;
-        this.$refs[`${id}-${name}`][0].value = text;
+        this.eData.subject = text;
+        this.$refs["subject"].value = text;
+      } else {
+        const { type, value } = this.eData.json_fields[id].data[name];
+        if (type == "textarea") {
+          const position = this.quillEditor[name] || 0;
+          this.$refs[`${id}-${name}`][0].quill.insertText(position, item);
+        } else {
+          const index = this.$refs[`${id}-${name}`][0].selectionStart;
+          const text = value.slice(0, index) + item + value.slice(index);
+          this.eData.json_fields[id].data[name].value = text;
+          this.$refs[`${id}-${name}`][0].value = text;
+        }
       }
     },
     handleChooseTemplate: function (id) {
@@ -1066,6 +1073,9 @@ export default {
         margin: 0 5px;
         transition: transform 0.5s;
       }
+    }
+    i.fa-arrows-alt {
+      cursor: grab;
     }
     &:hover a {
       opacity: 1;
