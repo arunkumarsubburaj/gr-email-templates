@@ -49,10 +49,16 @@
               <div class="subjectEditor">
                 <div class="subTitle">
                   <span>Subject for your email:</span>
-                  <CustomVariables :data="dVars" id="subject" name="subject" :click="appendVarToKey" />
+                  <CustomVariables
+                    :data="dVars"
+                    id="subject"
+                    name="subject"
+                    :click="appendVarToKey"
+                  />
                 </div>
                 <input type="text" v-model="eData.subject" />
               </div>
+              <h3 class="bodyHead">Body for your Email</h3>
               <div class="eAccordion">
                 <draggable
                   v-model="eData.json_fields"
@@ -335,6 +341,7 @@
               <span v-html="emailResponse"></span>
             </md-snackbar>
             <md-dialog-confirm
+              :class="[{ warn: promptAction.type == 'Reset' }]"
               :md-active.sync="promptAction"
               :md-title="`${promptAction.type} ${
                 promptAction.type == 'Reset' ? 'Template' : 'Section'
@@ -462,14 +469,28 @@ var options = {
       },
     },
     toolbar: [
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }][{ direction: "rtl" }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ size: ["small", false, "large", "huge"] }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ font: [] }],
+      [
+        { indent: "-1" },
+        { indent: "+1" },
+        { list: "ordered" },
+        { list: "bullet" },
+        { align: [] },
+        { direction: "rtl" },
+        { size: ["small", false, "large", "huge"] },
+        { header: [1, 2, 3, 4, 5, 6, false] }
+      ],
+      [
+        { color: [] },
+        { background: [] },
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        "link",
+        "image",
+        'blockquote', 
+        'code-block'
+      ]
     ],
   },
 };
@@ -864,6 +885,10 @@ export default {
     background: #fff;
     border: 1px solid #e8e8e8;
   }
+}
+.bodyHead {
+  color: #007aff;
+  margin-top: 2em;
 }
 .subjectEditor {
   background-color: #fff;

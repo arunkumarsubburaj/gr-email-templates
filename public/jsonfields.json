@@ -15,7 +15,8 @@
 							"header_image": {
 								"type": "file",
 								"label": "header image",
-								"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
+								"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png",
+								"status": true
 							}
 						}
 					},
@@ -83,7 +84,8 @@
 							"header_image": {
 								"type": "file",
 								"label": "header image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895238.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895238.png",
+								"status": true
 							},
 							"header_background_color": {
 								"type": "color",
@@ -108,7 +110,8 @@
 							"block_image": {
 								"type": "file",
 								"label": "Image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1615895285.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1615895285.png",
+								"status": true
 							},
 							"title": {
 								"type": "text",
@@ -144,7 +147,8 @@
 							"block_image": {
 								"type": "file",
 								"label": "Image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image2_1614271490.jpg"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_side_image2_1614271490.jpg",
+								"status": true
 							},
 							"title": {
 								"type": "text",
@@ -224,7 +228,8 @@
 							"header_image": {
 								"type": "file",
 								"label": "header image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895940.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615895940.png",
+								"status": true
 							},
 							"header_bg": {
 								"type": "color",
@@ -249,12 +254,14 @@
 							"block_image_1": {
 								"type": "file",
 								"label": "Side image 1",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1_1615895985.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_1_1615895985.png",
+								"status": true
 							},
 							"block_image_2": {
 								"type": "file",
 								"label": "Side image 2",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_2_1615896008.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_block_image_2_1615896008.png",
+								"status": true
 							},
 							"subbg_1": {
 								"type": "color",
@@ -360,7 +367,8 @@
 							"header_image": {
 								"type": "file",
 								"label": "header image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_header_image_1615900791.png",
+								"status": true
 							},
 							"header_bg": {
 								"type": "color",
@@ -385,7 +393,8 @@
 							"section_image": {
 								"type": "file",
 								"label": "Section image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900830.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900830.png",
+								"status": true
 							},
 							"section_bg": {
 								"type": "color",
@@ -418,7 +427,8 @@
 							"section_image": {
 								"type": "file",
 								"label": "Section image",
-								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900873.png"
+								"value": "https://cdn.devam.pro/gr/master/upload/img/email/1_section_image_1615900873.png",
+								"status": true
 							},
 							"section_bg": {
 								"type": "color",
