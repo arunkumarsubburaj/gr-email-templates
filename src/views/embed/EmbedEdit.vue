@@ -5,7 +5,7 @@
   <div class="embedEdit">
     <div class="fixedTopNav">
       <div class="level1">
-        <span class="material-icons" @click="$router.push('../embed/landing')"
+        <span class="material-icons" @click="$router.push('../style')"
           >arrow_back</span
         >
         <span>Embed Campaign</span>
