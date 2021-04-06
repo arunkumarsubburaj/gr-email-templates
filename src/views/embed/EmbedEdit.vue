@@ -385,21 +385,45 @@ export default {
         }
       }
       .cardBlock {
-        .item {
-          .title {
-            padding: 20px 20px;
-            max-width: 100%;
-          }
-        }
         .cntrlBlock {
           flex-direction: column-reverse;
+          margin: 10px;
           .btnGr {
             flex-flow: row wrap;
             width: 100%;
             .md-field,
             md-button-group {
               flex: 1;
+              width: 50%;
             }
+            md-button-group .md-button.md-theme-default.md-raised {
+              padding: 9px;
+            }
+          }
+        }
+        .item {
+          width: 100%;
+          &:first-child {
+            padding-bottom: 0;
+          }
+          .title {
+            padding: 10px;
+            max-width: 100%;
+          }
+          .celebrateEvents,
+          .newsLetter {
+            margin: 10px;
+          }
+          .partiAction {
+            margin: -10px 10px 0 10px;
+          }
+          .celebrateEvents {
+            padding: 15px;
+            min-height: auto;
+          }
+          .referNearn {
+            width: calc(100% - 20px);
+            margin: 0 10px;
           }
         }
       }

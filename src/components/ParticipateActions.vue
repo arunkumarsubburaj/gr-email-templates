@@ -125,4 +125,15 @@ export default {
 }
 </style>
 
-<style lang="less"></style>
+<style lang="less">
+.mobileActive {
+  .partiAction {
+    .partiActions {
+      margin: 10px 0 0 2%;
+      &:nth-child(odd) {
+        margin-left: 0;
+      }
+    }
+  }
+}
+</style>

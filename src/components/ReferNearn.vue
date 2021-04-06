@@ -193,4 +193,16 @@ export default {
     }
   }
 }
+
+.mobileActive {
+  .referNearn {
+    .referNearnInner {
+      padding: 25px;
+      text-align: center;
+      .pointDiv {
+        justify-content: center;
+      }
+    }
+  }
+}
 </style>

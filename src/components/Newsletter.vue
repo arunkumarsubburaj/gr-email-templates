@@ -114,4 +114,9 @@ export default {
     }
   }
 }
+.mobileActive {
+  .newsLetter {
+    padding: 50px 25px;
+  }
+}
 </style>

@@ -10,6 +10,29 @@
       </md-button-group>
       <a href="#">You have earned 395 points</a>
     </div>
+    <div class="forMobile" v-for="(reward, index) in rewards" :key="reward.id">
+      <div :class="'rewardBlock ' + 'rewardBlock' + index">
+        <div class="rewardBlocks">
+          <img src="../assets/img/rewards1.png" alt="" />
+          <!--<img
+                  :src="'../assets/img/rewards' + reward.id +'.png'"
+                  alt=""
+                />-->
+          <p>{{ reward.desc }}</p>
+          <div class="pointDiv">
+            <div class="eligiblePts">
+              <span>Eligible</span>
+              <span>145</span>
+            </div>
+            <span class="requiredPts">95</span>
+            <!-- redeem class needs to add dynamically -->
+            <p class="redeem">{{ reward.status }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <carousel :per-page="3" :navigationEnabled="true">
       <slide v-for="(reward, index) in rewards" :key="reward.id">
         <div :class="'rewardBlock ' + 'rewardBlock' + index">
@@ -153,6 +176,9 @@ export default {
 </style>
 
 <style lang="less">
+.forMobile {
+  display: none;
+}
 .VueCarousel {
   margin: 0 40px;
   .VueCarousel-wrapper {
@@ -197,6 +223,38 @@ export default {
         color: #fff;
         border-color: #8f75be;
       }
+    }
+  }
+}
+
+.embedEdit .previewBlock {
+  .mobileActive {
+    .cardBlock .item {
+      .cntrlBlock {
+        flex-direction: column;
+        margin: 10px;
+        a {
+          margin: 20px 0;
+        }
+      }
+    }
+    .rewardBlock {
+      margin: 10px 10px 0;
+      padding: 0;
+      .rewardBlocks {
+        margin: 0;
+        max-width: initial;
+        width: 100%;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .VueCarousel {
+      display: none;
+    }
+    .forMobile {
+      display: block;
     }
   }
 }

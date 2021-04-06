@@ -164,4 +164,11 @@ export default {
     }
   }
 }
+.mobileActive {
+  .celebrateEvents {
+    .celebrateEventsInner {
+      padding: 50px 25px;
+    }
+  }
+}
 </style>
