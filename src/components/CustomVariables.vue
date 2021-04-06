@@ -5,7 +5,7 @@
       <md-menu-item
         v-for="item in data"
         :key="item"
-        @click="_ => click(name, item)"
+        @click="_ => click(index, name, item)"
         >{{ item }}</md-menu-item
       >
     </md-menu-content>
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "CustomVariables",
-  props: ["data", "click", "name"]
+  props: ["data", "click", "name", 'index']
 };
 </script>
 <style lang="less" scoped>

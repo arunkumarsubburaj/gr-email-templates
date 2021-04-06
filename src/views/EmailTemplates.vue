@@ -3,7 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <a class="link-back" @click.prevent="handleBack">
-          <i class="fa fa-long-arrow-left"></i>
+          <i class="fa fa-long-arrow-left"
+            ><md-tooltip md-direction="right">Back</md-tooltip></i
+          >
         </a>
         <div class="title">
           <div class="icon far fa-bookmark margin-right-10"></div>
@@ -24,7 +26,10 @@
         </div>
         <section class="md-layout-item">
           <div
-            class="templateBox"
+            :class="[
+              'templateBox',
+              { active: template.id_theme == activeThemeId },
+            ]"
             v-for="(template, index) in data"
             :key="template.id_theme"
           >
@@ -34,22 +39,25 @@
             <div class="boxFooter">
               <div>
                 <!-- <h4>{{ template.tpl_name }}</h4> -->
+                <strong v-if="template.id_theme == activeThemeId"
+                  >Active:
+                </strong>
                 <small>Template {{ index + 1 }}</small>
               </div>
               <md-button
                 class="md-raised md-accent btn-custom-active"
-                v-if="template.status == 1"
-                @click="e => save(template.id_theme)"
+                v-if="template.id_theme == activeThemeId"
+                @click="(e) => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
-                activated
+                Customize
               </md-button>
               <md-button
-                class="md-raised btn-custom-default"
+                class="md-raised btn-custom-primary"
                 v-else
-                @click="e => save(template.id_theme)"
+                @click="(e) => save(template.id_theme)"
               >
-                Preview & Edit
+                Edit
               </md-button>
             </div>
           </div>
@@ -61,23 +69,25 @@
 <script>
 export default {
   name: "EmailTemplates",
-  props: ["data", "close", "save", "fromEditPage", "title"],
+  props: ["data", "close", "save", "fromEditPage", "title", "activeThemeId"],
   methods: {
-    getImg: function(id) {
-      return `https://gr-v1.devam.pro/public/assets/img/email_assets/email_template_${id}.png`;
+    getImg: function (id) {
+      return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`;
     },
-    handleBack: function() {
+    handleBack: function () {
       if (this.fromEditPage) {
         this.close();
       } else window.history.back();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 .changeTemplateView {
   margin: 7em 0;
-
+  .container {
+    max-width: 1024px;
+  }
   section {
     display: flex;
     justify-content: space-between;
@@ -94,6 +104,15 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 25px 0;
+  position: relative;
+  overflow: hidden;
+  &.active,
+  &:hover {
+    .boxFooter {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   .boxView {
     flex-grow: 1;
     display: flex;
@@ -105,10 +124,19 @@ export default {
     }
   }
   .boxFooter {
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0 0;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s;
+    padding: 10px;
     h4 {
       margin: 0;
     }

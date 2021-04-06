@@ -4,9 +4,12 @@
       <div class="container">
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-size-100 emailListingHead">
-            <h2>Email</h2>
-            <p>Some text to explain about the email templates</p>
-            <ul>
+            <h2>Email Templates</h2>
+            <p>
+              In this section you can setup email content which will be
+              triggered when certain actions or activities occur
+            </p>
+            <!-- <ul>
               <li>
                 <h4>147,789</h4>
                 <small>Mails Opened</small>
@@ -19,90 +22,39 @@
                 <h4>154</h4>
                 <small>Unsubscribed</small>
               </li>
-            </ul>
+            </ul> -->
           </div>
         </div>
       </div>
     </div>
     <div class="emailListingContainer container">
-      <ul class="emailList">
-        <li class="head">
-          <div class="name">Email Name</div>
-          <div>Sent to</div>
-          <div>Opened</div>
-          <div>Status</div>
-          <div>Action</div>
-        </li>
-        <li v-for="(mail, key) in activeList" :key="key">
-          <div class="name">
-            <i class="fal fa-envelope"></i>
-            <div>
-              <h5>{{ mail.title }}</h5>
-              <!-- <p>{{ mail.type }}</p> -->
-            </div>
-          </div>
-          <div>12,789</div>
-          <div>12,789</div>
-          <div>
-            <label
-              class="switch"
-              title="Update status"
-              @click.prevent="changeEmailStatus(mail.id_email, mail.is_enabled)"
-              :for="mail.id_email"
-              v-if="mail.id_email !== 2"
-            >
-              <input
-                type="checkbox"
-                name="mainSwitch"
-                :checked="mail.is_enabled == 1"
-                :id="mail.id_email"
-              />
-              <i></i>
-            </label>
-          </div>
-          <div class="actions">
-            <router-link :to="'/view/email/templates/' + mail.id_email">
-              <i title="Edit" class="fal fa-edit"></i>
-            </router-link>
-            <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-              <i title="Send Test Email" class="far fa-paper-plane"></i>
-            </a>
-          </div>
-        </li>
-        <li v-if="activeList && activeList.length == 0">
-          <div>No data</div>
-        </li>
-      </ul>
-      <div v-if="inactiveList.length > 0" class="otherEmail">
-        <h2>Activate these email</h2>
+      <div class="emailItems">
         <ul class="emailList">
           <li class="head">
             <div class="name">Email Name</div>
-            <div>Sent to</div>
-            <div>Opened</div>
             <div>Status</div>
             <div>Action</div>
           </li>
-          <li v-for="(mail, key) in inactiveList" :key="key">
+          <li v-for="(mail, key) in activeList" :key="key">
             <div class="name">
-              <i class="fal fa-envelope"></i>
               <div>
                 <h5>{{ mail.title }}</h5>
-                <!-- <p>{{ mail.type }}</p> -->
+                <p>
+                  Email dummy sample text shown here. Text must be replaced from
+                  api data.
+                </p>
               </div>
             </div>
-            <div>12,789</div>
-            <div>12,789</div>
             <div>
               <label
                 class="switch"
-                title="Update status"
                 @click.prevent="
                   changeEmailStatus(mail.id_email, mail.is_enabled)
                 "
                 :for="mail.id_email"
                 v-if="mail.id_email !== 2"
               >
+                <md-tooltip md-direction="left">Update Status</md-tooltip>
                 <input
                   type="checkbox"
                   name="mainSwitch"
@@ -114,14 +66,130 @@
             </div>
             <div class="actions">
               <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i title="Edit" class="fal fa-edit"></i>
+                <i class="fal fa-edit"
+                  ><md-tooltip md-direction="left">Edit</md-tooltip></i
+                >
               </router-link>
-              <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                <i title="Send Test Email" class="far fa-paper-plane"></i>
+              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
+                <i class="fal fa-envelope"
+                  ><md-tooltip md-direction="left"
+                    >Send Test Email</md-tooltip
+                  ></i
+                >
               </a>
             </div>
           </li>
+          <li v-if="activeList && activeList.length == 0">
+            <div>No data</div>
+          </li>
         </ul>
+        <div v-if="inactiveList.length > 0" class="otherEmail">
+          <h2>Activate these email</h2>
+          <ul class="emailList">
+            <li class="head">
+              <div class="name">Email Name</div>
+              <div>Status</div>
+              <div>Action</div>
+            </li>
+            <li v-for="(mail, key) in inactiveList" :key="key">
+              <div class="name">
+                <div>
+                  <h5>{{ mail.title }}</h5>
+                  <p>
+                    Email dummy sample text shown here. Text must be replaced
+                    from api data.
+                  </p>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="switch"
+                  @click.prevent="
+                    changeEmailStatus(mail.id_email, mail.is_enabled)
+                  "
+                  :for="mail.id_email"
+                  v-if="mail.id_email !== 2"
+                  ><md-tooltip md-direction="left">Update Status</md-tooltip>
+                  <input
+                    type="checkbox"
+                    name="mainSwitch"
+                    :checked="mail.is_enabled == 1"
+                    :id="mail.id_email"
+                  />
+                  <i></i>
+                </label>
+              </div>
+              <div class="actions">
+                <router-link :to="'/view/email/templates/' + mail.id_email">
+                  <i class="fal fa-edit"
+                    ><md-tooltip md-direction="left">Edit</md-tooltip></i
+                  >
+                </router-link>
+                <a
+                  href="#"
+                  @click.prevent="(e) => sendTestEmail(mail.id_email)"
+                >
+                  <i class="fal fa-envelope"
+                    ><md-tooltip md-direction="left"
+                      >Send Test Email</md-tooltip
+                    ></i
+                  >
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="todo-checklist">
+        <div>
+          <h4>
+            <span
+              >WAIT! These sections need <br />
+              to be checked as well</span
+            >
+          </h4>
+          <ul>
+            <li class="clearfix">
+              <b>Campaign Referral Reward Email</b>
+              <div>
+                Edit Campaigns<small class="fal fa-long-arrow-right"></small> 3.
+                Referrals
+              </div>
+            </li>
+            <li class="clearfix">
+              <b>Referral program enrollment email</b>
+              <div>
+                Edit Loyalty and Referral Program
+                <small class="fal fa-long-arrow-right"></small> Referral
+                <small class="fal fa-long-arrow-right"></small> Email Setup
+              </div>
+            </li>
+            <li class="clearfix">
+              <b>Referral reward email</b>
+              <div>
+                Edit Loyalty and Referral Program
+                <small class="fal fa-long-arrow-right"></small> Referral
+                <small class="fal fa-long-arrow-right"></small> Email Setup
+              </div>
+            </li>
+            <li class="clearfix">
+              <b>Celebrate Event Reward Email</b>
+              <div>
+                Edit Celebrate event
+                <small class="fal fa-long-arrow-right"></small> Mail before the
+                event
+              </div>
+            </li>
+            <li class="clearfix">
+              <b>Celebrate Bonus Reward Email</b>
+              <div>
+                Edit Celebrate event
+                <small class="fal fa-long-arrow-right"></small> Mail on the
+                event day
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
       <md-snackbar
         class="msgSnack"
@@ -175,7 +243,7 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        `https://gr-v1.devam.pro/services/email/updateEmailStatus`,
+        `${window.Config.callback_url}/services/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
@@ -194,7 +262,7 @@ export default {
     sendTestEmail: function(id) {
       this.loader = true;
       Axios.post(
-        `https://gr-v1.devam.pro/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -208,13 +276,13 @@ export default {
   },
   mounted: function() {
     this.loader = true;
-    Axios.get(`https://gr-v1.devam.pro/services/email/getEmailTemplates`).then(
-      ({ data }) => {
-        this.listData = data.data;
-        this.loader = false;
-      }
-    );
-  }
+    Axios.get(
+      `${window.Config.callback_url}/services/email/getEmailTemplates`
+    ).then(({ data }) => {
+      this.listData = data.data;
+      this.loader = false;
+    });
+  },
 };
 </script>
 
@@ -294,6 +362,112 @@ export default {
 
 .emailListingContainer {
   margin-top: -52px;
+  display: flex;
+  .emailItems {
+    flex-grow: 1;
+  }
+}
+.todo-checklist {
+  position: relative;
+  width: 23%;
+  margin: 0 2em 2em;
+  &:before,
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 55%;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    bottom: -3px;
+  }
+  &:after {
+    right: 4px;
+    transform: rotate(3deg);
+  }
+  &:before {
+    left: 4px;
+    transform: rotate(-3deg);
+  }
+  & > div {
+    border-radius: 4px;
+    border: solid 1px #e6e8eb;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 30px 20px;
+    &:after {
+      content: "";
+      width: 40px;
+      height: 124px;
+      background: rgba(252, 242, 163, 0.78);
+      transform: rotate(97.00002deg);
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      margin-left: -20px;
+    }
+  }
+  h4 {
+    color: #333;
+    margin: 0;
+    padding: 16px 20px;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.4;
+    border-bottom: 0;
+    &:before,
+    &:after {
+      content: "";
+      background: #ffe7e7;
+      width: 165px;
+      height: 16px;
+      position: absolute;
+      top: 17px;
+      left: 50%;
+      transform: translateX(-50%) rotate(1deg);
+    }
+    span {
+      position: relative;
+      z-index: 1;
+    }
+    &:after {
+      top: 39px;
+      width: 200px;
+      transform: translateX(-50%) rotate(-3deg);
+      height: 17px;
+    }
+  }
+  ul {
+    list-style: none;
+    margin: 0 15px;
+    padding: 0;
+    counter-reset: section;
+    li {
+      padding: 12px 0;
+      font-size: 12px;
+      color: #333;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      a {
+        float: right;
+      }
+      div {
+        margin: 6px 14px 0;
+      }
+      &:last-child {
+        border-bottom: 0;
+      }
+      &:before {
+        counter-increment: section; /* Increment the value of section counter by 1 */
+        content: counter(section) ".";
+        display: inline-block;
+        margin-right: 4px;
+      }
+    }
+  }
 }
 
 .otherEmail {
@@ -315,16 +489,15 @@ export default {
     font-size: 1.2em;
   }
 
-  p,
-  h5 {
+  p {
     margin: 0;
     font-size: 12px;
   }
 
   h5 {
-    font-weight: 500;
+    font-size: 1.15em;
     line-height: normal;
-    margin-bottom: 0.3em;
+    margin: 0 0 0.3em;
   }
 
   li {
@@ -377,22 +550,6 @@ export default {
 
   &:first-child {
     margin-right: 10px;
-  }
-}
-
-.emailList .fa-envelope {
-  font-size: 1.7em;
-  width: 2em;
-  height: 2em;
-  border: 1px solid #e2e2e2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 15px;
-
-  &:before {
-    color: #bdbdbd;
   }
 }
 

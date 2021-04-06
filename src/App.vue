@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <link
-      rel="stylesheet"
-      href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"
-    />
+    <!-- <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"> -->
     <router-view />
   </div>
 </template>
@@ -14,6 +11,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
+import "@/assets/icon/fontawesome.min.css"
 
 Vue.use(VueMaterial);
 
@@ -40,12 +38,12 @@ Vue.mixin({
         }
       }
       return formData;
-    }
-  }
+    },
+  },
 });
 
 export default {
-  name: "app"
+  name: "app",
 };
 </script>
 
@@ -69,6 +67,42 @@ export default {
       color: #42b983;
     }
   }
+}
+.md-tooltip:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent rgba(97,97,97,0.9);
+  position: absolute;
+}
+.md-tooltip-left {
+  transform: translateX(10px);
+  &:before {
+    right: 0;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+}
+.md-tooltip-right {
+  transform: translateX(-10px);
+  &:before {
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%) rotateY(180deg);
+  }
+}
+.md-tooltip-bottom {
+  transform: translateY(-8px);
+}
+
+.md-dialog.warn .md-title:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f071";
+    padding-right: 0.2em;
+    font-size: 1.4em;
+    color: #fb0000;
 }
 
 .switch {
@@ -123,7 +157,7 @@ export default {
 
 .container {
   margin: auto;
-  max-width: 1024px;
+  max-width: 1400px;
   padding: 0 20px;
 }
 
