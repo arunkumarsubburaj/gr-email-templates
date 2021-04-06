@@ -46,53 +46,59 @@
                 Preview
               </md-button>
             </div>
-            <div class="info">Announcements: Earn Points every time you shop. One dollar = five points.</div>            
-            <div class="">
-              <img src="../../assets/img/template_header.png" alt="" />
-            </div>
-            <div class="cardBlock" :class="{ mobileActive : active_el == '2' }">
-              <div class="item">
-                <div class="title">
-                  <h2>Earn Rewards</h2>
-                  <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
-                </div>
-                
-                <div class="cntrlBlock">
-                  <div class="btnGr">
-                    <md-button-group>
-                      <md-button class="md-raised active">Active</md-button>
-                      <md-button class="md-raised">Completed</md-button>
-                    </md-button-group>
-                    <md-field>
-                      <md-select v-model="order" name="order" id="order" placeholder="Order">
-                        <md-option value="australia">Highest First</md-option>
-                        <md-option value="brazil">Lowest First</md-option>
-                      </md-select>
-                    </md-field>
+            <div :class="{ mobileActive : active_el == '2' }">
+              <div class="info" v-if="!infoHidden">
+                Announcements: Earn Points every time you shop. One dollar = five points.
+                <span v-on:click="infoHidden = true" class="material-icons" v-if="active_el == '2'">close</span>
+              </div>            
+              <div class="">
+                <img v-if="active_el == '2'" src="../../assets/img/template_header_mobile.png" alt="" style="width:100%;" />
+                <img v-if="active_el == '0' || active_el == '1'" src="../../assets/img/template_header.png" alt="" />
+              </div>
+              <div class="cardBlock">
+                <div class="item">
+                  <div class="title">
+                    <h2>Earn Rewards</h2>
+                    <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
                   </div>
-                  <div>
-                    fdgdg
+                  
+                  <div class="cntrlBlock">
+                    <div class="btnGr">
+                      <md-button-group>
+                        <md-button class="md-raised active">Active</md-button>
+                        <md-button class="md-raised">Completed</md-button>
+                      </md-button-group>
+                      <md-field>
+                        <md-select v-model="order" name="order" id="order" placeholder="Order">
+                          <md-option value="australia">Highest First</md-option>
+                          <md-option value="brazil">Lowest First</md-option>
+                        </md-select>
+                      </md-field>
+                    </div>
+                    <div>
+                      fdgdg
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="item">
-                <CelebrateEvents />
-              </div>
-              <div class="item">
-                <ParticipateActions />
-              </div>
-              <div class="item">
-                <Newsletter />
-              </div>
-              <div class="item">
-                <ReferNearn />
-              </div>
-              <div class="item">
-                <div class="title">
-                  <h2>Redeem Rewards</h2>
-                  <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                <div class="item">
+                  <CelebrateEvents />
                 </div>
-                <Carouselslide />
+                <div class="item">
+                  <ParticipateActions />
+                </div>
+                <div class="item">
+                  <Newsletter />
+                </div>
+                <div class="item">
+                  <ReferNearn />
+                </div>
+                <div class="item">
+                  <div class="title">
+                    <h2>Redeem Rewards</h2>
+                    <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                  </div>
+                  <Carouselslide />
+                </div>
               </div>
             </div>
           </div>
@@ -134,6 +140,7 @@ export default {
     return {
       loader: false,
       isActive: false,
+      infoHidden: false,
       ex3: { label: 'thumb-color', val: 50, color: 'red' },
       menus:[{"id":"1","texto":"laptop", "class":"active"},{"id":"2","texto":"ad_units"}],
       active_el:0
@@ -302,9 +309,7 @@ export default {
     .cardBlock {
       display: flex;
       flex-wrap: wrap;
-      .mobileActive {
-        background: red;
-      }
+      background: #fff;
       .item {
         width: 50%;
 
@@ -356,6 +361,44 @@ export default {
             display: flex;
             md-button-group {
               width: 100%;
+            }
+          }
+        }
+      }
+    }   
+    
+    .mobileActive {
+      width: 395px;
+      margin: 40px auto;
+      background: #4e4e4e;
+      padding: 20px 10px;
+      border-radius: 20px;
+
+      .info {
+        padding: 5px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        .material-icons {
+          font-size: 16px;
+        }
+      }
+      .cardBlock {
+        .item {
+          .title {
+            padding: 20px 20px;
+            max-width: 100%;
+          }
+        }
+        .cntrlBlock {
+          flex-direction: column-reverse;
+          .btnGr {
+            flex-flow: row wrap;
+            width: 100%;
+            .md-field,
+            md-button-group {
+              flex: 1;
             }
           }
         }
