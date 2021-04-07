@@ -11,7 +11,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css"
+import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 
@@ -38,12 +38,12 @@ Vue.mixin({
         }
       }
       return formData;
-    },
-  },
+    }
+  }
 });
 
 export default {
-  name: "app",
+  name: "app"
 };
 </script>
 
@@ -74,7 +74,7 @@ export default {
   height: 0;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent rgba(97,97,97,0.9);
+  border-color: transparent transparent transparent rgba(97, 97, 97, 0.9);
   position: absolute;
 }
 .md-tooltip-left {
@@ -98,11 +98,11 @@ export default {
 }
 
 .md-dialog.warn .md-title:before {
-    font-family: "Font Awesome 5 Pro";
-    content: "\f071";
-    padding-right: 0.2em;
-    font-size: 1.4em;
-    color: #fb0000;
+  font-family: "Font Awesome 5 Pro";
+  content: "\f071";
+  padding-right: 0.2em;
+  font-size: 1.4em;
+  color: #fb0000;
 }
 
 .switch {

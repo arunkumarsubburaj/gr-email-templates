@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-/* eslint-disable */
+// eslint-disable-next-line /* eslint-disable */
 
 <template>
   <div class="embedEdit">
@@ -40,28 +39,54 @@
           <div class="previewBlock">
             <div class="ctaBlock">
               <div class="views">
-                 <span class="material-icons" @click="activate(menu.id)" :class="{ active : active_el == menu.id }" v-for="(menu) in menus" :key="menu.id">{{menu.texto}}</span>   
+                <span
+                  class="material-icons"
+                  @click="activate(menu.id)"
+                  :class="{ active: active_el == menu.id }"
+                  v-for="menu in menus"
+                  :key="menu.id"
+                  >{{ menu.texto }}</span
+                >
               </div>
               <md-button class="md-raised btn-custom-default">
                 Preview
               </md-button>
             </div>
-            <div :class="{ mobileActive : active_el == '2' }">
+            <div :class="{ mobileActive: active_el == '2' }">
               <div class="info" v-if="!infoHidden">
-                Announcements: Earn Points every time you shop. One dollar = five points.
-                <span v-on:click="infoHidden = true" class="material-icons" v-if="active_el == '2'">close</span>
-              </div>            
+                Announcements: Earn Points every time you shop. One dollar =
+                five points.
+                <span
+                  v-on:click="infoHidden = true"
+                  class="material-icons"
+                  v-if="active_el == '2'"
+                  >close</span
+                >
+              </div>
               <div class="">
-                <img v-if="active_el == '2'" src="../../assets/img/template_header_mobile.png" alt="" style="width:100%;" />
-                <img v-if="active_el == '0' || active_el == '1'" src="../../assets/img/template_header.png" alt="" />
+                <img
+                  v-if="active_el == '2'"
+                  src="../../assets/img/template_header_mobile.png"
+                  alt=""
+                  style="width:100%;"
+                />
+                <img
+                  v-if="active_el == '0' || active_el == '1'"
+                  src="../../assets/img/template_header.png"
+                  alt=""
+                />
               </div>
               <div class="cardBlock">
                 <div class="item">
                   <div class="title">
                     <h2>Earn Rewards</h2>
-                    <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                    <p>
+                      Some text here to explain how to earn more rewards plus
+                      second line can come here to explain all that we expect
+                      from them.
+                    </p>
                   </div>
-                  
+
                   <div class="cntrlBlock">
                     <div class="btnGr">
                       <md-button-group>
@@ -69,7 +94,12 @@
                         <md-button class="md-raised">Completed</md-button>
                       </md-button-group>
                       <md-field>
-                        <md-select v-model="order" name="order" id="order" placeholder="Order">
+                        <md-select
+                          v-model="order"
+                          name="order"
+                          id="order"
+                          placeholder="Order"
+                        >
                           <md-option value="australia">Highest First</md-option>
                           <md-option value="brazil">Lowest First</md-option>
                         </md-select>
@@ -95,7 +125,11 @@
                 <div class="item">
                   <div class="title">
                     <h2>Redeem Rewards</h2>
-                    <p>Some text here to explain how to earn more rewards plus second line can come here to explain all that we expect from them.</p>
+                    <p>
+                      Some text here to explain how to earn more rewards plus
+                      second line can come here to explain all that we expect
+                      from them.
+                    </p>
                   </div>
                   <Carouselslide />
                 </div>
@@ -141,20 +175,21 @@ export default {
       loader: false,
       isActive: false,
       infoHidden: false,
-      ex3: { label: 'thumb-color', val: 50, color: 'red' },
-      menus:[{"id":"1","texto":"laptop", "class":"active"},{"id":"2","texto":"ad_units"}],
-      active_el:0
+      ex3: { label: "thumb-color", val: 50, color: "red" },
+      menus: [
+        { id: "1", texto: "laptop", class: "active" },
+        { id: "2", texto: "ad_units" }
+      ],
+      active_el: 0
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
-    activate:function(el){
-        this.active_el = el;
+    activate: function(el) {
+      this.active_el = el;
     }
   },
-  mounted: function() {
-  }
+  mounted: function() {}
 };
 </script>
 
@@ -216,7 +251,7 @@ export default {
   }
 
   margin: 0 0 7em 0;
-  
+
   .color-picker .color-picker-container {
     position: relative;
     right: 30px;
@@ -354,7 +389,7 @@ export default {
           text-align: center;
           padding: 30px 0 0px;
         }
-  
+
         .cntrlBlock {
           margin: 20px;
           .btnGr {
@@ -365,8 +400,8 @@ export default {
           }
         }
       }
-    }   
-    
+    }
+
     .mobileActive {
       width: 395px;
       margin: 40px auto;
@@ -463,27 +498,27 @@ export default {
       margin: 0;
     }
   }
-  
+
   .cntrlBlock {
     margin: 20px 30px;
     padding: 0;
     .btnGr {
       .md-field {
-          margin: 0 0 0 10px;
-          min-height: auto;
-          background: #ddd;
-          border-radius: 4px;
-          padding: 0 10px;
+        margin: 0 0 0 10px;
+        min-height: auto;
+        background: #ddd;
+        border-radius: 4px;
+        padding: 0 10px;
 
-          &::after {
-            display: none;
-          }
-          &::before {
-            background-color: #8f75be;
-          }
-          .md-menu.md-select {
-            align-items: center;
-          }
+        &::after {
+          display: none;
+        }
+        &::before {
+          background-color: #8f75be;
+        }
+        .md-menu.md-select {
+          align-items: center;
+        }
       }
     }
   }

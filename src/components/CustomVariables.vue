@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "CustomVariables",
-  props: ["data", "click", "name", 'index']
+  props: ["data", "click", "name", "index"]
 };
 </script>
 <style lang="less" scoped>

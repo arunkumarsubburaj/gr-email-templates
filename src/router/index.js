@@ -5,6 +5,7 @@ import EmailEdit from "../views/EmailEdit.vue";
 import EmbedLanding from "../views/embed/EmbedLanding.vue";
 import EmbedStyle from "../views/embed/EmbedStyle.vue";
 import EmbedEdit from "../views/embed/EmbedEdit.vue";
+import EmbedFo from "../views/embed/EmbedFo.vue";
 import VueMaterial from "vue-material";
 import VueSimpleAccordion from "vue-simple-accordion";
 import "vue-material/dist/vue-material.min.css";
@@ -42,6 +43,11 @@ const routes = [
     path: "/view/embed/style/:id",
     name: "EmbedEdit",
     component: EmbedEdit
+  },
+  {
+    path: "/view/embed/Fo/",
+    name: "EmbedFo",
+    component: EmbedFo
   }
 ];
 

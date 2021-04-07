@@ -70,7 +70,7 @@
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
-              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
+              <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
                 <i class="fal fa-envelope"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
@@ -125,10 +125,7 @@
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
-                <a
-                  href="#"
-                  @click.prevent="(e) => sendTestEmail(mail.id_email)"
-                >
+                <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
                   <i class="fal fa-envelope"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
@@ -282,7 +279,7 @@ export default {
       this.listData = data.data;
       this.loader = false;
     });
-  },
+  }
 };
 </script>
 

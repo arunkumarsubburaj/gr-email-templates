@@ -32,7 +32,6 @@
       </div>
     </div>
 
-    
     <carousel :per-page="3" :navigationEnabled="true">
       <slide v-for="(reward, index) in rewards" :key="reward.id">
         <div :class="'rewardBlock ' + 'rewardBlock' + index">
