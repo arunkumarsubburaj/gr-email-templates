@@ -43,6 +43,92 @@
         </p>
       </div>
     </div>
+    <div class="howitWorks">
+      <div class="howitWorksInner">
+        <div class="paddLR20Percent">
+          <h2>How it works</h2>
+          <ol>
+            <li>Signup</li>
+            <li>Earn Points</li>
+            <li>Redeem Rewards</li>
+          </ol>
+        </div>
+      </div>
+      <div class="imgDiv">
+        <img src="../../assets/img/howitworks_banner.png" alt="" />
+      </div>
+    </div>
+    <div class="recentWinners">
+      <div class="imgDiv">
+        <img src="../../assets/img/winner_banner.png" alt="" />
+      </div>
+      <div class="recentWinnersInner">
+        <div class="paddLR20Percent">
+          <h2>Recent Winners</h2>
+          <h3>Mr Krishna Mahesh</h3>
+          <p>(MD, Sundaram Brake Linings and son of alumnus Mr K. Mahesh [1965/BT/MT])</p>
+          <md-button class="md-raised md-primary">View Winners List</md-button>
+        </div>
+      </div>
+    </div>
+    <div class="subscribe">
+      <div class="subscribeInner">
+        <h2>Subscribe to our Newsletter</h2>
+      </div>
+    </div>
+    <div class="offerBanner">
+      <div class="offerTxt">
+        <h2>Give 50. Get 100</h2>
+        <div class="bg">
+          <h3>Refer your friends now</h3>
+          <md-field md-inline>
+            <label>{{ referralCode }}</label>
+            <md-input
+              v-model="inline"
+              type="text"
+              id="testing-code"
+              :value="testingCode"
+              disabled
+            ></md-input>
+            <span
+              matPrefix
+              class="material-icons"
+              @click.stop.prevent="copyTestingCode"
+            >
+              content_copy
+            </span>
+          </md-field>
+          <md-button-group>
+            <md-button class="md-raised"
+              ><img src="../../assets/img/Facebook_icon.svg" alt=""
+            /></md-button>
+            <md-button class="md-raised"
+              ><img src="../../assets/img/in_icon.svg" alt=""
+            /></md-button>
+            <md-button class="md-raised"
+              ><img src="../../assets/img/twitter_icon.svg" alt=""
+            /></md-button>
+            <md-button class="md-raised"
+              ><img src="../../assets/img/instagram_icon.svg" alt=""
+            /></md-button>
+          </md-button-group>
+        </div>
+      </div>
+    </div>
+    <div class="celebrateEvents">
+      <div class="imgDiv">
+        <img src="../../assets/img/celebrate_banner.png" alt="" />
+      </div>
+      <div class="celebrateEventsInner">
+        <div class="paddLR20Percent">
+          <h2>Celebrate Events</h2>
+          <p>Some text here to explain how to earn more rewards plus second line.</p>
+          <md-datepicker v-model="string" />
+          <md-button class="md-raised md-primary">SUBMIT</md-button>
+          <small>* Rewards will be given the following year, if date entered is in the next 14 days</small>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,12 +138,31 @@ export default {
   components: {},
   data: function() {
     return {
-      showMobileMenu: false
+      showMobileMenu: false,
+      referralCode: "amaze.me/urlhere/Referral"
     };
   },
   mixins: [""],
   computed: {},
-  methods: {},
+  methods: {
+    copyTestingCode() {
+      let testingCodeToCopy = document.querySelector("#testing-code");
+      testingCodeToCopy.setAttribute("type", "text");
+      testingCodeToCopy.select();
+
+      try {
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        alert("Testing code was copied " + msg);
+      } catch (err) {
+        alert("Oops, unable to copy");
+      }
+
+      /* unselect the range */
+      testingCodeToCopy.setAttribute("type", "text");
+      window.getSelection().removeAllRanges();
+    }
+  },
   mounted: function() {}
 };
 </script>
@@ -242,51 +347,298 @@ export default {
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;
-  }
+    position: relative;    
 
-  /* Place text in the middle of the image */
-  .heroTxt {
-    position: absolute;
-    bottom: 15%;
-    right: 0;
-    padding: 30px;
-    color: white;
-    background: rgba(0, 89, 100, 0.8);
-    display: flex;
-    width: 50%;
-    font-family: "DM Sans", serif;
-    div:first-child {
-      border-right: 1px solid rgba(255, 255, 255, 0.8);
-      margin-right: 20px;
-      padding-right: 20px;
-    }
-    small {
-      font-size: 22px;
-      font-weight: bold;
-      line-height: 33px;
-    }
-    h1 {
-      font-size: 70px;
-      font-weight: bold;
-      line-height: 60px;
-      margin: 10px 0;
-    }
-    p {
-      font-size: 19px;
-    }
-
-    @media only screen and (max-width: 989px) {
-      width: auto;
-      flex-direction: column;
+    /* Place text in the middle of the image */
+    .heroTxt {
+      position: absolute;
+      bottom: 15%;
+      right: 0;
+      padding: 30px;
+      color: white;
+      background: rgba(0, 89, 100, 0.8);
+      display: flex;
+      width: 50%;
+      font-family: "DM Sans", serif;
       div:first-child {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        margin-right: 0;
-        padding-right: 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.8);
+        margin-right: 20px;
+        padding-right: 20px;
       }
+      small {
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 33px;
+      }
+      h1 {
+        font-size: 70px;
+        font-weight: bold;
+        line-height: 60px;
+        margin: 10px 0;
+      }
+      p {
+        font-size: 19px;
+      }
+
+      @media only screen and (max-width: 989px) {
+        width: auto;
+        flex-direction: column;
+        div:first-child {
+          border-right: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+          margin-bottom: 20px;
+          padding-bottom: 20px;
+          margin-right: 0;
+          padding-right: 0;
+        }
+      }
+    }
+  }
+  .offerBanner {
+    /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+      url("../../assets/img/offer_banner.png");
+
+    /* Set a specific height */
+    height: 500px;
+
+    /* Position and center the image to scale nicely on all screens */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+
+    /* Place text in the middle of the image */
+    .offerTxt {
+      position: absolute;
+      bottom: 15%;
+      left: 10%;
+      width: 40%;
+      font-family: "DM Sans", serif;
+      color: white;
+
+      .bg {        
+        padding: 30px;
+        background: rgba(0, 89, 100, 0.8);
+      }
+
+      @media only screen and (max-width: 989px) {
+        width: auto;
+        flex-direction: column;
+      }
+
+      h2 {
+        font-size: 50px;
+        line-height: normal;
+        margin: 0 0 20px;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 0 0 20px;
+        line-height: normal;
+      }
+
+      @media only screen and (max-width: 599px) {
+        left: 5%;
+        width: 90%;
+        h2 {
+          font-size: 30px;
+        }
+        h3 {
+          font-size: 20px;
+        }
+      }
+
+      md-button-group {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .md-button.md-theme-default.md-raised {
+          border: 1px solid #fff;
+          background: none;
+          border-left: none;
+          border-radius: 0;
+          min-width: 25%;
+          min-height: 50px;
+          padding: 0;
+
+          &:first-child {
+            border-left: 1px solid #fff;
+          }
+
+          img {
+            filter: brightness(0) invert(1);
+          }
+        }
+      }
+    }
+  }
+  .celebrateEvents,
+  .recentWinners,
+  .howitWorks {
+    display: flex;
+    align-items: stretch;
+    margin: 25px 0;
+    .imgDiv {
+      flex: 1;
+      width: 50%;
+      img {
+        width: 100%;
+      }
+    }
+    .celebrateEventsInner,
+    .recentWinnersInner,
+    .howitWorksInner {
+      background: #e2ddd6;
+      flex: 1;
+      width: 50%;
+      display: flex;
+      align-items: center;
+      .paddLR20Percent {
+        padding: 0 20%;
+      }
+      h2 {
+        font-size: 51px;
+        font-family: "DM Sans", serif;
+        font-weight: bold;
+        margin: 0;
+        line-height: 51px;
+        color: #000;
+      }
+      p {
+        font-size: 22px;
+        font-family: "DM Sans", serif;
+      }
+      small {
+        font-size: 12px;
+        font-family: "DM Sans", serif;
+        display: block;
+        width: 60%;
+        line-height: 12px;
+      }
+      .md-datepicker {
+        border-radius: 0;
+      }
+      button.md-button.md-raised.md-primary.md-theme-default {
+        background: #8D6E3E !important;
+        border-radius: 0;
+        font-size: 12px;
+        margin: 20px 0;
+      }
+    }    
+    .recentWinnersInner {
+      background: #ffffff;
+      h3 {
+        font-size: 25px;
+        font-family: "DM Sans", serif;
+        font-weight: bold;
+        color: #000;
+      }
+    }
+    .howitWorksInner {
+      ol {
+        padding: 0;
+        list-style-position: inside;
+        font-size: 20px;
+        color: #8D6E3E;
+        text-transform: uppercase;
+        line-height: 29px;
+      }
+    }
+    @media only screen and (max-width: 989px) and (min-width: 700px) {
+      .celebrateEventsInner,
+      .recentWinnersInner,
+      .howitWorksInner {
+        .paddLR20Percent {
+          padding: 0 20px;
+        }
+        h2 {
+          font-size: 25px;
+          line-height: 25px;
+        }
+        h3 {
+          font-size: 20px;
+        }
+        p {
+          font-size: 16px;
+        }
+        .md-field {
+          width: 70%;
+        }
+      }
+    }
+    @media only screen and (max-width: 699px) {
+      flex-direction: column;
+      .imgDiv,
+      .celebrateEventsInner,
+      .recentWinnersInner,
+      .howitWorksInner {
+        flex: auto;
+        width: 100%;
+        .paddLR20Percent {
+          padding: 10% 20px;
+        }
+        .md-field {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .howitWorks {
+    @media only screen and (max-width: 699px) {
+      flex-direction: column-reverse;
+    }      
+  }
+  .subscribe {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+      url("../../assets/img/subscribe_banner.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 50px;
+    padding: 50px;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+
+    .subscribeInner {
+      width: 70%;
+    }
+
+    h2 {
+      font-size: 50px;
+      line-height: normal;
+      margin: 0 0 20px;
+      color: #fff;
+    }
+  }
+}
+</style>
+
+<style lang="less">
+.offerBanner {
+  .md-field {
+    border-radius: 0px;
+    border: solid 1px #e5e5e5;
+    background: #ffffff;
+    padding: 15px;
+    margin: 0;
+
+    &:after,
+    &:before {
+      height: 0;
+    }
+
+    label {
+      left: 15px;
+    }
+
+    .material-icons {
+      margin-top: 5px;
+      cursor: pointer;
+      color: #000;
     }
   }
 }
