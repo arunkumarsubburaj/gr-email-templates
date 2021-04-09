@@ -7,7 +7,7 @@
           <p>Default template enabled</p>
           <md-button
             class="md-raised md-primary"
-            @click="$router.push('../style')"
+            @click="$router.push('./style')"
             >Change design</md-button
           >
         </div>
@@ -51,7 +51,6 @@ export default {
   },
   data: function() {
     return {
-      testingCode: "1234",
       message:
         '<iframe width="560" height="315" src="https://www.youtube.com/embed/wd-deKqm3AU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     };

@@ -23,7 +23,6 @@
           v-model="inline"
           type="text"
           id="testing-code"
-          :value="testingCode"
           disabled
         ></md-input>
         <span

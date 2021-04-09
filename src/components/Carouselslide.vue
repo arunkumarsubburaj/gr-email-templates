@@ -126,9 +126,9 @@ export default {
     align-items: center;
     flex-direction: column;
     text-align: center;
-    max-width: 310px;
+    width: 100%;
     img {
-      max-width: 100%;
+      width: 100%;
       margin-bottom: 20px;
 
       & + p {
@@ -181,7 +181,7 @@ export default {
 .VueCarousel {
   margin: 0 40px;
   .VueCarousel-wrapper {
-    margin: 0 20px;
+    margin: 0;
   }
 }
 .cntrlBlock {

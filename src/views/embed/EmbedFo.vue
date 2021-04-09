@@ -43,6 +43,11 @@
         </p>
       </div>
     </div>
+    <div class="ourRewards">
+      <h2>Our Rewards</h2>
+      <CarouselslideFo />
+      <md-button class="md-raised md-primary">View all photos</md-button>
+    </div>
     <div class="howitWorks">
       <div class="howitWorksInner">
         <div class="paddLR20Percent">
@@ -74,6 +79,13 @@
     <div class="subscribe">
       <div class="subscribeInner">
         <h2>Subscribe to our Newsletter</h2>
+        <div class="inputBox">
+          <md-field md-inline>
+            <label>Email Address</label>
+            <md-input v-model="inline"></md-input>
+            <md-button class="md-raised md-primary">View Publications</md-button>
+          </md-field>
+        </div>
       </div>
     </div>
     <div class="offerBanner">
@@ -87,7 +99,6 @@
               v-model="inline"
               type="text"
               id="testing-code"
-              :value="testingCode"
               disabled
             ></md-input>
             <span
@@ -133,9 +144,12 @@
 </template>
 
 <script>
+import CarouselslideFo from "../../components/CarouselslideFo.vue";
 export default {
   name: "EmailFo",
-  components: {},
+  components: {
+    CarouselslideFo,
+  },
   data: function() {
     return {
       showMobileMenu: false,
@@ -394,6 +408,29 @@ export default {
       }
     }
   }
+  .ourRewards {
+    margin: 25px 0;
+    text-align: center;
+
+    h2 {
+      font-size: 50px;
+      line-height: normal;
+      margin: 0 0 20px;
+      color: #000;
+      font-family: "DM Sans", serif;
+      text-align: center;
+    }
+    button.md-button.md-raised.md-primary.md-theme-default {
+      background: #f4f4f4 !important;
+      border-radius: 0;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #555;
+      font-family: "DM Sans", serif;
+      border: none;
+      margin: 25px 0;
+    }
+  }
   .offerBanner {
     /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
@@ -526,6 +563,8 @@ export default {
         border-radius: 0;
         font-size: 12px;
         margin: 20px 0;
+        text-transform: uppercase;
+      font-family: "DM Sans", serif;
       }
     }    
     .recentWinnersInner {
@@ -598,8 +637,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     margin: 50px;
-    padding: 50px;
-    padding: 50px 0;
+    padding: 100px 0;
     display: flex;
     justify-content: center;
 
@@ -612,13 +650,22 @@ export default {
       line-height: normal;
       margin: 0 0 20px;
       color: #fff;
+      font-family: "DM Sans", serif;
+    }
+    button.md-button.md-raised.md-primary.md-theme-default {
+      background: #8D6E3E !important;
+      border-radius: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-family: "DM Sans", serif;
     }
   }
 }
 </style>
 
 <style lang="less">
-.offerBanner {
+.offerBanner,
+.subscribe {
   .md-field {
     border-radius: 0px;
     border: solid 1px #e5e5e5;

@@ -145,9 +145,6 @@ export default {
     return {
       isTab1: true,
       isTab2: false,
-      testingCode: "1234",
-      message:
-        '<iframe width="560" height="315" src="https://www.youtube.com/embed/wd-deKqm3AU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
       templates: [
         { id: 1, name: "Template1", img: "template1.png" },
         { id: 2, name: "Template2", img: "template2.png" },
