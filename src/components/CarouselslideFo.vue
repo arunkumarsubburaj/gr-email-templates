@@ -120,8 +120,8 @@ export default {
         display: flex;
         align-items: center;
         &:hover {
-          color: #8D6E3E;
-        text-decoration: none;
+          color: #8d6e3e;
+          text-decoration: none;
         }
       }
     }
@@ -159,7 +159,7 @@ export default {
         font-family: "DM Sans", serif;
         border-radius: 20px;
         &:hover {
-          background: #8D6E3E;
+          background: #8d6e3e;
           color: #fff;
         }
       }

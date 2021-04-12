@@ -7,7 +7,7 @@
           <p>Default template enabled</p>
           <md-button
             class="md-raised md-primary"
-            @click="$router.push('./style')"
+            @click="$router.push('../style')"
             >Change design</md-button
           >
         </div>

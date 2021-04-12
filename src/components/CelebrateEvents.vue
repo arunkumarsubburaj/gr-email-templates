@@ -19,7 +19,7 @@
       <p>
         Some text here to explain how to earn more rewards plus second line.
       </p>
-      <md-datepicker v-model="string" />
+      <md-datepicker v-model="date" />
     </div>
     <p>
       <small
@@ -35,7 +35,9 @@ export default {
   components: {},
 
   data: function() {
-    return {};
+    return {
+      date: new Date().toISOString().substr(0, 10),
+    };
   }
 };
 </script>

@@ -33,7 +33,7 @@
           content_copy
         </span>
       </md-field>
-      <md-button-group>
+      <div class="md-button-group">
         <md-button class="md-raised"
           ><img src="../assets/img/Facebook_icon.svg" alt=""
         /></md-button>
@@ -46,7 +46,7 @@
         <md-button class="md-raised"
           ><img src="../assets/img/instagram_icon.svg" alt=""
         /></md-button>
-      </md-button-group>
+      </div>
     </div>
   </div>
 </template>
@@ -57,7 +57,8 @@ export default {
 
   data: function() {
     return {
-      referralCode: "amaze.me/urlhere/Referral"
+      referralCode: "amaze.me/urlhere/Referral",
+      inline: "",
     };
   },
   methods: {
@@ -138,7 +139,7 @@ export default {
       line-height: 16px;
     }
 
-    md-button-group {
+    .md-button-group {
       margin-top: 10px;
       display: flex;
       align-items: center;

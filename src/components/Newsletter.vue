@@ -31,7 +31,9 @@ export default {
   components: {},
 
   data: function() {
-    return {};
+    return {
+      inline: "",
+    };
   }
 };
 </script>

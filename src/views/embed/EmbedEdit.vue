@@ -89,10 +89,10 @@
 
                   <div class="cntrlBlock">
                     <div class="btnGr">
-                      <md-button-group>
+                      <div class="md-button-group">
                         <md-button class="md-raised active">Active</md-button>
                         <md-button class="md-raised">Completed</md-button>
-                      </md-button-group>
+                      </div>
                       <md-field>
                         <md-select
                           v-model="order"
@@ -105,8 +105,16 @@
                         </md-select>
                       </md-field>
                     </div>
-                    <div>
-                      fdgdg
+                    <div class="slider">
+                      <vue-slide-bar
+                        v-model="sliderCustomzie.val"
+                        :min="1"
+                        :max="1000"
+                        :processStyle="sliderCustomzie.processStyle"
+                        :lineHeight="sliderCustomzie.lineHeight"
+                        :tooltipStyles="sliderCustomzie.tooltipStyles">
+                      </vue-slide-bar>
+                      <small>Total 740 points ($14.50 Worth)</small>
                     </div>
                   </div>
                 </div>
@@ -154,6 +162,7 @@ import Newsletter from "../../components/Newsletter.vue";
 import ReferNearn from "../../components/ReferNearn.vue";
 import CelebrateEvents from "../../components/CelebrateEvents.vue";
 import Carouselslide from "../../components/Carouselslide.vue";
+import VueSlideBar from 'vue-slide-bar';
 
 export default {
   name: "EmailEdit",
@@ -167,7 +176,8 @@ export default {
     Newsletter,
     ReferNearn,
     CelebrateEvents,
-    Carouselslide
+    Carouselslide,
+    VueSlideBar
   },
   mixins: ["createFormData", "renderTemplate"],
   data: function() {
@@ -175,12 +185,28 @@ export default {
       loader: false,
       isActive: false,
       infoHidden: false,
+      order: "",
       ex3: { label: "thumb-color", val: 50, color: "red" },
       menus: [
         { id: "1", texto: "laptop", class: "active" },
         { id: "2", texto: "ad_units" }
       ],
-      active_el: 0
+      active_el: 0,
+      sliderCustomzie: {
+        val: 320,
+        lineHeight: 10,
+        processStyle: {
+          backgroundColor: '#8f75be',
+        },
+        tooltipStyles: {
+          backgroundColor: '#f94949',
+          borderColor: '#f94949',
+          borderRadius: '4px',
+          fontSize: '12px',
+          padding: '5px 10px',
+          top: '-10px',
+        }
+      }
     };
   },
   computed: {},
@@ -394,8 +420,29 @@ export default {
           margin: 20px;
           .btnGr {
             display: flex;
-            md-button-group {
+            flex: 1;
+            .md-button-group {
               width: 100%;
+            }
+          }
+          .slider {
+            flex: 1;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            .vue-slide-bar-component {
+              width: 150px;
+            }
+            small {
+              color: #8f75be;
+              margin-top: 10px;
+            }
+          }
+          @media only screen and (max-width: 599px) {
+            flex-direction: column-reverse;            
+            .slider {
+              margin-bottom: 20px;
             }
           }
         }
@@ -427,11 +474,11 @@ export default {
             flex-flow: row wrap;
             width: 100%;
             .md-field,
-            md-button-group {
+            .md-button-group {
               flex: 1;
               width: 50%;
             }
-            md-button-group .md-button.md-theme-default.md-raised {
+            .md-button-group .md-button.md-theme-default.md-raised {
               padding: 9px;
             }
           }

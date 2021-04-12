@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="cntrlBlock">
-      <md-button-group>
+      <div class="md-button-group">
         <md-button class="md-raised active">All</md-button>
         <md-button class="md-raised">Daily</md-button>
         <md-button class="md-raised">Weekly</md-button>
         <md-button class="md-raised">Monthly</md-button>
         <md-button class="md-raised">Grand</md-button>
-      </md-button-group>
+      </div>
       <a href="#">You have earned 395 points</a>
     </div>
     <div class="forMobile" v-for="(reward, index) in rewards" :key="reward.id">
@@ -196,7 +196,7 @@ export default {
     text-decoration: underline !important;
   }
 
-  md-button-group {
+  .md-button-group {
     .md-button.md-theme-default.md-raised {
       border: 1px solid #dfdfdf;
       border-left: none;

@@ -71,7 +71,10 @@
         <div class="paddLR20Percent">
           <h2>Recent Winners</h2>
           <h3>Mr Krishna Mahesh</h3>
-          <p>(MD, Sundaram Brake Linings and son of alumnus Mr K. Mahesh [1965/BT/MT])</p>
+          <p>
+            (MD, Sundaram Brake Linings and son of alumnus Mr K. Mahesh
+            [1965/BT/MT])
+          </p>
           <md-button class="md-raised md-primary">View Winners List</md-button>
         </div>
       </div>
@@ -83,7 +86,9 @@
           <md-field md-inline>
             <label>Email Address</label>
             <md-input v-model="inline"></md-input>
-            <md-button class="md-raised md-primary">View Publications</md-button>
+            <md-button class="md-raised md-primary"
+              >View Publications</md-button
+            >
           </md-field>
         </div>
       </div>
@@ -109,7 +114,7 @@
               content_copy
             </span>
           </md-field>
-          <md-button-group>
+          <div class="md-button-group">
             <md-button class="md-raised"
               ><img src="../../assets/img/Facebook_icon.svg" alt=""
             /></md-button>
@@ -122,7 +127,7 @@
             <md-button class="md-raised"
               ><img src="../../assets/img/instagram_icon.svg" alt=""
             /></md-button>
-          </md-button-group>
+          </div>
         </div>
       </div>
     </div>
@@ -133,10 +138,15 @@
       <div class="celebrateEventsInner">
         <div class="paddLR20Percent">
           <h2>Celebrate Events</h2>
-          <p>Some text here to explain how to earn more rewards plus second line.</p>
+          <p>
+            Some text here to explain how to earn more rewards plus second line.
+          </p>
           <md-datepicker v-model="string" />
           <md-button class="md-raised md-primary">SUBMIT</md-button>
-          <small>* Rewards will be given the following year, if date entered is in the next 14 days</small>
+          <small
+            >* Rewards will be given the following year, if date entered is in
+            the next 14 days</small
+          >
         </div>
       </div>
     </div>
@@ -148,7 +158,7 @@ import CarouselslideFo from "../../components/CarouselslideFo.vue";
 export default {
   name: "EmailFo",
   components: {
-    CarouselslideFo,
+    CarouselslideFo
   },
   data: function() {
     return {
@@ -361,7 +371,7 @@ export default {
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
-    position: relative;    
+    position: relative;
 
     /* Place text in the middle of the image */
     .heroTxt {
@@ -454,7 +464,7 @@ export default {
       font-family: "DM Sans", serif;
       color: white;
 
-      .bg {        
+      .bg {
         padding: 30px;
         background: rgba(0, 89, 100, 0.8);
       }
@@ -486,7 +496,7 @@ export default {
         }
       }
 
-      md-button-group {
+      .md-button-group {
         margin-top: 10px;
         display: flex;
         align-items: center;
@@ -559,14 +569,14 @@ export default {
         border-radius: 0;
       }
       button.md-button.md-raised.md-primary.md-theme-default {
-        background: #8D6E3E !important;
+        background: #8d6e3e !important;
         border-radius: 0;
         font-size: 12px;
         margin: 20px 0;
         text-transform: uppercase;
-      font-family: "DM Sans", serif;
+        font-family: "DM Sans", serif;
       }
-    }    
+    }
     .recentWinnersInner {
       background: #ffffff;
       h3 {
@@ -581,7 +591,7 @@ export default {
         padding: 0;
         list-style-position: inside;
         font-size: 20px;
-        color: #8D6E3E;
+        color: #8d6e3e;
         text-transform: uppercase;
         line-height: 29px;
       }
@@ -628,7 +638,7 @@ export default {
   .howitWorks {
     @media only screen and (max-width: 699px) {
       flex-direction: column-reverse;
-    }      
+    }
   }
   .subscribe {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
@@ -653,7 +663,7 @@ export default {
       font-family: "DM Sans", serif;
     }
     button.md-button.md-raised.md-primary.md-theme-default {
-      background: #8D6E3E !important;
+      background: #8d6e3e !important;
       border-radius: 0;
       font-size: 12px;
       text-transform: uppercase;
