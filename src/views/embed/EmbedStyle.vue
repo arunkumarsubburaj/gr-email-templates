@@ -2,7 +2,7 @@
   <div class="embedStyle">
     <div class="fixedTopNav">
       <div class="level1">
-        <span class="material-icons" @click="$router.push('../embed/landing')"
+        <span class="material-icons" @click.prevent="handleBack"
           >arrow_back</span
         >
         <span>Select embed style</span>
@@ -32,7 +32,7 @@
           :id="template.id"
         >
           <div class="boxView">
-            <img :src="'../../img/template' + template.id + '.png'" alt="" />
+            <img :src="getImg(template.id)" alt="" />
           </div>
           <div class="boxFooter">
             <div>
@@ -133,6 +133,7 @@ import Carouselslide from "../../components/Carouselslide.vue";
 
 export default {
   name: "EmailListing",
+  props: ["EmailEdit"],
   components: {
     Footer,
     ParticipateActions,
@@ -164,6 +165,14 @@ export default {
     myTab2: function() {
       this.isTab2 = true;
       this.isTab1 = false;
+    },
+    getImg: function(id) {
+      return `../../img/template${id}.png`;
+    },
+    handleBack: function() {
+      if (this.EmailEdit) {
+        this.close();
+      } else window.history.back();
     }
   },
   mounted: function() {}

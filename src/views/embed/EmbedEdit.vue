@@ -4,7 +4,7 @@
   <div class="embedEdit">
     <div class="fixedTopNav">
       <div class="level1">
-        <span class="material-icons" @click="$router.push('../style')"
+        <span class="material-icons" @click.prevent="handleBack"
           >arrow_back</span
         >
         <span>Embed Campaign</span>
@@ -213,6 +213,11 @@ export default {
   methods: {
     activate: function(el) {
       this.active_el = el;
+    },
+    handleBack: function() {
+      if (this.EmailEdit) {
+        this.close();
+      } else window.history.back();
     }
   },
   mounted: function() {}
