@@ -141,7 +141,7 @@
           <p>
             Some text here to explain how to earn more rewards plus second line.
           </p>
-          <md-datepicker v-model="string" />
+          <md-datepicker v-model="date" />
           <md-button class="md-raised md-primary">SUBMIT</md-button>
           <small
             >* Rewards will be given the following year, if date entered is in
@@ -163,7 +163,9 @@ export default {
   data: function() {
     return {
       showMobileMenu: false,
-      referralCode: "amaze.me/urlhere/Referral"
+      referralCode: "amaze.me/urlhere/Referral",
+      date: new Date().toISOString().substr(0, 10),
+      inline: "",
     };
   },
   mixins: [""],
