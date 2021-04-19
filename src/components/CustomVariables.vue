@@ -5,8 +5,9 @@
       <md-menu-item
         v-for="item in data"
         :key="item"
-        @click="_ => click(index, name, item)"
-        >{{ item }}</md-menu-item
+        class="dLinkMenuItem"
+        @click="(_) => click(index, name, item)"
+        ><i class="fal fa-plus-square"></i> {{ item }}</md-menu-item
       >
     </md-menu-content>
   </md-menu>
@@ -14,9 +15,21 @@
 <script>
 export default {
   name: "CustomVariables",
-  props: ["data", "click", "name", 'index']
+  props: ["data", "click", "name", "index"],
 };
 </script>
+<style lang="less">
+.dLinkMenuItem {
+  div {
+    justify-content: flex-start;
+    font-size: 0.9em;
+    min-height: 40px;
+  }
+  i {
+    padding-right: 0.5em;
+  }
+}
+</style>
 <style lang="less" scoped>
 .dLink {
   font-size: 0.8em;

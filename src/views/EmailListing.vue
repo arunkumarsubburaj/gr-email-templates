@@ -40,8 +40,7 @@
               <div>
                 <h5>{{ mail.title }}</h5>
                 <p>
-                  Email dummy sample text shown here. Text must be replaced from
-                  api data.
+                  {{ mail.description }}
                 </p>
               </div>
             </div>
@@ -369,7 +368,7 @@ export default {
 }
 .todo-checklist {
   position: relative;
-  width: 23%;
+  width: 30%;
   margin: 0 2em 2em;
   &:before,
   &:after {

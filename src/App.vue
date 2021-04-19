@@ -74,7 +74,7 @@ export default {
   height: 0;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent rgba(97,97,97,0.9);
+  border-color: transparent transparent transparent rgba(97, 97, 97, 0.9);
   position: absolute;
 }
 .md-tooltip-left {
@@ -97,12 +97,20 @@ export default {
   transform: translateY(-8px);
 }
 
-.md-dialog.warn .md-title:before {
+.md-dialog.warn .md-title {
+  background-color: #f95b56;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+  &:before {
     font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
     content: "\f071";
-    padding-right: 0.2em;
-    font-size: 1.4em;
-    color: #fb0000;
+    margin-bottom: 0.2em;
+    font-size: 2.5em;
+    line-height: 1;
+    display: block;
+  }
 }
 
 .switch {
