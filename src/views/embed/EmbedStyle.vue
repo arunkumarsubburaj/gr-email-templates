@@ -16,12 +16,6 @@
         </ul>
       </div>
     </div>
-    <!--<img src="../../assets/img/template1.png" alt="" />
-    <img src="../../assets/img/template2.png" alt="" />
-    <img src="../../assets/img/template3.png" alt="" />
-    <img src="../../assets/img/template4.png" alt="" />
-    <img src="../../assets/img/template5.png" alt="" />
-    <img src="../../assets/img/template6.png" alt="" />-->
     <div v-if="isTab1" class="selectTemplateBlock">
       <h1>Select Template</h1>
       <section class="md-layout-item">
@@ -32,7 +26,7 @@
           :id="template.id"
         >
           <div class="boxView">
-            <img :src="getImg(template.id)" alt="" />
+            <img :src="`images/template${template.id}.png`" alt="" />
           </div>
           <div class="boxFooter">
             <div>
@@ -165,9 +159,6 @@ export default {
     myTab2: function() {
       this.isTab2 = true;
       this.isTab1 = false;
-    },
-    getImg: function(id) {
-      return `../../img/template${id}.png`;
     },
     handleBack: function() {
       if (this.EmailEdit) {
