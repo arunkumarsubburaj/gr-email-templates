@@ -28,7 +28,7 @@
           <div
             :class="[
               'templateBox',
-              { active: template.id_theme == activeThemeId },
+              { active: template.id_theme == activeThemeId }
             ]"
             v-for="(template, index) in data"
             :key="template.id_theme"
@@ -47,7 +47,7 @@
               <md-button
                 class="md-raised md-accent btn-custom-active"
                 v-if="template.id_theme == activeThemeId"
-                @click="(e) => save(template.id_theme)"
+                @click="e => save(template.id_theme)"
               >
                 <i class="far fa-check-circle"></i>
                 Customize
@@ -55,7 +55,7 @@
               <md-button
                 class="md-raised btn-custom-primary"
                 v-else
-                @click="(e) => save(template.id_theme)"
+                @click="e => save(template.id_theme)"
               >
                 Edit
               </md-button>
@@ -71,15 +71,15 @@ export default {
   name: "EmailTemplates",
   props: ["data", "close", "save", "fromEditPage", "title", "activeThemeId"],
   methods: {
-    getImg: function (id) {
+    getImg: function(id) {
       return `${window.Config.callback_url}/public/assets/img/email_assets/email_template_${id}.png`;
     },
-    handleBack: function () {
+    handleBack: function() {
       if (this.fromEditPage) {
         this.close();
       } else window.history.back();
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

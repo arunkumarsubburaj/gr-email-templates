@@ -69,7 +69,7 @@
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
-              <a href="#" @click.prevent="(e) => sendTestEmail(mail.id_email)">
+              <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
                 <i class="fal fa-envelope"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
@@ -124,10 +124,7 @@
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
-                <a
-                  href="#"
-                  @click.prevent="(e) => sendTestEmail(mail.id_email)"
-                >
+                <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
                   <i class="fal fa-envelope"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
@@ -211,31 +208,31 @@ import Axios from "axios";
 
 export default {
   name: "EmailListing",
-  data: function () {
+  data: function() {
     return {
       bol: 1,
       listData: [],
       emailMessage: false,
       emailResponse: null,
-      loader: false,
+      loader: false
     };
   },
   components: { Loader },
   mixins: ["createFormData"],
   computed: {
-    activeList: function () {
+    activeList: function() {
       return this.listData.filter(({ is_enabled }) => is_enabled == 1);
     },
-    inactiveList: function () {
+    inactiveList: function() {
       return this.listData.filter(({ is_enabled }) => is_enabled == 0);
-    },
+    }
   },
   methods: {
-    changeEmailStatus: function (id, status) {
+    changeEmailStatus: function(id, status) {
       this.loader = true;
       const params = {
         is_enabled: status ? 0 : 1,
-        id_email: id,
+        id_email: id
       };
       const formData = new FormData();
       for (var key in params) {
@@ -248,7 +245,7 @@ export default {
         this.loader = false;
         if (status == 200) {
           this.emailResponse = `<i class="fas fa-check-circle"></i> ${data.msg}`;
-          this.listData = this.listData.map((item) =>
+          this.listData = this.listData.map(item =>
             item.id_email == id
               ? { ...item, is_enabled: params.is_enabled }
               : item
@@ -258,7 +255,7 @@ export default {
         this.emailMessage = true;
       });
     },
-    sendTestEmail: function (id) {
+    sendTestEmail: function(id) {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/sendTestEmail`,
@@ -271,9 +268,9 @@ export default {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
         this.emailMessage = true;
       });
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     this.loader = true;
     Axios.get(
       `${window.Config.callback_url}/services/email/getEmailTemplates`
@@ -281,7 +278,7 @@ export default {
       this.listData = data.data;
       this.loader = false;
     });
-  },
+  }
 };
 </script>
 
