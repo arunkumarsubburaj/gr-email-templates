@@ -11,7 +11,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-import "@/assets/icon/fontawesome.min.css";
+// import "@/assets/icon/fontawesome.min.css"
 
 Vue.use(VueMaterial);
 
@@ -97,12 +97,20 @@ export default {
   transform: translateY(-8px);
 }
 
-.md-dialog.warn .md-title:before {
-  font-family: "Font Awesome 5 Pro";
-  content: "\f071";
-  padding-right: 0.2em;
-  font-size: 1.4em;
-  color: #fb0000;
+.md-dialog.warn .md-title {
+  background-color: #f95b56;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+  &:before {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    content: "\f071";
+    margin-bottom: 0.2em;
+    font-size: 2.5em;
+    line-height: 1;
+    display: block;
+  }
 }
 
 .switch {

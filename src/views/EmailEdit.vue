@@ -30,7 +30,7 @@
             >
           </div>
         </div>
-        <div class="upgradeBlock" v-if="isWl == 0">
+        <div class="upgradeBlock" v-if="showWlMsg == 0">
           <p>
             Would you like to upgrade to our premium services? Have your own
             branding
@@ -38,17 +38,17 @@
           <md-button href="#/plan" class="md-raised btnUpgrade"
             >Upgrade now</md-button
           >
-          <md-button @click.prevent="isWl = 1" class="md-raised btnNotnow"
+          <md-button @click.prevent="showWlMsg = 1" class="md-raised btnNotnow"
             >Not now</md-button
           >
         </div>
 
         <div class="container editWrap">
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-size-35">
+            <div class="md-layout-item md-size-45">
+              <h3 class="bodyHead">Subject for your Email</h3>
               <div class="subjectEditor">
                 <div class="subTitle">
-                  <span>Subject for your email:</span>
                   <CustomVariables
                     :data="dVars"
                     index="subject"
@@ -211,7 +211,7 @@
                   :class="[
                     'eAccordion-items',
                     'eAccordion-footer',
-                    { active: activeAccordion == 'footer' }
+                    { active: activeAccordion == 'footer' && isWl == 1 },
                   ]"
                 >
                   <div
@@ -219,17 +219,18 @@
                     @click.prevent="
                       e =>
                         footerSection.data.length !== 0 &&
+                        isWl == 1 &&
                         toggleAccordion('footer')
                     "
                   >
                     <span class="title">
                       {{ footerSection.label }}
                     </span>
-                    <nav>
+                    <nav v-if="isWl == 1">
                       <i class="far fa-chevron-right"></i>
                     </nav>
                   </div>
-                  <div class="eAccordion-content">
+                  <div class="eAccordion-content" v-if="isWl == 1">
                     <div>
                       <div
                         class="item-types"
@@ -292,7 +293,7 @@
               </div>
             </div>
 
-            <div class="md-layout-item md-size-65">
+            <div class="md-layout-item md-size-55">
               <div class="previewBlock">
                 <div class="emailTemplate">
                   <table
@@ -335,8 +336,8 @@
             <md-snackbar
               class="msgSnack"
               md-position="center"
-              :md-duration="4000"
-              :md-active.sync="emailMessage"
+              :md-active.sync="showMsg"
+               md-persistent
             >
               <span v-html="emailResponse"></span>
             </md-snackbar>
@@ -358,14 +359,13 @@
               @md-cancel="e => (promptAction = null)"
               @md-confirm="confirmAction"
             /><md-dialog-confirm
-              v-if="name === 'footer'"
               :md-active.sync="footerAction"
               md-title="Change this in the Languages tab"
               md-content="This is a global change and it should be done in the languages tab"
               md-confirm-text="Take me there"
               md-cancel-text="I'll do it later"
               @md-cancel="() => (footerAction = false)"
-              @md-confirm="() => console.log('dpsadp')"
+              @md-confirm="gotoLanguageTab" 
             />
           </div>
         </div>
@@ -491,12 +491,9 @@ var options = {
         "underline",
         "strike",
         "link",
-        "image",
-        "blockquote",
-        "code-block"
-      ]
-    ]
-  }
+      ],
+    ],
+  },
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -524,6 +521,7 @@ export default {
   data: function() {
     return {
       isWl: 1,
+      showWlMsg: 1,
       editPageView: false,
       id: this.$route.params.emailId,
       eData: null,
@@ -536,7 +534,7 @@ export default {
       dVars: null,
       quillEditor: {},
       eOptions: options,
-      emailMessage: false,
+      showMsg: false,
       emailResponse: null,
       loader: false,
       fromEditPage: false,
@@ -562,6 +560,11 @@ export default {
       deep: true,
       handler: function(val, oldVal) {
         if (oldVal !== null) this.disableTest = true;
+      },
+    },
+    showMsg: function() {
+      if(this.showMsg) {
+        setTimeout(() => this.showMsg = false, 4000)
       }
     }
   },
@@ -619,13 +622,13 @@ export default {
               "https://cdn.devam.pro/gr/master/" + data.img_name;
           } else {
             this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
-            this.emailMessage = true;
+            this.showMsg = true;
           }
         })
         .catch(({ data }) => {
           this.loader = false;
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-          this.emailMessage = true;
+          this.showMsg = true;
         });
     },
     appendVarToKey: function(id, name, item) {
@@ -677,13 +680,13 @@ export default {
             this.fetchTemplateData();
           } else
             this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-          this.emailMessage = true;
+          this.showMsg = true;
           this.disableTest = false;
         })
         .catch(() => {
           this.loader = false;
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Something went wrong`;
-          this.emailMessage = true;
+          this.showMsg = true;
         });
     },
     sendTestEmail: function() {
@@ -697,7 +700,7 @@ export default {
           this.emailResponse = `<i class="fas fa-check-circle"></i> An email has been sent to ${data.mail_to}`;
         } else
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error sending mail to ${data.mail_to}`;
-        this.emailMessage = true;
+        this.showMsg = true;
       });
     },
     resetTemplate: function() {
@@ -716,7 +719,7 @@ export default {
           this.emailResponse = `<i class="fas fa-exclamation-circle"></i> There was an error in resetting`;
           this.loader = true;
         }
-        this.emailMessage = true;
+        this.showMsg = true;
       });
     },
     fetchTemplateData: function() {
@@ -736,6 +739,7 @@ export default {
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
         this.isWl = is_wl;
+        this.showWlMsg = is_wl;
         this.activeThemeId = active_id_theme;
         this.emailTitle = title;
         this.emailType = type;
@@ -769,12 +773,23 @@ export default {
       if (this.disableTest) {
         e.returnValue = "Are you sure you want to exit?";
       }
+    },
+    triggerFooterListener: function () {
+      this.footerAction = true;
+    },
+    gotoLanguageTab: function() {
+      console.log(`${window.Config.callback_url}/admin/#/view/locales`)
+      window.location.href = `${window.Config.callback_url}/admin/#/view/locales`
     }
-  },
-  mounted: function() {
+   },
+  mounted: function () {
     this.fetchTemplateData();
     window.addEventListener("beforeunload", this.showReloadAlert);
     // const ft = document.querySelector(".emailFooterTxt");
+  },
+  updated: function () {
+    const emailFooter = document.querySelector(".emailFooterTxt");
+    if (emailFooter) emailFooter.addEventListener("click", this.triggerFooterListener);
   }
 };
 </script>
@@ -921,6 +936,9 @@ export default {
     line-height: 18px;
     width: 100%;
     padding: 10px;
+  }
+  .subTitle {
+    justify-content: flex-end;
   }
 }
 .emailTemplate {
