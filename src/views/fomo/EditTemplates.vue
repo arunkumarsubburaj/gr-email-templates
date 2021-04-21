@@ -3,9 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <div class="linkBackBlock">
-          <router-link :to="'../../../view/fomo/listing/'" class="link-back">
+          <a @click.prevent="handleBack" class="link-back">
             <i class="fa fa-long-arrow-left"></i>
-          </router-link>
+          </a>
           <div class="title">
             <md-icon class="icon margin-right-10">bookmark_outline</md-icon>
             <span>Signup bonus Fomo</span>
@@ -143,18 +143,8 @@
           </div>
           <div class="item-sub" v-if="isToggleSetUpMsg">
             <label class="control-label">Title Text</label>
-            <ckeditor
-              :editor="editor"
-              v-model="setupMsg"
-              @ready="e => editorReady(e, name)"
-            ></ckeditor>
             <div class="height-10"></div>
             <label class="control-label">Sub Title</label>
-            <ckeditor
-              :editor="editor"
-              v-model="setupMsgDesc"
-              @ready="e => editorReady(e, name)"
-            ></ckeditor>
           </div>
 
           <!-- Button Setup -->
@@ -610,7 +600,6 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ColorPicker from "../../components/ColorPicker";
 //import CustomVariables from "../../components/CustomVariables.vue";
 
@@ -639,8 +628,6 @@ export default {
       showSeconds: false,
       isSwitchEndDate: false,
       isChooseLayout: false,
-      editor: ClassicEditor,
-      ckEditor: {},
       disabled: 0,
       selectedShow: "",
       selectedFrequency: "",
@@ -714,8 +701,9 @@ export default {
         }
       );
     },
-    editorReady: function(e, name) {
-      this.ckEditor[name] = e;
+
+    handleBack: function() {
+      window.history.back();
     }
     //ChooseLayout: function(event) {
     //this.targetId = event.chooselayout.id;
