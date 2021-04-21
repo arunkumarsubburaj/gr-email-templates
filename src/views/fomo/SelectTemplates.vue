@@ -3,9 +3,9 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <div class="linkBackBlock">
-          <router-link :to="'../../../view/fomo/listing/'" class="link-back">
+          <a @click.prevent="handleBack" class="link-back">
             <i class="fa fa-long-arrow-left"></i>
-          </router-link>
+          </a>
           <div class="title">
             <md-icon class="icon margin-right-10">bookmark_outline</md-icon>
             <span>Signup bonus Fomo</span>
@@ -207,6 +207,9 @@ export default {
   methods: {
     changeDisabled() {
       this.isActive = !this.isActive;
+    },
+    handleBack: function() {
+      window.history.back();
     }
   },
   mounted: function() {
