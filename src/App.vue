@@ -37,6 +37,9 @@ Vue.mixin({
         }
       }
       return formData;
+    },
+    getImgUrl: function(value) {
+      return `${window.Config.s3_image_url}/${value}`;
     }
   }
 });

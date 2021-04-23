@@ -71,7 +71,7 @@
                     <div
                       :class="[
                         'eAccordion-items',
-                        { active: activeAccordion == key }
+                        { active: activeAccordion == key },
                       ]"
                       v-for="(item, key) in eData.json_fields"
                       :key="key"
@@ -80,7 +80,7 @@
                         v-if="item.data && item.name !== 'footer'"
                         class="eAccordion-title"
                         @click.prevent="
-                          e => item.data.length !== 0 && toggleAccordion(key)
+                          (e) => item.data.length !== 0 && toggleAccordion(key)
                         "
                       >
                         <i
@@ -179,13 +179,13 @@
                                     type="file"
                                     accept="image/*"
                                     @change="
-                                      e => handleFileChange(e, key, name)
+                                      (e) => handleFileChange(e, key, name)
                                     "
                                   />
                                 </label>
                                 <img
                                   v-if="control.value.length > 0"
-                                  :src="control.value"
+                                  :src="getImgUrl(control.value)"
                                   alt=""
                                 />
                               </div>
@@ -199,7 +199,7 @@
                               </div>
                               <ColorPicker
                                 :color="control.value"
-                                v-on:input="e => (control.value = e)"
+                                v-on:input="(e) => (control.value = e)"
                               ></ColorPicker>
                             </div>
                           </div>
@@ -213,13 +213,13 @@
                   :class="[
                     'eAccordion-items',
                     'eAccordion-footer',
-                    { active: activeAccordion == 'footer' && isWl == 1 }
+                    { active: activeAccordion == 'footer' && isWl == 1 },
                   ]"
                 >
                   <div
                     class="eAccordion-title"
                     @click.prevent="
-                      e =>
+                      (e) =>
                         footerSection.data.length !== 0 &&
                         isWl == 1 &&
                         toggleAccordion('footer')
@@ -248,7 +248,7 @@
                                 title="Update status"
                                 for="footer"
                                 @click.prevent="
-                                  e => {
+                                  (e) => {
                                     if (control.value === 1) {
                                       control.value = 0;
                                       handleWlImg(true);
@@ -318,7 +318,7 @@
                           <PreviewRenderer
                             v-for="(block, index) in eData.json_fields"
                             :handleClick="
-                              e =>
+                              (e) =>
                                 (activeAccordion =
                                   block.name == 'footer' ? 'footer' : index)
                             "
@@ -352,18 +352,16 @@
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (resetAction = false)"
+              @md-cancel="(e) => (resetAction = false)"
               @md-confirm="confirmReset"
             />
             <md-dialog-confirm
               :md-active.sync="promptAction"
               :md-title="`${promptAction.type} Section`"
-              :md-content="
-                `Are you sure, Do you wish to ${promptAction.type} this section`
-              "
+              :md-content="`Are you sure, Do you wish to ${promptAction.type} this section`"
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
-              @md-cancel="e => (promptAction = null)"
+              @md-cancel="(e) => (promptAction = null)"
               @md-confirm="confirmAction"
             /><md-dialog-confirm
               :md-active.sync="footerAction"
@@ -418,17 +416,17 @@ function lineBreakMatcher() {
 var options = {
   modules: {
     clipboard: {
-      matchers: [["BR", lineBreakMatcher]]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
         handleEnter: {
           key: 13,
-          handler: function(range, context) {
+          handler: function (range, context) {
             if (range.length > 0) {
               this.quill.scroll.deleteAt(range.index, range.length); // So we do not trigger text-change
             }
-            let lineFormats = Object.keys(context.format).reduce(function(
+            let lineFormats = Object.keys(context.format).reduce(function (
               lineFormats,
               format
             ) {
@@ -456,18 +454,18 @@ var options = {
               this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
             }
             this.quill.selection.scrollIntoView();
-            Object.keys(context.format).forEach(name => {
+            Object.keys(context.format).forEach((name) => {
               if (lineFormats[name] != null) return;
               if (Array.isArray(context.format[name])) return;
               if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
           shiftKey: true,
-          handler: function(range) {
+          handler: function (range) {
             var nextChar = this.quill.getText(range.index + 1, 1);
             this.quill.insertEmbed(range.index, "break", true, "user");
             if (nextChar.length == 0) {
@@ -475,9 +473,9 @@ var options = {
               this.quill.insertEmbed(range.index, "break", true, "user");
             }
             this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-          }
-        }
-      }
+          },
+        },
+      },
     },
     toolbar: [
       [
@@ -488,7 +486,7 @@ var options = {
         { align: [] },
         { direction: "rtl" },
         { size: ["small", false, "large", "huge"] },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        { header: [1, 2, 3, 4, 5, 6, false] },
       ],
       [
         { color: [] },
@@ -497,19 +495,19 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link"
-      ]
-    ]
-  }
+        "link",
+      ],
+    ],
+  },
 };
 
-Break.prototype.insertInto = function(parent, ref) {
+Break.prototype.insertInto = function (parent, ref) {
   Embed.prototype.insertInto.call(this, parent, ref);
 };
-Break.prototype.length = function() {
+Break.prototype.length = function () {
   return 1;
 };
-Break.prototype.value = function() {
+Break.prototype.value = function () {
   return "\n";
 };
 
@@ -522,10 +520,10 @@ export default {
     Loader,
     quillEditor,
     PreviewRenderer,
-    draggable
+    draggable,
   },
-  mixins: ["createFormData", "renderTemplate"],
-  data: function() {
+  mixins: ["createFormData", "renderTemplate", "getImgUrl"],
+  data: function () {
     return {
       isWl: 1,
       showWlMsg: 1,
@@ -548,11 +546,11 @@ export default {
       disableTest: false,
       promptAction: false,
       resetAction: false,
-      footerAction: false
+      footerAction: false,
     };
   },
   watch: {
-    activeAccordion: function(index) {
+    activeAccordion: function (index) {
       let active = null;
       if (index == "footer")
         active = document.querySelector(".eAccordion-footer");
@@ -566,51 +564,51 @@ export default {
     },
     eData: {
       deep: true,
-      handler: function(val, oldVal) {
+      handler: function (val, oldVal) {
         if (oldVal !== null) this.disableTest = true;
-      }
+      },
     },
-    showMsg: function() {
+    showMsg: function () {
       if (this.showMsg) {
         setTimeout(() => (this.showMsg = false), 4000);
       }
-    }
+    },
   },
   computed: {
     footerSection() {
-      return this.eData.json_fields.find(item => item.name === "footer");
+      return this.eData.json_fields.find((item) => item.name === "footer");
     },
     dragOptions() {
       return {
         animation: 0,
         group: "description",
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
-    }
+    },
   },
   methods: {
-    setEdata: function(id) {
+    setEdata: function (id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
       this.disableTest = false;
     },
-    toggleAccordion: function(index) {
+    toggleAccordion: function (index) {
       this.activeAccordion = this.activeAccordion === index ? null : index;
     },
-    togglePageview: function() {
+    togglePageview: function () {
       if (!this.editPageView) this.fromEditPage = true;
       this.editPageView = !this.editPageView;
     },
-    onEditorFocus: function(quill, name) {
+    onEditorFocus: function (quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
-    handleWlImg: function(status) {
+    handleWlImg: function (status) {
       const footerimg = document.querySelector(".footerWlImage");
       console.log(footerimg);
       if (status) footerimg.classList.add("hide");
       else footerimg.classList.remove("hide");
     },
-    handleFileChange: function(e, index, name) {
+    handleFileChange: function (e, index, name) {
       console.log(index);
       const file = e.target.files[0];
       this.loader = true;
@@ -626,8 +624,7 @@ export default {
         .then(({ data }) => {
           this.loader = false;
           if (!data.error) {
-            this.eData.json_fields[index].data[name].value =
-              "https://cdn.devam.pro/gr/master/" + data.img_name;
+            this.eData.json_fields[index].data[name].value = data.img_name;
           } else {
             this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
             this.showMsg = true;
@@ -639,7 +636,7 @@ export default {
           this.showMsg = true;
         });
     },
-    appendVarToKey: function(id, name, item) {
+    appendVarToKey: function (id, name, item) {
       if (name == "subject") {
         const value = this.eData.subject;
         const index = this.$refs["subject"].selectionStart;
@@ -659,11 +656,11 @@ export default {
         }
       }
     },
-    handleChooseTemplate: function(id) {
+    handleChooseTemplate: function (id) {
       this.setEdata(id);
       this.togglePageview();
     },
-    handleSave: function() {
+    handleSave: function () {
       this.loader = true;
 
       const { id_theme, subject, json_fields } = this.eData;
@@ -674,7 +671,7 @@ export default {
         id_theme: id_theme,
         type: this.emailType,
         is_enabled: 1,
-        json_fields: JSON.stringify(json_fields)
+        json_fields: JSON.stringify(json_fields),
       };
 
       Axios.post(
@@ -697,7 +694,7 @@ export default {
           this.showMsg = true;
         });
     },
-    sendTestEmail: function() {
+    sendTestEmail: function () {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/sendTestEmail`,
@@ -711,15 +708,15 @@ export default {
         this.showMsg = true;
       });
     },
-    resetTemplate: function() {
+    resetTemplate: function () {
       this.loader = true;
       Axios.post(
         `${window.Config.callback_url}/services/email/resetEmailTemplate`,
         this.createFormData({
           id_email: this.id,
-          id_theme: this.eData.id_theme
+          id_theme: this.eData.id_theme,
         })
-      ).then(res => {
+      ).then((res) => {
         if (res.status == 200) {
           this.fetchTemplateData();
           this.emailResponse = `<i class="fas fa-check-circle"></i> Template reset successfully`;
@@ -730,7 +727,7 @@ export default {
         this.showMsg = true;
       });
     },
-    fetchTemplateData: function() {
+    fetchTemplateData: function () {
       this.loader = true;
       this.eData = null;
       Axios.get(
@@ -742,7 +739,7 @@ export default {
           themes,
           is_wl,
           title,
-          type
+          type,
         } = data.data;
         this.dVars = dynamic_variables.split(",");
         this.allData = themes;
@@ -755,20 +752,20 @@ export default {
         this.loader = false;
       });
     },
-    handleBack: function() {
+    handleBack: function () {
       window.history.back();
     },
-    cloneBlock: function(index) {
+    cloneBlock: function (index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
       this.eData = { ...this.eData, json_fields: jFields };
     },
-    deleteBlock: function(index) {
+    deleteBlock: function (index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
     },
-    confirmAction: function() {
+    confirmAction: function () {
       if (this.promptAction.type == "Clone")
         this.cloneBlock(this.promptAction.key);
       else if (this.promptAction.type == "Delete")
@@ -776,33 +773,33 @@ export default {
 
       this.promptAction = false;
     },
-    confirmReset: function() {
+    confirmReset: function () {
       this.resetTemplate();
       this.resetAction = false;
     },
-    showReloadAlert: function(e) {
+    showReloadAlert: function (e) {
       if (this.disableTest) {
         e.returnValue = "Are you sure you want to exit?";
       }
     },
-    triggerFooterListener: function() {
+    triggerFooterListener: function () {
       this.footerAction = true;
     },
-    gotoLanguageTab: function() {
+    gotoLanguageTab: function () {
       console.log(`${window.Config.callback_url}/admin/#/view/locales`);
       window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.fetchTemplateData();
     window.addEventListener("beforeunload", this.showReloadAlert);
     // const ft = document.querySelector(".emailFooterTxt");
   },
-  updated: function() {
+  updated: function () {
     const emailFooter = document.querySelector(".emailFooterTxt");
     if (emailFooter)
       emailFooter.addEventListener("click", this.triggerFooterListener);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -984,6 +981,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   background-color: rgba(0, 0, 0, 0.5);
+  min-height: 40px;
   position: relative;
   i {
     cursor: pointer;
