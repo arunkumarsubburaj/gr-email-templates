@@ -166,15 +166,14 @@
                                 <h3>{{ control.label }}</h3>
                               </div>
                               <div class="uploadWrap">
-                                <label
-                                  class="md-button md-raised md-accent md-theme-default"
-                                  :for="`${key}-${name}`"
-                                >
-                                  <i class="fal fa-upload"></i>
-                                  <span v-if="control.value.length > 0"
-                                    >Replace Image</span
+                                <label :for="`${key}-${name}`"
+                                  ><md-tooltip md-direction="right"
+                                    >Replace image</md-tooltip
                                   >
-                                  <span v-else>Add Image</span>
+                                  <i
+                                    class="fal fa-edit"
+                                    alt="Replace image"
+                                  ></i>
                                   <input
                                     :id="`${key}-${name}`"
                                     type="file"
@@ -186,12 +185,15 @@
                                 </label>
                                 <img
                                   v-if="control.value.length > 0"
-                                  :src="control.value"
+                                  :src="getImgUrl(control.value)"
                                   alt=""
                                 />
                               </div>
                             </div>
-                            <div v-if="control.type == 'color'">
+                            <div
+                              v-if="control.type == 'color'"
+                              class="colorPick"
+                            >
                               <div class="subTitle">
                                 <h3>{{ control.label }}</h3>
                               </div>
@@ -286,7 +288,7 @@
                 <h3>Reset template to defaults</h3>
                 <md-button
                   size="small"
-                  v-on:click.stop.prevent="promptAction = { type: 'Reset' }"
+                  v-on:click.stop.prevent="resetAction = true"
                   class="md-raised md-accent"
                   >Reset</md-button
                 >
@@ -342,17 +344,22 @@
               <span v-html="emailResponse"></span>
             </md-snackbar>
             <md-dialog-confirm
-              :class="[{ warn: promptAction.type == 'Reset' }]"
-              :md-active.sync="promptAction"
-              :md-title="
-                `${promptAction.type} ${
-                  promptAction.type == 'Reset' ? 'Template' : 'Section'
-                }`
+              class="warn"
+              :md-active.sync="resetAction"
+              md-title="Reset Template"
+              md-content="
+                Are you sure, Do you wish to reset this template
               "
+              md-confirm-text="Confirm"
+              md-cancel-text="Cancel"
+              @md-cancel="e => (resetAction = false)"
+              @md-confirm="confirmReset"
+            />
+            <md-dialog-confirm
+              :md-active.sync="promptAction"
+              :md-title="`${promptAction.type} Section`"
               :md-content="
-                `Are you sure, Do you wish to ${promptAction.type} this ${
-                  promptAction.type == 'Reset' ? 'template' : 'section'
-                }`
+                `Are you sure, Do you wish to ${promptAction.type} this section`
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
@@ -517,7 +524,7 @@ export default {
     PreviewRenderer,
     draggable
   },
-  mixins: ["createFormData", "renderTemplate"],
+  mixins: ["createFormData", "renderTemplate", "getImgUrl"],
   data: function() {
     return {
       isWl: 1,
@@ -540,6 +547,7 @@ export default {
       fromEditPage: false,
       disableTest: false,
       promptAction: false,
+      resetAction: false,
       footerAction: false
     };
   },
@@ -618,8 +626,7 @@ export default {
         .then(({ data }) => {
           this.loader = false;
           if (!data.error) {
-            this.eData.json_fields[index].data[name].value =
-              "https://cdn.devam.pro/gr/master/" + data.img_name;
+            this.eData.json_fields[index].data[name].value = data.img_name;
           } else {
             this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
             this.showMsg = true;
@@ -765,9 +772,12 @@ export default {
         this.cloneBlock(this.promptAction.key);
       else if (this.promptAction.type == "Delete")
         this.deleteBlock(this.promptAction.key);
-      else this.resetTemplate();
 
       this.promptAction = false;
+    },
+    confirmReset: function() {
+      this.resetTemplate();
+      this.resetAction = false;
     },
     showReloadAlert: function(e) {
       if (this.disableTest) {
@@ -972,9 +982,24 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 40px;
+  position: relative;
+  i {
+    cursor: pointer;
+  }
   img {
     max-width: 50%;
-    margin: 20px auto 0;
+    margin: 0 auto;
+  }
+}
+.colorPick {
+  margin: 1em 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  h3 {
+    margin: 0.6em 0;
   }
 }
 </style>

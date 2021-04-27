@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <link rel="stylesheet" href="https://gr-v1.devam.pro/public/assets/css/lib/fontawesome.min.css?v=1613393918"> -->
     <router-view />
   </div>
 </template>
@@ -11,7 +10,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-// import "@/assets/icon/fontawesome.min.css"
+// import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 
@@ -38,6 +37,9 @@ Vue.mixin({
         }
       }
       return formData;
+    },
+    getImgUrl: function(value) {
+      return `${window.Config.s3_image_url}/${value}`;
     }
   }
 });
@@ -246,11 +248,28 @@ export default {
 }
 .uploadWrap {
   label {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    opacity: 0;
+    font-size: 2.5em;
+    transition: opacity 0.5s;
     input {
       position: absolute;
       opacity: 0;
+      width: 1px;
+      height: 1px;
+      right: 0;
+      top: 0;
+    }
+    &:hover {
+      opacity: 1;
     }
   }
 }
