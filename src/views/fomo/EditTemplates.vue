@@ -143,6 +143,14 @@
           </div>
           <div class="item-sub" v-if="isToggleSetUpMsg">
             <label class="control-label">Title Text</label>
+            <quillEditor
+              v-model="
+                listData.templates[0].popup_settings.default.text_boxes[0].text
+              "
+              :options="eOptions"
+              @focus="onEditorFocus($event, name)"
+              :ref="`${key}-${name}`"
+            ></quillEditor>
             <div class="height-10"></div>
             <label class="control-label">Sub Title</label>
           </div>
@@ -162,17 +170,21 @@
           </div>
           <div class="item-sub" v-if="isToggleBtnSetUp">
             <label class="control-label">Button Text</label>
-            <textarea class="textarea-block" ng-model="btnText">
-                    Button Setup
-                </textarea
-            >
+            <quillEditor
+              v-model="
+                listData.templates[0].popup_settings.default.buttons[0].text
+              "
+              :options="eOptions"
+              @focus="onEditorFocus($event, name)"
+              :ref="`${key}-${name}`"
+            ></quillEditor>
             <div class="height-10"></div>
             <div class="dis-flex">
               <label class="control-label">Button URL</label>
               <a href="#">Check redirection</a>
             </div>
-            <textarea class="textarea-block" ng-model="btnUrl">
-                    www.signupurl/hello
+            <textarea class="textarea-block" v-model="btnUrl">
+                   listData.templates[0].popup_settings.default.buttons[0].url
                 </textarea
             >
           </div>
@@ -563,11 +575,22 @@
           <div class="template-inner-6">
             <div class="template-inner-6-inner">
               <div>
-                <h3>{{ setupMsg }}</h3>
+                <h3
+                  v-html="
+                    listData.templates[0].popup_settings.default.text_boxes[0]
+                      .text
+                  "
+                ></h3>
                 <p>{{ setupMsgDesc }}</p>
               </div>
               <div class="split"></div>
-              <a class="btn">GRCOUPON</a>
+              <a
+                class="btn"
+                :href="btnUrl"
+                v-html="
+                  listData.templates[0].popup_settings.default.buttons[0].text
+                "
+              ></a>
             </div>
           </div>
         </div>
@@ -602,18 +625,133 @@
 import Axios from "axios";
 import ColorPicker from "../../components/ColorPicker";
 //import CustomVariables from "../../components/CustomVariables.vue";
+import Quill from "quill";
+import { quillEditor } from "vue-quill-editor"; // require styles
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+
+var Parchment = Quill.import("parchment");
+var Delta = Quill.import("delta");
+let Break = Quill.import("blots/break");
+let Embed = Quill.import("blots/embed");
+function lineBreakMatcher() {
+  var newDelta = new Delta();
+  newDelta.insert({ break: "" });
+  return newDelta;
+}
+var options = {
+  modules: {
+    clipboard: {
+      matchers: [["BR", lineBreakMatcher]]
+    },
+    keyboard: {
+      bindings: {
+        handleEnter: {
+          key: 13,
+          handler: function(range, context) {
+            if (range.length > 0) {
+              this.quill.scroll.deleteAt(range.index, range.length); // So we do not trigger text-change
+            }
+            let lineFormats = Object.keys(context.format).reduce(function(
+              lineFormats,
+              format
+            ) {
+              if (
+                Parchment.query(format, Parchment.Scope.BLOCK) &&
+                !Array.isArray(context.format[format])
+              ) {
+                lineFormats[format] = context.format[format];
+              }
+              return lineFormats;
+            },
+            {});
+            var previousChar = this.quill.getText(range.index - 1, 1);
+            // Earlier scroll.deleteAt might have messed up our selection,
+            // so insertText's built in selection preservation is not reliable
+            this.quill.insertText(
+              range.index,
+              "\n",
+              lineFormats,
+              Quill.sources.USER
+            );
+            if (previousChar == "" || previousChar == "\n") {
+              this.quill.setSelection(range.index + 2, Quill.sources.SILENT);
+            } else {
+              this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+            }
+            this.quill.selection.scrollIntoView();
+            Object.keys(context.format).forEach(name => {
+              if (lineFormats[name] != null) return;
+              if (Array.isArray(context.format[name])) return;
+              if (name === "link") return;
+              this.quill.format(name, context.format[name], Quill.sources.USER);
+            });
+          }
+        },
+        linebreak: {
+          key: 13,
+          shiftKey: true,
+          handler: function(range) {
+            var nextChar = this.quill.getText(range.index + 1, 1);
+            this.quill.insertEmbed(range.index, "break", true, "user");
+            if (nextChar.length == 0) {
+              // second line break inserts only at the end of parent element
+              this.quill.insertEmbed(range.index, "break", true, "user");
+            }
+            this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+          }
+        }
+      }
+    },
+    toolbar: [
+      [
+        { indent: "-1" },
+        { indent: "+1" },
+        { list: "ordered" },
+        { list: "bullet" },
+        { align: [] },
+        { direction: "rtl" },
+        { size: ["small", false, "large", "huge"] },
+        { header: [1, 2, 3, 4, 5, 6, false] }
+      ],
+      [
+        { color: [] },
+        { background: [] },
+        "bold",
+        "italic",
+        "underline",
+        "strike",
+        "link"
+      ]
+    ]
+  }
+};
+
+Break.prototype.insertInto = function(parent, ref) {
+  Embed.prototype.insertInto.call(this, parent, ref);
+};
+Break.prototype.length = function() {
+  return 1;
+};
+Break.prototype.value = function() {
+  return "\n";
+};
 
 export default {
   name: "EditTemplate",
   components: {
-    ColorPicker
-    //CustomVariables
+    ColorPicker,
+    //CustomVariables,
+    quillEditor
   },
   data: function() {
     return {
       id: this.$route.params.fomoId,
       isActive: false,
       listData: null,
+      quillEditor: {},
+      eOptions: options,
       isToggleDisplay: false,
       isToggleBasic: false,
       isToggleLayout: false,
@@ -700,6 +838,9 @@ export default {
           console.log(e);
         }
       );
+    },
+    onEditorFocus: function(quill, name) {
+      this.quillEditor[name] = quill.selection.savedRange.index;
     },
 
     handleBack: function() {
