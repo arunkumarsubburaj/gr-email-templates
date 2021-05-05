@@ -70,7 +70,7 @@
                 >
               </router-link>
               <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                <i class="fal fa-envelope"
+                <i class="fal fa-paper-plane"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
                   ></i
@@ -95,8 +95,7 @@
                 <div>
                   <h5>{{ mail.title }}</h5>
                   <p>
-                    Email dummy sample text shown here. Text must be replaced
-                    from api data.
+                    {{ mail.description }}
                   </p>
                 </div>
               </div>
@@ -125,7 +124,7 @@
                   >
                 </router-link>
                 <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                  <i class="fal fa-envelope"
+                  <i class="fal fa-paper-plane"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
                     ></i
@@ -359,6 +358,7 @@ export default {
 .emailListingContainer {
   margin-top: -52px;
   display: flex;
+  align-items: flex-start;
   .emailItems {
     flex-grow: 1;
   }
@@ -488,6 +488,8 @@ export default {
   p {
     margin: 0;
     font-size: 12px;
+    line-height: 1.4;
+    margin-top: 3px;
   }
 
   h5 {
@@ -513,7 +515,7 @@ export default {
 
 .emailList li > div {
   flex-grow: 1;
-  padding: 15px 0;
+  padding: 20px 0;
   flex-shrink: 0;
   display: flex;
   align-items: center;

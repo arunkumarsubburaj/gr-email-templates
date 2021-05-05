@@ -21,19 +21,22 @@
               >Sent Test Email</md-button
             >
             <md-button
-              @click.prevent="togglePageview"
+              @click.prevent="
+                (e) =>
+                  editted > 2 ? (showUnsavedpop = true) : togglePageview()
+              "
               class="md-raised md-accent"
               >Change Template</md-button
             >
             <md-button @click.prevent="handleSave" class="md-raised md-accent"
-              >Save</md-button
+              >Save and Publish</md-button
             >
           </div>
         </div>
         <div class="upgradeBlock" v-if="showWlMsg == 0">
           <p>
-            Would you like to upgrade to our premium services? Have your own
-            branding
+            Do you want to display your branding on the front end? Upgrade to
+            Footer credit add on
           </p>
           <md-button href="#/plan" class="md-raised btnUpgrade"
             >Upgrade now</md-button
@@ -56,7 +59,15 @@
                     :click="appendVarToKey"
                   />
                 </div>
-                <input type="text" ref="subject" v-model="eData.subject" />
+                <input
+                  type="text"
+                  ref="subject"
+                  maxlength="100"
+                  v-model="eData.subject"
+                />
+                <div style="text-align: right">
+                  <small> Char(s): {{ 100 - eData.subject.length }} </small>
+                </div>
               </div>
               <h3 class="bodyHead">Body for your Email</h3>
               <div class="eAccordion">
@@ -139,6 +150,7 @@
                               <input
                                 class="form-control"
                                 type="text"
+                                maxlength="200"
                                 :ref="`${key}-${name}`"
                                 v-model="control.value"
                               />
@@ -158,6 +170,7 @@
                                 v-model="control.value"
                                 :options="eOptions"
                                 @focus="onEditorFocus($event, name)"
+                                @change="onEditorChange($event)"
                                 :ref="`${key}-${name}`"
                               ></quillEditor>
                             </div>
@@ -179,7 +192,14 @@
                                     type="file"
                                     accept="image/*"
                                     @change="
-                                      (e) => handleFileChange(e, key, name)
+                                      (e) =>
+                                        handleFileChange(
+                                          e,
+                                          key,
+                                          name,
+                                          control.width,
+                                          control.height
+                                        )
                                     "
                                   />
                                 </label>
@@ -188,6 +208,10 @@
                                   :src="getImgUrl(control.value)"
                                   alt=""
                                 />
+                                <div class="fileDimension">
+                                  {{ control.width }} X
+                                  {{ control.height }} pixels
+                                </div>
                               </div>
                             </div>
                             <div
@@ -213,7 +237,10 @@
                   :class="[
                     'eAccordion-items',
                     'eAccordion-footer',
-                    { active: activeAccordion == 'footer' && isWl == 1 },
+                    {
+                      active:
+                        activeAccordion == 'footer' && isWl == 1 && wlImage,
+                    },
                   ]"
                 >
                   <div
@@ -222,17 +249,18 @@
                       (e) =>
                         footerSection.data.length !== 0 &&
                         isWl == 1 &&
+                        wlImage &&
                         toggleAccordion('footer')
                     "
                   >
                     <span class="title">
                       {{ footerSection.label }}
                     </span>
-                    <nav v-if="isWl == 1">
+                    <nav v-if="isWl == 1 && wlImage">
                       <i class="far fa-chevron-right"></i>
                     </nav>
                   </div>
-                  <div class="eAccordion-content" v-if="isWl == 1">
+                  <div class="eAccordion-content" v-if="isWl == 1 && wlImage">
                     <div>
                       <div
                         class="item-types"
@@ -354,6 +382,18 @@
               md-cancel-text="Cancel"
               @md-cancel="(e) => (resetAction = false)"
               @md-confirm="confirmReset"
+            />
+            <md-dialog-confirm
+              class="warn"
+              :md-active.sync="showUnsavedpop"
+              md-title="Change Template"
+              md-content="
+                There are unsaved changes, Are you sure you wish to change template ?
+              "
+              md-confirm-text="Confirm"
+              md-cancel-text="Cancel"
+              @md-cancel="(e) => (showUnsavedpop = false)"
+              @md-confirm="togglePageview"
             />
             <md-dialog-confirm
               :md-active.sync="promptAction"
@@ -528,6 +568,7 @@ export default {
       isWl: 1,
       showWlMsg: 1,
       editPageView: false,
+      wlImage: false,
       id: this.$route.params.emailId,
       eData: null,
       allData: null,
@@ -547,6 +588,8 @@ export default {
       promptAction: false,
       resetAction: false,
       footerAction: false,
+      showUnsavedpop: false,
+      editted: 0,
     };
   },
   watch: {
@@ -558,20 +601,30 @@ export default {
       if (active) {
         setTimeout(() => {
           const ele = active.querySelector(".eAccordion-content");
-          ele.focus();
+          ele?.focus();
         }, 500);
       }
     },
     eData: {
       deep: true,
       handler: function (val, oldVal) {
-        if (oldVal !== null) this.disableTest = true;
+        if (oldVal !== null) {
+          this.disableTest = true;
+          this.editted = this.editted + 1;
+        }
       },
     },
     showMsg: function () {
       if (this.showMsg) {
         setTimeout(() => (this.showMsg = false), 4000);
       }
+    },
+    editPageView: function () {
+      setTimeout(() => {
+        if (this.isWl == 1 && document.querySelector(".footerWlImage")) {
+          this.wlImage = true;
+        }
+      });
     },
   },
   computed: {
@@ -591,6 +644,7 @@ export default {
     setEdata: function (id) {
       this.eData = this.allData.find(({ id_theme }) => id_theme == id);
       this.disableTest = false;
+      this.editted = 0;
     },
     toggleAccordion: function (index) {
       this.activeAccordion = this.activeAccordion === index ? null : index;
@@ -602,39 +656,48 @@ export default {
     onEditorFocus: function (quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
+    onEditorChange: function ({ quill }) {
+      const limit = 3000;
+      if (quill.getLength() > limit) {
+        quill.deleteText(limit, quill.getLength());
+      }
+    },
     handleWlImg: function (status) {
       const footerimg = document.querySelector(".footerWlImage");
-      console.log(footerimg);
       if (status) footerimg.classList.add("hide");
       else footerimg.classList.remove("hide");
     },
-    handleFileChange: function (e, index, name) {
-      console.log(index);
+    handleFileChange: function (e, index, name, width, height) {
       const file = e.target.files[0];
-      this.loader = true;
-      let formData = new FormData();
-      formData.append("Filedata", file);
-      formData.append("suffix", name);
-      formData.append("id_template", 1);
 
-      Axios.post(
-        `${window.Config.callback_url}/S3Uploader/emailTemplate`,
-        formData
-      )
-        .then(({ data }) => {
-          this.loader = false;
-          if (!data.error) {
-            this.eData.json_fields[index].data[name].value = data.img_name;
-          } else {
-            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> Uploaded successfully`;
+      if (file) {
+        let formData = new FormData();
+        this.loader = true;
+        formData.append("Filedata", file);
+        formData.append("suffix", name);
+        formData.append("id_template", 1);
+        formData.append("width", width);
+        formData.append("height", height);
+        Axios.post(
+          `${window.Config.callback_url}/S3Uploader/emailTemplate`,
+          formData
+        )
+          .then(({ data }) => {
+            this.loader = false;
+            if (!data.error) {
+              this.eData.json_fields[index].data[name].value = data.img_name;
+              this.emailResponse = `<i class="fas fa-check-circle"></i> Uploaded successfully`;
+            } else {
+              this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            }
             this.showMsg = true;
-          }
-        })
-        .catch(({ data }) => {
-          this.loader = false;
-          this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
-          this.showMsg = true;
-        });
+          })
+          .catch(({ data }) => {
+            this.loader = false;
+            this.emailResponse = `<i class="fas fa-exclamation-circle"></i> ${data.msg}`;
+            this.showMsg = true;
+          });
+      }
     },
     appendVarToKey: function (id, name, item) {
       if (name == "subject") {
@@ -730,6 +793,7 @@ export default {
     fetchTemplateData: function () {
       this.loader = true;
       this.eData = null;
+      // `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       Axios.get(
         `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
@@ -786,7 +850,6 @@ export default {
       this.footerAction = true;
     },
     gotoLanguageTab: function () {
-      console.log(`${window.Config.callback_url}/admin/#/view/locales`);
       window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
     },
   },
@@ -803,6 +866,18 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.fileDimension {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  background: #000;
+  padding: 2px 4px 1px 11px;
+  border-top-left-radius: 15px;
+  color: #fff;
+  font-size: 11px;
+  opacity: 0.4;
+}
 .editWrap {
   padding-top: 50px;
 }
@@ -906,6 +981,11 @@ export default {
     h3 {
       color: #007aff;
       font-size: 14px;
+      line-height: 1;
+    }
+    .md-menu {
+      line-height: 0.9;
+      margin: 10px 0;
     }
   }
 
@@ -980,7 +1060,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
   min-height: 40px;
   position: relative;
   i {
@@ -1004,7 +1086,9 @@ export default {
 
 <style lang="less">
 :root {
-  --md-theme-default-accent: #5bb74d !important;
+  --md-theme-default-accent: #187aff !important;
+  --md-theme-default-accent-on-background: #187aff !important;
+  --md-theme-default-primary-on-background: #187aff !important;
 }
 .quill-editor {
   background-color: #fff;
@@ -1042,12 +1126,14 @@ export default {
 .md-button {
   text-transform: capitalize;
   padding: 0 10px;
-  border-radius: 4px;
+  border-radius: 0 !important;
   box-shadow: none !important;
   margin: 0;
-
   i {
     margin-right: 10px;
+  }
+  &[disabled] {
+    background: transparent !important;
   }
 }
 
@@ -1141,14 +1227,18 @@ export default {
     &.active {
       .eAccordion-content {
         max-height: 2000px;
-        background-color: #efefef;
+        background-color: #eef9f9;
         > div {
           border-color: #afafaf;
         }
       }
       .eAccordion-title {
         border-color: #afafaf;
-        background-color: #bfbfbf;
+        background-color: #187aff;
+        color: #fff;
+        a {
+          color: #fff !important;
+        }
         .fa-chevron-right {
           transform: rotate(90deg);
         }

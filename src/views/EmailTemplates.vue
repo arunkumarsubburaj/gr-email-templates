@@ -57,7 +57,7 @@
                 v-else
                 @click="e => save(template.id_theme)"
               >
-                Edit
+                Change
               </md-button>
             </div>
           </div>
@@ -111,6 +111,15 @@ export default {
     .boxFooter {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+  &.active {
+    .boxFooter {
+      background-color: rgb(11, 169, 0, 0.8);
+      .md-button {
+        background-color: #ffffff !important;
+        color: green !important;
+      }
     }
   }
   .boxView {
