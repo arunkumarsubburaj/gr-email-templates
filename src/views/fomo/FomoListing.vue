@@ -22,7 +22,7 @@
           </div>
           <div class="fomoList">
             <md-tabs md-alignment="fixed">
-              <md-tab id="tab-home" :md-label="tab1 + notification1">
+              <md-tab id="tab-home" md-label="Active Prompts (5)">
                 <div class="table-responsive tableList">
                   <table class="table table-striped snap-top">
                     <thead>
@@ -86,11 +86,8 @@
                   </table>
                 </div>
               </md-tab>
-              <md-tab id="tab-pages" :md-label="tab2 + notification2"
-                >{{ tab2 }} {{ notification2 }}</md-tab
-              >
-              <md-tab id="tab-posts" :md-label="tab3 + notification3"
-                >{{ tab3 }} {{ notification3 }}</md-tab
+              <md-tab id="tab-pages" md-label="PausedPrompts(3)"
+                >PausedPrompts</md-tab
               >
             </md-tabs>
           </div>
@@ -129,39 +126,19 @@
             <div class="upcomingFomoList"></div>
             <div
               class="new_list"
-              v-for="record in records"
-              :key="record.fomoIcon"
+              v-for="template in uTemplates"
+              :key="template.fomoIcon"
             >
               <md-icon class="fomo_icon">
-                {{ record.fomoIcon }}
-                <span v-if="record.fomoNotification">{{
-                  record.fomoNotification
+                {{ template.fomoIcon }}
+                <span v-if="template.fomoNotification">{{
+                  template.fomoNotification
                 }}</span>
               </md-icon>
               <div class="fomo_details">
-                <h3>{{ record.fomoHead }}</h3>
+                <h3>{{ template.fomoHead }}</h3>
               </div>
               <md-button :md-ripple="false" class="md-dense btn">Add</md-button>
-            </div>
-            <!-- Setup -->
-            <div class="new_list">
-              <md-icon class="fomo_icon">payment</md-icon>
-              <div class="fomo_details">
-                <h3>Pay with points</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn btn-setup"
-                >Setup</md-button
-              >
-            </div>
-            <!-- Create new -->
-            <div class="new_list create-new">
-              <md-icon class="fomo_icon">design_services</md-icon>
-              <div class="fomo_details">
-                <h3>Create design</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn btn-setup"
-                >Create</md-button
-              >
             </div>
           </div>
         </div>
@@ -172,7 +149,6 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
 //import Loader from "@/components/Loader.vue";
 
@@ -180,28 +156,11 @@ export default {
   name: "FomoListing",
   data: function() {
     return {
-      bol: 1,
       listData: null,
       template: [],
       loading: true,
       errored: false,
-      emailMessage: false,
-      emailResponse: null,
-      //loader: false,
-
-      statuses: [
-        { count: "147,789", attr: "Active clicks" },
-        { count: "7,986", attr: "New subscribers" },
-        { count: "154", attr: "New Referrales" },
-        { count: "8,965", attr: "Coupons used" }
-      ],
-      tab1: "Active Prompts",
-      notification1: " (5)",
-      tab2: "Paused Prompts",
-      notification2: " (3)",
-      tab3: "Drafts",
-      notification3: " (10)",
-      records: [
+      uTemplates: [
         {
           fomoIcon: "mail_outline",
           fomoHead: "Newsletter",
@@ -238,33 +197,27 @@ export default {
   methods: {
     fetchListData: function() {
       Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1")
-
         .then(response => {
           this.listData = response.data;
         })
-
         .catch(error => {
           console.log(error);
           this.errored = true;
         })
-
         .finally(() => (this.loading = false));
     },
 
     fetchViewTemplateData: function() {
       Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomos")
-
         .then(response => {
           const { fomos } = response.data.data;
           console.log("@@@", response);
           this.template = fomos;
         })
-
         .catch(error => {
           console.log(error);
           this.errored = true;
         })
-
         .finally(() => (this.loading = false));
     }
   },
@@ -336,7 +289,7 @@ export default {
 .create_fomo {
   background: white;
   flex: 1;
-
+  max-width: 400px;
   .create-new .fomo_icon {
     color: #333;
     background: none;
@@ -402,41 +355,6 @@ export default {
       font-size: 12px;
       color: #333;
       line-height: 15px;
-    }
-  }
-}
-
-.fomoList {
-  margin-top: -68px;
-  padding: 0 10%;
-
-  .md-tabs {
-    margin-top: 30px;
-
-    .md-button {
-      background: #474747;
-      border-left: 1px solid #777;
-      font-size: 13px;
-      color: #9e9e9e;
-      padding: 10px 20px;
-      line-height: 16px;
-
-      &:first-child {
-        border-left: none;
-      }
-
-      &.md-active {
-        background: #fff;
-        color: #007aff;
-        font-weight: 500;
-        font-size: 14px;
-      }
-    }
-
-    .md-tabs.md-theme-default .md-tabs-indicator {
-      background-color: #fff;
-      background-color: var(--md-theme-default-primary-on-background, #007aff);
-      top: 0;
     }
   }
 }
@@ -598,18 +516,16 @@ export default {
 
   .md-tabs {
     margin-top: 30px;
-
     .md-button {
       background: #474747;
       border-left: 1px solid #777;
       font-size: 13px;
       color: #9e9e9e !important;
       height: 38px;
-
+      max-width: 100% !important;
       &:first-child {
         border-left: none;
       }
-
       &.md-active {
         background: #fff;
         color: #007aff !important;
@@ -630,6 +546,10 @@ export default {
 
         table {
           width: calc(100% - 1px);
+          background-color: #fff;
+        }
+        td {
+          background-color: #fff;
         }
       }
     }
