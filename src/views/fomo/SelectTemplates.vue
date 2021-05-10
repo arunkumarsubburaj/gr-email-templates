@@ -124,7 +124,7 @@
           </div>
         </div>
       </div>-->
-      <div class="choose_template_block">
+      <div class="choose_template_block" v-if="templateData">
         <div
           class="template"
           v-bind:class="[{ disabled: !isActive }]"
@@ -138,36 +138,7 @@
           <div class="template-inner">
             <div :class="'template-inner-' + template.id_template">
               <div :class="'template-inner-' + template.id_template + '-inner'">
-                <md-icon
-                  class="btn-close"
-                  v-if="template.default_settings.close !== ''"
-                  >{{ template.default_settings.bg_img.overlay }}</md-icon
-                >
-                <div
-                  class="outer link-close"
-                  v-if="template.default_settings.close !== ''"
-                >
-                  <div class="inner">
-                    <label>{{
-                      template.default_settings.bg_img.overlay
-                    }}</label>
-                  </div>
-                </div>
-                <div
-                  v-for="txt in template.default_settings.text_boxes"
-                  :key="txt.size"
-                >
-                  <p v-if="txt.subTitle !== ''">{{ txt.subTitle }}</p>
-                  <h3 v-if="txt.text !== ''">{{ txt.text }}</h3>
-                  <p v-if="txt.desc !== ''">{{ txt.desc }}</p>
-                </div>
-                <a
-                  v-for="CTA in template.default_settings.buttons"
-                  :key="CTA.bold"
-                  href="#"
-                  class="btn"
-                  >{{ CTA.text }}</a
-                >
+                text
               </div>
             </div>
           </div>
@@ -193,7 +164,6 @@ import Axios from "axios";
 
 export default {
   name: "SelectTemplates",
-  props: ["data", "close", "save"],
   mixins: ["renderTemplate"],
   data: function() {
     return {
@@ -216,8 +186,7 @@ export default {
     Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1").then(
       ({ data }) => {
         this.templateData = data.data;
-
-        console.log("@@@", data);
+        console.log(this.templateData);
       }
     );
   }
