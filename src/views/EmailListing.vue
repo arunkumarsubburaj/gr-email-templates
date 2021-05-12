@@ -238,7 +238,7 @@ export default {
         formData.append(key, params[key]);
       }
       Axios.post(
-        `${window.Config.callback_url}/services/email/updateEmailStatus`,
+        `${window.Config.callback_url}/services/v2/email/updateEmailStatus`,
         formData
       ).then(({ data, status }) => {
         this.loader = false;
@@ -257,7 +257,7 @@ export default {
     sendTestEmail: function(id) {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -272,7 +272,7 @@ export default {
   mounted: function() {
     this.loader = true;
     Axios.get(
-      `${window.Config.callback_url}/services/email/getEmailTemplates`
+      `${window.Config.callback_url}/services/v2/email/getEmailTemplates`
     ).then(({ data }) => {
       this.listData = data.data;
       this.loader = false;

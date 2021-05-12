@@ -738,7 +738,7 @@ export default {
       };
 
       Axios.post(
-        `${window.Config.callback_url}/services/email/saveEmailTemplate`,
+        `${window.Config.callback_url}/services/v2/email/saveEmailTemplate`,
         this.createFormData(params)
       )
         .then(({ data, status }) => {
@@ -760,7 +760,7 @@ export default {
     sendTestEmail: function () {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/sendTestEmail`,
+        `${window.Config.callback_url}/services/v2/email/sendTestEmail`,
         this.createFormData({ id_email: this.id })
       ).then(({ data, status }) => {
         this.loader = false;
@@ -774,7 +774,7 @@ export default {
     resetTemplate: function () {
       this.loader = true;
       Axios.post(
-        `${window.Config.callback_url}/services/email/resetEmailTemplate`,
+        `${window.Config.callback_url}/services/v2/email/resetEmailTemplate`,
         this.createFormData({
           id_email: this.id,
           id_theme: this.eData.id_theme,
@@ -793,9 +793,9 @@ export default {
     fetchTemplateData: function () {
       this.loader = true;
       this.eData = null;
-      // `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+      // `${window.Config.callback_url}/services/v2/email/getEmailTemplate/${this.id}`
       Axios.get(
-        `${window.Config.callback_url}/services/email/getEmailTemplate/${this.id}`
+        `${window.Config.callback_url}/services/v2/email/getEmailTemplate/${this.id}`
       ).then(({ data }) => {
         const {
           active_id_theme,
