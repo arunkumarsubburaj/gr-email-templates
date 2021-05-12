@@ -18,7 +18,7 @@
         <div class="md-layout-item md-size-100">
           <h1>{{ title }}</h1>
         </div>
-          <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
+        <!-- AN ENHANCEMENT TO BE WORKD ON NEXT PHASE -->
         <!-- <div class="md-layout-item md-size-25 dispMidRight">
           <md-button class="md-raised btn-custom-default">
             <i class="fas fa-plus"></i> Create a blank email

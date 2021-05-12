@@ -17,7 +17,7 @@ Vue.use(VueMaterial);
 // GLOBAL MIXINS - HELPER FUNCTIONS
 Vue.mixin({
   methods: {
-    renderTemplate: (data) =>
+    renderTemplate: data =>
       data.email_template.length > 5
         ? data.email_template.replace(/\[\[(.*?)\]]/g, (full, property) =>
             data.json_fields[property]
@@ -25,7 +25,7 @@ Vue.mixin({
               : property
           )
         : "<div>Invalid Template</div>",
-    createFormData: (data) => {
+    createFormData: data => {
       let formData = new FormData();
       for (let key in data) {
         if (typeof data[key] === "object") {
@@ -38,17 +38,17 @@ Vue.mixin({
       }
       return formData;
     },
-    getImgUrl: function (value) {
+    getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
     }
-  },
+  }
 });
 
 export default {
   name: "app",
   mounted: function() {
-    document.documentElement.classList.remove('md-theme-default');
-    document.querySelector('#app').classList.add('md-theme-default');
+    document.documentElement.classList.remove("md-theme-default");
+    document.querySelector("#app").classList.add("md-theme-default");
   }
 };
 </script>
