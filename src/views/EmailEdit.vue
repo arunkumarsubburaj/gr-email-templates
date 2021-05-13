@@ -131,9 +131,10 @@
                       <div class="eAccordion-content">
                         <div v-if="item.data">
                           <div
-                            class="item-types"
                             v-for="(control, name, index) in item.data"
-                            :key="index"
+                            :key="index">
+                          <div
+                            class="item-types" v-if="control.type == 'text' || control.type == 'textarea' || control.type == 'file' || control.type == 'color'"
                           >
                             <div v-if="control.type == 'text'">
                               <div class="subTitle">
@@ -225,6 +226,7 @@
                                 v-on:input="e => (control.value = e)"
                               ></ColorPicker>
                             </div>
+                          </div>
                           </div>
                         </div>
                       </div>
@@ -1123,7 +1125,7 @@ export default {
   display: none !important;
 }
 .flip-list-move {
-  transition: transform 1s;
+  transition: transform 0.5s;
 }
 .no-move {
   transition: transform 0s;
@@ -1227,9 +1229,10 @@ export default {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.8s, background-color 0.5s;
-    > div {
+    .item-types {
       border: 1px solid #e8e8e8;
       padding: 10px;
+      border-top: 0;
     }
   }
   &-items {
@@ -1242,7 +1245,7 @@ export default {
         background-color: #eef9f9;
         display: block;
         overflow: visible;
-        > div {
+        .item-types {
           border-color: #afafaf;
         }
       }
