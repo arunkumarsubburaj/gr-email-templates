@@ -21,7 +21,7 @@
             </div>-->
           </div>
           <div class="fomoList">
-            <md-tabs md-alignment="fixed">
+            <md-tabs class="fomo-tabs" md-alignment="fixed">
               <md-tab id="tab-home" md-label="Active Prompts (5)">
                 <div class="table-responsive tableList">
                   <table class="table table-striped snap-top">
@@ -36,12 +36,12 @@
                       </tr>
                     </thead>
                     <tbody class="sort-item">
-                      <tr v-for="data in listData" :key="data.id_fomo">
+                      <tr v-for="data in listData" :key="data.id">
                         <td class="font-size-mid">
                           {{ data.title }}
                         </td>
                         <td class="font-size-small">
-                          {{ data.type }}
+                          {{ data.category }}
                         </td>
                         <!--<td class="font-size-mid" v-text="data.clicks">
                           {{ data.clicks }}
@@ -62,22 +62,20 @@
                         <td>
                           <label
                             class="switch"
-                            :for="data.id_fomo"
-                            v-if="data.id_fomo !== 2"
+                            :for="data.id"
+                            @click="e => updateStatus(data.id, data.status)"
                           >
                             <input
                               type="checkbox"
                               name="mainSwitch"
                               :checked="data.status == 1"
-                              :id="data.id_fomo"
+                              :id="data.id"
                             />
                             <i></i>
                           </label>
                         </td>
                         <td class="align-center">
-                          <router-link
-                            :to="'../../../view/fomo/templates/' + data.id_fomo"
-                          >
+                          <router-link :to="`/view/fomo/config/${data.id}`">
                             <md-icon>edit</md-icon>
                           </router-link>
                         </td>
@@ -98,11 +96,7 @@
             <a href="#" class="btn_link btn_link-small">View all templates</a>
           </div>
           <div class="newFomoList">
-            <div
-              class="new_list"
-              v-for="record in template"
-              :key="record.id_fomo"
-            >
+            <div class="new_list" v-for="record in template" :key="record.id">
               <md-icon class="fomo_icon">
                 {{ record.fomoIcon }}
                 <span v-if="record.fomoNotification">{{
@@ -119,7 +113,7 @@
               </router-link>
             </div>
           </div>
-          <div class="titleBlock">
+          <!-- <div class="titleBlock">
             <h2>Upcoming templates</h2>
           </div>
           <div class="newFomoList">
@@ -140,7 +134,7 @@
               </div>
               <md-button :md-ripple="false" class="md-dense btn">Add</md-button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -159,46 +153,15 @@ export default {
       listData: null,
       template: [],
       loading: true,
-      errored: false,
-      uTemplates: [
-        {
-          fomoIcon: "mail_outline",
-          fomoHead: "Newsletter",
-          fomoNotification: ""
-        },
-        {
-          fomoIcon: "bookmark",
-          fomoHead: "New Product Release",
-          fomoNotification: ""
-        },
-        { fomoIcon: "timer", fomoHead: "Timer FOMO", fomoNotification: "" },
-        { fomoIcon: "sell", fomoHead: "Next Rewards", fomoNotification: "7" },
-        { fomoIcon: "redeem", fomoHead: "Bonus Rewards", fomoNotification: "" },
-        {
-          fomoIcon: "card_giftcard",
-          fomoHead: "Celebrate Events",
-          fomoNotification: ""
-        },
-        {
-          fomoIcon: "radio_button_checked",
-          fomoHead: "Pay with points",
-          fomoNotification: ""
-        },
-        {
-          fomoIcon: "supervisor_account",
-          fomoHead: "Referral Program",
-          fomoNotification: ""
-        }
-      ]
+      errored: false
     };
   },
-  mixins: ["createFormData"],
   computed: {},
   methods: {
-    fetchListData: function() {
-      Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomo/1")
-        .then(response => {
-          this.listData = response.data;
+    fetchSiteFomo: function() {
+      Axios.get("fomo/site-fomo.json")
+        .then(({ data }) => {
+          this.listData = data.data;
         })
         .catch(error => {
           console.log(error);
@@ -207,11 +170,10 @@ export default {
         .finally(() => (this.loading = false));
     },
 
-    fetchViewTemplateData: function() {
-      Axios.get("https://venga.devam.pro/gr/admin/fomo/getFomos")
-        .then(response => {
-          const { fomos } = response.data.data;
-          console.log("@@@", response);
+    fetchAllFomo: function() {
+      Axios.get("fomo/all-fomo.json")
+        .then(({ data }) => {
+          const { fomos } = data.data;
           this.template = fomos;
         })
         .catch(error => {
@@ -219,11 +181,15 @@ export default {
           this.errored = true;
         })
         .finally(() => (this.loading = false));
+    },
+    updateStatus: function(id, status) {
+      console.log(id, status);
+      // Change status using ID & !status
     }
   },
   mounted: function() {
-    this.fetchListData();
-    this.fetchViewTemplateData();
+    this.fetchSiteFomo();
+    this.fetchAllFomo();
   }
 };
 </script>
@@ -290,6 +256,7 @@ export default {
   background: white;
   flex: 1;
   max-width: 400px;
+  min-height: 100vh;
   .create-new .fomo_icon {
     color: #333;
     background: none;
@@ -511,43 +478,15 @@ export default {
   font-size: 18px !important;
 }
 .fomoList {
-  margin-top: -68px;
+  margin-top: -38px;
   padding: 0 10%;
+  .md-content {
+    .md-tab {
+      padding: 0;
 
-  .md-tabs {
-    margin-top: 30px;
-    .md-button {
-      background: #474747;
-      border-left: 1px solid #777;
-      font-size: 13px;
-      color: #9e9e9e !important;
-      height: 38px;
-      max-width: 100% !important;
-      &:first-child {
-        border-left: none;
-      }
-      &.md-active {
-        background: #fff;
-        color: #007aff !important;
-        font-weight: 500;
-        font-size: 14px;
-      }
-    }
-
-    &.md-theme-default .md-tabs-indicator {
-      background-color: #fff;
-      background-color: var(--md-theme-default-primary-on-background, #007aff);
-      top: 0;
-    }
-
-    .md-content {
-      .md-tab {
-        padding: 0;
-
-        table {
-          width: calc(100% - 1px);
-          background-color: #fff;
-        }
+      table {
+        width: calc(100% - 1px);
+        background-color: #fff;
         td {
           background-color: #fff;
         }
@@ -567,6 +506,32 @@ export default {
     z-index: 9;
     opacity: 0.7;
     left: 0;
+    top: 0;
+  }
+}
+.fomo-tabs.md-tabs {
+  .md-tab-nav-button {
+    background: #474747;
+    border-left: 1px solid #777;
+    flex-grow: 1;
+    font-size: 13px;
+    color: #9e9e9e !important;
+    height: 38px;
+    max-width: 100% !important;
+    &:first-child {
+      border-left: none;
+    }
+    &.md-active {
+      background: #fff;
+      color: #007aff !important;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+
+  &.md-theme-default .md-tabs-indicator {
+    background-color: #fff;
+    background-color: var(--md-theme-default-primary-on-background, #007aff);
     top: 0;
   }
 }

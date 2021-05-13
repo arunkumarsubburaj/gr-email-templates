@@ -29,17 +29,18 @@ const routes = [
     component: EmailEdit
   },
   {
-    path: "/view/fomo/listing/",
+    path: "/view/fomo",
     name: "FomoListing",
     component: FomoListing
   },
   {
-    path: "/view/fomo/templates/",
+    path: "/view/fomo/config/:fomoId",
     name: "FomoSelectTemplate",
+    props: true,
     component: FomoSelectTemplate
   },
   {
-    path: "/view/fomo/templates/:fomoId",
+    path: "/view/fomo/edit/:fomoId",
     name: "FomoEditTemplate",
     props: true,
     component: FomoEditTemplate
