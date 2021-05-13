@@ -128,110 +128,102 @@
                         </nav>
                       </div>
 
-                      <div v-if="item.data">
-                        <div
-                          class="eAccordion-content"
-                          v-for="(control, name, index) in item.data"
-                          :key="index"
-                        >
+                      <div class="eAccordion-content">
+                        <div v-if="item.data">
                           <div
-                            v-if="
-                              control.type == 'text' ||
-                                control.type == 'textarea' ||
-                                control.type == 'file'
-                            "
+                            class="item-types"
+                            v-for="(control, name, index) in item.data"
+                            :key="index"
                           >
-                            <div class="item-types">
-                              <div v-if="control.type == 'text'">
-                                <div class="subTitle">
-                                  <h3>{{ control.label }}</h3>
-                                  <CustomVariables
-                                    v-if="control.show_dynamic_variables"
-                                    :data="dVars"
-                                    :name="name"
-                                    :index="key"
-                                    :click="appendVarToKey"
-                                  />
-                                </div>
-                                <input
-                                  class="form-control"
-                                  type="text"
-                                  maxlength="200"
-                                  :ref="`${key}-${name}`"
-                                  v-model="control.value"
+                            <div v-if="control.type == 'text'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                                <CustomVariables
+                                  v-if="control.show_dynamic_variables"
+                                  :data="dVars"
+                                  :name="name"
+                                  :index="key"
+                                  :click="appendVarToKey"
                                 />
                               </div>
-                              <div v-if="control.type == 'textarea'">
-                                <div class="subTitle">
-                                  <h3>{{ control.label }}</h3>
-                                  <CustomVariables
-                                    v-if="control.show_dynamic_variables"
-                                    :data="dVars"
-                                    :name="name"
-                                    :index="key"
-                                    :click="appendVarToKey"
+                              <input
+                                class="form-control"
+                                type="text"
+                                maxlength="200"
+                                :ref="`${key}-${name}`"
+                                v-model="control.value"
+                              />
+                            </div>
+                            <div v-if="control.type == 'textarea'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                                <CustomVariables
+                                  v-if="control.show_dynamic_variables"
+                                  :data="dVars"
+                                  :name="name"
+                                  :index="key"
+                                  :click="appendVarToKey"
+                                />
+                              </div>
+                              <quillEditor
+                                v-model="control.value"
+                                :options="eOptions"
+                                @focus="onEditorFocus($event, name)"
+                                @change="onEditorChange($event)"
+                                :ref="`${key}-${name}`"
+                              ></quillEditor>
+                            </div>
+                            <div v-if="control.type == 'file'">
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
+                              </div>
+                              <div class="uploadWrap">
+                                <label :for="`${key}-${name}`"
+                                  ><md-tooltip md-direction="right"
+                                    >Replace image</md-tooltip
+                                  >
+                                  <i
+                                    class="fal fa-edit"
+                                    alt="Replace image"
+                                  ></i>
+                                  <input
+                                    :id="`${key}-${name}`"
+                                    type="file"
+                                    accept="image/*"
+                                    @change="
+                                      e =>
+                                        handleFileChange(
+                                          e,
+                                          key,
+                                          name,
+                                          control.width,
+                                          control.height
+                                        )
+                                    "
                                   />
-                                </div>
-                                <quillEditor
-                                  v-model="control.value"
-                                  :options="eOptions"
-                                  @focus="onEditorFocus($event, name)"
-                                  @change="onEditorChange($event)"
-                                  :ref="`${key}-${name}`"
-                                ></quillEditor>
-                              </div>
-                              <div v-if="control.type == 'file'">
-                                <div class="subTitle">
-                                  <h3>{{ control.label }}</h3>
-                                </div>
-                                <div class="uploadWrap">
-                                  <label :for="`${key}-${name}`"
-                                    ><md-tooltip md-direction="right"
-                                      >Replace image</md-tooltip
-                                    >
-                                    <i
-                                      class="fal fa-edit"
-                                      alt="Replace image"
-                                    ></i>
-                                    <input
-                                      :id="`${key}-${name}`"
-                                      type="file"
-                                      accept="image/*"
-                                      @change="
-                                        e =>
-                                          handleFileChange(
-                                            e,
-                                            key,
-                                            name,
-                                            control.width,
-                                            control.height
-                                          )
-                                      "
-                                    />
-                                  </label>
-                                  <img
-                                    v-if="control.value.length > 0"
-                                    :src="getImgUrl(control.value)"
-                                    alt=""
-                                  />
-                                  <div class="fileDimension">
-                                    {{ control.width }} X
-                                    {{ control.height }} pixels
-                                  </div>
+                                </label>
+                                <img
+                                  v-if="control.value.length > 0"
+                                  :src="getImgUrl(control.value)"
+                                  alt=""
+                                />
+                                <div class="fileDimension">
+                                  {{ control.width }} X
+                                  {{ control.height }} pixels
                                 </div>
                               </div>
-                              <div
-                                v-if="control.type == 'color'"
-                                class="colorPick"
-                              >
-                                <div class="subTitle">
-                                  <h3>{{ control.label }}</h3>
-                                </div>
-                                <ColorPicker
-                                  :color="control.value"
-                                  v-on:input="e => (control.value = e)"
-                                ></ColorPicker>
+                            </div>
+                            <div
+                              v-if="control.type == 'color'"
+                              class="colorPick"
+                            >
+                              <div class="subTitle">
+                                <h3>{{ control.label }}</h3>
                               </div>
+                              <ColorPicker
+                                :color="control.value"
+                                v-on:input="e => (control.value = e)"
+                              ></ColorPicker>
                             </div>
                           </div>
                         </div>
@@ -332,7 +324,7 @@
 
             <div class="md-layout-item md-size-55">
               <div class="previewBlock">
-                <div class="emailTemplate">
+                <div class="emailTemplate" :data-tpl="eData.tpl_name">
                   <table
                     role="presentation"
                     border="0"
@@ -1242,7 +1234,6 @@ export default {
       .eAccordion-content {
         max-height: 2000px;
         background-color: #eef9f9;
-        overflow: visible;
         > div {
           border-color: #afafaf;
         }
