@@ -1107,6 +1107,9 @@ export default {
   position: static;
   transform: none;
 }
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    z-index: 99;
+}
 .md-overlay {
   z-index: 10000;
 }
@@ -1230,10 +1233,15 @@ export default {
     }
   }
   &-items {
+    .eAccordion-content {
+      display: none;
+    }
     &.active {
       .eAccordion-content {
         max-height: 2000px;
         background-color: #eef9f9;
+        display: block;
+        overflow: visible;
         > div {
           border-color: #afafaf;
         }
