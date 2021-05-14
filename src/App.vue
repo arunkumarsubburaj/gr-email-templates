@@ -62,6 +62,10 @@ export default {
   background: #fafafa;
 }
 
+.fieldError {
+  color: red;
+}
+
 #nav {
   padding: 30px;
 
@@ -281,5 +285,15 @@ export default {
       opacity: 1;
     }
   }
+}
+// Quill editor font sizes
+.ql-size-small {
+  font-size: 0.8em;
+}
+.ql-size-large {
+  font-size: 1.3em;
+}
+.ql-size-huge {
+  font-size: 1.5em;
 }
 </style>

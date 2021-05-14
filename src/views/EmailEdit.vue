@@ -22,7 +22,8 @@
             >
             <md-button
               @click.prevent="
-                e => (editted > 2 ? (showUnsavedpop = true) : togglePageview())
+                e =>
+                  editted > 2 ? (showUnsavedpop = 'change') : togglePageview()
               "
               class="md-raised md-accent"
               >Change Template</md-button
@@ -65,6 +66,13 @@
                   v-model="eData.subject"
                 />
                 <div style="text-align: right">
+                  <small
+                    v-if="eData.subject.trim() == ''"
+                    class="fieldError"
+                    style="float: left"
+                  >
+                    This field cannot be empty
+                  </small>
                   <small> Char(s): {{ 100 - eData.subject.length }} </small>
                 </div>
               </div>
@@ -131,10 +139,9 @@
                       <div class="eAccordion-content">
                         <div v-if="item.data">
                           <div
+                            class="item-types"
                             v-for="(control, name, index) in item.data"
-                            :key="index">
-                          <div
-                            class="item-types" v-if="control.type == 'text' || control.type == 'textarea' || control.type == 'file' || control.type == 'color'"
+                            :key="index"
                           >
                             <div v-if="control.type == 'text'">
                               <div class="subTitle">
@@ -154,6 +161,13 @@
                                 :ref="`${key}-${name}`"
                                 v-model="control.value"
                               />
+                              <small
+                                v-if="control.value.trim() == ''"
+                                class="fieldError"
+                                style="display: block"
+                              >
+                                This field cannot be empty
+                              </small>
                             </div>
                             <div v-if="control.type == 'textarea'">
                               <div class="subTitle">
@@ -173,6 +187,13 @@
                                 @change="onEditorChange($event)"
                                 :ref="`${key}-${name}`"
                               ></quillEditor>
+                              <small
+                                v-if="control.value.trim() == ''"
+                                class="fieldError"
+                                style="display: block"
+                              >
+                                This field cannot be empty
+                              </small>
                             </div>
                             <div v-if="control.type == 'file'">
                               <div class="subTitle">
@@ -226,7 +247,6 @@
                                 v-on:input="e => (control.value = e)"
                               ></ColorPicker>
                             </div>
-                          </div>
                           </div>
                         </div>
                       </div>
@@ -387,14 +407,23 @@
             <md-dialog-confirm
               class="warn"
               :md-active.sync="showUnsavedpop"
-              md-title="Change Template"
+              :md-title="
+                showUnsavedpop == 'change'
+                  ? 'Change Template'
+                  : 'Language Settings'
+              "
               md-content="
-                There are unsaved changes, Are you sure you wish to change template ?
+                There are unsaved changes, Are you sure you wish to proceed ?
               "
               md-confirm-text="Confirm"
               md-cancel-text="Cancel"
               @md-cancel="e => (showUnsavedpop = false)"
-              @md-confirm="togglePageview"
+              @md-confirm="
+                e =>
+                  showUnsavedpop == 'change'
+                    ? togglePageview()
+                    : pushtoLanguageTab()
+              "
             />
             <md-dialog-confirm
               :md-active.sync="promptAction"
@@ -853,6 +882,12 @@ export default {
       this.footerAction = true;
     },
     gotoLanguageTab: function() {
+      if (this.editted > 2) {
+        this.showUnsavedpop = "language";
+        this.footerAction = false;
+      } else this.pushtoLanguageTab();
+    },
+    pushtoLanguageTab: function() {
       window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
     }
   },
@@ -1110,7 +1145,7 @@ export default {
   transform: none;
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
-    z-index: 99;
+  z-index: 99;
 }
 .md-overlay {
   z-index: 10000;
@@ -1229,23 +1264,19 @@ export default {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.8s, background-color 0.5s;
-    .item-types {
+    > div {
       border: 1px solid #e8e8e8;
       padding: 10px;
       border-top: 0;
     }
   }
   &-items {
-    .eAccordion-content {
-      display: none;
-    }
     &.active {
       .eAccordion-content {
         max-height: 2000px;
         background-color: #eef9f9;
-        display: block;
-        overflow: visible;
-        .item-types {
+        animation: 1s o-visible 1s forwards;
+        > div {
           border-color: #afafaf;
         }
       }
@@ -1261,6 +1292,11 @@ export default {
         }
       }
     }
+  }
+}
+@keyframes o-visible {
+  to {
+    overflow: visible;
   }
 }
 </style>
