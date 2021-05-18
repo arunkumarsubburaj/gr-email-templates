@@ -65,12 +65,12 @@
             </div>
             <div class="actions">
               <router-link :to="'/view/email/templates/' + mail.id_email">
-                <i class="fal fa-edit"
+                <i class="far fa-edit"
                   ><md-tooltip md-direction="left">Edit</md-tooltip></i
                 >
               </router-link>
               <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                <i class="fal fa-paper-plane"
+                <i class="far fa-paper-plane"
                   ><md-tooltip md-direction="left"
                     >Send Test Email</md-tooltip
                   ></i
@@ -83,7 +83,6 @@
           </li>
         </ul>
         <div v-if="inactiveList.length > 0" class="otherEmail">
-          <h2>Activate these email</h2>
           <ul class="emailList">
             <li class="head">
               <div class="name">Email Name</div>
@@ -119,12 +118,12 @@
               </div>
               <div class="actions">
                 <router-link :to="'/view/email/templates/' + mail.id_email">
-                  <i class="fal fa-edit"
+                  <i class="far fa-edit"
                     ><md-tooltip md-direction="left">Edit</md-tooltip></i
                   >
                 </router-link>
                 <a href="#" @click.prevent="e => sendTestEmail(mail.id_email)">
-                  <i class="fal fa-paper-plane"
+                  <i class="far fa-paper-plane"
                     ><md-tooltip md-direction="left"
                       >Send Test Email</md-tooltip
                     ></i
@@ -139,7 +138,7 @@
         <div>
           <h4>
             <span
-              >WAIT! These sections need <br />
+              >ATTENTION! These sections need <br />
               to be checked as well</span
             >
           </h4>
@@ -542,7 +541,7 @@ export default {
 }
 
 .emailList .actions a {
-  font-size: 1.5em;
+  font-size: 1.7em;
   color: rgba(34, 43, 69, 0.5);
   line-height: 1;
 

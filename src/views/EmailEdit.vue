@@ -116,7 +116,7 @@
                               promptAction = { type: 'Clone', key: key }
                             "
                             href="#"
-                            ><i class="fal fa-clone"></i
+                            ><i class="far fa-clone"></i
                             ><md-tooltip md-direction="left"
                               >Clone</md-tooltip
                             ></a
@@ -127,7 +127,7 @@
                               promptAction = { type: 'Delete', key: key }
                             "
                             href="#"
-                            ><i class="fal fa-trash-alt"></i>
+                            ><i class="far fa-trash-alt"></i>
                             <md-tooltip md-direction="left"
                               >Delete</md-tooltip
                             ></a
@@ -197,7 +197,15 @@
                             </div>
                             <div v-if="control.type == 'file'">
                               <div class="subTitle">
-                                <h3>{{ control.label }}</h3>
+                                <h3>
+                                  {{ control.label }}
+                                  <i class="fas fa-question-circle"
+                                    ><md-tooltip md-direction="right"
+                                      >Supported file formats: JPEG,
+                                      PNG</md-tooltip
+                                    ></i
+                                  >
+                                </h3>
                               </div>
                               <div class="uploadWrap">
                                 <label :for="`${key}-${name}`"
@@ -205,7 +213,7 @@
                                     >Replace image</md-tooltip
                                   >
                                   <i
-                                    class="fal fa-edit"
+                                    class="fal fa-upload"
                                     alt="Replace image"
                                   ></i>
                                   <input
@@ -268,10 +276,9 @@
                     class="eAccordion-title"
                     @click.prevent="
                       e =>
-                        footerSection.data.length !== 0 &&
-                        isWl == 1 &&
-                        wlImage &&
-                        toggleAccordion('footer')
+                        footerSection.data.length !== 0 && isWl == 1 && wlImage
+                          ? toggleAccordion('footer')
+                          : (upgradePopup = true)
                     "
                   >
                     <span class="title">
@@ -435,7 +442,8 @@
               md-cancel-text="Cancel"
               @md-cancel="e => (promptAction = null)"
               @md-confirm="confirmAction"
-            /><md-dialog-confirm
+            />
+            <md-dialog-confirm
               :md-active.sync="footerAction"
               md-title="Change this in the Languages tab"
               md-content="This is a global change and it should be done in the languages tab"
@@ -443,6 +451,15 @@
               md-cancel-text="I'll do it later"
               @md-cancel="() => (footerAction = false)"
               @md-confirm="gotoLanguageTab"
+            />
+            <md-dialog-confirm
+              :md-active.sync="upgradePopup"
+              md-title="Upgrade Now"
+              md-content="Do you want to display your branding on the front end? Upgrade to Footer credit add on"
+              md-confirm-text="Upgrade"
+              md-cancel-text="Not now"
+              @md-cancel="() => (upgradePopup = false)"
+              @md-confirm="gotoPlans"
             />
           </div>
         </div>
@@ -621,6 +638,7 @@ export default {
       resetAction: false,
       footerAction: false,
       showUnsavedpop: false,
+      upgradePopup: false,
       editted: 0
     };
   },
@@ -855,11 +873,15 @@ export default {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index + 1, 0, JSON.parse(JSON.stringify(jFields[index])));
       this.eData = { ...this.eData, json_fields: jFields };
+      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} cloned successfully`;
+      this.showMsg = true;
     },
     deleteBlock: function(index) {
       let jFields = [...this.eData.json_fields];
       jFields.splice(index, 1);
       this.eData = { ...this.eData, json_fields: jFields };
+      this.emailResponse = `<i class="fas fa-check-circle"></i> ${jFields[index].label} deleted successfully`;
+      this.showMsg = true;
     },
     confirmAction: function() {
       if (this.promptAction.type == "Clone")
@@ -889,6 +911,9 @@ export default {
     },
     pushtoLanguageTab: function() {
       window.location.href = `${window.Config.callback_url}/admin/#/view/locales`;
+    },
+    gotoPlans: function() {
+      window.location.href = `${window.Config.callback_url}/admin/#/plans`;
     }
   },
   mounted: function() {
@@ -1239,6 +1264,7 @@ export default {
       align-items: center;
       padding-right: 5px;
       position: absolute;
+      font-size: 1.1em;
       right: 0;
       top: 50%;
       transform: translateY(-50%);

@@ -10,7 +10,7 @@ import Vue from "vue";
 import VueMaterial from "vue-material";
 import "vue-material/dist/vue-material.min.css";
 import "vue-material/dist/theme/default.css";
-// import "@/assets/icon/fontawesome.min.css";
+import "@/assets/icon/fontawesome.min.css";
 
 Vue.use(VueMaterial);
 
@@ -295,5 +295,87 @@ export default {
 }
 .ql-size-huge {
   font-size: 1.5em;
+}
+.ql-formats {
+  span,
+  button {
+    position: relative;
+    &:after {
+      position: absolute;
+      background: #000;
+      color: white;
+      padding: 0.5em;
+      border-radius: 0.5em;
+      left: -50%;
+      top: 100%;
+      width: max-content;
+      z-index: 1;
+    }
+    &.ql-bold:hover:after,
+    &.ql-bold:active:after,
+    &.ql-bold:focus:after {
+      content: "Bold";
+    }
+    &.ql-italic:hover:after,
+    &.ql-italic:active:after,
+    &.ql-italic:focus:after {
+      content: "Italic";
+    }
+    &.ql-underline:hover:after,
+    &.ql-underline:active:after,
+    &.ql-underline:focus:after {
+      content: "Underline";
+    }
+    &.ql-strike:hover:after,
+    &.ql-strike:active:after,
+    &.ql-strike:focus:after {
+      content: "Strike";
+    }
+    &.ql-link:hover:after,
+    &.ql-link:active:after,
+    &.ql-link:focus:after {
+      content: "Link";
+    }
+    &.ql-direction:hover:after,
+    &.ql-direction:active:after,
+    &.ql-direction:focus:after {
+      content: "Direction";
+    }
+    &.ql-indent:hover:after,
+    &.ql-indent:active:after,
+    &.ql-indent:focus:after {
+      content: "Indent";
+    }
+    &.ql-list:hover:after,
+    &.ql-list:active:after,
+    &.ql-list:focus:after {
+      content: "List";
+    }
+    &.ql-align:hover:after,
+    &.ql-align:active:after,
+    &.ql-align:focus:after {
+      content: "Align";
+    }
+    &.ql-size:hover:after,
+    &.ql-size:active:after,
+    &.ql-size:focus:after {
+      content: "Font size";
+    }
+    &.ql-header:hover:after,
+    &.ql-header:active:after,
+    &.ql-header:focus:after {
+      content: "Header";
+    }
+    &.ql-background:hover:after,
+    &.ql-background:active:after,
+    &.ql-background:focus:after {
+      content: "Text background";
+    }
+    &.ql-color:hover:after,
+    &.ql-color:active:after,
+    &.ql-color:focus:after {
+      content: "Text color";
+    }
+  }
 }
 </style>
