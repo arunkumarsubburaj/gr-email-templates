@@ -67,94 +67,10 @@
 			}
 		],
 		"rewards_setup": {},
-		"fomo_setup": {}
-	},
-	"edit_template_page": {
-		"id": 12,
-		"title": "Signup & win points",
-		"active_template": 1,
-		"settings": [
-			{
-				"title": "Layout",
-				"name": "layout",
-				"data": {
-					"layout": {
-						"type": "layout",
-						"label": "Select layout type",
-						"value": 2,
-						"layouts": [ 1, 2, 3, 4 ]
-					}
-				}
-			},
-			{
-				"title": "Setup Messages",
-				"name": "setup",
-				"data": {
-					"title": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "Title Text",
-						"value": "New to [website name] ?"
-					},
-					"sub_title": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
-						"label": "Sub title Text",
-						"value": "signup & explore exciting deals"
-					}
-				}
-			},
-			{
-				"title": "Button setup",
-				"name": "button",
-				"data": {
-					"button_txt": {
-						"type": "text",
-						"show_dynamic_variables": 0,
-						"label": "Button Text",
-						"value": "Signup & reveal"
-					},
-					"button_url": {
-						"type": "text",
-						"show_dynamic_variables": 1,
-						"label": "button url",
-						"value": "http://google.com"
-					},
-					"button_color": {
-						"type": "color",
-						"label": "Button color",
-						"value": "#fff000"
-					}
-				}
-			},
-			{
-				"title": "Background setup",
-				"name": "background",
-				"data": {
-					"color_overlay": {
-						"type": "color",
-						"label": "Color overlay",
-						"value": "#fff000"
-					},
-					"background_image": {
-						"type": "file",
-						"value": "$$$$.jpg",
-						"width": 400,
-						"height": 200
-					},
-					"button_color": {
-						"type": "color",
-						"label": "Button color",
-						"value": "#fff000"
-					}
-				}
-			}
-		],
+		"fomo_setup": {},
 		"display_rules": {
-			"countries": "IN,US",
 			"show_on_pages": "home,product,cart",
 			"show_on_home_page": 1,
-			"position": "mid_right",
 			"horizontal": "12px",
 			"vertical": "50px",
 			"show_on_first_visit": 1,
@@ -163,7 +79,112 @@
 			"show_after_seconds": 1,
 			"seconds": 10,
 			"show_on_exit": 0,
+			"countries": "IN,US",
+			"position": "mid_right",
 			"frequency": "once_a_day"
+		}
+	},
+	"edit_template_page": {
+		"id": 12,
+		"title": "Signup & win points",
+		"name": "signup_1",
+		"active_template": 1,
+		"dynamic_variables": "[[xxx]],[[yyy]],[[zzz]],[[aaa]]",
+		"settings": [
+			{
+				"name": "unsigned",
+				"label": "Before signup",
+				"data": {
+					"bg_image": {
+						"type": "file",
+						"label": "Bg image",
+						"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
+					},
+					"background_color": {
+						"type": "color",
+						"label": "section bg color",
+						"value": "#423a82"
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<p>We are pleased to welcome you to our</p>"
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<p>Keep shopping to gain more entries for your chance to win!</p>"
+					},
+					"btn_txt": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<p>Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]</p>"
+					},					
+					"btn_color": {
+						"type": "color",
+						"label": "Button color",
+						"value": "#423a82"
+					}
+				}
+			},
+			{
+				"name": "signed",
+				"label": "After signup",
+				"data": {
+					"bg_image": {
+						"type": "file",
+						"label": "Bg image",
+						"value": "http://maverickmav.org/ui/email-template/images/header_password_1.png"
+					},
+					"background_color": {
+						"type": "color",
+						"label": "section bg color",
+						"value": "#423a82"
+					},
+					"title": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Title",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<p>Congrats</p>"
+					},
+					"description": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Description",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "<p>Keep shopping to gain more entries for your chance to win!</p>"
+					},
+					"btn_txt": {
+						"type": "textarea",
+						"show_dynamic_variables": 1,
+						"label": "Button Text",
+						"max_length": 3000,
+						"rows": 4,
+						"value": "Continue"
+					},					
+					"btn_color": {
+						"type": "color",
+						"label": "Button color",
+						"value": "#423a82"
+					}
+				}
+			}
+		],
+		"templates": {
+			"unsigned": "<div><h1>[[title]]</h1>sadsadsad sa dsa</div>",
+			"signed": "<div><h1>[[title]]</h1>xxxx xxx xxx</div>"
 		}
 	}
 }
