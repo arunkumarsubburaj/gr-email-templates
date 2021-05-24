@@ -929,18 +929,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fileDimension {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  background: #000;
-  padding: 2px 4px 1px 11px;
-  border-top-left-radius: 15px;
-  color: #fff;
-  font-size: 11px;
-  opacity: 0.4;
-}
 .editWrap {
   padding-top: 50px;
 }
@@ -1134,6 +1122,18 @@ export default {
   img {
     max-width: 50%;
     margin: 0 auto;
+  }
+  .fileDimension {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    background: #000;
+    padding: 2px 4px 1px 11px;
+    border-top-left-radius: 15px;
+    color: #fff;
+    font-size: 11px;
+    opacity: 0.4;
   }
 }
 .colorPick {

@@ -15,7 +15,7 @@
     </div>
 
     <div class="container fomoContainer">
-      <div class="md-layout md-gutter">
+      <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-40 configSection">
           <md-content class="md-elevation-6">
             <md-tabs class="fomo-tabs">
@@ -26,7 +26,34 @@
                 Config Tab
               </md-tab>
               <md-tab id="tab-display" md-label="Display Rules">
-                Display Tab
+                <h4>This FOMO is :</h4>
+                <ul>
+                  <li>Visible to {{ fomoData.display_settings.visible_to }}</li>
+                  <li v-if="fomoData.display_settings.show_on_home_page">
+                    Displayed only in home page
+                  </li>
+                  <li v-else>
+                    Displayed on pages
+                    {{ fomoData.display_settings.show_on_pages }}
+                  </li>
+                  <li v-if="fomoData.display_settings.show_on_first_visit == 1">
+                    Displayed on first visit only
+                  </li>
+                  <li>
+                    positioned at
+                    {{
+                      contentData.prompt_positions[
+                        fomoData.display_settings.position
+                      ]
+                    }}
+                  </li>
+                </ul>
+                <md-button
+                  size="small"
+                  v-on:click.stop.prevent="activeEdit = 'display'"
+                  class="md-raised md-accent"
+                  >Edit</md-button
+                >
               </md-tab>
             </md-tabs>
           </md-content>
@@ -40,46 +67,67 @@
             v-for="template in templateData"
             :key="template.id"
           >
-            <figure class="template-inner"></figure>
+            <figure
+              class="template-inner"
+              :class="{ active: template.attributes.is_activated == 1 }"
+            >
+              <img :src="template.attributes.image_url" alt="" />
+            </figure>
             <figcaption class="template-info">
-              <p>Template</p>
+              <p>{{ template.attributes.name }}</p>
               <md-button
                 :to="'../../../view/fomo/templates/' + templateData.id"
                 class="md-raised"
               >
-                <span v-if="template.status == 1"> Edit </span>
+                <span v-if="template.attributes.is_activated == 1"> Edit </span>
                 <span v-else>Select & Edit</span>
               </md-button>
             </figcaption>
           </div>
         </div>
       </div>
+      <div v-else class="poppin">
+        <FomoDisplaySetup
+          :data="fomoData.display_settings"
+          :content="contentData"
+          :close="closePopin"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Axios from "axios";
+import FomoDisplaySetup from "@/components/fomo/FomoDisplaySetup.vue";
 
 export default {
   name: "SelectTemplates",
+  components: { FomoDisplaySetup },
   mixins: ["renderTemplate"],
   data: function() {
     return {
       fomoData: null,
       templateData: null,
-      contentData: null
+      contentData: null,
+      activeEdit: false
     };
   },
 
   methods: {
     handleBack: function() {
       window.history.back();
+    },
+    closePopin: function() {
+      this.activeEdit = false;
     }
   },
   mounted: function() {
-    Axios.get("fomo/config-fomo.json").then(({ data }) => {
-      this.fomoData = data.data;
-      this.templateData = data.data.templates;
+    Axios.get("fomo/edit_fomo.json").then(({ data }) => {
+      console.log(data);
+      const { attributes, relationship, includes } = data.data;
+      this.fomoData = attributes;
+      this.contentData = relationship;
+      this.templateData = includes.templates;
     });
   }
 };
@@ -89,7 +137,9 @@ export default {
   margin: 0 50px;
   display: flex;
   max-width: 1600px;
-  margin-top: 100px;
+  min-height: 100vh;
+  overflow: visible;
+  padding-top: 100px;
 }
 
 // .configSection {
@@ -113,6 +163,15 @@ export default {
       background: #262321;
       min-height: 300px;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &.active {
+        background-color: #43ef9f;
+      }
+      img {
+        width: 90%;
+      }
     }
     &-info {
       display: flex;

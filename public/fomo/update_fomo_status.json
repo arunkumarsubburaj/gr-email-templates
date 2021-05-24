@@ -1,0 +1,11 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "type": "signup_bonus",
+            "attributes": {
+			    "status": 0
+            }
+        }
+    ]
+}

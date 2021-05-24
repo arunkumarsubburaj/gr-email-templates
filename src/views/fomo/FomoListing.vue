@@ -20,7 +20,7 @@
               </div>
             </div>-->
           </div>
-          <div class="fomoList">
+          <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" md-alignment="fixed">
               <md-tab id="tab-home" md-label="Active Prompts (5)">
                 <div class="table-responsive tableList">
@@ -36,12 +36,12 @@
                       </tr>
                     </thead>
                     <tbody class="sort-item">
-                      <tr v-for="data in listData" :key="data.id">
+                      <tr v-for="data in activeFomo" :key="data.id">
                         <td class="font-size-mid">
-                          {{ data.title }}
+                          {{ data.attributes.name }}
                         </td>
                         <td class="font-size-small">
-                          {{ data.category }}
+                          {{ data.type }}
                         </td>
                         <!--<td class="font-size-mid" v-text="data.clicks">
                           {{ data.clicks }}
@@ -63,12 +63,14 @@
                           <label
                             class="switch"
                             :for="data.id"
-                            @click="e => updateStatus(data.id, data.status)"
+                            @click="
+                              e => updateStatus(data.id, data.attributes.status)
+                            "
                           >
                             <input
                               type="checkbox"
                               name="mainSwitch"
-                              :checked="data.status == 1"
+                              :checked="data.attributes.status == 1"
                               :id="data.id"
                             />
                             <i></i>
@@ -84,8 +86,53 @@
                   </table>
                 </div>
               </md-tab>
-              <md-tab id="tab-pages" md-label="PausedPrompts(3)"
-                >PausedPrompts</md-tab
+              <md-tab id="tab-pages" md-label="PausedPrompts(3)">
+                <div class="table-responsive tableList">
+                  <table class="table table-striped snap-top">
+                    <thead>
+                      <tr>
+                        <th>FOMO Name</th>
+                        <th>Category</th>
+                        <!--<th>Clicks</th>
+                        <th>Visible to</th>-->
+                        <th class="align-center">Status</th>
+                        <th class="align-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="sort-item">
+                      <tr v-for="data in inactiveFomo" :key="data.id">
+                        <td class="font-size-mid">
+                          {{ data.attributes.name }}
+                        </td>
+                        <td class="font-size-small">
+                          {{ data.type }}
+                        </td>
+                        <td>
+                          <label
+                            class="switch"
+                            :for="data.id"
+                            @click="
+                              e => updateStatus(data.id, data.attributes.status)
+                            "
+                          >
+                            <input
+                              type="checkbox"
+                              name="mainSwitch"
+                              :checked="data.attributes.status == 1"
+                              :id="data.id"
+                            />
+                            <i></i>
+                          </label>
+                        </td>
+                        <td class="align-center">
+                          <router-link :to="`/view/fomo/config/${data.id}`">
+                            <md-icon>edit</md-icon>
+                          </router-link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div></md-tab
               >
             </md-tabs>
           </div>
@@ -96,17 +143,21 @@
             <a href="#" class="btn_link btn_link-small">View all templates</a>
           </div>
           <div class="newFomoList">
-            <div class="new_list" v-for="record in template" :key="record.id">
+            <div
+              class="new_list"
+              v-for="template in templates"
+              :key="template.id"
+            >
               <md-icon class="fomo_icon">
-                {{ record.fomoIcon }}
-                <span v-if="record.fomoNotification">{{
-                  record.fomoNotification
-                }}</span>
+                <span>V</span>
               </md-icon>
               <div class="fomo_details">
-                <h3>{{ record.title }}</h3>
+                <h3>{{ template.attributes.name }}</h3>
               </div>
-              <router-link :to="'../../../view/fomo/templates/'">
+              <router-link
+                v-if="!template.attributes.disabled"
+                :to="'../../../view/fomo/templates/'"
+              >
                 <md-button :md-ripple="false" class="md-dense btn"
                   >Add</md-button
                 >
@@ -151,15 +202,22 @@ export default {
   data: function() {
     return {
       listData: null,
-      template: [],
+      templates: [],
       loading: true,
       errored: false
     };
   },
-  computed: {},
+  computed: {
+    activeFomo: function() {
+      return this.listData.filter(({ attributes }) => attributes.status == 1);
+    },
+    inactiveFomo: function() {
+      return this.listData.filter(({ attributes }) => attributes.status == 0);
+    }
+  },
   methods: {
     fetchSiteFomo: function() {
-      Axios.get("fomo/site-fomo.json")
+      Axios.get("fomo/sites_fomo.json")
         .then(({ data }) => {
           this.listData = data.data;
         })
@@ -171,10 +229,9 @@ export default {
     },
 
     fetchAllFomo: function() {
-      Axios.get("fomo/all-fomo.json")
+      Axios.get("fomo/all_fomos.json")
         .then(({ data }) => {
-          const { fomos } = data.data;
-          this.template = fomos;
+          this.templates = data.data;
         })
         .catch(error => {
           console.log(error);

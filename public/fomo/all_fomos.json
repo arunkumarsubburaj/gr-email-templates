@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "type": "signup_bonus",
+            "attributes": {
+                "name": "Signup Bonus",
+                "disabled": 0
+            }
+        },
+        {
+            "id": 2,
+            "type": "newsletter",
+            "attributes": {
+                "name": "Newsletter",
+                "disabled": 1
+            }
+        },
+        {
+            "id": 3,
+            "type": "new_product_release",
+            "attributes": {
+                "name": "New product release",
+                "disabled": 1
+            }
+        }
+    ]
+}

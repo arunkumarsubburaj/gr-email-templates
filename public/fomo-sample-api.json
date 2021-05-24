@@ -89,7 +89,7 @@
 		"title": "Signup & win points",
 		"name": "signup_1",
 		"active_template": 1,
-		"dynamic_variables": "[[xxx]],[[yyy]],[[zzz]],[[aaa]]",
+		"dynamic_variables": "[[website_name]],[[points]],[[user_name]],[[stuffme]]",
 		"settings": [
 			{
 				"name": "unsigned",
@@ -111,28 +111,26 @@
 						"label": "Title",
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<p>We are pleased to welcome you to our</p>"
+						"value": "<p>Sign up to get welcome points</p>"
 					},
-					"description": {
+					"points": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Description",
+						"label": "Title",
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<p>Keep shopping to gain more entries for your chance to win!</p>"
+						"value": "<p>[[points]]<br/>points</p>"
 					},
 					"btn_txt": {
-						"type": "textarea",
-						"show_dynamic_variables": 1,
+						"type": "text",
+						"show_dynamic_variables": 0,
 						"label": "Button Text",
-						"max_length": 3000,
-						"rows": 4,
-						"value": "<p>Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]</p>"
+						"value": "Sign up now"
 					},					
 					"btn_color": {
 						"type": "color",
 						"label": "Button color",
-						"value": "#423a82"
+						"value": "#f00"
 					}
 				}
 			},
@@ -156,15 +154,15 @@
 						"label": "Title",
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<p>Congrats</p>"
+						"value": "<p>Congrats<br/> You've received your first reward</p>"
 					},
-					"description": {
+					"points": {
 						"type": "textarea",
 						"show_dynamic_variables": 1,
-						"label": "Description",
+						"label": "Title",
 						"max_length": 3000,
 						"rows": 4,
-						"value": "<p>Keep shopping to gain more entries for your chance to win!</p>"
+						"value": "<p>[[points]]<br/>points</p>"
 					},
 					"btn_txt": {
 						"type": "textarea",
@@ -172,7 +170,7 @@
 						"label": "Button Text",
 						"max_length": 3000,
 						"rows": 4,
-						"value": "Continue"
+						"value": "Continue shopping"
 					},					
 					"btn_color": {
 						"type": "color",
