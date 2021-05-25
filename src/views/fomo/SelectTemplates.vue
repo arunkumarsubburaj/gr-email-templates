@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="container fomoContainer">
+    <div class="container fomoContainer" v-if="fomoData">
       <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-40 configSection">
           <md-content class="md-elevation-6">
@@ -109,7 +109,7 @@ export default {
       fomoData: null,
       templateData: null,
       contentData: null,
-      activeEdit: false
+      activeEdit: "display"
     };
   },
 
@@ -134,7 +134,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .fomoContainer {
-  margin: 0 50px;
+  margin: 0 auto;
   display: flex;
   max-width: 1600px;
   min-height: 100vh;
@@ -142,10 +142,12 @@ export default {
   padding-top: 100px;
 }
 
-// .configSection {
-//   width: 40%;
-//   max-width: 400px;
-// }
+.poppin {
+  width: 100%;
+  color: #000;
+  max-width: 1200px;
+  margin: auto;
+}
 
 .templateSection {
   display: flex;

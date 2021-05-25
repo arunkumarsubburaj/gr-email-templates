@@ -983,20 +983,6 @@ export default {
   }
 }
 
-.md-raised {
-  border: 1px solid #d5d5d5;
-  color: #202020;
-  border-radius: 5px;
-  box-shadow: none !important;
-  text-transform: capitalize;
-
-  &.md-accent {
-    border: 0;
-    font-weight: bold;
-    color: #fff !important;
-  }
-}
-
 .email {
   margin: 0 0 7em 0;
   .color-picker .color-picker-container {

@@ -78,6 +78,20 @@ export default {
     }
   }
 }
+
+.md-raised {
+  border: 1px solid #d5d5d5;
+  color: #202020;
+  border-radius: 5px;
+  box-shadow: none !important;
+  text-transform: capitalize;
+
+  &.md-accent {
+    border: 0;
+    font-weight: bold;
+    color: #fff !important;
+  }
+}
 .md-snackbar {
   max-width: 700px;
 }
@@ -108,6 +122,9 @@ export default {
 }
 .md-tooltip-bottom {
   transform: translateY(-8px);
+}
+.md-field.md-disabled {
+  opacity: 0.3;
 }
 
 .md-dialog.warn .md-title {

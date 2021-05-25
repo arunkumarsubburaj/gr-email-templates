@@ -20,18 +20,17 @@
 				"realtime_coupon_type": "1",
 				"realtime_coupon_value": "25",
 				"realtime_min_order": "250",
-				"currency": "£",
-				"mode_query": 0
+				"currency": "£"
 			},
 			"display_settings": {
 				"visible_to": "all",
 				"show_on_pages": "home, product, cart",
-				"show_on_home_page": 0,
-				"horizontal": "12px",
-				"vertical": "50px",
+				"show_on_home_page": 1,
+				"horizontal": 12,
+				"vertical": 50,
 				"show_on_first_visit": 1,
 				"show_after_scroll": 1,
-				"scroll_percentage": "10%",
+				"scroll_percentage": 10,
 				"show_after_seconds": 1,
 				"seconds": 10,
 				"show_on_exit": 0,

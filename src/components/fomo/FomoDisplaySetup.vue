@@ -1,251 +1,250 @@
 <template>
   <div>
-    <h1>DisplaySetup</h1>
-    <div class="vis_block-status">
-      Visible to:
-      <span class="status-btn status-btn-active dis-flex-noJustify">
-        <md-icon class="icon-checkmark">done</md-icon>
-        <span>Logged out</span>
-      </span>
-      <span class="status-btn status-btn-active dis-flex-noJustify">
-        <md-icon class="icon-checkmark">done</md-icon>
-        <span>Guest</span>
-      </span>
+    <h1>Display Setup</h1>
+    <div class="displaySetting visibleTo">
+      <h6 class="bLabel">Visible to:</h6>
+      <div>
+        <span
+          class="status-btn"
+          :class="{ active: formData.visible_to == 'all' }"
+          @click="formData.visible_to = 'all'"
+        >
+          <md-icon class="icon-checkmark">done</md-icon>
+          <span>All Visitors</span>
+        </span>
+        <span
+          class="status-btn"
+          :class="{ active: formData.visible_to == 'guest' }"
+          @click="formData.visible_to = 'guest'"
+        >
+          <md-icon class="icon-checkmark">done</md-icon>
+          <span>Guest Users</span>
+        </span>
+      </div>
     </div>
-    <div class="display-settings">
-      <div id="desktop_show_specific_page_only_div" class="form-group">
-        <label class="control-label">Show on specific page(s)</label>
-        <select id="desktop_show_specific_page_only" multiple>
-          {$styles_data['desktop_show_specific_page_only']}
-        </select>
-        <div class="text-info gr-info small">
-          <span class="material-icons">info</span>
-          <span
-            >Enter Slug, Part URL (E.g. products, myaccount, cart ..etc) to show
-            the widget on the page(s) or page name</span
+    <div class="displaySetting">
+      <div class="splitDiv">
+        <h6 class="bLabel">Page Display</h6>
+        <div>
+          <md-field>
+            <label>Show on specific page(s)</label>
+            <md-input
+              v-model="formData.show_on_pages"
+              :disabled="formData.show_on_home_page == 1"
+            ></md-input>
+          </md-field>
+          <small class="text-info display-flex align-items-center">
+            <span class="material-icons">info</span>
+            <span>
+              Enter Slug, Part URL (E.g. products, myaccount, cart ..etc) to
+              show the widget on the page(s) or page name
+            </span>
+          </small>
+        </div>
+        <md-checkbox
+          v-model="formData.show_on_home_page"
+          :true-value="1"
+          :false-value="0"
+          >Show on home page</md-checkbox
+        >
+      </div>
+      <div class="splitDiv">
+        <h6 class="bLabel">Positioning</h6>
+        <md-field>
+          <md-select name="position" v-model="formData.position">
+            <md-option
+              :value="key"
+              v-for="(name, key) in content.prompt_positions"
+              :key="key"
+              >{{ name }}</md-option
+            >
+          </md-select>
+        </md-field>
+        <div class="form-group dis-flex">
+          <md-field>
+            <label>Horizontal Position (px)</label>
+            <md-input v-model="formData.horizontal" type="number"></md-input>
+            <span class="md-suffix">pixels</span>
+          </md-field>
+        </div>
+        <div class="form-group dis-flex">
+          <md-field>
+            <label>Vertical Position (px)</label>
+            <md-input v-model="formData.vertical" type="number"></md-input>
+            <span class="md-suffix">pixels</span>
+          </md-field>
+        </div>
+      </div>
+    </div>
+    <div class="displaySetting flex-direction-column">
+      <h6 class="bLabel">Setup Geolocation</h6>
+      <md-field>
+        <md-select name="country" v-model="geolocation" multiple>
+          <md-option
+            :value="key"
+            v-for="(name, key) in content.countries"
+            :key="key"
+            >{{ name }}</md-option
+          >
+        </md-select>
+      </md-field>
+      <small class="text-info display-flex align-items-center">
+        <span class="material-icons">info</span>
+        <span> Display in selected countries only </span>
+      </small>
+    </div>
+    <div class="displaySetting">
+      <div class="splitDiv">
+        <h6 class="bLabel">Show on first visit</h6>
+        <div>
+          <md-checkbox
+            v-model="formData.show_on_first_visit"
+            :true-value="1"
+            :false-value="0"
+            >Pop up will appear on the first visit</md-checkbox
           >
         </div>
-      </div>
-
-      <div class="form-group">
-        <input type="checkbox" id="checkbox0" v-model="checked" />
-        <label class="label-text" for="checkbox0">Show on home page</label>
-      </div>
-    </div>
-    <div class="display-settings">
-      <div class="form-group dis-flex">
-        <label for="WidPosition"> Prompts Position </label>
-        <div class="divHalf">
-          <select class="form-control" v-model="selectedPosition">
-            <option disabled value="">Please select one</option>
-            <option>Mid Right</option>
-            <option>Mid Left</option>
-            <option>Bottom Bar</option>
-            <option>Bottom Left</option>
-            <option>Bottom Right</option>
-            <option>Bottom Center</option>
-          </select>
-          <span>Selected: {{ selectedPosition }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="form-group dis-flex">
-      <label for="label_x_d">Horizontal Position(px)</label>
-      <div class="divHalf">
-        <input
-          type="number"
-          class="form-control"
-          value=""
-          id="label_x_d"
-          min="0"
-          max="100"
-        />
-        <div class="small note" id="">Enter between 0 and 100</div>
-      </div>
-    </div>
-    <div class="form-group dis-flex">
-      <label for="label_y_d">Vertical Position(px)</label>
-      <div class="divHalf">
-        <input
-          type="number"
-          class="form-control"
-          value=""
-          id="label_y_d"
-          min="0"
-          max="100"
-        />
-        <div class="small note" id="">Enter between 0 and 100</div>
-      </div>
-    </div>
-
-    <div class="margin-top-20">
-      <div class="form-group">
-        <label class="control-label">Show on first visit</label>
-        <div class="form-group dis-flex-alignStart">
-          <input type="checkbox" id="checkbox1" />
-          <label class="label-text" for="checkbox1"
-            >Pop up will appear on the first visit</label
-          >
-        </div>
-
-        <div class="height-20"></div>
-
-        <label class="control-label">Show on scroll percentage</label>
-        <div class="form-group dis-flex-alignStart">
-          <input type="checkbox" id="checkbox2" v-model="showPercentage" />
-          <label class="label-text" for="checkbox2"
+        <h6 class="bLabel mt-20">Show on scroll percentage</h6>
+        <div>
+          <md-checkbox
+            v-model="formData.show_after_scroll"
+            :true-value="1"
+            :false-value="0"
             >Set the percentage a visitor needs to scroll down the page for the
-            pop up to appear</label
+            pop up to appear</md-checkbox
           >
         </div>
-        <div v-if="showPercentage" class="dis-flex-noJustify">
-          <input
-            class="form-control margin-right-10 width-100"
-            id=""
-            maxlength="100"
-            name=""
-            value=""
-            initial-value=""
-            type="text"
-          />
-          %
-        </div>
-
-        <div class="height-20"></div>
-
-        <label class="control-label">Show after time on page</label>
-        <div class="form-group dis-flex-alignStart">
-          <input type="checkbox" id="checkbox3" v-model="showSeconds" />
-          <label class="label-text" for="checkbox3"
-            >Set the number of seconds a visitor needs to be on your webpage
-            before the pop up appears</label
-          >
-        </div>
-        <div v-if="showSeconds" class="dis-flex-noJustify">
-          <input
-            class="form-control margin-right-10 width-100"
-            id=""
-            maxlength="100"
-            name=""
-            value=""
-            initial-value=""
-            type="text"
-          />
-          Seconds
-        </div>
-
-        <div class="height-20"></div>
-
-        <label class="control-label">Show on exit intent</label>
-        <div class="form-group dis-flex-alignStart">
-          <input type="checkbox" id="checkbox4" />
-          <label class="label-text" for="checkbox4"
-            >Popup will appear if a visitor’s mouse movement shows intent to
-            leave your website</label
-          >
-        </div>
+        <md-field class="mt-20" v-if="formData.show_after_scroll == 1">
+          <label>Scroll Percentage</label>
+          <md-input
+            v-model="formData.scroll_percentage"
+            type="number"
+          ></md-input>
+        </md-field>
       </div>
+      <div class="splitDiv">
+        <h6 class="bLabel">Show on exit intent</h6>
+        <div>
+          <md-checkbox
+            v-model="formData.show_on_exit"
+            :true-value="1"
+            :false-value="0"
+            >Popup will appear if a visitor’s mouse movement shows intent to
+            leave your website</md-checkbox
+          >
+        </div>
+        <h6 class="bLabel mt-20">Show after time on page</h6>
+        <div>
+          <md-checkbox
+            v-model="formData.show_after_seconds"
+            :true-value="1"
+            :false-value="0"
+            >Set the number of seconds a visitor needs to be on your webpage
+            before the pop up appears</md-checkbox
+          >
+        </div>
+        <md-field class="mt-20" v-if="formData.show_after_seconds == 1">
+          <label>Delay Seconds</label>
+          <md-input v-model="formData.seconds" type="number"></md-input>
+        </md-field>
+      </div>
+    </div>
+    <div class="displaySetting formSubmit">
+      <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
+      <md-button class="md-raised md-accent">Save</md-button>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "FomoDisplaySetup",
-  props: ["data"],
+  props: ["data", "content", "close"],
+  data: function() {
+    return {
+      formData: { ...this.data }
+    };
+  },
+  computed: {
+    geolocation: {
+      // The allowed_countries initially comes as a string., need to change it as an array
+      get: function() {
+        return typeof this.formData.allowed_countries == "string"
+          ? this.formData.allowed_countries.split(",")
+          : this.formData.allowed_countries;
+      },
+      set: function(v) {
+        this.formData.allowed_countries = v;
+      }
+    }
+  },
   methods: {}
 };
 </script>
 <style lang="less" scoped>
-/* Display settings */
-.display-settings {
+.mt-20 {
+  margin-top: 20px !important;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+.display-flex {
+  display: flex;
+}
+.align-items-center {
+  align-items: center;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.bLabel {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+}
+.displaySetting {
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border: 5px solid #e8e8e8;
-  border-top: 0;
-  &:first-child {
-    border-top: 5px solid #e8e8e8;
+  display: flex;
+  margin-bottom: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.splitDiv {
+  width: 48%;
+}
+.visibleTo {
+  display: flex;
+  align-items: center;
+  h6 {
+    width: 40%;
   }
-  .dis-flex {
-    align-items: baseline;
+}
+span.status-btn {
+  padding: 0.2em 1em;
+  color: #000;
+  border: 1px solid;
+  margin: 0 0.5em;
+  border-radius: 2em;
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.4;
+  cursor: pointer;
+  &.active {
+    opacity: 1;
   }
-  .dis-flex-center {
-    align-items: center;
+}
+.text-info {
+  line-height: 1.2;
+  .material-icons {
+    padding-right: 10px;
   }
-  a.linkTxt {
-    color: #428bca;
-    font-weight: 600;
-  }
-  select,
-  input[type="number"],
-  input[type="text"],
-  label input[type="text"] {
-    width: 100%;
-    border: 1px solid #e8e8e8;
-    overflow: hidden;
-    border-radius: 4px;
-    padding: 6px 12px;
-  }
-  .form-group {
-    margin: 10px 0;
-    input[type="check"] {
-      margin-right: 10px;
-    }
-    label,
-    .divHalf {
-      flex: 1;
-    }
-    .form-control {
-      display: block;
-      width: 100%;
-      &.width-100 {
-        width: 100px;
-      }
-    }
-    .date {
-      position: relative;
-      .md-icon {
-        position: absolute;
-        right: 0;
-        top: 3px;
-      }
-    }
-  }
-  label {
-    font-size: 12px;
-    color: #333;
-    .icon-checkmark {
-      color: #fff;
-      border-radius: 50%;
-      background: green;
-      padding: 5px;
-      margin-right: 5px;
-      font-size: 12px !important;
-      width: 20px;
-      min-width: 20px;
-      height: 20px;
-      &.emptyIcon {
-        border: 2px solid #000;
-        background: transparent;
-      }
-    }
-    .icon-radio-unchecked {
-      font-size: 20px;
-      margin-right: 5px;
-    }
-  }
-  .vis_block-status {
-    display: flex;
-    align-items: center;
-    background: #e2f3ff;
-    padding: 5px 10px;
-    color: #333;
-    border-radius: 4px;
-    justify-content: center;
-  }
-  label.checkbox .label-text,
-  label.label-text {
-    color: #808080;
-    font-size: 12px;
-    font-weight: normal;
+}
+.formSubmit {
+  justify-content: flex-end;
+  .md-button {
+    margin-left: 10px;
   }
 }
 </style>
