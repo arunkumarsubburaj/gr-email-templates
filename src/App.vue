@@ -54,6 +54,10 @@ export default {
 </script>
 
 <style lang="less">
+:root {
+  --md-theme-default-tooltip-on-background: rgba(0, 0, 0, 0.8);
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,6 +66,58 @@ export default {
   background: #fafafa;
 }
 
+.m-20 {
+  margin: 20px !important;
+}
+.mx-20 {
+  margin: 0 20px !important;
+}
+.my-20 {
+  margin: 20px 0 !important;
+}
+.mt-20 {
+  margin-top: 20px !important;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+.mr-20 {
+  margin-right: 20px !important;
+}
+.ml-20 {
+  margin-left: 20px !important;
+}
+
+.p-20 {
+  padding: 20px !important;
+}
+.px-20 {
+  padding: 0 20px !important;
+}
+.py-20 {
+  padding: 20px 0 !important;
+}
+.pt-20 {
+  padding-top: 20px !important;
+}
+.pb-20 {
+  padding-bottom: 20px !important;
+}
+.pr-20 {
+  padding-right: 20px !important;
+}
+.pl-20 {
+  padding-left: 20px !important;
+}
+.display-flex {
+  display: flex;
+}
+.align-items-center {
+  align-items: center;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
 .fieldError {
   color: red;
 }
@@ -95,13 +151,22 @@ export default {
 .md-snackbar {
   max-width: 700px;
 }
+.md-tooltip {
+  max-width: 280px;
+  height: auto;
+  white-space: normal;
+  line-height: 1.5;
+  padding: 5px 10px;
+  font-size: 11px;
+}
 .md-tooltip:before {
   content: "";
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent rgba(97, 97, 97, 0.9);
+  border-color: transparent transparent transparent
+    var(--md-theme-default-tooltip-on-background);
   position: absolute;
 }
 .md-tooltip-left {

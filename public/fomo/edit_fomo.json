@@ -8,16 +8,20 @@
 			"id_template": 1,
 			"terms_url": "https://appsmav.com/terms.php",
 			"reward_settings": {
-				"mode_points": "1",
-                "worth_entries": "500",
-				"mode_instant": "1",
-				"instant_reward": "https://s3.us-east-1.amazonaws.com/devam.pro/gr/master/upload/img/699/99/6699_instant_reward_1621478182.png",
-				"instant_reward_opt": "1",
+				"mode_points": 1,
+				"worth_entries": "500",
+				"mode_instant": 1,
+				"instant_reward": {
+					"value": "assets/img/email_assets/header_campaign_1.png",
+					"width": 550,
+					"height": 100
+				},
+				"instant_reward_opt": 1,
 				"instant_reward_text": "Minimum spent Rs.250",
 				"instant_reward_cpn": "OFF50",
 				"instant_reward_lnk": "https://jai.devam.pro/gr/competition/edit/6699",
-				"reward_type": "1",
-				"realtime_coupon_type": "1",
+				"reward_type": "runique",
+				"realtime_coupon_type": 1,
 				"realtime_coupon_value": "25",
 				"realtime_min_order": "250",
 				"currency": "£"

@@ -6,7 +6,9 @@
       <input :id="id" type="file" accept="image/*" @change="handleFileChange" />
     </label>
     <img v-if="data.value.length > 0" :src="getImgUrl(data.value)" alt="" />
-    <div class="fileDimension">{{ data.width }} X {{ data.height }} pixels</div>
+    <div class="fileDimension" v-if="data.width">
+      {{ data.width }} X {{ data.height }} pixels
+    </div>
   </div>
 </template>
 <script>

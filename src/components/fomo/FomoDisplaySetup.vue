@@ -181,21 +181,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.mt-20 {
-  margin-top: 20px !important;
-}
-.mb-20 {
-  margin-bottom: 20px !important;
-}
-.display-flex {
-  display: flex;
-}
-.align-items-center {
-  align-items: center;
-}
-.flex-direction-column {
-  flex-direction: column;
-}
 .bLabel {
   font-size: 1.2em;
   font-weight: 600;
