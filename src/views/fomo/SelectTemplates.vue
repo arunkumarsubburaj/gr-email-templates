@@ -17,137 +17,138 @@
     <div class="container fomoContainer" v-if="fomoData">
       <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-40 configSection">
-          <md-content class="md-elevation-6">
-            <md-tabs class="fomo-tabs">
-              <md-tab
-                id="tab-config"
-                v-if="fomoData.config_settings"
-                md-label="FOMO Config"
+          <h2>FOMO Summary</h2>
+          <md-card v-if="fomoData.config_settings">
+            <md-card-content> config info </md-card-content>
+          </md-card>
+          <md-card class="mb-20">
+            <md-card-content>
+              <h4>This FOMO :</h4>
+              <ul>
+                <li>
+                  {{
+                    rInfo.mode_points == 1
+                      ? `Has enabled Points Mode with ${rInfo.worth_entries} reward points`
+                      : "Has disabled Points Mode"
+                  }}
+                </li>
+                <li>
+                  {{
+                    rInfo.mode_instant == 1
+                      ? `Is providing Instant reward as ${
+                          rInfo.instant_reward_opt == 1
+                            ? "Coupon"
+                            : rInfo.instant_reward_opt == 3
+                            ? "Redirection link"
+                            : "Image Or Text"
+                        }`
+                      : "Has disabled Instant Reward"
+                  }}
+                </li>
+                <li
+                  v-if="
+                    rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 1
+                  "
+                >
+                  Is providing Coupons as
+                  {{
+                    rInfo.reward_type == "runique"
+                      ? "Automagic Coupons"
+                      : "Common Coupons"
+                  }}
+                </li>
+                <li
+                  v-if="
+                    rInfo.mode_instant == 1 &&
+                      rInfo.instant_reward_opt == 1 &&
+                      rInfo.reward_type == 'runique'
+                  "
+                >
+                  Coupon type is
+                  {{
+                    rInfo.realtime_coupon_type == 1
+                      ? "Percentage off the order total"
+                      : rInfo.realtime_coupon_type == 2
+                      ? "Fixed amount off the order total"
+                      : "Free shipping"
+                  }}
+                </li>
+                <li
+                  v-if="
+                    rInfo.mode_instant == 1 &&
+                      rInfo.instant_reward_opt == 1 &&
+                      rInfo.reward_type == 'runique'
+                  "
+                >
+                  Minimum spend value is {{ rInfo.currency
+                  }}{{ rInfo.realtime_min_order }}
+                </li>
+                <li
+                  v-if="
+                    rInfo.mode_instant == 1 &&
+                      rInfo.instant_reward_opt == 1 &&
+                      rInfo.reward_type == 'runique' &&
+                      rInfo.realtime_coupon_type !== 3
+                  "
+                >
+                  Coupon value is
+                  {{
+                    rInfo.realtime_coupon_type == 1
+                      ? `${rInfo.realtime_coupon_value}%`
+                      : `${rInfo.currency}${rInfo.realtime_coupon_value}`
+                  }}
+                </li>
+                <li
+                  v-if="
+                    rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 3
+                  "
+                >
+                  Goto
+                  <a :href="rInfo.instant_reward_lnk" target="_blank"
+                    >Redirection URL</a
+                  >
+                </li>
+              </ul>
+              <md-button
+                size="small"
+                v-on:click.stop.prevent="activeEdit = 'rewards'"
+                class="md-raised md-accent"
+                >Edit</md-button
               >
-                Config Tab
-              </md-tab>
-              <md-tab id="tab-rewards" md-label="Rewards Setup">
-                <h4>This FOMO :</h4>
-                <ul>
-                  <li>
-                    {{
-                      rInfo.mode_points == 1
-                        ? `Has enabled Points Mode with ${rInfo.worth_entries} reward points`
-                        : "Has disabled Points Mode"
-                    }}
-                  </li>
-                  <li>
-                    {{
-                      rInfo.mode_instant == 1
-                        ? `Is providing Instant reward as ${
-                            rInfo.instant_reward_opt == 1
-                              ? "Coupon"
-                              : rInfo.instant_reward_opt == 3
-                              ? "Redirection link"
-                              : "Image Or Text"
-                          }`
-                        : "Has disabled Instant Reward"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 1
-                    "
-                  >
-                    Is providing Coupons as
-                    {{
-                      rInfo.reward_type == "runique"
-                        ? "Automagic Coupons"
-                        : "Common Coupons"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique'
-                    "
-                  >
-                    Coupon type is
-                    {{
-                      rInfo.realtime_coupon_type == 1
-                        ? "Percentage off the order total"
-                        : rInfo.realtime_coupon_type == 2
-                        ? "Fixed amount off the order total"
-                        : "Free shipping"
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique'
-                    "
-                  >
-                    Minimum spend value is {{ rInfo.currency
-                    }}{{ rInfo.realtime_min_order }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 &&
-                        rInfo.instant_reward_opt == 1 &&
-                        rInfo.reward_type == 'runique' &&
-                        rInfo.realtime_coupon_type !== 3
-                    "
-                  >
-                    Coupon value is
-                    {{
-                      rInfo.realtime_coupon_type == 1
-                        ? `${rInfo.realtime_coupon_value}%`
-                        : `${rInfo.currency}${rInfo.realtime_coupon_value}`
-                    }}
-                  </li>
-                  <li
-                    v-if="
-                      rInfo.mode_instant == 1 && rInfo.instant_reward_opt == 3
-                    "
-                  >
-                    Goto
-                    <a :href="rInfo.instant_reward_lnk" target="_blank"
-                      >Redirection URL</a
-                    >
-                  </li>
-                </ul>
-                <md-button
-                  size="small"
-                  v-on:click.stop.prevent="activeEdit = 'rewards'"
-                  class="md-raised md-accent"
-                  >Edit</md-button
-                >
-              </md-tab>
-              <md-tab id="tab-display" md-label="Display Rules">
-                <h4>This FOMO is :</h4>
-                <ul>
-                  <li>Visible to {{ dInfo.visible_to }}</li>
-                  <li v-if="dInfo.show_on_home_page">
-                    Displayed only in home page
-                  </li>
-                  <li v-else>
-                    Displayed on pages
-                    {{ dInfo.show_on_pages }}
-                  </li>
-                  <li v-if="dInfo.show_on_first_visit == 1">
-                    Displayed on first visit only
-                  </li>
-                  <li>
-                    positioned at
-                    {{ contentData.prompt_positions[dInfo.position] }}
-                  </li>
-                </ul>
-                <md-button
-                  size="small"
-                  v-on:click.stop.prevent="activeEdit = 'display'"
-                  class="md-raised md-accent"
-                  >Edit</md-button
-                >
-              </md-tab>
-            </md-tabs>
-          </md-content>
+            </md-card-content>
+          </md-card>
+          <md-card>
+            <md-card-content>
+              <h4>This FOMO is :</h4>
+              <ul>
+                <li>Visible to {{ dInfo.visible_to }}</li>
+                <li v-if="dInfo.show_on_home_page">
+                  Displayed only in home page
+                </li>
+                <li v-else>
+                  {{
+                    dInfo.show_on_pages.length
+                      ? `Displayed on pages ${dInfo.show_on_pages}`
+                      : "Displayed on all pages"
+                  }}
+                </li>
+                <li v-if="dInfo.show_on_first_visit == 1">
+                  Displayed on first visit only
+                </li>
+                <li>
+                  positioned at
+                  {{ contentData.prompt_positions[dInfo.position] }}
+                </li>
+              </ul>
+              <md-button
+                size="small"
+                v-on:click.stop.prevent="activeEdit = 'display'"
+                class="md-raised md-accent"
+                >Edit</md-button
+              >
+            </md-card-content>
+          </md-card>
+          <!-- <md-content class="md-elevation-6"></md-content> -->
         </div>
         <div
           class="md-layout-item md-size-60 templateSection"
@@ -181,11 +182,14 @@
         <FomoRewardSetup
           v-if="activeEdit == 'rewards'"
           :data="fomoData.reward_settings"
+          :id="fomoId"
           :close="closePopin"
+          :save="saveRewards"
         />
         <FomoDisplaySetup
           v-if="activeEdit == 'display'"
           :data="fomoData.display_settings"
+          :save="saveDisplay"
           :content="contentData"
           :close="closePopin"
         />
@@ -204,6 +208,7 @@ export default {
   mixins: ["renderTemplate"],
   data: function() {
     return {
+      fomoId: this.$route.params.fomoId,
       fomoData: null,
       templateData: null,
       contentData: null,
@@ -224,12 +229,31 @@ export default {
     },
     closePopin: function() {
       this.activeEdit = false;
+    },
+    saveDisplay: function(params) {
+      Axios.post(
+        `https://logesh.devam.pro/gr/fomo/updateDisplaySettings?id_shop=1902&admin_email=jayakumar@appsmav.com`,
+        this.createFormData({ ...params, id: this.fomoId })
+      ).then(res => {
+        console.log(res);
+        this.fomoData.display_settings = params;
+      });
+    },
+    saveRewards: function(params) {
+      Axios.post(
+        `https://logesh.devam.pro/gr/fomo/updateRewards?id_shop=1902&admin_email=jayakumar@appsmav.com`,
+        this.createFormData({ ...params, id: this.fomoId })
+      ).then(res => {
+        console.log(res);
+        this.fomoData.reward_settings = params;
+      });
     }
   },
   mounted: function() {
-    Axios.get("fomo/edit_fomo.json").then(({ data }) => {
-      console.log(data);
-      const { attributes, relationship, includes } = data.data;
+    Axios.get(
+      `https://logesh.devam.pro/gr/fomo/getDetails?id=${this.fomoId}&id_shop=1902&admin_email=jayakumar@appsmav.com`
+    ).then(({ data }) => {
+      const { attributes, relationship, includes } = data;
       this.fomoData = attributes;
       this.contentData = relationship;
       this.templateData = includes.templates;

@@ -63,9 +63,16 @@
         <div class="form-group dis-flex">
           <md-field>
             <label>Horizontal Position (px)</label>
-            <md-input v-model="formData.horizontal" type="number"></md-input>
+            <md-input
+              v-model="formData.horizontal"
+              type="number"
+              required
+            ></md-input>
             <span class="md-suffix">pixels</span>
           </md-field>
+          <span class="error" v-if="errors.horizontal">{{
+            errors.horizontal
+          }}</span>
         </div>
         <div class="form-group dis-flex">
           <md-field>
@@ -151,18 +158,44 @@
     </div>
     <div class="displaySetting formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
-      <md-button class="md-raised md-accent">Save</md-button>
+      <md-button class="md-raised md-accent" @click.prevent="handleSave"
+        >Save</md-button
+      >
     </div>
   </div>
 </template>
 <script>
 export default {
   name: "FomoDisplaySetup",
-  props: ["data", "content", "close"],
+  props: ["data", "content", "close", "save"],
+  mixins: ["createFormData"],
   data: function() {
     return {
-      formData: { ...this.data }
+      formData: { ...this.data },
+      errors: {}
     };
+  },
+  watch: {
+    formData: {
+      deep: true,
+      handler: function(val) {
+        val.horizontal && val.horizontal >= 0
+          ? delete this.errors["horizontal"]
+          : (this.errors.horizontal = "Invalid input");
+
+        val.vertical && val.vertical >= 0
+          ? delete this.errors["vertical"]
+          : (this.errors.vertical = "Invalid input");
+
+        val.show_after_seconds && val.seconds >= 0
+          ? delete this.errors["delay"]
+          : (this.errors.delay = "Invalid input");
+
+        val.show_after_scroll && val.scroll_percentage >= 0
+          ? delete this.errors["scroll"]
+          : (this.errors.scroll = "Invalid input");
+      }
+    }
   },
   computed: {
     geolocation: {
@@ -177,7 +210,16 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    handleSave: function() {
+      const { allowed_countries: ac } = this.formData;
+      const params = {
+        ...this.formData,
+        allowed_countries: typeof ac == "object" ? ac.join() : ac
+      };
+      this.save(params);
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

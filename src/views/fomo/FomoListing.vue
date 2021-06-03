@@ -23,7 +23,10 @@
           <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" md-alignment="fixed">
               <md-tab id="tab-home" md-label="Active Prompts (5)">
-                <div class="table-responsive tableList">
+                <div
+                  class="table-responsive tableList"
+                  v-if="activeFomo.length"
+                >
                   <table class="table table-striped snap-top">
                     <thead>
                       <tr>
@@ -71,7 +74,6 @@
                               type="checkbox"
                               name="mainSwitch"
                               :checked="data.attributes.status == 1"
-                              :id="data.id"
                             />
                             <i></i>
                           </label>
@@ -85,9 +87,13 @@
                     </tbody>
                   </table>
                 </div>
+                <div v-else>No active FOMOs available</div>
               </md-tab>
               <md-tab id="tab-pages" md-label="PausedPrompts(3)">
-                <div class="table-responsive tableList">
+                <div
+                  class="table-responsive tableList"
+                  v-if="inactiveFomo.length"
+                >
                   <table class="table table-striped snap-top">
                     <thead>
                       <tr>
@@ -118,8 +124,7 @@
                             <input
                               type="checkbox"
                               name="mainSwitch"
-                              :checked="data.attributes.status == 1"
-                              :id="data.id"
+                              :checked="data.attributes.status === 1"
                             />
                             <i></i>
                           </label>
@@ -132,7 +137,8 @@
                       </tr>
                     </tbody>
                   </table>
-                </div></md-tab
+                </div>
+                <div v-else>No paused FOMOs available</div></md-tab
               >
             </md-tabs>
           </div>
@@ -154,14 +160,12 @@
               <div class="fomo_details">
                 <h3>{{ template.attributes.name }}</h3>
               </div>
-              <router-link
+              <md-button
                 v-if="!template.attributes.disabled"
-                :to="'../../../view/fomo/templates/'"
+                :md-ripple="false"
+                class="md-dense btn"
+                >Add</md-button
               >
-                <md-button :md-ripple="false" class="md-dense btn"
-                  >Add</md-button
-                >
-              </router-link>
             </div>
           </div>
           <!-- <div class="titleBlock">
@@ -199,6 +203,7 @@ import Axios from "axios";
 
 export default {
   name: "FomoListing",
+  mixins: ["createFormData"],
   data: function() {
     return {
       listData: null,
@@ -217,7 +222,9 @@ export default {
   },
   methods: {
     fetchSiteFomo: function() {
-      Axios.get("fomo/sites_fomo.json")
+      Axios.get(
+        "https://logesh.devam.pro/gr/fomo?id_shop=1902&admin_email=jayakumar@appsmav.com"
+      )
         .then(({ data }) => {
           this.listData = data.data;
         })
@@ -229,8 +236,11 @@ export default {
     },
 
     fetchAllFomo: function() {
-      Axios.get("fomo/all_fomos.json")
+      Axios.get(
+        "https://logesh.devam.pro/gr/fomo/all?id_shop=1902&admin_email=jayakumar@appsmav.com"
+      )
         .then(({ data }) => {
+          console.log(data);
           this.templates = data.data;
         })
         .catch(error => {
@@ -240,7 +250,34 @@ export default {
         .finally(() => (this.loading = false));
     },
     updateStatus: function(id, status) {
-      console.log(id, status);
+      const params = {
+        id: id,
+        status: status == 0 ? 1 : 0
+      };
+      Axios.post(
+        "https://logesh.devam.pro/gr/fomo/updateStatus?id_shop=1902&admin_email=jayakumar@appsmav.com",
+        this.createFormData(params)
+      )
+        .then(({ data }) => {
+          if (data.data.status === "success") {
+            this.listData = this.listData.map(item =>
+              item.id === id
+                ? {
+                    ...item,
+                    attributes: { ...item.attributes, status: params.status }
+                  }
+                : item
+            );
+          } else {
+            this.errored = true;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => (this.loading = false));
+
       // Change status using ID & !status
     }
   },

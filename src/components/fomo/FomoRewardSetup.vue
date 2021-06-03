@@ -35,14 +35,14 @@
                 <!-- If only Coupon -->
                 <div class="coupon" v-if="formData.instant_reward_opt == 1">
                   <div class="light radioTabs">
-                    <md-radio v-model="formData.reward_type" value="runique"
+                    <md-radio v-model="formData.reward_type" :value="1"
                       >Automagic</md-radio
                     >
-                    <md-radio v-model="formData.reward_type" value="common"
+                    <md-radio v-model="formData.reward_type" :value="0"
                       >Common</md-radio
                     >
                   </div>
-                  <div v-if="formData.reward_type == 'runique'">
+                  <div v-if="formData.reward_type == 1">
                     <small
                       class="text-info display-flex align-items-center mt-20"
                     >
@@ -236,7 +236,9 @@
     </div>
     <div class="displaySetting formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
-      <md-button class="md-raised md-accent">Save</md-button>
+      <md-button class="md-raised md-accent" @click.prevent="handleSave"
+        >Save</md-button
+      >
     </div>
   </div>
 </template>
@@ -245,15 +247,20 @@ import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
 
 export default {
   name: "FomoRewardSetup",
-  props: ["data", "close"],
+  props: ["data", "close", "save"],
   components: { ImgUploadPreview },
   data: function() {
     return {
-      formData: { ...this.data }
+      formData: { ...this.data },
+      errors: {}
     };
   },
   computed: {},
-  methods: {}
+  methods: {
+    handleSave: function() {
+      this.save(this.formData);
+    }
+  }
 };
 </script>
 <style lang="less">

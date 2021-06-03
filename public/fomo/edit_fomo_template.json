@@ -24,7 +24,7 @@
 						"bg_color": {
 							"type": "color",
 							"label": "section bg color",
-							"value": "#FFB700"
+							"value": "#04F2D4"
 						},
 						"title": {
 							"type": "textarea",
@@ -32,7 +32,7 @@
 							"label": "Title",
 							"max_length": 3000,
 							"rows": 4,
-							"value": "PURCHASE FOR A CHANCE TO WIN"
+							"value": "Sign up and explore exiciting deals during this festive season"
 						},
 						"description": {
 							"type": "textarea",
@@ -42,13 +42,13 @@
 							"rows": 4,
 							"value": ""
 						},
-						"btn_txt": {
+						"btn_text": {
 							"type": "textarea",
 							"show_dynamic_variables": 1,
 							"label": "Button Text",
 							"max_length": 3000,
 							"rows": 4,
-							"value": "Participate"
+							"value": "Sign up now"
 						},
 						"btn_color": {
 							"type": "color",
@@ -61,46 +61,21 @@
 					"label": "After Signup",
 					"type": "after_login",
 					"attributes": {
-						"bg_image": {
-							"type": "file",
-							"label": "Bg image",
-                            "value": "assets/img/email_assets/campaign_1.png",
-                            "width": 100,
-                            "height": 100
-						},
-						"bg_color": {
-							"type": "color",
-							"label": "section bg color",
-							"value": "#423a82"
-						},
-						"title": {
+						"couponTitle": {
 							"type": "textarea",
 							"show_dynamic_variables": 1,
 							"label": "Title",
 							"max_length": 3000,
 							"rows": 4,
-							"value": "<p>Congratulations</p>"
+							"value": "Here is your Coupon"
 						},
-						"description": {
+						"congrats": {
 							"type": "textarea",
 							"show_dynamic_variables": 1,
-							"label": "Description",
+							"label": "Congrats Text",
 							"max_length": 3000,
 							"rows": 4,
-							"value": "<p>Here is your Coupon</p>"
-						},
-						"btn_txt": {
-							"type": "textarea",
-							"show_dynamic_variables": 1,
-							"label": "Button Text",
-							"max_length": 3000,
-							"rows": 4,
-							"value": "<p>Keep an eye out to win more rewards.<br/>Regards, [[Site Name]]</p>"
-						},
-						"btn_color": {
-							"type": "color",
-							"label": "Button color",
-							"value": "#423a82"
+							"value": "Congratulations !!"
 						}
 					}
 				}

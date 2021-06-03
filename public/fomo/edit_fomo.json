@@ -27,9 +27,9 @@
 				"currency": "£"
 			},
 			"display_settings": {
-				"visible_to": "all",
+				"visible_to": "guest",
 				"show_on_pages": "home, product, cart",
-				"show_on_home_page": 1,
+				"show_on_home_page": 0,
 				"horizontal": 12,
 				"vertical": 50,
 				"show_on_first_visit": 1,

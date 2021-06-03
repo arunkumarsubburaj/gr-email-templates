@@ -20,86 +20,75 @@
 
     <div class="editTemplate">
       <div class="settingsBlock">
-        <div class="eAccordion">
-          <div
-            :class="['eAccordion-items', { active: activeAccordion == key }]"
+        <md-tabs class="fomo-tabs" @md-changed="setActiveTab">
+          <md-tab
             v-for="(item, key) in fomoData.settings"
             :key="key"
+            :id="item.type"
+            :md-label="item.label"
           >
-            <div
-              class="eAccordion-title"
-              @click.prevent="e => toggleAccordion(key)"
-            >
-              <span class="title"> {{ item.label }} </span>
-              <nav v-if="item.attributes.length !== 0">
-                <i class="far fa-chevron-right"></i>
-              </nav>
-            </div>
-
-            <div class="eAccordion-content">
-              <div v-if="item.attributes">
-                <div
-                  class="item-types"
-                  v-for="(control, name, index) in item.attributes"
-                  :key="index"
-                >
-                  <div v-if="control.type == 'textarea'">
-                    <div class="subTitle">
-                      <h3>{{ control.label }}</h3>
-                      <CustomVariables
-                        v-if="control.show_dynamic_variables"
-                        :data="dVars"
-                        :name="name"
-                        :index="key"
-                        :click="appendVarToKey"
-                      />
-                    </div>
-                    <quillEditor
-                      v-model="control.value"
-                      :options="eOptions"
-                      @focus="onEditorFocus($event, name)"
-                      @change="onEditorChange($event)"
-                      :ref="`${key}-${name}`"
-                    ></quillEditor>
-                    <small
-                      v-if="control.value.trim() == ''"
-                      class="fieldError"
-                      style="display: block"
-                    >
-                      This field cannot be empty
-                    </small>
-                  </div>
-                  <div v-if="control.type == 'file'">
-                    <div class="subTitle">
-                      <h3>
-                        {{ control.label }}
-                        <i class="fas fa-question-circle"
-                          ><md-tooltip md-direction="right"
-                            >Supported file formats: JPEG, PNG</md-tooltip
-                          ></i
-                        >
-                      </h3>
-                    </div>
-                    <ImgUploadPreview
-                      :id="`${key}-${name}`"
-                      :handleFileChange="e => handleImgChange(e)"
-                      :data="control"
+            <div v-if="item.attributes">
+              <div
+                class="item-types"
+                v-for="(control, name, index) in item.attributes"
+                :key="index"
+              >
+                <div v-if="control.type == 'textarea'">
+                  <div class="subTitle">
+                    <h3>{{ control.label }}</h3>
+                    <CustomVariables
+                      v-if="control.show_dynamic_variables"
+                      :data="dVars"
+                      :name="name"
+                      :index="key"
+                      :click="appendVarToKey"
                     />
                   </div>
-                  <div v-if="control.type == 'color'" class="colorPick">
-                    <div class="subTitle">
-                      <h3>{{ control.label }}</h3>
-                    </div>
-                    <ColorPicker
-                      :color="control.value"
-                      v-on:input="e => (control.value = e)"
-                    ></ColorPicker>
+                  <quillEditor
+                    v-model="control.value"
+                    :options="eOptions"
+                    @focus="onEditorFocus($event, name)"
+                    @change="onEditorChange($event)"
+                    :ref="`${key}-${name}`"
+                  ></quillEditor>
+                  <small
+                    v-if="control.value.trim() == ''"
+                    class="fieldError"
+                    style="display: block"
+                  >
+                    This field cannot be empty
+                  </small>
+                </div>
+                <div v-if="control.type == 'file'">
+                  <div class="subTitle">
+                    <h3>
+                      {{ control.label }}
+                      <i class="fas fa-question-circle"
+                        ><md-tooltip md-direction="right"
+                          >Supported file formats: JPEG, PNG</md-tooltip
+                        ></i
+                      >
+                    </h3>
                   </div>
+                  <ImgUploadPreview
+                    :id="`${key}-${name}`"
+                    :handleFileChange="e => handleImgChange(e)"
+                    :data="control"
+                  />
+                </div>
+                <div v-if="control.type == 'color'" class="colorPick">
+                  <div class="subTitle">
+                    <h3>{{ control.label }}</h3>
+                  </div>
+                  <ColorPicker
+                    :color="control.value"
+                    v-on:input="e => (control.value = e)"
+                  ></ColorPicker>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </md-tab>
+        </md-tabs>
       </div>
       <div class="preview_block">
         <div class="preview_block-title">
@@ -113,10 +102,11 @@
           </div>
         </div>
         <div class="preview_block-template">
-          <FomoPreviewRenderer
-            :tData="dataForPreview"
-            :tHtml="fomoData.template_html"
-          />
+          <fomo-signup
+            preview="true"
+            :showPreview="activeTab"
+            :cData="dataForPreview"
+          ></fomo-signup>
         </div>
         <div class="embed_visible" v-if="embedCode">
           <div class="title">
@@ -145,22 +135,25 @@
 </template>
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 import Axios from "axios";
 import ColorPicker from "@/components/ColorPicker.vue";
 import CustomVariables from "@/components/CustomVariables.vue";
 import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
-import FomoPreviewRenderer from "@/components/fomo/FomoPreviewRenderer.vue";
 import Quill from "quill";
 import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 
+import "@/lit/test.js";
+
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
 let Break = Quill.import("blots/break");
 let Embed = Quill.import("blots/embed");
+var Block = Quill.import("blots/block");
+Block.tagName = "DIV";
+Quill.register(Block, true);
 function lineBreakMatcher() {
   var newDelta = new Delta();
   newDelta.insert({ break: "" });
@@ -269,7 +262,6 @@ export default {
   components: {
     ColorPicker,
     ImgUploadPreview,
-    FomoPreviewRenderer,
     quillEditor,
     CustomVariables
   },
@@ -280,7 +272,7 @@ export default {
       embedCode: false,
       message: "Some dummy text",
       fomoData: null,
-      activeAccordion: null,
+      activeTab: null,
       quillEditor: {},
       eOptions: options,
       dVars: null
@@ -288,19 +280,20 @@ export default {
   },
   computed: {
     dataForPreview() {
-      const dd = {};
+      let dd = {};
       this.fomoData.settings.forEach(data =>
         Object.keys(data.attributes).forEach(
-          item => (dd[`${data.type}_${item}`] = data.attributes[item])
+          key => (dd[key] = data.attributes[key].value)
         )
       );
       console.log(dd);
-      return dd;
+      return JSON.stringify(dd);
     }
   },
   methods: {
-    toggleAccordion: function(index) {
-      this.activeAccordion = this.activeAccordion === index ? null : index;
+    setActiveTab: function(e) {
+      console.log(e);
+      this.activeTab = e;
     },
     doCopy: function() {
       this.$copyText(this.message).then(
