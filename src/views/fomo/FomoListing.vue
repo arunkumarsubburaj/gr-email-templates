@@ -164,6 +164,7 @@
                 v-if="!template.attributes.disabled"
                 :md-ripple="false"
                 class="md-dense btn"
+                @click="createFomo(template.id)"
                 >Add</md-button
               >
             </div>
@@ -240,7 +241,6 @@ export default {
         "https://logesh.devam.pro/gr/fomo/all?id_shop=1916&admin_email=logesh@appsmav.com"
       )
         .then(({ data }) => {
-          console.log(data);
           this.templates = data.data;
         })
         .catch(error => {
@@ -248,6 +248,14 @@ export default {
           this.errored = true;
         })
         .finally(() => (this.loading = false));
+    },
+    createFomo: function(id) {
+      Axios.post(
+        "https://logesh.devam.pro/gr/fomo?id_shop=1916&admin_email=logesh@appsmav.com",
+        this.createFormData({ id: id })
+      ).then(({ data }) => {
+        this.$router.push(`edit/${data.data.id}`);
+      });
     },
     updateStatus: function(id, status) {
       const params = {
