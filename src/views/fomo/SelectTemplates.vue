@@ -159,7 +159,9 @@
             </figure>
             <figcaption class="template-info">
               <p>{{ activeTemplate.attributes.name }}</p>
-              <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
+              <router-link
+                :to="`/view/fomo/edit/${fomoId}/${activeTemplate.id}`"
+              >
                 <md-button class="md-raised">
                   <span>Edit</span>
                 </md-button>
