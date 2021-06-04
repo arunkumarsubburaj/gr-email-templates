@@ -112,6 +112,9 @@ export default {
 .display-flex {
   display: flex;
 }
+.align-items-start {
+  align-items: flex-start;
+}
 .align-items-center {
   align-items: center;
 }

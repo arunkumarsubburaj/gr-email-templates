@@ -148,33 +148,44 @@
               >
             </md-card-content>
           </md-card>
-          <!-- <md-content class="md-elevation-6"></md-content> -->
         </div>
         <div
           class="md-layout-item md-size-60 templateSection"
           v-if="templateData"
         >
-          <div
-            class="template"
-            v-for="template in templateData"
-            :key="template.id"
-          >
-            <figure
-              class="template-inner"
-              :class="{ active: template.attributes.is_activated == 1 }"
-            >
-              <img :src="template.attributes.image_url" alt="" />
+          <div class="template activeTemplate">
+            <figure class="template-inner">
+              <img :src="activeTemplate.attributes.image_url" alt="" />
             </figure>
             <figcaption class="template-info">
-              <p>{{ template.attributes.name }}</p>
-              <md-button
-                :to="'../../../view/fomo/templates/' + templateData.id"
-                class="md-raised"
-              >
-                <span v-if="template.attributes.is_activated == 1"> Edit </span>
-                <span v-else>Select & Edit</span>
-              </md-button>
+              <p>{{ activeTemplate.attributes.name }}</p>
+              <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
+                <md-button class="md-raised">
+                  <span>Edit</span>
+                </md-button>
+              </router-link>
             </figcaption>
+          </div>
+          <div class="display-flex align-items-start otherTemplates">
+            <div
+              class="template"
+              v-for="template in templateData.filter(
+                v => v.attributes.is_activated == 0
+              )"
+              :key="template.id"
+            >
+              <figure class="template-inner">
+                <img :src="template.attributes.image_url" alt="" />
+              </figure>
+              <figcaption class="template-info">
+                <p>{{ template.attributes.name }}</p>
+                <router-link :to="`/view/fomo/edit/${fomoId}/${template.id}`">
+                  <md-button class="md-raised">
+                    <span>Select & Edit</span>
+                  </md-button>
+                </router-link>
+              </figcaption>
+            </div>
           </div>
         </div>
       </div>
@@ -195,16 +206,18 @@
         />
       </div>
     </div>
+    <Loader :status="loader" />
   </div>
 </template>
 <script>
 import Axios from "axios";
 import FomoDisplaySetup from "@/components/fomo/FomoDisplaySetup.vue";
 import FomoRewardSetup from "@/components/fomo/FomoRewardSetup.vue";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "SelectTemplates",
-  components: { FomoDisplaySetup, FomoRewardSetup },
+  components: { FomoDisplaySetup, FomoRewardSetup, Loader },
   mixins: ["renderTemplate"],
   data: function() {
     return {
@@ -212,7 +225,8 @@ export default {
       fomoData: null,
       templateData: null,
       contentData: null,
-      activeEdit: false
+      activeEdit: false,
+      loader: false
     };
   },
   computed: {
@@ -221,6 +235,9 @@ export default {
     },
     dInfo: function() {
       return this.fomoData.display_settings;
+    },
+    activeTemplate: function() {
+      return this.templateData.find(item => item.attributes.is_activated == 1);
     }
   },
   methods: {
@@ -231,27 +248,31 @@ export default {
       this.activeEdit = false;
     },
     saveDisplay: function(params) {
+      this.loader = true;
       Axios.post(
-        `https://logesh.devam.pro/gr/fomo/updateDisplaySettings?id_shop=1902&admin_email=jayakumar@appsmav.com`,
+        `https://logesh.devam.pro/gr/fomo/updateDisplaySettings?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
         this.fomoData.display_settings = params;
+        this.loader = false;
       });
     },
     saveRewards: function(params) {
+      this.loader = true;
       Axios.post(
-        `https://logesh.devam.pro/gr/fomo/updateRewards?id_shop=1902&admin_email=jayakumar@appsmav.com`,
+        `https://logesh.devam.pro/gr/fomo/updateRewards?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
+        this.loader = false;
         this.fomoData.reward_settings = params;
       });
     }
   },
   mounted: function() {
     Axios.get(
-      `https://logesh.devam.pro/gr/fomo/getDetails?id=${this.fomoId}&id_shop=1902&admin_email=jayakumar@appsmav.com`
+      `https://logesh.devam.pro/gr/fomo/getDetails?id=${this.fomoId}&id_shop=1916&admin_email=logesh@appsmav.com`
     ).then(({ data }) => {
       const { attributes, relationship, includes } = data;
       this.fomoData = attributes;
@@ -279,35 +300,50 @@ export default {
 }
 
 .templateSection {
-  display: flex;
-  flex-flow: row wrap;
-
+  .otherTemplates {
+    width: 100%;
+  }
   .template {
-    flex: 1 1 50%;
-    max-width: calc(50% - 10px);
-    margin: 0px 0px 10px 10px;
+    width: 33%;
+    margin: 0px 20px;
     position: relative;
-    margin-bottom: 20px;
 
     &-inner {
       margin: 0;
       background: #262321;
-      min-height: 300px;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      &:before {
+        content: "";
+        display: block;
+        padding-bottom: 80%;
+      }
       &.active {
         background-color: #43ef9f;
       }
       img {
         width: 90%;
+        position: absolute;
       }
     }
     &-info {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    &.activeTemplate {
+      width: calc(100% - 40px);
+      max-width: 100%;
+      margin-bottom: 1em;
+      figure {
+        &:before {
+          content: "";
+          display: block;
+          padding-bottom: 50%;
+        }
+      }
     }
   }
 }
