@@ -102,11 +102,11 @@
           </div>
         </div>
         <div class="preview_block-template">
-          <fomo-signup
+          <!--<fomo-signup
             preview="true"
             :showPreview="activeTab"
             :cData="dataForPreview"
-          ></fomo-signup>
+          ></fomo-signup>-->
         </div>
         <div class="embed_visible" v-if="embedCode">
           <div class="title">
@@ -145,7 +145,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 
-import "@/lit/test.js";
+//import "@/lit/test.js";
 
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");

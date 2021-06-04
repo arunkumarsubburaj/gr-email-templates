@@ -11,14 +11,19 @@
         <div v-if="loading">Loading....</div>
         <div class="active_fomo">
           <div class="fomoHeader">
-            <h2>Fomo Prompts</h2>
-            <p>Some text explains about this FOMO prompts can be here.</p>
-            <!--<div class="statusBlock">
-              <div v-for="status in statuses" :key="status.count">
-                <h3>{{ status.count }}</h3>
-                <p>{{ status.attr }}</p>
-              </div>
-            </div>-->
+            <div>
+              <h2>Fomo Prompts</h2>
+              <p>Some text explains about this FOMO prompts can be here.</p>
+              <!--<div class="statusBlock">
+                <div v-for="status in statuses" :key="status.count">
+                  <h3>{{ status.count }}</h3>
+                  <p>{{ status.attr }}</p>
+                </div>
+              </div>-->
+            </div>
+            <md-button class="mobile btnDrawer" @click="showSidepanel = true"
+              >Create New & View all template</md-button
+            >
           </div>
           <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" md-alignment="fixed">
@@ -62,7 +67,7 @@
                             >
                           </div>
                         </td>-->
-                        <td>
+                        <td class="align-center">
                           <label
                             class="switch"
                             :for="data.id"
@@ -80,14 +85,17 @@
                         </td>
                         <td class="align-center">
                           <router-link :to="`/view/fomo/config/${data.id}`">
-                            <md-icon>edit</md-icon>
+                            <i class="fas fa-edit"></i>
                           </router-link>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div v-else>No active FOMOs available</div>
+                <div v-else class="noData">
+                  <i class="fas fa-info-circle"></i>
+                  No active FOMOs available
+                </div>
               </md-tab>
               <md-tab id="tab-pages" md-label="PausedPrompts(3)">
                 <div
@@ -138,12 +146,15 @@
                     </tbody>
                   </table>
                 </div>
-                <div v-else>No paused FOMOs available</div></md-tab
+                <div v-else class="noData">
+                  <i class="fas fa-info-circle"></i>
+                  No paused FOMOs available
+                </div></md-tab
               >
             </md-tabs>
           </div>
         </div>
-        <div class="create_fomo">
+        <div class="create_fomo desktop">
           <div class="titleBlock">
             <h2>Create New</h2>
             <a href="#" class="btn_link btn_link-small">View all templates</a>
@@ -191,6 +202,34 @@
             </div>
           </div> -->
         </div>
+        <md-drawer class="md-right mobile" :md-active.sync="showSidepanel">
+          <div class="create_fomo">
+            <div class="titleBlock">
+              <h2>Create New</h2>
+              <a href="#" class="btn_link btn_link-small">View all templates</a>
+            </div>
+            <div class="newFomoList">
+              <div
+                class="new_list"
+                v-for="template in templates"
+                :key="template.id"
+              >
+                <md-icon class="fomo_icon">
+                  <span>V</span>
+                </md-icon>
+                <div class="fomo_details">
+                  <h3>{{ template.attributes.name }}</h3>
+                </div>
+                <md-button
+                  v-if="!template.attributes.disabled"
+                  :md-ripple="false"
+                  class="md-dense btn"
+                  >Add</md-button
+                >
+              </div>
+            </div>
+          </div>
+        </md-drawer>
       </div>
     </div>
   </div>
@@ -209,7 +248,9 @@ export default {
       listData: null,
       templates: [],
       loading: true,
-      errored: false
+      errored: false,
+      showNavigation: false,
+      showSidepanel: false
     };
   },
   computed: {
@@ -292,6 +333,8 @@ export default {
 /* Fomo */
 .fomoContainer {
   background: #f9f9f9;
+  overflow: hidden;
+  position: relative;
 
   h2 {
     font-size: 36px;
@@ -388,6 +431,9 @@ export default {
   background: url(../../assets/fomo-header-bg.png) no-repeat scroll 0 center;
   background-size: cover;
   padding: 50px 10% 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .statusBlock {
   display: flex;
@@ -488,6 +534,9 @@ export default {
     font-size: 10px;
     color: #999;
   }
+  .align-center {
+    text-align: center;
+  }
 
   .table.table-striped {
     border-collapse: collapse;
@@ -544,11 +593,11 @@ export default {
 
   .fomo_icon {
     border-radius: 50%;
-    width: 48px;
+    min-width: 45px;
     background: #e2f3ff;
     color: #5988bc;
     position: relative;
-    height: 35px;
+    height: 45px;
     padding: 10px;
 
     span {
@@ -561,8 +610,71 @@ export default {
       top: 0;
       right: -5px;
       font-family: sans-serif;
-      line-height: 8px;
+      line-height: 12px;
+      font-weight: normal;
+      width: 16px;
+      height: 16px;
     }
+  }
+}
+.noData {
+  padding: 20px;
+  color: #2196f3;
+  display: flex;
+  align-items: center;
+  .fas {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+}
+
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 1199px) {
+  .titleBlock,
+  .newFomoList {
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 989px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+
+  .btnDrawer {
+    background: #474747;
+    color: #fff;
+  }
+
+  .md-drawer {
+    width: 350px;
+    max-width: calc(100vw - 125px);
+    z-index: 99999;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .fomoHeader {
+    padding: 50px 5% 72px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .fomoList {
+    padding: 0 5%;
+  }
+
+  .btnDrawer {
+    margin-top: 25px;
   }
 }
 </style>
