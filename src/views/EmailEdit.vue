@@ -1190,7 +1190,7 @@ export default {
     margin-right: 10px;
   }
   &[disabled] {
-    background: transparent !important;
+    pointer-events: none;
   }
 }
 

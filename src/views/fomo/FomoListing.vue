@@ -84,7 +84,7 @@
                           </label>
                         </td>
                         <td class="align-center">
-                          <router-link :to="`/view/fomo/config/${data.id}`">
+                          <router-link :to="`/view/fomo/edit/${data.id}`">
                             <i class="fas fa-edit"></i>
                           </router-link>
                         </td>
@@ -138,7 +138,7 @@
                           </label>
                         </td>
                         <td class="align-center">
-                          <router-link :to="`/view/fomo/config/${data.id}`">
+                          <router-link :to="`/view/fomo/edit/${data.id}`">
                             <md-icon>edit</md-icon>
                           </router-link>
                         </td>
@@ -175,6 +175,7 @@
                 v-if="!template.attributes.disabled"
                 :md-ripple="false"
                 class="md-dense btn"
+                @click="createFomo(template.id)"
                 >Add</md-button
               >
             </div>
@@ -264,7 +265,7 @@ export default {
   methods: {
     fetchSiteFomo: function() {
       Axios.get(
-        "https://logesh.devam.pro/gr/fomo?id_shop=1902&admin_email=jayakumar@appsmav.com"
+        "https://logesh.devam.pro/gr/fomo?id_shop=1916&admin_email=logesh@appsmav.com"
       )
         .then(({ data }) => {
           this.listData = data.data;
@@ -278,10 +279,9 @@ export default {
 
     fetchAllFomo: function() {
       Axios.get(
-        "https://logesh.devam.pro/gr/fomo/all?id_shop=1902&admin_email=jayakumar@appsmav.com"
+        "https://logesh.devam.pro/gr/fomo/all?id_shop=1916&admin_email=logesh@appsmav.com"
       )
         .then(({ data }) => {
-          console.log(data);
           this.templates = data.data;
         })
         .catch(error => {
@@ -290,13 +290,21 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    createFomo: function(id) {
+      Axios.post(
+        "https://logesh.devam.pro/gr/fomo?id_shop=1916&admin_email=logesh@appsmav.com",
+        this.createFormData({ id: id })
+      ).then(({ data }) => {
+        this.$router.push(`edit/${data.data.id}`);
+      });
+    },
     updateStatus: function(id, status) {
       const params = {
         id: id,
         status: status == 0 ? 1 : 0
       };
       Axios.post(
-        "https://logesh.devam.pro/gr/fomo/updateStatus?id_shop=1902&admin_email=jayakumar@appsmav.com",
+        "https://logesh.devam.pro/gr/fomo/updateStatus?id_shop=1916&admin_email=logesh@appsmav.com",
         this.createFormData(params)
       )
         .then(({ data }) => {

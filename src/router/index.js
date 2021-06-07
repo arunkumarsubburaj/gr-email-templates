@@ -34,13 +34,13 @@ const routes = [
     component: FomoListing
   },
   {
-    path: "/view/fomo/config/:fomoId",
+    path: "/view/fomo/edit/:fomoId",
     name: "FomoSelectTemplate",
     props: true,
     component: FomoSelectTemplate
   },
   {
-    path: "/view/fomo/edit/:fomoId",
+    path: "/view/fomo/edit/:fomoId/:templateId",
     name: "FomoEditTemplate",
     props: true,
     component: FomoEditTemplate

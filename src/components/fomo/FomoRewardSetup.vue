@@ -88,10 +88,17 @@
                           ></i
                         >
                       </h6>
-                      <md-field>
+                      <md-field
+                        :class="{ 'md-invalid': errors.realtime_coupon_value }"
+                      >
                         <md-input
                           v-model="formData.realtime_coupon_value"
-                        ></md-input>
+                        ></md-input
+                        ><span
+                          class="md-error"
+                          v-if="errors.realtime_coupon_value"
+                          >{{ errors.realtime_coupon_value }}</span
+                        >
                       </md-field>
                     </div>
                     <div>
@@ -129,10 +136,15 @@
                         ></i
                       >
                     </h6>
-                    <md-field>
-                      <md-input
-                        v-model="formData.instant_reward_cpn"
-                      ></md-input>
+                    <md-field
+                      :class="{ 'md-invalid': errors.instant_reward_cpn }"
+                    >
+                      <md-input v-model="formData.instant_reward_cpn"></md-input
+                      ><span
+                        class="md-error"
+                        v-if="errors.instant_reward_cpn"
+                        >{{ errors.instant_reward_cpn }}</span
+                      >
                     </md-field>
                   </div>
                 </div>
@@ -157,8 +169,13 @@
                       ></i
                     >
                   </h6>
-                  <md-field>
-                    <md-input v-model="formData.instant_reward_lnk"></md-input>
+                  <md-field
+                    :class="{ 'md-invalid': errors.instant_reward_lnk }"
+                  >
+                    <md-input v-model="formData.instant_reward_lnk"></md-input
+                    ><span class="md-error" v-if="errors.instant_reward_lnk">{{
+                      errors.instant_reward_lnk
+                    }}</span>
                   </md-field>
                 </div>
                 <!-- If only Redirect link -->
@@ -196,7 +213,7 @@
                   {{ formData.instant_reward.height }} pixels. (Images must be
                   GIF, JPEG, JPG, PNG and maximum of 2MB Limit).
                 </small>
-                <ImgUploadPreview :data="formData.instant_reward" />
+                <!-- <ImgUploadPreview :data="{ value: formData.instant_reward }" /> -->
               </div>
             </div>
           </div>
@@ -226,8 +243,14 @@
                   ></i
                 >
               </h6>
-              <md-field>
-                <md-input v-model="formData.worth_entries"></md-input>
+              <md-field :class="{ 'md-invalid': errors.worth_entries }">
+                <md-input
+                  v-model="formData.worth_entries"
+                  type="number"
+                ></md-input>
+                <span class="md-error" v-if="errors.worth_entries">{{
+                  errors.worth_entries
+                }}</span>
               </md-field>
             </div>
           </div>
@@ -236,26 +259,61 @@
     </div>
     <div class="displaySetting formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
-      <md-button class="md-raised md-accent" @click.prevent="handleSave"
+      <md-button
+        class="md-raised md-accent"
+        :disabled="Object.keys(errors).length > 0"
+        @click.prevent="handleSave"
         >Save</md-button
       >
     </div>
   </div>
 </template>
 <script>
-import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
+// import ImgUploadPreview from "@/components/ImgUploadPreview.vue";
 
 export default {
   name: "FomoRewardSetup",
   props: ["data", "close", "save"],
-  components: { ImgUploadPreview },
+  // components: { ImgUploadPreview },
   data: function() {
     return {
       formData: { ...this.data },
       errors: {}
     };
   },
-  computed: {},
+  watch: {
+    formData: {
+      deep: true,
+      handler: function(val) {
+        val.mode_points && val.worth_entries && val.worth_entries > 0
+          ? delete this.errors["worth_entries"]
+          : (this.errors.worth_entries = "Invalid input");
+
+        val.reward_type === 0
+          ? val.instant_reward_cpn && val.instant_reward_cpn.length > 0
+            ? delete this.errors["instant_reward_cpn"]
+            : (this.errors.instant_reward_cpn = "Invalid input")
+          : delete this.errors["instant_reward_cpn"];
+
+        val.reward_type === 1
+          ? val.realtime_coupon_type < 3 &&
+            val.realtime_coupon_value &&
+            val.realtime_coupon_value > 0
+            ? delete this.errors["realtime_coupon_value"]
+            : (this.errors.realtime_coupon_value = "Invalid input")
+          : delete this.errors["realtime_coupon_value"];
+
+        if (val.instant_reward_opt == 3) {
+          val.instant_reward_lnk && val.instant_reward_lnk.length > 0
+            ? delete this.errors["instant_reward_lnk"]
+            : (this.errors.instant_reward_lnk = "Invalid input");
+        }
+
+        console.log(this.formData);
+        console.log(this.errors);
+      }
+    }
+  },
   methods: {
     handleSave: function() {
       this.save(this.formData);
@@ -273,6 +331,10 @@ export default {
 <style lang="less" scoped>
 @rewardColor: #f0ad4e;
 @pointsColor: #42a2bf;
+.md-field .md-error {
+  left: auto;
+  right: 0;
+}
 .bLabel {
   font-size: 1em;
   font-weight: 600;

@@ -61,7 +61,7 @@
           </md-select>
         </md-field>
         <div class="form-group dis-flex">
-          <md-field>
+          <md-field :class="{ 'md-invalid': errors.horizontal }">
             <label>Horizontal Position (px)</label>
             <md-input
               v-model="formData.horizontal"
@@ -69,16 +69,19 @@
               required
             ></md-input>
             <span class="md-suffix">pixels</span>
+            <span class="md-error" v-if="errors.horizontal">{{
+              errors.horizontal
+            }}</span>
           </md-field>
-          <span class="error" v-if="errors.horizontal">{{
-            errors.horizontal
-          }}</span>
         </div>
         <div class="form-group dis-flex">
-          <md-field>
+          <md-field :class="{ 'md-invalid': errors.vertical }">
             <label>Vertical Position (px)</label>
             <md-input v-model="formData.vertical" type="number"></md-input>
             <span class="md-suffix">pixels</span>
+            <span class="md-error" v-if="errors.vertical">{{
+              errors.vertical
+            }}</span>
           </md-field>
         </div>
       </div>
@@ -121,12 +124,16 @@
             pop up to appear</md-checkbox
           >
         </div>
-        <md-field class="mt-20" v-if="formData.show_after_scroll == 1">
+        <md-field
+          :class="{ 'md-invalid': errors.scroll, 'mt-20': true }"
+          v-if="formData.show_after_scroll == 1"
+        >
           <label>Scroll Percentage</label>
           <md-input
             v-model="formData.scroll_percentage"
             type="number"
           ></md-input>
+          <span class="md-error" v-if="errors.scroll">{{ errors.scroll }}</span>
         </md-field>
       </div>
       <div class="splitDiv">
@@ -150,15 +157,22 @@
             before the pop up appears</md-checkbox
           >
         </div>
-        <md-field class="mt-20" v-if="formData.show_after_seconds == 1">
+        <md-field
+          :class="{ 'md-invalid': errors.delay, 'mt-20': true }"
+          v-if="formData.show_after_seconds == 1"
+        >
           <label>Delay Seconds</label>
           <md-input v-model="formData.seconds" type="number"></md-input>
+          <span class="md-error" v-if="errors.delay">{{ errors.delay }}</span>
         </md-field>
       </div>
     </div>
     <div class="displaySetting formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
-      <md-button class="md-raised md-accent" @click.prevent="handleSave"
+      <md-button
+        class="md-raised md-accent"
+        :disabled="Object.keys(errors).length > 0"
+        @click.prevent="handleSave"
         >Save</md-button
       >
     </div>
@@ -179,21 +193,25 @@ export default {
     formData: {
       deep: true,
       handler: function(val) {
-        val.horizontal && val.horizontal >= 0
+        `${val.horizontal}`.length && val.horizontal >= 0
           ? delete this.errors["horizontal"]
           : (this.errors.horizontal = "Invalid input");
 
-        val.vertical && val.vertical >= 0
+        `${val.vertical}`.length && val.vertical >= 0
           ? delete this.errors["vertical"]
           : (this.errors.vertical = "Invalid input");
 
-        val.show_after_seconds && val.seconds >= 0
-          ? delete this.errors["delay"]
-          : (this.errors.delay = "Invalid input");
+        val.show_after_seconds
+          ? val.seconds && val.seconds >= 0
+            ? delete this.errors["delay"]
+            : (this.errors.delay = "Invalid input")
+          : delete this.errors["delay"];
 
-        val.show_after_scroll && val.scroll_percentage >= 0
-          ? delete this.errors["scroll"]
-          : (this.errors.scroll = "Invalid input");
+        val.show_after_scroll
+          ? val.scroll_percentage && val.scroll_percentage >= 0
+            ? delete this.errors["scroll"]
+            : (this.errors.scroll = "Invalid input")
+          : delete this.errors["scroll"];
       }
     }
   },
@@ -223,6 +241,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.md-field .md-error {
+  left: auto;
+  right: 0;
+}
 .bLabel {
   font-size: 1.2em;
   font-weight: 600;

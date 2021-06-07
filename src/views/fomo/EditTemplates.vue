@@ -13,7 +13,12 @@
         </div>
         <div>
           <md-button class="md-raised">Discard</md-button>
-          <md-button class="md-raised md-accent">Save</md-button>
+          <md-button
+            class="md-raised md-accent"
+            :disabled="Object.keys(hasError).length > 0"
+            @click.prevent="handleSave"
+            >Save</md-button
+          >
         </div>
       </div>
     </div>
@@ -33,6 +38,29 @@
                 v-for="(control, name, index) in item.attributes"
                 :key="index"
               >
+                <div v-if="control.type == 'text'">
+                  <div class="subTitle">
+                    <h3>{{ control.label }}</h3>
+                    <CustomVariables
+                      v-if="control.show_dynamic_variables"
+                      :data="dVars"
+                      :name="name"
+                      :index="key"
+                      :click="appendVarToKey"
+                    />
+                  </div>
+                  <input
+                    class="form-control"
+                    type="text"
+                    maxlength="200"
+                    :ref="`${key}-${name}`"
+                    v-model="control.value"
+                    @keyup="checkforError(control, name)"
+                  />
+                  <small v-if="hasError[name]" class="fieldError">
+                    This field cannot be empty
+                  </small>
+                </div>
                 <div v-if="control.type == 'textarea'">
                   <div class="subTitle">
                     <h3>{{ control.label }}</h3>
@@ -48,14 +76,10 @@
                     v-model="control.value"
                     :options="eOptions"
                     @focus="onEditorFocus($event, name)"
-                    @change="onEditorChange($event)"
+                    @change="onEditorChange($event, control, name)"
                     :ref="`${key}-${name}`"
                   ></quillEditor>
-                  <small
-                    v-if="control.value.trim() == ''"
-                    class="fieldError"
-                    style="display: block"
-                  >
+                  <small v-if="hasError[name]" class="fieldError">
                     This field cannot be empty
                   </small>
                 </div>
@@ -269,15 +293,18 @@ export default {
   data: function() {
     return {
       id: this.$route.params.fomoId,
+      tempId: this.$route.params.templateId,
       embedCode: false,
       message: "Some dummy text",
       fomoData: null,
       activeTab: null,
       quillEditor: {},
       eOptions: options,
-      dVars: null
+      dVars: null,
+      hasError: {}
     };
   },
+
   computed: {
     dataForPreview() {
       let dd = {};
@@ -286,13 +313,11 @@ export default {
           key => (dd[key] = data.attributes[key].value)
         )
       );
-      console.log(dd);
       return JSON.stringify(dd);
     }
   },
   methods: {
     setActiveTab: function(e) {
-      console.log(e);
       this.activeTab = e;
     },
     doCopy: function() {
@@ -313,20 +338,55 @@ export default {
     onEditorFocus: function(quill, name) {
       this.quillEditor[name] = quill.selection.savedRange.index;
     },
-    onEditorChange: function({ quill }) {
+    onEditorChange: function({ quill }, data, name) {
+      this.checkforError(data, name);
       const limit = 3000;
       if (quill.getLength() > limit) {
         quill.deleteText(limit, quill.getLength());
       }
     },
+    checkforError: function(data, name) {
+      if (Boolean(data.required) && data.value.trim() == "") {
+        this.hasError = { ...this.hasError, [name]: true };
+      } else {
+        delete this.hasError[name];
+      }
+    },
     appendVarToKey: function(id, name, item) {
-      const position = this.quillEditor[name] || 0;
-      this.$refs[`${id}-${name}`][0].quill.insertText(position, item);
+      const comp = this.$refs[`${id}-${name}`][0];
+      if (comp.classList?.contains("form-control")) {
+        const index = comp.selectionStart;
+        const text =
+          comp.value.slice(0, index) + item + comp.value.slice(index);
+        comp.value = text;
+        const dataRef = this.fomoData.settings.find(
+          item => item.type == this.activeTab
+        );
+        if (dataRef) dataRef.attributes[name].value = text;
+      } else {
+        const position = this.quillEditor[name] || 0;
+        comp.quill.insertText(position, item);
+      }
     },
     fetchFomoData: function() {
-      Axios.get("fomo/edit_fomo_template.json").then(({ data }) => {
+      Axios.get(
+        `https://logesh.devam.pro/gr/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`
+      ).then(({ data }) => {
         this.fomoData = data.data.attributes;
         this.dVars = data.data.attributes.dynamic_variables.split(",");
+      });
+    },
+    handleSave: function() {
+      console.log(this.fomoData);
+      const params = {
+        is_activated: 1,
+        settings: JSON.stringify(this.fomoData.settings)
+      };
+      Axios.post(
+        `https://logesh.devam.pro/gr/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`,
+        this.createFormData(params)
+      ).then(res => {
+        console.log(res);
       });
     }
   },
@@ -373,10 +433,33 @@ export default {
   display: flex;
   justify-content: flex-start;
 
+  input.form-control {
+    padding: 5px;
+    border: 1px solid #d2d2d2;
+    font-size: 14px;
+    width: 100%;
+  }
+
   .settingsBlock {
     flex: 1;
     margin-right: 20px;
     max-width: 33%;
+  }
+
+  .subTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      color: #007aff;
+      font-size: 14px;
+      line-height: 1;
+    }
+    .md-menu {
+      line-height: 0.9;
+      margin: 10px 0;
+    }
   }
 
   .preview_block {
