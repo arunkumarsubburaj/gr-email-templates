@@ -331,7 +331,7 @@ export default {
 .bLabel {
   font-size: 1em;
   font-weight: 600;
-  color: #000;
+  color: #333;
   margin: 0;
 }
 .text-info {

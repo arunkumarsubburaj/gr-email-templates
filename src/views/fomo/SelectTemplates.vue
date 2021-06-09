@@ -436,7 +436,6 @@ export default {
   .displaySetting {
     display: flex;
     margin-bottom: 20px;
-    align-items: flex-start;
     justify-content: space-between;
 
     @media only screen and (max-width: 599px) {
@@ -447,6 +446,10 @@ export default {
       border: 1px solid #d1d1d1;
       border-bottom: none;
       background: #fff;
+
+      @media only screen and (max-width: 599px) {
+        margin-bottom: 20px;
+      }
       .head {
         padding: 0 20px;
         color: #333;

@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>Display Setup</h2>
-    <div class="displaySetting visibleTo">
-      <h6 class="bLabel">Visible to:</h6>
+    <div class="displaySetting fullDiv visibleTo">
+      <h6 class="bLabel noBG">Visible to:</h6>
       <div>
         <span
           class="status-btn"
@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="displaySetting flex-direction-column">
+    <div class="displaySetting fullDiv flex-direction-column">
       <h6 class="bLabel">Setup Geolocation</h6>
       <md-field>
         <md-select name="country" v-model="geolocation" multiple>
@@ -241,6 +241,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@rewardColor: #f8f8f8;
+@pointsColor: #f3f3f3;
 .md-field .md-error {
   left: auto;
   right: 0;
@@ -250,19 +252,46 @@ export default {
   font-weight: 600;
   color: #000;
   margin: 0;
+  background: @rewardColor;
+  padding: 20px;
+  margin: -20px -20px 0;
+  border-bottom: 1px solid #d1d1d1;
+  &.noBG {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 0;
+  }
 }
 .splitDiv {
-  width: 48%;
+  width: 49%;
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  padding: 20px;
 
   @media only screen and (max-width: 599px) {
     width: 100%;
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
+}
+.fullDiv {
+  border: 1px solid #d1d1d1;
+  background: #fff;
+  padding: 20px;
 }
 .visibleTo {
   display: flex;
   align-items: center;
   h6 {
     width: 40%;
+
+    @media only screen and (max-width: 599px) {
+      width: auto;
+      margin-bottom: 20px !important;
+    }
   }
 }
 span.status-btn {
