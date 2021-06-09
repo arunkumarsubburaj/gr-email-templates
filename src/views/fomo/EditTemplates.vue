@@ -313,6 +313,19 @@ export default {
           key => (dd[key] = data.attributes[key].value)
         )
       );
+      // let dd = {
+      //   type: "signup_bonus",
+      //   id_template: 1,
+      //   show_screen: "common",
+      //   template: {
+      //     settings: {}
+      //   }
+      // };
+      // this.fomoData.settings.forEach(data =>
+      //   Object.keys(data.attributes).forEach(
+      //     key => (dd.template.settings[key] = data.attributes[key].value)
+      //   )
+      // );
       return JSON.stringify(dd);
     }
   },
@@ -433,6 +446,18 @@ export default {
   display: flex;
   justify-content: flex-start;
 
+  ::v-deep {
+    .md-tabs-content {
+      overflow: visible;
+    }
+    .vc-chrome {
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+    }
+  }
+
   input.form-control {
     padding: 5px;
     border: 1px solid #d2d2d2;
@@ -444,6 +469,7 @@ export default {
     flex: 1;
     margin-right: 20px;
     max-width: 33%;
+    overflow: hidden;
   }
 
   .subTitle {
