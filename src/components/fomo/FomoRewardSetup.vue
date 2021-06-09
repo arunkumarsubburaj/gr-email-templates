@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>Reward Setup</h1>
+    <h2>Reward Setup</h2>
     <div class="displaySetting">
       <div class="md-layout md-gutter" style="flex-grow: 1">
-        <div class="md-layout-item md-size-50 rewardsMode">
+        <div class="md-layout-item md-size-50 md-xsmall-size-100 rewardsMode">
           <div class="setupMode">
             <div class="head">
               <md-checkbox
@@ -218,7 +218,7 @@
             </div>
           </div>
         </div>
-        <div class="md-layout-item md-size-50 pointsMode">
+        <div class="md-layout-item md-size-50 md-xsmall-size-100 pointsMode">
           <div class="setupMode">
             <div class="head">
               <md-checkbox
@@ -257,7 +257,7 @@
         </div>
       </div>
     </div>
-    <div class="displaySetting formSubmit">
+    <div class="topControl formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
       <md-button
         class="md-raised md-accent"
@@ -321,16 +321,9 @@ export default {
   }
 };
 </script>
-<style lang="less">
-.head .md-checkbox.md-theme-default .md-checkbox-container {
-  border-color: rgba(255, 255, 255, 0.5);
-  --md-theme-default-background: #000;
-  --md-theme-default-accent: #fff;
-}
-</style>
 <style lang="less" scoped>
-@rewardColor: #f0ad4e;
-@pointsColor: #42a2bf;
+@rewardColor: #f8f8f8;
+@pointsColor: #f3f3f3;
 .md-field .md-error {
   left: auto;
   right: 0;
@@ -340,29 +333,6 @@ export default {
   font-weight: 600;
   color: #000;
   margin: 0;
-}
-.displaySetting {
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  display: flex;
-  margin-bottom: 20px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.setupMode {
-  .head {
-    padding: 0 20px;
-    color: #fff;
-    font-weight: bold;
-  }
-  .body {
-    background: lighten(@rewardColor, 30%);
-  }
-  .md-field {
-    padding-top: 0;
-    min-height: 32px;
-  }
 }
 .text-info {
   padding: 10px;
@@ -397,22 +367,62 @@ export default {
   }
 }
 .radioTabs {
-  border-bottom: 2px solid @rewardColor;
+  border-left: 1px solid #777;
+  font-size: 13px;
+  color: #fff;
+  max-width: 100%;
   width: 100%;
   clear: both;
+  display: flex;
+  &:first-child {
+    border-left: none;
+  }
+
   .md-radio::v-deep {
-    background: #f3d7b0;
+    background: #474747;
     font-size: 13px;
     padding: 8px 10px;
     margin: 0;
+    flex-grow: 1;
+    &:before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      height: 2px;
+      opacity: 0;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      content: " ";
+      background: #474747;
+    }
     .md-radio-label {
       padding-left: 8px;
       font-weight: bold;
       flex-grow: 1;
     }
     &.md-checked {
-      background: @rewardColor;
-      --md-theme-default-accent: #fff;
+      background: #fff;
+      font-weight: 500;
+      font-size: 14px;
+      --md-theme-default-accent: #474747;
+      &:before {
+        opacity: 1;
+      }
+    }
+    &.md-theme-default {
+      .md-radio-container {
+        border-color: #fff;
+      }
+      &.md-checked {
+        .md-radio-container {
+          border-color: #474747;
+        }
+        .md-radio-label {
+          color: #474747;
+        }
+      }
     }
   }
   &.light {
@@ -446,18 +456,6 @@ span.status-btn {
   cursor: pointer;
   &.active {
     opacity: 1;
-  }
-}
-.text-info {
-  line-height: 1.2;
-  .material-icons {
-    padding-right: 10px;
-  }
-}
-.formSubmit {
-  justify-content: flex-end;
-  .md-button {
-    margin-left: 10px;
   }
 }
 </style>

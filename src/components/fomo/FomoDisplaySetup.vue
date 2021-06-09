@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Display Setup</h1>
+    <h2>Display Setup</h2>
     <div class="displaySetting visibleTo">
       <h6 class="bLabel">Visible to:</h6>
       <div>
@@ -167,7 +167,7 @@
         </md-field>
       </div>
     </div>
-    <div class="displaySetting formSubmit">
+    <div class="topControl formSubmit">
       <md-button class="md-raised" @click.prevent="close">Cancel</md-button>
       <md-button
         class="md-raised md-accent"
@@ -251,17 +251,12 @@ export default {
   color: #000;
   margin: 0;
 }
-.displaySetting {
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  display: flex;
-  margin-bottom: 20px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
 .splitDiv {
   width: 48%;
+
+  @media only screen and (max-width: 599px) {
+    width: 100%;
+  }
 }
 .visibleTo {
   display: flex;
@@ -282,18 +277,6 @@ span.status-btn {
   cursor: pointer;
   &.active {
     opacity: 1;
-  }
-}
-.text-info {
-  line-height: 1.2;
-  .material-icons {
-    padding-right: 10px;
-  }
-}
-.formSubmit {
-  justify-content: flex-end;
-  .md-button {
-    margin-left: 10px;
   }
 }
 </style>

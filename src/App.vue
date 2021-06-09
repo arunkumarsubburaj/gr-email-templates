@@ -308,18 +308,19 @@ export default {
 
   .fixedHeaderBlockInner {
     display: flex;
-    align-items: center;
+    align-items: stretch;
 
     a.link-back {
       color: #333;
-      padding: 10px 25px;
+      padding: 0 25px;
       font-size: 16px;
       margin: 0;
       cursor: pointer;
+      border-right: 1px solid #eaeaea;
+      line-height: 60px;
     }
 
     .title {
-      border-left: 1px solid #eaeaea;
       display: flex;
       align-items: center;
       color: #333;
