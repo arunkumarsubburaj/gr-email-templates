@@ -338,6 +338,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@blue: #187aff;
 /* Fomo */
 .fomoContainer {
   background: #f9f9f9;
@@ -515,21 +516,6 @@ export default {
       box-sizing: border-box;
       margin: 1px;
       border-radius: 50%;
-
-      &.visible-green {
-        border: 1px solid #adda86;
-        color: #adda86;
-      }
-
-      &.visible-pink {
-        border: 1px solid #ffbaba;
-        color: #ffbaba;
-      }
-
-      &.visible-orange {
-        border: 1px solid #ffca74;
-        color: #ffca74;
-      }
     }
   }
 
@@ -611,7 +597,7 @@ export default {
     font-size: 18px !important;
 
     span {
-      background: #007aff;
+      background: @blue;
       border-radius: 50%;
       padding: 3px 5px;
       font-size: 9px;
@@ -702,6 +688,7 @@ export default {
 </style>
 
 <style lang="less">
+@blue: #187aff;
 .fomoList {
   margin-top: -38px;
   padding: 0 10%;
@@ -732,7 +719,7 @@ export default {
       }
       &.md-active {
         background: #fff;
-        color: #007aff !important;
+        color: @blue !important;
         font-weight: 500;
         font-size: 14px;
       }
@@ -740,7 +727,7 @@ export default {
 
     &.md-theme-default .md-tabs-indicator {
       background-color: #fff;
-      background-color: var(--md-theme-default-primary-on-background, #007aff);
+      background-color: var(--md-theme-default-primary-on-background, @blue);
       top: 0;
     }
   }

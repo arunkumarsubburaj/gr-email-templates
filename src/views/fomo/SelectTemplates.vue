@@ -302,6 +302,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@white: #ffffff;
+@blue: #187aff;
+@stroke: #d1d1d1;
 .fomoContainer {
   margin: 0 auto;
   display: flex;
@@ -312,7 +315,7 @@ export default {
 
   .md-card {
     box-shadow: none;
-    border: 1px solid #d1d1d1;
+    border: 1px solid @stroke;
 
     .md-card-content {
       padding: 0;
@@ -332,32 +335,19 @@ export default {
       .handBand {
         display: flex;
         align-items: baseline;
-        background: #187aff;
+        background: @blue;
         padding: 16px;
         margin-bottom: 16px;
-        border-bottom: 1px solid #d1d1d1;
-        color: #fff;
+        border-bottom: 1px solid @stroke;
+        color: @white;
         h3 {
-          color: #fff;
+          color: @white;
           flex: 100%;
           margin: 0;
         }
-
-        .handBand {
-          display: flex;
-          align-items: baseline;
-          background: #f8f8f8;
-          padding: 16px;
-          margin-bottom: 16px;
-          border-bottom: 1px solid #d1d1d1;
-          h3 {
-            flex: 100%;
-            margin: 0;
-          }
-          .editIcn {
-            text-align: right;
-            cursor: pointer;
-          }
+        .editIcn {
+          text-align: right;
+          cursor: pointer;
         }
 
         ul {
@@ -423,83 +413,86 @@ export default {
 }
 </style>
 <style lang="less">
-@rewardColor: #f8f8f8;
-@pointsColor: #f3f3f3;
-.poppin {
-  .topControl.formSubmit {
-    position: fixed;
-    top: 12px;
-    z-index: 9999;
-    right: 12px;
-    justify-content: flex-end;
-    .md-button {
-      margin-left: 10px;
+@white: #ffffff;
+@blue: #187aff;
+@stroke: #d1d1d1;
+.fomoContainer {
+  .poppin {
+    .topControl.formSubmit {
+      position: fixed;
+      top: 12px;
+      z-index: 9999;
+      right: 12px;
+      justify-content: flex-end;
+      .md-button {
+        margin-left: 10px;
+      }
     }
-  }
-  h2 {
-    margin-top: 0;
-  }
-
-  label.md-checkbox-label {
-    display: flex;
-    align-items: center;
-    height: auto;
-    .fas {
-      margin-left: 10px;
-      font-size: 20px;
-    }
-  }
-  .bLabel {
-    .fas {
-      margin-left: 10px;
-      font-size: 20px;
-    }
-  }
-
-  .displaySetting {
-    display: flex;
-    margin-bottom: 20px;
-    justify-content: space-between;
-
-    @media only screen and (max-width: 599px) {
-      flex-direction: column;
+    h2 {
+      margin-top: 0;
     }
 
-    .setupMode {
-      border: 1px solid #d1d1d1;
-      border-bottom: none;
-      background: #fff;
+    label.md-checkbox-label {
+      display: flex;
+      align-items: center;
+      height: auto;
+      .fas {
+        margin-left: 10px;
+        font-size: 20px;
+      }
+    }
+    .bLabel {
+      .fas {
+        margin-left: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .displaySetting {
+      display: flex;
+      margin-bottom: 20px;
+      justify-content: space-between;
 
       @media only screen and (max-width: 599px) {
-        margin-bottom: 20px;
+        flex-direction: column;
       }
-      .head {
-        padding: 0 20px;
-        color: #333;
-        font-weight: bold;
-        border-bottom: 1px solid #d1d1d1;
-      }
-      .body {
-        background: lighten(@rewardColor, 30%);
-        border-bottom: 1px solid #d1d1d1;
-      }
-      .md-field {
-        padding-top: 0;
-        min-height: 32px;
+
+      .setupMode {
+        border: 1px solid @stroke;
+        border-bottom: none;
+        background: @white;
+
+        @media only screen and (max-width: 599px) {
+          margin-bottom: 20px;
+        }
+        .head {
+          padding: 0 20px;
+          color: @white;
+          font-weight: bold;
+          border-bottom: 1px solid @stroke;
+          background: @blue;
+        }
+        .body {
+          border-bottom: 1px solid @stroke;
+        }
+        .md-field {
+          padding-top: 0;
+          min-height: 32px;
+        }
       }
     }
-  }
 
-  .md-checkbox.md-theme-default .md-checkbox-container {
-    border-color: rgba(51, 51, 51, 1);
-    --md-theme-default-background: #000;
-    --md-theme-default-accent: #fff;
-  }
-  .text-info {
-    line-height: 1.2;
-    .material-icons {
-      padding-right: 10px;
-      color: #5988bc;
+    .md-checkbox.md-theme-default .md-checkbox-container {
+      border-color: @white;
+      --md-theme-default-background: @blue;
+      --md-theme-default-accent: @white;
+    }
+    .text-info {
+      line-height: 1.2;
+      .material-icons {
+        padding-right: 10px;
+        color: #5988bc;
+      }
     }
   }
 }

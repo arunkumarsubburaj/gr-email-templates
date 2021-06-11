@@ -323,7 +323,6 @@ export default {
 </script>
 <style lang="less" scoped>
 @rewardColor: #f8f8f8;
-@pointsColor: #f3f3f3;
 .md-field .md-error {
   left: auto;
   right: 0;
@@ -342,28 +341,6 @@ export default {
   --md-theme-default-accent: #000;
   .md-radio {
     margin: 10px 0 0;
-  }
-}
-.rewardsMode {
-  .head {
-    background: @rewardColor;
-  }
-  .body {
-    background: lighten(@rewardColor, 30%);
-  }
-  .text-info {
-    background: lighten(@rewardColor, 35%);
-  }
-}
-.pointsMode {
-  .head {
-    background: @pointsColor;
-  }
-  .body {
-    background: lighten(@pointsColor, 30%);
-  }
-  .text-info {
-    background: lighten(@pointsColor, 35%);
   }
 }
 .radioTabs {

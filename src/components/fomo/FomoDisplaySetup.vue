@@ -224,8 +224,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@white: #ffffff;
 @blue: #187aff;
-@pointsColor: #f3f3f3;
+@stroke: #d1d1d1;
 .md-field .md-error {
   left: auto;
   right: 0;
@@ -233,12 +234,12 @@ export default {
 .bLabel {
   font-size: 1.2em;
   font-weight: 600;
-  color: #fff;
+  color: @white;
   margin: 0;
   background: @blue;
   padding: 20px;
   margin: -20px -20px 0;
-  border-bottom: 1px solid #d1d1d1;
+  border-bottom: 1px solid @stroke;
   &.noBG {
     background: none;
     color: @blue;
@@ -249,9 +250,9 @@ export default {
 }
 .splitDiv {
   width: 49%;
-  border: 1px solid #d1d1d1;
+  border: 1px solid @stroke;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  background: #fff;
+  background: @white;
   padding: 20px;
 
   @media only screen and (max-width: 599px) {
@@ -263,8 +264,8 @@ export default {
   }
 }
 .fullDiv {
-  border: 1px solid #d1d1d1;
-  background: #fff;
+  border: 1px solid @stroke;
+  background: @white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
 }
