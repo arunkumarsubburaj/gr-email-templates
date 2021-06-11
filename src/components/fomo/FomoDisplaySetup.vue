@@ -4,22 +4,13 @@
     <div class="displaySetting fullDiv visibleTo">
       <h6 class="bLabel noBG">Visible to:</h6>
       <div>
-        <span
-          class="status-btn"
-          :class="{ active: formData.visible_to == 'all' }"
-          @click="formData.visible_to = 'all'"
-        >
-          <md-icon class="icon-checkmark">done</md-icon>
-          <span>All Visitors</span>
-        </span>
-        <span
-          class="status-btn"
-          :class="{ active: formData.visible_to == 'guest' }"
-          @click="formData.visible_to = 'guest'"
-        >
-          <md-icon class="icon-checkmark">done</md-icon>
-          <span>Guest Users</span>
-        </span>
+        <md-field class="noMinHeight m-0 p-0">
+          <md-select v-model="formData.visible_to" name="visible_to">
+            <md-option value="all">All Users</md-option>
+            <md-option value="signed">Signed Users</md-option>
+            <md-option value="unsigned">Unsigned Users</md-option>
+          </md-select>
+        </md-field>
       </div>
     </div>
     <div class="displaySetting">
@@ -114,27 +105,6 @@
             >Pop up will appear on the first visit</md-checkbox
           >
         </div>
-        <h6 class="bLabel mt-20">Show on scroll percentage</h6>
-        <div>
-          <md-checkbox
-            v-model="formData.show_after_scroll"
-            :true-value="1"
-            :false-value="0"
-            >Set the percentage a visitor needs to scroll down the page for the
-            pop up to appear</md-checkbox
-          >
-        </div>
-        <md-field
-          :class="{ 'md-invalid': errors.scroll, 'mt-20': true }"
-          v-if="formData.show_after_scroll == 1"
-        >
-          <label>Scroll Percentage</label>
-          <md-input
-            v-model="formData.scroll_percentage"
-            type="number"
-          ></md-input>
-          <span class="md-error" v-if="errors.scroll">{{ errors.scroll }}</span>
-        </md-field>
       </div>
       <div class="splitDiv">
         <h6 class="bLabel">Show on exit intent</h6>
@@ -147,24 +117,41 @@
             leave your website</md-checkbox
           >
         </div>
-        <h6 class="bLabel mt-20">Show after time on page</h6>
-        <div>
-          <md-checkbox
-            v-model="formData.show_after_seconds"
-            :true-value="1"
-            :false-value="0"
-            >Set the number of seconds a visitor needs to be on your webpage
-            before the pop up appears</md-checkbox
-          >
-        </div>
-        <md-field
-          :class="{ 'md-invalid': errors.delay, 'mt-20': true }"
-          v-if="formData.show_after_seconds == 1"
-        >
+      </div>
+    </div>
+    <div class="displaySetting">
+      <div class="splitDiv">
+        <h6 class="bLabel">Show on scroll percentage</h6>
+        <md-field :class="{ 'md-invalid': errors.scroll, 'mt-20': true }">
+          <label>Scroll Percentage</label>
+          <md-input
+            v-model="formData.scroll_percentage"
+            type="number"
+          ></md-input>
+          <span class="md-error" v-if="errors.scroll">{{ errors.scroll }}</span>
+        </md-field>
+        <small class="text-info display-flex align-items-center">
+          <span class="material-icons">info</span>
+          <span>
+            Set the percentage a visitor needs to scroll down the page for the
+            pop up to appear.
+          </span>
+        </small>
+      </div>
+      <div class="splitDiv">
+        <h6 class="bLabel">Show after time on page</h6>
+        <md-field :class="{ 'md-invalid': errors.delay, 'mt-20': true }">
           <label>Delay Seconds</label>
           <md-input v-model="formData.seconds" type="number"></md-input>
           <span class="md-error" v-if="errors.delay">{{ errors.delay }}</span>
         </md-field>
+        <small class="text-info display-flex align-items-center">
+          <span class="material-icons">info</span>
+          <span>
+            Set the number of seconds a visitor needs to be on your webpage
+            before the pop up appears
+          </span>
+        </small>
       </div>
     </div>
     <div class="topControl formSubmit">
@@ -201,17 +188,13 @@ export default {
           ? delete this.errors["vertical"]
           : (this.errors.vertical = "Invalid input");
 
-        val.show_after_seconds
-          ? val.seconds && val.seconds >= 0
-            ? delete this.errors["delay"]
-            : (this.errors.delay = "Invalid input")
-          : delete this.errors["delay"];
+        val.seconds >= 0
+          ? delete this.errors["delay"]
+          : (this.errors.delay = "Invalid input");
 
-        val.show_after_scroll
-          ? val.scroll_percentage && val.scroll_percentage >= 0
-            ? delete this.errors["scroll"]
-            : (this.errors.scroll = "Invalid input")
-          : delete this.errors["scroll"];
+        val.scroll_percentage >= 0
+          ? delete this.errors["scroll"]
+          : (this.errors.scroll = "Invalid input");
       }
     }
   },
@@ -241,7 +224,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@rewardColor: #f8f8f8;
+@blue: #187aff;
 @pointsColor: #f3f3f3;
 .md-field .md-error {
   left: auto;
@@ -250,14 +233,15 @@ export default {
 .bLabel {
   font-size: 1.2em;
   font-weight: 600;
-  color: #000;
+  color: #fff;
   margin: 0;
-  background: @rewardColor;
+  background: @blue;
   padding: 20px;
   margin: -20px -20px 0;
   border-bottom: 1px solid #d1d1d1;
   &.noBG {
     background: none;
+    color: @blue;
     padding: 0;
     margin: 0;
     border-bottom: 0;
@@ -266,6 +250,7 @@ export default {
 .splitDiv {
   width: 49%;
   border: 1px solid #d1d1d1;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   background: #fff;
   padding: 20px;
 
@@ -280,6 +265,7 @@ export default {
 .fullDiv {
   border: 1px solid #d1d1d1;
   background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
 }
 .visibleTo {

@@ -3,7 +3,7 @@
     <div class="fixedHeaderBlock">
       <div class="fixedHeaderBlockInner">
         <div class="linkBackBlock">
-          <a class="link-back">
+          <a class="link-back" @click.prevent="handleBack">
             <i class="fa fa-long-arrow-left"></i>
           </a>
           <div class="title">
@@ -12,7 +12,9 @@
           </div>
         </div>
         <div>
-          <md-button class="md-raised">Discard</md-button>
+          <!-- <md-button class="md-raised" @click="handleBack"
+            >Discard</md-button
+          > -->
           <md-button
             class="md-raised md-accent"
             :disabled="Object.keys(hasError).length > 0"
@@ -126,11 +128,7 @@
           </div>
         </div>
         <div class="preview_block-template">
-          <!--<fomo-signup
-            preview="true"
-            :showPreview="activeTab"
-            :cData="dataForPreview"
-          ></fomo-signup>-->
+          <am-fomo :preview="dataForPreview"></am-fomo>
         </div>
         <div class="embed_visible" v-if="embedCode">
           <div class="title">
@@ -159,6 +157,7 @@
 </template>
 <script>
 // @ is an alias to /src
+import Vue from "vue";
 import Axios from "axios";
 import ColorPicker from "@/components/ColorPicker.vue";
 import CustomVariables from "@/components/CustomVariables.vue";
@@ -169,7 +168,8 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 
-//import "@/lit/test.js";
+window.Vue = Vue;
+require("@/lit/am-fomo.js");
 
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
@@ -297,6 +297,7 @@ export default {
       embedCode: false,
       message: "Some dummy text",
       fomoData: null,
+      fomoType: null,
       activeTab: null,
       quillEditor: {},
       eOptions: options,
@@ -307,25 +308,19 @@ export default {
 
   computed: {
     dataForPreview() {
-      let dd = {};
+      let dd = {
+        type: this.fomoType,
+        id_template: this.tempId,
+        show_screen: this.activeTab,
+        template: {
+          settings: {}
+        }
+      };
       this.fomoData.settings.forEach(data =>
         Object.keys(data.attributes).forEach(
-          key => (dd[key] = data.attributes[key].value)
+          key => (dd.template.settings[key] = data.attributes[key].value)
         )
       );
-      // let dd = {
-      //   type: "signup_bonus",
-      //   id_template: 1,
-      //   show_screen: "common",
-      //   template: {
-      //     settings: {}
-      //   }
-      // };
-      // this.fomoData.settings.forEach(data =>
-      //   Object.keys(data.attributes).forEach(
-      //     key => (dd.template.settings[key] = data.attributes[key].value)
-      //   )
-      // );
       return JSON.stringify(dd);
     }
   },
@@ -344,6 +339,9 @@ export default {
           console.log(e);
         }
       );
+    },
+    handleBack: function() {
+      this.$router.go(-1);
     },
     handleImgChange: function(e) {
       console.log(e, "event");
@@ -386,6 +384,7 @@ export default {
         `https://logesh.devam.pro/gr/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`
       ).then(({ data }) => {
         this.fomoData = data.data.attributes;
+        this.fomoType = data.data.type;
         this.dVars = data.data.attributes.dynamic_variables.split(",");
       });
     },
@@ -411,6 +410,7 @@ export default {
 <style lang="less" scoped>
 .fixedHeaderBlock .fixedHeaderBlockInner {
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 
   .linkBackBlock {
@@ -445,8 +445,18 @@ export default {
   margin: 6em 50px 4em;
   display: flex;
   justify-content: flex-start;
-
   ::v-deep {
+    .md-tab,
+    .md-tab-nav-button.md-active {
+      border-color: #007aff;
+      border-style: solid;
+    }
+    .md-tab-nav-button.md-active {
+      border-width: 0 1px;
+    }
+    .md-tab {
+      border-width: 0 1px 1px;
+    }
     .md-tabs-content {
       overflow: visible;
     }

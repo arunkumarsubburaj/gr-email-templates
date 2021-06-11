@@ -66,6 +66,9 @@ export default {
   background: #fafafa;
 }
 
+.m-0 {
+  margin: 0 !important;
+}
 .m-20 {
   margin: 20px !important;
 }
@@ -88,6 +91,9 @@ export default {
   margin-left: 20px !important;
 }
 
+.p-0 {
+  padding: 0 !important;
+}
 .p-20 {
   padding: 20px !important;
 }
@@ -123,6 +129,9 @@ export default {
 }
 .fieldError {
   color: red;
+}
+.noMinHeight {
+  min-height: 0;
 }
 
 #nav {

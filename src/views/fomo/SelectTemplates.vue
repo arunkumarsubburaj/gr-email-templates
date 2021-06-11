@@ -22,9 +22,20 @@
       <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-40 configSection">
           <h2>FOMO Summary</h2>
+          <md-card class="mb-20" v-if="fomoData.config_settings">
+            <md-card-content>
+              <div class="innerConfigSection">
+                <div class="handBand">
+                  <h3>This FOMO :</h3>
+                  <i
+                    class="fas fa-edit editIcn"
+                    v-on:click.stop.prevent="activeEdit = 'rewards'"
+                  ></i>
+                </div>
+              </div> </md-card-content
+          ></md-card>
           <md-card class="mb-20">
             <md-card-content>
-              <div v-if="fomoData.config_settings">config info</div>
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>This FOMO :</h3>
@@ -119,6 +130,10 @@
                   </li>
                 </ul>
               </div>
+            </md-card-content>
+          </md-card>
+          <md-card class="mb-20">
+            <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>This FOMO is :</h3>
@@ -246,7 +261,7 @@ export default {
   },
   methods: {
     handleBack: function() {
-      window.history.back();
+      this.$router.push("../");
     },
     closePopin: function() {
       this.activeEdit = false;
@@ -314,21 +329,16 @@ export default {
       color: #333;
     }
     .innerConfigSection {
-      padding-bottom: 20px;
-      border-bottom: 1px solid #d1d1d1;
-      &:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
-      }
-
       .handBand {
         display: flex;
         align-items: baseline;
-        background: #f8f8f8;
+        background: #187aff;
         padding: 16px;
         margin-bottom: 16px;
         border-bottom: 1px solid #d1d1d1;
+        color: #fff;
         h3 {
+          color: #fff;
           flex: 100%;
           margin: 0;
         }

@@ -688,16 +688,6 @@ export default {
 </style>
 
 <style lang="less">
-.fas,
-.fa {
-  color: #5988bc;
-  &:hover {
-    color: #4d6b8c;
-  }
-}
-.md-icon {
-  font-size: 18px !important;
-}
 .fomoList {
   margin-top: -38px;
   padding: 0 10%;
