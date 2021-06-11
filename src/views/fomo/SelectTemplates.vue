@@ -287,197 +287,197 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.fomoContainer {
-  margin: 0 auto;
-  display: flex;
-  max-width: 1600px;
-  min-height: 100vh;
-  overflow: visible;
-  padding-top: 100px;
+  .fomoContainer {
+    margin: 0 auto;
+    display: flex;
+    max-width: 1600px;
+    min-height: 100vh;
+    overflow: visible;
+    padding-top: 100px;
 
-  .md-card {
-    box-shadow: none;
-    border: 1px solid #d1d1d1;
+    .md-card {
+      box-shadow: none;
+      border: 1px solid #d1d1d1;
 
-    .md-card-content {
-      padding: 0;
-      &:last-of-type {
-        padding-bottom: 24px;
+      .md-card-content {
+        padding: 0;
+        &:last-of-type {
+          padding-bottom: 24px;
+        }
       }
     }
-  }
 
-  .configSection {
-    h2,
-    h3 {
-      margin-top: 0;
-      color: #333;
-    }
-    .innerConfigSection {
-      padding-bottom: 20px;
-      border-bottom: 1px solid #d1d1d1;
-      &:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
+    .configSection {
+      h2,
+      h3 {
+        margin-top: 0;
+        color: #333;
       }
-
-      .handBand {
-        display: flex;
-        align-items: baseline;
-        background: #f8f8f8;
-        padding: 16px;
-        margin-bottom: 16px;
+      .innerConfigSection {
+        padding-bottom: 20px;
         border-bottom: 1px solid #d1d1d1;
-        h3 {
-          flex: 100%;
-          margin: 0;
+        &:last-child {
+          padding-bottom: 0;
+          border-bottom: 0;
         }
-        .editIcn {
-          text-align: right;
-          cursor: pointer;
-        }
-      }
 
-      ul {
-        margin: 0;
-        padding-right: 24px;
+        .handBand {
+          display: flex;
+          align-items: baseline;
+          background: #f8f8f8;
+          padding: 16px;
+          margin-bottom: 16px;
+          border-bottom: 1px solid #d1d1d1;
+          h3 {
+            flex: 100%;
+            margin: 0;
+          }
+          .editIcn {
+            text-align: right;
+            cursor: pointer;
+          }
+        }
+
+        ul {
+          margin: 0;
+          padding-right: 24px;
+        }
       }
     }
   }
-}
 
-.poppin {
-  width: 100%;
-}
-
-.templateSection {
-  .otherTemplates {
+  .poppin {
     width: 100%;
   }
-  .template {
-    width: 33%;
-    margin: 0px 20px;
-    position: relative;
 
-    &-inner {
-      margin: 0;
-      background: #262321;
+  .templateSection {
+    .otherTemplates {
+      width: 100%;
+    }
+    .template {
+      width: 33%;
+      margin: 0px 20px;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      &:before {
-        content: "";
-        display: block;
-        padding-bottom: 80%;
-      }
-      &.active {
-        background-color: #43ef9f;
-      }
-      img {
-        width: 90%;
-        position: absolute;
-      }
-    }
-    &-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    &.activeTemplate {
-      width: calc(100% - 40px);
-      max-width: 100%;
-      margin-bottom: 1em;
-      figure {
+
+      &-inner {
+        margin: 0;
+        background: #262321;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         &:before {
           content: "";
           display: block;
-          padding-bottom: 50%;
+          padding-bottom: 80%;
+        }
+        &.active {
+          background-color: #43ef9f;
+        }
+        img {
+          width: 90%;
+          position: absolute;
+        }
+      }
+      &-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &.activeTemplate {
+        width: calc(100% - 40px);
+        max-width: 100%;
+        margin-bottom: 1em;
+        figure {
+          &:before {
+            content: "";
+            display: block;
+            padding-bottom: 50%;
+          }
         }
       }
     }
   }
-}
 </style>
 <style lang="less">
-@rewardColor: #f8f8f8;
-@pointsColor: #f3f3f3;
-.poppin {
-  .topControl.formSubmit {
-    position: fixed;
-    top: 12px;
-    z-index: 9999;
-    right: 12px;
-    justify-content: flex-end;
-    .md-button {
-      margin-left: 10px;
+  @rewardColor: #f8f8f8;
+  @pointsColor: #f3f3f3;
+  .poppin {
+    .topControl.formSubmit {
+      position: fixed;
+      top: 12px;
+      z-index: 9999;
+      right: 12px;
+      justify-content: flex-end;
+      .md-button {
+        margin-left: 10px;
+      }
     }
-  }
-  h2 {
-    margin-top: 0;
-  }
-
-  label.md-checkbox-label {
-    display: flex;
-    align-items: center;
-    height: auto;
-    .fas {
-      margin-left: 10px;
-      font-size: 20px;
-    }
-  }
-  .bLabel {
-    .fas {
-      margin-left: 10px;
-      font-size: 20px;
-    }
-  }
-
-  .displaySetting {
-    display: flex;
-    margin-bottom: 20px;
-    justify-content: space-between;
-
-    @media only screen and (max-width: 599px) {
-      flex-direction: column;
+    h2 {
+      margin-top: 0;
     }
 
-    .setupMode {
-      border: 1px solid #d1d1d1;
-      border-bottom: none;
-      background: #fff;
+    label.md-checkbox-label {
+      display: flex;
+      align-items: center;
+      height: auto;
+      .fas {
+        margin-left: 10px;
+        font-size: 20px;
+      }
+    }
+    .bLabel {
+      .fas {
+        margin-left: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .displaySetting {
+      display: flex;
+      margin-bottom: 20px;
+      justify-content: space-between;
 
       @media only screen and (max-width: 599px) {
-        margin-bottom: 20px;
+        flex-direction: column;
       }
-      .head {
-        padding: 0 20px;
-        color: #333;
-        font-weight: bold;
-        border-bottom: 1px solid #d1d1d1;
-      }
-      .body {
-        background: lighten(@rewardColor, 30%);
-        border-bottom: 1px solid #d1d1d1;
-      }
-      .md-field {
-        padding-top: 0;
-        min-height: 32px;
-      }
-    }
-  }
 
-  .md-checkbox.md-theme-default .md-checkbox-container {
-    border-color: rgba(51, 51, 51, 1);
-    --md-theme-default-background: #000;
-    --md-theme-default-accent: #fff;
-  }
-  .text-info {
-    line-height: 1.2;
-    .material-icons {
-      padding-right: 10px;
-      color: #5988bc;
+      .setupMode {
+        border: 1px solid #d1d1d1;
+        border-bottom: none;
+        background: #fff;
+
+        @media only screen and (max-width: 599px) {
+          margin-bottom: 20px;
+        }
+        .head {
+          padding: 0 20px;
+          color: #333;
+          font-weight: bold;
+          border-bottom: 1px solid #d1d1d1;
+        }
+        .body {
+          background: lighten(@rewardColor, 30%);
+          border-bottom: 1px solid #d1d1d1;
+        }
+        .md-field {
+          padding-top: 0;
+          min-height: 32px;
+        }
+      }
+    }
+
+    .md-checkbox.md-theme-default .md-checkbox-container {
+      border-color: rgba(51, 51, 51, 1);
+      --md-theme-default-background: #000;
+      --md-theme-default-accent: #fff;
+    }
+    .text-info {
+      line-height: 1.2;
+      .material-icons {
+        padding-right: 10px;
+        color: #5988bc;
+      }
     }
   }
-}
 </style>

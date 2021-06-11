@@ -564,6 +564,7 @@ export default {
 }
 .newFomoList {
   padding: 20px 50px;
+  position: relative;
 
   .new_list {
     display: flex;
@@ -607,6 +608,7 @@ export default {
     position: relative;
     height: 45px;
     padding: 10px;
+    font-size: 18px !important;
 
     span {
       background: #007aff;
@@ -624,7 +626,19 @@ export default {
       height: 16px;
     }
   }
+
+  .upcomingFomoList {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9;
+    opacity: 0.7;
+    left: 0;
+    top: 0;
+  }
 }
+
 .noData {
   padding: 20px;
   color: #2196f3;
@@ -688,72 +702,55 @@ export default {
 </style>
 
 <style lang="less">
-.fas,
-.fa {
-  color: #5988bc;
-  &:hover {
-    color: #4d6b8c;
+.fomoContainer {
+  .fas,
+  .fa {
+    color: #5988bc;
+    &:hover {
+      color: #4d6b8c;
+    }
   }
-}
-.md-icon {
-  font-size: 18px !important;
-}
-.fomoList {
-  margin-top: -38px;
-  padding: 0 10%;
-  .md-content {
-    .md-tab {
-      padding: 0;
+  .fomoList {
+    margin-top: -38px;
+    padding: 0 10%;
+    .md-content {
+      .md-tab {
+        padding: 0;
 
-      table {
-        width: calc(100% - 1px);
-        background-color: #fff;
-        td {
-          background-color: #fff;
+        table {
+          width: calc(100% - 1px);
+          td {
+            background-color: #fff;
+          }
         }
       }
     }
   }
-}
-
-.newFomoList {
-  position: relative;
-
-  .upcomingFomoList {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: white;
-    z-index: 9;
-    opacity: 0.7;
-    left: 0;
-    top: 0;
-  }
-}
-.fomo-tabs.md-tabs {
-  .md-tab-nav-button {
-    background: #474747;
-    border-left: 1px solid #777;
-    flex-grow: 1;
-    font-size: 13px;
-    color: #9e9e9e !important;
-    height: 38px;
-    max-width: 100% !important;
-    &:first-child {
-      border-left: none;
+  .fomo-tabs.md-tabs {
+    .md-tab-nav-button {
+      background: #474747;
+      border-left: 1px solid #777;
+      flex-grow: 1;
+      font-size: 13px;
+      color: #9e9e9e !important;
+      height: 38px;
+      max-width: 100% !important;
+      &:first-child {
+        border-left: none;
+      }
+      &.md-active {
+        background: #fff;
+        color: #007aff !important;
+        font-weight: 500;
+        font-size: 14px;
+      }
     }
-    &.md-active {
-      background: #fff;
-      color: #007aff !important;
-      font-weight: 500;
-      font-size: 14px;
-    }
-  }
 
-  &.md-theme-default .md-tabs-indicator {
-    background-color: #fff;
-    background-color: var(--md-theme-default-primary-on-background, #007aff);
-    top: 0;
+    &.md-theme-default .md-tabs-indicator {
+      background-color: #fff;
+      background-color: var(--md-theme-default-primary-on-background, #007aff);
+      top: 0;
+    }
   }
 }
 </style>
