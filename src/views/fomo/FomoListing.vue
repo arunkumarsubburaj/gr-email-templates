@@ -702,26 +702,18 @@ export default {
 </style>
 
 <style lang="less">
-.fomoContainer {
-  .fas,
-  .fa {
-    color: #5988bc;
-    &:hover {
-      color: #4d6b8c;
-    }
-  }
-  .fomoList {
-    margin-top: -38px;
-    padding: 0 10%;
-    .md-content {
-      .md-tab {
-        padding: 0;
+.fomoList {
+  margin-top: -38px;
+  padding: 0 10%;
+  .md-content {
+    .md-tab {
+      padding: 0;
 
-        table {
-          width: calc(100% - 1px);
-          td {
-            background-color: #fff;
-          }
+      table {
+        width: calc(100% - 1px);
+        background-color: #fff;
+        td {
+          background-color: #fff;
         }
       }
     }
