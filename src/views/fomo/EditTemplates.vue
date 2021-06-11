@@ -426,6 +426,18 @@ export default {
     }
   }
 
+  .topControl.formSubmit {
+    position: fixed;
+    top: 12px;
+    z-index: 9999;
+    right: 12px;
+    justify-content: flex-end;
+    .md-button {
+      margin-left: 10px;
+      margin-right: 0;
+    }
+  }
+
   .md-raised {
     border: 1px solid #d5d5d5;
     color: #202020;
