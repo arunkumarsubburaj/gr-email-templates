@@ -7,7 +7,9 @@
             <i class="fa fa-long-arrow-left"></i>
           </a>
           <div class="title">
-            <md-icon class="icon">bookmark_outline</md-icon>
+            <md-icon class="icon">
+              <i :class="`fomoIcon icon_${fomoType}`"></i>
+            </md-icon>
             <span>{{ fomoData.name }}</span>
           </div>
         </div>
@@ -153,6 +155,7 @@
         </div>
       </div>
     </div>
+    <Loader :status="loader" />
   </div>
 </template>
 <script>
@@ -167,9 +170,9 @@ import { quillEditor } from "vue-quill-editor"; // require styles
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import Loader from "@/components/Loader.vue";
 
 window.Vue = Vue;
-require("@/lit/am-fomo.js");
 
 var Parchment = Quill.import("parchment");
 var Delta = Quill.import("delta");
@@ -287,7 +290,8 @@ export default {
     ColorPicker,
     ImgUploadPreview,
     quillEditor,
-    CustomVariables
+    CustomVariables,
+    Loader
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl"],
   data: function() {
@@ -302,7 +306,8 @@ export default {
       quillEditor: {},
       eOptions: options,
       dVars: null,
-      hasError: {}
+      hasError: {},
+      loader: false
     };
   },
 
@@ -389,7 +394,7 @@ export default {
       });
     },
     handleSave: function() {
-      console.log(this.fomoData);
+      this.loader = true;
       const params = {
         is_activated: 1,
         settings: JSON.stringify(this.fomoData.settings)
@@ -399,11 +404,19 @@ export default {
         this.createFormData(params)
       ).then(res => {
         console.log(res);
+        this.loader = false;
       });
     }
   },
   mounted: function() {
     this.fetchFomoData();
+    const plugin = document.createElement("script");
+    plugin.setAttribute(
+      "src",
+      "https://logesh1987.github.io/am-fomo/dist/am-fomo.js"
+    );
+    plugin.async = true;
+    document.head.appendChild(plugin);
   }
 };
 </script>
@@ -422,7 +435,7 @@ export default {
     border-right: 1px solid #eaeaea;
 
     .icon {
-      height: 35px;
+      font-size: 15px !important;
     }
   }
 

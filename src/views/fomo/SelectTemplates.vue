@@ -11,9 +11,11 @@
             ><md-tooltip md-direction="right">Back</md-tooltip></i
           >
         </a>
-        <div class="title">
-          <div class="icon far fa-bookmark margin-right-10"></div>
-          <span>Signup Bonus FOMO</span>
+        <div class="title" v-if="fomoData">
+          <div class="icon margin-right-10">
+            <i :class="`fomoIcon icon_${fomoType}`"></i>
+          </div>
+          <span>{{ fomoData.name }}</span>
         </div>
       </div>
     </div>
@@ -144,16 +146,7 @@
                 </div>
                 <ul>
                   <li>Visible to {{ dInfo.visible_to }}</li>
-                  <li v-if="dInfo.show_on_home_page">
-                    Displayed only in home page
-                  </li>
-                  <li v-else>
-                    {{
-                      dInfo.show_on_pages.length
-                        ? `Displayed on pages ${dInfo.show_on_pages}`
-                        : "Displayed on all pages"
-                    }}
-                  </li>
+                  <li>Displayed only in {{ dInfo.show_on_page }} page</li>
                   <li v-if="dInfo.show_on_first_visit == 1">
                     Displayed on first visit only
                   </li>
@@ -242,6 +235,7 @@ export default {
     return {
       fomoId: this.$route.params.fomoId,
       fomoData: null,
+      fomoType: null,
       templateData: null,
       contentData: null,
       activeEdit: false,
@@ -293,7 +287,8 @@ export default {
     Axios.get(
       `https://logesh.devam.pro/gr/fomo/getDetails?id=${this.fomoId}&id_shop=1916&admin_email=logesh@appsmav.com`
     ).then(({ data }) => {
-      const { attributes, relationship, includes } = data;
+      const { attributes, relationship, includes, type } = data;
+      this.fomoType = type;
       this.fomoData = attributes;
       this.contentData = relationship;
       this.templateData = includes.templates;

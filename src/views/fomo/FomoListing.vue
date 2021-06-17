@@ -7,8 +7,8 @@
           moment, please try back later
         </div>
       </div>
-      <div class="fomo_block" v-else>
-        <div v-if="loading">Loading....</div>
+      <Loader :status="loader" />
+      <div class="fomo_block">
         <div class="active_fomo">
           <div class="fomoHeader">
             <div>
@@ -167,6 +167,7 @@
             >
               <md-icon class="fomo_icon">
                 <span>V</span>
+                <i :class="`fomoIcon icon_${template.type}`"></i>
               </md-icon>
               <div class="fomo_details">
                 <h3>{{ template.attributes.name }}</h3>
@@ -217,6 +218,7 @@
               >
                 <md-icon class="fomo_icon">
                   <span>V</span>
+                  <i :class="`fomoIcon icon_${template.type}`"></i>
                 </md-icon>
                 <div class="fomo_details">
                   <h3>{{ template.attributes.name }}</h3>
@@ -240,15 +242,17 @@
 // @ is an alias to /src
 import Axios from "axios";
 //import Loader from "@/components/Loader.vue";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "FomoListing",
   mixins: ["createFormData"],
+  components: { Loader },
   data: function() {
     return {
       listData: null,
       templates: [],
-      loading: true,
+      loader: true,
       errored: false,
       showNavigation: false,
       showSidepanel: false
@@ -274,7 +278,7 @@ export default {
           console.log(error);
           this.errored = true;
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.loader = false));
     },
 
     fetchAllFomo: function() {
@@ -288,7 +292,7 @@ export default {
           console.log(error);
           this.errored = true;
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.loader = false));
     },
     createFomo: function(id) {
       Axios.post(
@@ -325,7 +329,7 @@ export default {
           console.log(error);
           this.errored = true;
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.loader = false));
 
       // Change status using ID & !status
     }

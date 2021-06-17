@@ -134,6 +134,26 @@ export default {
   min-height: 0;
 }
 
+.fomoIcon {
+  font-family: "Font Awesome 5 Pro";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+.icon_signup_bonus:before {
+  content: "\f234";
+  font-size: 0.9em;
+}
+.icon_newsletter:before {
+  content: "\f1ea";
+}
+.icon_new_product_release:before {
+  content: "\f5d2";
+}
+.icon_next_rewards:before {
+  content: "\f2f2";
+}
+
 #nav {
   padding: 30px;
 
@@ -339,11 +359,15 @@ export default {
       .icon {
         padding: 10px;
         border-radius: 50%;
-        width: 35px;
+        width: 40px;
+        height: 40px;
         background: #e2f3ff;
         color: #5988bc;
         position: relative;
         margin-right: 10px;
+        i.fomoIcon {
+          font-size: 1.2em;
+        }
       }
     }
   }
