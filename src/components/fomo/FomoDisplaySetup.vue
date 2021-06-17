@@ -16,13 +16,20 @@
     <div class="displaySetting">
       <div class="splitDiv">
         <h6 class="bLabel">Page Display</h6>
-        <div>
+        <div class="display-flex pageDisplay align-items-center">
+          <label>Display FOMO in</label>
+          <md-field>
+            <md-select name="show_on_page" v-model="formData.show_on_page">
+              <md-option value="all">All pages</md-option>
+              <md-option value="home">Home page only</md-option>
+              <md-option value="specific">Specific pages</md-option>
+            </md-select>
+          </md-field>
+        </div>
+        <div v-if="formData.show_on_page == 'specific'">
           <md-field>
             <label>Show on specific page(s)</label>
-            <md-input
-              v-model="formData.show_on_pages"
-              :disabled="formData.show_on_home_page == 1"
-            ></md-input>
+            <md-input v-model="formData.specific_pages"></md-input>
           </md-field>
           <small class="text-info display-flex align-items-center">
             <span class="material-icons">info</span>
@@ -32,12 +39,6 @@
             </span>
           </small>
         </div>
-        <md-checkbox
-          v-model="formData.show_on_home_page"
-          :true-value="1"
-          :false-value="0"
-          >Show on home page</md-checkbox
-        >
       </div>
       <div class="splitDiv">
         <h6 class="bLabel">Positioning</h6>
@@ -51,29 +52,31 @@
             >
           </md-select>
         </md-field>
-        <div class="form-group dis-flex">
-          <md-field :class="{ 'md-invalid': errors.horizontal }">
-            <label>Horizontal Position (px)</label>
-            <md-input
-              v-model="formData.horizontal"
-              type="number"
-              required
-            ></md-input>
-            <span class="md-suffix">pixels</span>
-            <span class="md-error" v-if="errors.horizontal">{{
-              errors.horizontal
-            }}</span>
-          </md-field>
-        </div>
-        <div class="form-group dis-flex">
-          <md-field :class="{ 'md-invalid': errors.vertical }">
-            <label>Vertical Position (px)</label>
-            <md-input v-model="formData.vertical" type="number"></md-input>
-            <span class="md-suffix">pixels</span>
-            <span class="md-error" v-if="errors.vertical">{{
-              errors.vertical
-            }}</span>
-          </md-field>
+        <div class="display-flex hv-position justify-content-space-between">
+          <div class="form-group display-flex">
+            <md-field :class="{ 'md-invalid': errors.horizontal }">
+              <label>Horizontal Position (px)</label>
+              <md-input
+                v-model="formData.horizontal"
+                type="number"
+                required
+              ></md-input>
+              <span class="md-suffix">pixels</span>
+              <span class="md-error" v-if="errors.horizontal">{{
+                errors.horizontal
+              }}</span>
+            </md-field>
+          </div>
+          <div class="form-group display-flex">
+            <md-field :class="{ 'md-invalid': errors.vertical }">
+              <label>Vertical Position (px)</label>
+              <md-input v-model="formData.vertical" type="number"></md-input>
+              <span class="md-suffix">pixels</span>
+              <span class="md-error" v-if="errors.vertical">{{
+                errors.vertical
+              }}</span>
+            </md-field>
+          </div>
         </div>
       </div>
     </div>
@@ -246,6 +249,19 @@ export default {
     padding: 0;
     margin: 0;
     border-bottom: 0;
+  }
+}
+.hv-position {
+  .display-flex {
+    width: 48%;
+  }
+}
+.pageDisplay {
+  > label {
+    white-space: nowrap;
+    padding-right: 1em;
+    padding-bottom: 0.4em;
+    font-size: 1.1em;
   }
 }
 .splitDiv {

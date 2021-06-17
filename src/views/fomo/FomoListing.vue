@@ -27,7 +27,14 @@
           </div>
           <div class="fomoList" v-if="listData">
             <md-tabs class="fomo-tabs" md-alignment="fixed">
-              <md-tab id="tab-home" md-label="Active Prompts (5)">
+              <md-tab
+                id="tab-home"
+                :md-label="
+                  `Active Prompts ${
+                    activeFomo.length ? `(${activeFomo.length})` : ''
+                  }`
+                "
+              >
                 <div
                   class="table-responsive tableList"
                   v-if="activeFomo.length"
@@ -51,22 +58,6 @@
                         <td class="font-size-small">
                           {{ data.type }}
                         </td>
-                        <!--<td class="font-size-mid" v-text="data.clicks">
-                          {{ data.clicks }}
-                        </td>
-                        <td>
-                          <div class="icon_block">
-                            <md-icon class="fomo_icon visible-green"
-                              >person</md-icon
-                            >
-                            <md-icon class="fomo_icon visible-pink"
-                              >person</md-icon
-                            >
-                            <md-icon class="fomo_icon visible-orange"
-                              >person</md-icon
-                            >
-                          </div>
-                        </td>-->
                         <td class="align-center">
                           <label
                             class="switch"
@@ -97,7 +88,14 @@
                   No active FOMOs available
                 </div>
               </md-tab>
-              <md-tab id="tab-pages" md-label="PausedPrompts(3)">
+              <md-tab
+                id="tab-pages"
+                :md-label="
+                  `Paused Prompts ${
+                    inactiveFomo.length ? `(${inactiveFomo.length})` : ''
+                  }`
+                "
+              >
                 <div
                   class="table-responsive tableList"
                   v-if="inactiveFomo.length"

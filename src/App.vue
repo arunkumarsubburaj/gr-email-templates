@@ -121,6 +121,9 @@ export default {
 .align-items-start {
   align-items: flex-start;
 }
+.justify-content-space-between {
+  justify-content: space-between;
+}
 .align-items-center {
   align-items: center;
 }
