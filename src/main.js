@@ -14,6 +14,22 @@ if (window.location.origin.includes("localhost")) {
   };
 }
 
+// FOMO API
+/* Get API callback URL */
+Vue.prototype.$callback_url = "https://logesh.devam.pro/gr";
+Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
+
+// var hostname = window.location.hostname;
+// var pathname = window.location.pathname;
+
+// if (hostname == 'localhost') {
+//   Vue.prototype.$callback_url = 'https://naren.devam.pro/gr/';
+// } else if (pathname.includes("/gr/")) {
+//   Vue.prototype.$callback_url = 'https://' + hostname + '/gr/';
+// } else {
+//   Vue.prototype.$callback_url = 'https://' + hostname + '/';
+// }
+
 new Vue({
   router,
   store,

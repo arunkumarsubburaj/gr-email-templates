@@ -165,7 +165,12 @@
         >
           <div class="template activeTemplate">
             <figure class="template-inner">
-              <img :src="activeTemplate.attributes.image_url" alt="" />
+              <img
+                :src="
+                  getAssetUrl(`fomo/theme/${fomoType}_${activeTemplate.id}.png`)
+                "
+                alt=""
+              />
             </figure>
             <figcaption class="template-info">
               <p>{{ activeTemplate.attributes.name }}</p>
@@ -187,7 +192,12 @@
               :key="template.id"
             >
               <figure class="template-inner">
-                <img :src="template.attributes.image_url" alt="" />
+                <img
+                  :src="
+                    getAssetUrl(`fomo/theme/${fomoType}_${template.id}.png`)
+                  "
+                  alt=""
+                />
               </figure>
               <figcaption class="template-info">
                 <p>{{ template.attributes.name }}</p>
@@ -222,6 +232,7 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 import Axios from "axios";
 import FomoDisplaySetup from "@/components/fomo/FomoDisplaySetup.vue";
 import FomoRewardSetup from "@/components/fomo/FomoRewardSetup.vue";
@@ -230,7 +241,7 @@ import Loader from "@/components/Loader.vue";
 export default {
   name: "SelectTemplates",
   components: { FomoDisplaySetup, FomoRewardSetup, Loader },
-  mixins: ["renderTemplate"],
+  mixins: ["renderTemplate", "getAssetUrl"],
   data: function() {
     return {
       fomoId: this.$route.params.fomoId,
@@ -263,7 +274,7 @@ export default {
     saveDisplay: function(params) {
       this.loader = true;
       Axios.post(
-        `https://logesh.devam.pro/gr/fomo/updateDisplaySettings?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/updateDisplaySettings?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
@@ -274,7 +285,7 @@ export default {
     saveRewards: function(params) {
       this.loader = true;
       Axios.post(
-        `https://logesh.devam.pro/gr/fomo/updateRewards?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/updateRewards?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
@@ -285,7 +296,7 @@ export default {
   },
   mounted: function() {
     Axios.get(
-      `https://logesh.devam.pro/gr/fomo/getDetails?id=${this.fomoId}&id_shop=1916&admin_email=logesh@appsmav.com`
+      `${Vue.prototype.$callback_url}/fomo/getDetails?id=${this.fomoId}&id_shop=1916&admin_email=logesh@appsmav.com`
     ).then(({ data }) => {
       const { attributes, relationship, includes, type } = data;
       this.fomoType = type;
@@ -383,7 +394,9 @@ export default {
         }
         img {
           width: 90%;
+          height: 90%;
           position: absolute;
+          object-fit: contain;
         }
       }
       &-info {

@@ -386,7 +386,7 @@ export default {
     },
     fetchFomoData: function() {
       Axios.get(
-        `https://logesh.devam.pro/gr/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`
+        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`
       ).then(({ data }) => {
         this.fomoData = data.data.attributes;
         this.fomoType = data.data.type;
@@ -400,7 +400,7 @@ export default {
         settings: JSON.stringify(this.fomoData.settings)
       };
       Axios.post(
-        `https://logesh.devam.pro/gr/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData(params)
       ).then(res => {
         console.log(res);
@@ -413,7 +413,7 @@ export default {
     const plugin = document.createElement("script");
     plugin.setAttribute(
       "src",
-      "https://logesh1987.github.io/am-fomo/dist/am-fomo.js"
+      `${Vue.prototype.$asset_url}/assets/js/fomo/am-fomo.js`
     );
     plugin.async = true;
     document.head.appendChild(plugin);

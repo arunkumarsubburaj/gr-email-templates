@@ -38,6 +38,9 @@ Vue.mixin({
       }
       return formData;
     },
+    getAssetUrl: function(url) {
+      return `${Vue.prototype.$asset_url}/assets/img/${url}`;
+    },
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
     }

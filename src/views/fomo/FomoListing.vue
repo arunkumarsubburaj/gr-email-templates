@@ -238,6 +238,7 @@
 
 <script>
 // @ is an alias to /src
+import Vue from "vue";
 import Axios from "axios";
 //import Loader from "@/components/Loader.vue";
 import Loader from "@/components/Loader.vue";
@@ -267,7 +268,7 @@ export default {
   methods: {
     fetchSiteFomo: function() {
       Axios.get(
-        "https://logesh.devam.pro/gr/fomo?id_shop=1916&admin_email=logesh@appsmav.com"
+        `${Vue.prototype.$callback_url}/fomo?id_shop=1916&admin_email=logesh@appsmav.com`
       )
         .then(({ data }) => {
           this.listData = data.data;
@@ -281,7 +282,7 @@ export default {
 
     fetchAllFomo: function() {
       Axios.get(
-        "https://logesh.devam.pro/gr/fomo/all?id_shop=1916&admin_email=logesh@appsmav.com"
+        `${Vue.prototype.$callback_url}/fomo/all?id_shop=1916&admin_email=logesh@appsmav.com`
       )
         .then(({ data }) => {
           this.templates = data.data;
@@ -294,7 +295,7 @@ export default {
     },
     createFomo: function(id) {
       Axios.post(
-        "https://logesh.devam.pro/gr/fomo?id_shop=1916&admin_email=logesh@appsmav.com",
+        `${Vue.prototype.$callback_url}/fomo?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData({ id: id })
       ).then(({ data }) => {
         this.$router.push(`edit/${data.data.id}`);
@@ -306,7 +307,7 @@ export default {
         status: status == 0 ? 1 : 0
       };
       Axios.post(
-        "https://logesh.devam.pro/gr/fomo/updateStatus?id_shop=1916&admin_email=logesh@appsmav.com",
+        `${Vue.prototype.$callback_url}/fomo/updateStatus?id_shop=1916&admin_email=logesh@appsmav.com`,
         this.createFormData(params)
       )
         .then(({ data }) => {
@@ -707,31 +708,31 @@ export default {
       }
     }
   }
-  .fomo-tabs.md-tabs {
-    .md-tab-nav-button {
-      background: #474747;
-      border-left: 1px solid #777;
-      flex-grow: 1;
-      font-size: 13px;
-      color: #9e9e9e !important;
-      height: 38px;
-      max-width: 100% !important;
-      &:first-child {
-        border-left: none;
-      }
-      &.md-active {
-        background: #fff;
-        color: @blue !important;
-        font-weight: 500;
-        font-size: 14px;
-      }
+}
+.fomo-tabs.md-tabs {
+  .md-tab-nav-button {
+    background: #474747;
+    border-left: 1px solid #777;
+    flex-grow: 1;
+    font-size: 13px;
+    color: #9e9e9e !important;
+    height: 38px;
+    max-width: 100% !important;
+    &:first-child {
+      border-left: none;
     }
+    &.md-active {
+      background: #fff;
+      color: @blue !important;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
 
-    &.md-theme-default .md-tabs-indicator {
-      background-color: #fff;
-      background-color: var(--md-theme-default-primary-on-background, @blue);
-      top: 0;
-    }
+  &.md-theme-default .md-tabs-indicator {
+    background-color: #fff;
+    background-color: var(--md-theme-default-primary-on-background, @blue);
+    top: 0;
   }
 }
 </style>
