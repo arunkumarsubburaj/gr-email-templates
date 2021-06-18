@@ -268,7 +268,7 @@ export default {
   methods: {
     fetchSiteFomo: function() {
       Axios.get(
-        `${Vue.prototype.$callback_url}/fomo?id_shop=1916&admin_email=logesh@appsmav.com`
+        `${Vue.prototype.$callback_url}/fomo?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
       )
         .then(({ data }) => {
           this.listData = data.data;
@@ -282,7 +282,7 @@ export default {
 
     fetchAllFomo: function() {
       Axios.get(
-        `${Vue.prototype.$callback_url}/fomo/all?id_shop=1916&admin_email=logesh@appsmav.com`
+        `${Vue.prototype.$callback_url}/fomo/all?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
       )
         .then(({ data }) => {
           this.templates = data.data;
@@ -295,7 +295,7 @@ export default {
     },
     createFomo: function(id) {
       Axios.post(
-        `${Vue.prototype.$callback_url}/fomo?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ id: id })
       ).then(({ data }) => {
         this.$router.push(`edit/${data.data.id}`);
@@ -307,7 +307,7 @@ export default {
         status: status == 0 ? 1 : 0
       };
       Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateStatus?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/updateStatus?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData(params)
       )
         .then(({ data }) => {

@@ -274,7 +274,7 @@ export default {
     saveDisplay: function(params) {
       this.loader = true;
       Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateDisplaySettings?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/updateDisplaySettings?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
@@ -285,7 +285,7 @@ export default {
     saveRewards: function(params) {
       this.loader = true;
       Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateRewards?id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/updateRewards?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ ...params, id: this.fomoId })
       ).then(res => {
         console.log(res);
@@ -296,7 +296,7 @@ export default {
   },
   mounted: function() {
     Axios.get(
-      `${Vue.prototype.$callback_url}/fomo/getDetails?id=${this.fomoId}&id_shop=1916&admin_email=logesh@appsmav.com`
+      `${Vue.prototype.$callback_url}/fomo/getDetails?id=${this.fomoId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
     ).then(({ data }) => {
       const { attributes, relationship, includes, type } = data;
       this.fomoType = type;

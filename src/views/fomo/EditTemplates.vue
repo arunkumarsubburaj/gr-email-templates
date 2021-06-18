@@ -386,7 +386,7 @@ export default {
     },
     fetchFomoData: function() {
       Axios.get(
-        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`
+        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
       ).then(({ data }) => {
         this.fomoData = data.data.attributes;
         this.fomoType = data.data.type;
@@ -400,7 +400,7 @@ export default {
         settings: JSON.stringify(this.fomoData.settings)
       };
       Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=1916&admin_email=logesh@appsmav.com`,
+        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData(params)
       ).then(res => {
         console.log(res);

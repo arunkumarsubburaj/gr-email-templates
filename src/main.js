@@ -17,6 +17,8 @@ if (window.location.origin.includes("localhost")) {
 // FOMO API
 /* Get API callback URL */
 Vue.prototype.$callback_url = "https://logesh.devam.pro/gr";
+Vue.prototype.$shop_id = "1916";
+Vue.prototype.$email = "logesh@appsmav.com";
 Vue.prototype.$asset_url = `${Vue.prototype.$callback_url}/public`;
 
 // var hostname = window.location.hostname;
