@@ -263,7 +263,7 @@
         class="md-raised md-accent"
         :disabled="Object.keys(errors).length > 0"
         @click.prevent="handleSave"
-        >Save</md-button
+        >{{ newFomo ? "Save & Proceed" : "Save" }}</md-button
       >
     </div>
   </div>
@@ -273,7 +273,7 @@
 
 export default {
   name: "FomoRewardSetup",
-  props: ["data", "close", "save"],
+  props: ["data", "close", "save", "newFomo"],
   // components: { ImgUploadPreview },
   data: function() {
     return {
@@ -308,9 +308,6 @@ export default {
             ? delete this.errors["instant_reward_lnk"]
             : (this.errors.instant_reward_lnk = "Invalid input");
         }
-
-        console.log(this.formData);
-        console.log(this.errors);
       }
     }
   },

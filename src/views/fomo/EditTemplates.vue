@@ -142,7 +142,7 @@
           <textarea
             class="iframe-block"
             id="copiedText"
-            v-model="message"
+            value="dasd564"
           ></textarea>
           <div class="link-block">
             <a href="#" class="">API Reference</a>
@@ -155,6 +155,14 @@
         </div>
       </div>
     </div>
+    <md-snackbar
+      class="msgSnack"
+      md-position="center"
+      :md-duration="4000"
+      :md-active.sync="apiMessage"
+    >
+      <span v-html="apiResponse"></span>
+    </md-snackbar>
     <Loader :status="loader" />
   </div>
 </template>
@@ -307,7 +315,9 @@ export default {
       eOptions: options,
       dVars: null,
       hasError: {},
-      loader: false
+      loader: false,
+      apiMessage: false,
+      apiResponse: null
     };
   },
 
@@ -402,10 +412,17 @@ export default {
       Axios.post(
         `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData(params)
-      ).then(res => {
-        console.log(res);
-        this.loader = false;
-      });
+      )
+        .then(({ data }) => {
+          this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .catch(({ data }) => {
+          console.log(data);
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .finally(() => (this.loader = false));
     }
   },
   mounted: function() {

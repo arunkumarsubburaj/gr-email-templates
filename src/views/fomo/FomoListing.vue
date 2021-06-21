@@ -43,7 +43,7 @@
                     <thead>
                       <tr>
                         <th>FOMO Name</th>
-                        <th>Category</th>
+                        <!-- <th>Category</th> -->
                         <!--<th>Clicks</th>
                         <th>Visible to</th>-->
                         <th class="align-center">Status</th>
@@ -55,9 +55,9 @@
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
                         </td>
-                        <td class="font-size-small">
+                        <!-- <td class="font-size-small">
                           {{ data.type }}
-                        </td>
+                        </td> -->
                         <td class="align-center">
                           <label
                             class="switch"
@@ -104,7 +104,7 @@
                     <thead>
                       <tr>
                         <th>FOMO Name</th>
-                        <th>Category</th>
+                        <!-- <th>Category</th> -->
                         <!--<th>Clicks</th>
                         <th>Visible to</th>-->
                         <th class="align-center">Status</th>
@@ -116,10 +116,10 @@
                         <td class="font-size-mid">
                           {{ data.attributes.name }}
                         </td>
-                        <td class="font-size-small">
+                        <!-- <td class="font-size-small">
                           {{ data.type }}
-                        </td>
-                        <td>
+                        </td> -->
+                        <td class="align-center">
                           <label
                             class="switch"
                             :for="data.id"
@@ -179,28 +179,6 @@
               >
             </div>
           </div>
-          <!-- <div class="titleBlock">
-            <h2>Upcoming templates</h2>
-          </div>
-          <div class="newFomoList">
-            <div class="upcomingFomoList"></div>
-            <div
-              class="new_list"
-              v-for="template in uTemplates"
-              :key="template.fomoIcon"
-            >
-              <md-icon class="fomo_icon">
-                {{ template.fomoIcon }}
-                <span v-if="template.fomoNotification">{{
-                  template.fomoNotification
-                }}</span>
-              </md-icon>
-              <div class="fomo_details">
-                <h3>{{ template.fomoHead }}</h3>
-              </div>
-              <md-button :md-ripple="false" class="md-dense btn">Add</md-button>
-            </div>
-          </div> -->
         </div>
         <md-drawer class="md-right mobile" :md-active.sync="showSidepanel">
           <div class="create_fomo">
@@ -233,6 +211,14 @@
         </md-drawer>
       </div>
     </div>
+    <md-snackbar
+      class="msgSnack"
+      md-position="center"
+      :md-duration="4000"
+      :md-active.sync="apiMessage"
+    >
+      <span v-html="apiResponse"></span>
+    </md-snackbar>
   </div>
 </template>
 
@@ -254,7 +240,9 @@ export default {
       loader: true,
       errored: false,
       showNavigation: false,
-      showSidepanel: false
+      showSidepanel: false,
+      apiMessage: false,
+      apiResponse: null
     };
   },
   computed: {
@@ -298,7 +286,13 @@ export default {
         `${Vue.prototype.$callback_url}/fomo?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ id: id })
       ).then(({ data }) => {
-        this.$router.push(`edit/${data.data.id}`);
+        this.$router.push({
+          name: "FomoSelectTemplate",
+          params: {
+            fomoId: data.data.id,
+            newFomo: true
+          }
+        });
       });
     },
     updateStatus: function(id, status) {
@@ -306,6 +300,7 @@ export default {
         id: id,
         status: status == 0 ? 1 : 0
       };
+      this.loader = true;
       Axios.post(
         `${Vue.prototype.$callback_url}/fomo/updateStatus?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData(params)
@@ -320,13 +315,16 @@ export default {
                   }
                 : item
             );
+            this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           } else {
-            this.errored = true;
+            this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
           }
+          this.apiMessage = true;
         })
-        .catch(error => {
+        .catch(({ error }) => {
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${error.data.message}`;
+          this.apiMessage = true;
           console.log(error);
-          this.errored = true;
         })
         .finally(() => (this.loader = false));
 
@@ -481,12 +479,13 @@ export default {
 /* tableList table */
 .tableList {
   thead tr th {
-    background: #fff;
+    background: #eaeaea;
     font-weight: 500;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #b1b1b1;
     font-size: 12px;
     line-height: 15px;
-    color: #999;
+    color: #000;
+    font-weight: bold;
     padding: 10px;
     text-align: left;
   }
@@ -702,6 +701,7 @@ export default {
       table {
         width: calc(100% - 1px);
         background-color: #fff;
+        margin-bottom: 0;
         td {
           background-color: #fff;
         }

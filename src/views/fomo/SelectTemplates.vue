@@ -24,14 +24,14 @@
       <div class="md-layout md-gutter" v-if="activeEdit == false">
         <div class="md-layout-item md-size-40 configSection">
           <h2>FOMO Summary</h2>
-          <md-card class="mb-20" v-if="fomoData.config_settings">
+          <md-card class="mb-20" v-if="fomoData.config_setting">
             <md-card-content>
               <div class="innerConfigSection">
                 <div class="handBand">
                   <h3>This FOMO :</h3>
                   <i
                     class="fas fa-edit editIcn"
-                    v-on:click.stop.prevent="activeEdit = 'rewards'"
+                    v-on:click.stop.prevent="activeEdit = 'config'"
                   ></i>
                 </div>
               </div> </md-card-content
@@ -218,6 +218,7 @@
           :id="fomoId"
           :close="closePopin"
           :save="saveRewards"
+          :newFomo="newFomo"
         />
         <FomoDisplaySetup
           v-if="activeEdit == 'display'"
@@ -225,9 +226,18 @@
           :save="saveDisplay"
           :content="contentData"
           :close="closePopin"
+          :newFomo="newFomo"
         />
       </div>
     </div>
+    <md-snackbar
+      class="msgSnack"
+      md-position="center"
+      :md-duration="4000"
+      :md-active.sync="apiMessage"
+    >
+      <span v-html="apiResponse"></span>
+    </md-snackbar>
     <Loader :status="loader" />
   </div>
 </template>
@@ -242,6 +252,7 @@ export default {
   name: "SelectTemplates",
   components: { FomoDisplaySetup, FomoRewardSetup, Loader },
   mixins: ["renderTemplate", "getAssetUrl"],
+  props: ["newFomo"],
   data: function() {
     return {
       fomoId: this.$route.params.fomoId,
@@ -249,8 +260,10 @@ export default {
       fomoType: null,
       templateData: null,
       contentData: null,
-      activeEdit: false,
-      loader: false
+      activeEdit: false, // config || rewards || display
+      loader: false,
+      apiMessage: false,
+      apiResponse: null
     };
   },
   computed: {
@@ -276,34 +289,70 @@ export default {
       Axios.post(
         `${Vue.prototype.$callback_url}/fomo/updateDisplaySettings?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ ...params, id: this.fomoId })
-      ).then(res => {
-        console.log(res);
-        this.fomoData.display_settings = params;
-        this.loader = false;
-      });
+      )
+        .then(({ data }) => {
+          this.fomoData.display_settings = params;
+
+          this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+          if (this.newFomo) {
+            this.activeEdit = false;
+          }
+        })
+        .catch(({ data }) => {
+          console.log(data);
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .finally(() => (this.loader = false));
     },
     saveRewards: function(params) {
       this.loader = true;
       Axios.post(
         `${Vue.prototype.$callback_url}/fomo/updateRewards?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
         this.createFormData({ ...params, id: this.fomoId })
-      ).then(res => {
-        console.log(res);
-        this.loader = false;
-        this.fomoData.reward_settings = params;
-      });
+      )
+        .then(({ data }) => {
+          this.fomoData.reward_settings = params;
+          this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+          if (this.newFomo) {
+            this.activeEdit = "display";
+          }
+        })
+        .catch(({ data }) => {
+          console.log(data);
+          this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+          this.apiMessage = true;
+        })
+        .finally(() => (this.loader = false));
     }
   },
   mounted: function() {
+    this.loader = false;
     Axios.get(
       `${Vue.prototype.$callback_url}/fomo/getDetails?id=${this.fomoId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
-    ).then(({ data }) => {
-      const { attributes, relationship, includes, type } = data;
-      this.fomoType = type;
-      this.fomoData = attributes;
-      this.contentData = relationship;
-      this.templateData = includes.templates;
-    });
+    )
+      .then(({ data }) => {
+        const { attributes, relationship, includes, type } = data;
+        this.fomoType = type;
+        this.fomoData = attributes;
+        this.contentData = relationship;
+        this.templateData = includes.templates;
+        if (this.newFomo) {
+          this.fomoData.config_setting
+            ? (this.activeEdit = "config")
+            : this.fomoData.reward_settings
+            ? (this.activeEdit = "rewards")
+            : (this.activeEdit = "display");
+        }
+      })
+      .catch(({ data }) => {
+        this.apiResponse = `<i class="fas fa-exclamation-circle"></i> ${data.data.message}`;
+        this.apiMessage = true;
+        console.log(data);
+      })
+      .finally(() => (this.loader = false));
   }
 };
 </script>
