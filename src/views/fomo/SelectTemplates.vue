@@ -251,7 +251,7 @@ import Loader from "@/components/Loader.vue";
 export default {
   name: "SelectTemplates",
   components: { FomoDisplaySetup, FomoRewardSetup, Loader },
-  mixins: ["renderTemplate", "getAssetUrl"],
+  mixins: ["renderTemplate", "getAssetUrl", "getApiUrl"],
   props: ["newFomo"],
   data: function() {
     return {
@@ -285,11 +285,9 @@ export default {
       this.activeEdit = false;
     },
     saveDisplay: function(params) {
+      const url = this.getApiUrl("fomo/updateDisplaySettings");
       this.loader = true;
-      Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateDisplaySettings?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
-        this.createFormData({ ...params, id: this.fomoId })
-      )
+      Axios.post(url, this.createFormData({ ...params, id: this.fomoId }))
         .then(({ data }) => {
           this.fomoData.display_settings = params;
 
@@ -307,11 +305,9 @@ export default {
         .finally(() => (this.loader = false));
     },
     saveRewards: function(params) {
+      const url = this.getApiUrl("fomo/updateRewards");
       this.loader = true;
-      Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateRewards?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
-        this.createFormData({ ...params, id: this.fomoId })
-      )
+      Axios.post(url, this.createFormData({ ...params, id: this.fomoId }))
         .then(({ data }) => {
           this.fomoData.reward_settings = params;
           this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
@@ -329,10 +325,9 @@ export default {
     }
   },
   mounted: function() {
+    const url = this.getApiUrl(`fomo/getDetails?id=${this.fomoId}`);
     this.loader = false;
-    Axios.get(
-      `${Vue.prototype.$callback_url}/fomo/getDetails?id=${this.fomoId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
-    )
+    Axios.get(url)
       .then(({ data }) => {
         const { attributes, relationship, includes, type } = data;
         this.fomoType = type;

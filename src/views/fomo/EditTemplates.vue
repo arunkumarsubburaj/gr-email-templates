@@ -301,7 +301,7 @@ export default {
     CustomVariables,
     Loader
   },
-  mixins: ["createFormData", "renderTemplate", "getImgUrl"],
+  mixins: ["createFormData", "renderTemplate", "getImgUrl", "getApiUrl"],
   data: function() {
     return {
       id: this.$route.params.fomoId,
@@ -395,24 +395,23 @@ export default {
       }
     },
     fetchFomoData: function() {
-      Axios.get(
-        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
-      ).then(({ data }) => {
+      const url = this.getApiUrl(
+        `fomo/template?id=${this.id}&id_template=${this.tempId}`
+      );
+      Axios.get(url).then(({ data }) => {
         this.fomoData = data.data.attributes;
         this.fomoType = data.data.type;
         this.dVars = data.data.attributes.dynamic_variables.split(",");
       });
     },
     handleSave: function() {
+      const url = this.getApiUrl(`fomo/template?id=${this.id}`);
       this.loader = true;
       const params = {
         is_activated: 1,
         settings: JSON.stringify(this.fomoData.settings)
       };
-      Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/template?id=${this.id}&id_template=${this.tempId}&id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
-        this.createFormData(params)
-      )
+      Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
           this.apiResponse = `<i class="fas fa-check-circle"></i> ${data.data.message}`;
           this.apiMessage = true;

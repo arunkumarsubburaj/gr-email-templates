@@ -43,6 +43,14 @@ Vue.mixin({
     },
     getImgUrl: function(value) {
       return `${window.Config.s3_image_url}/${value}`;
+    },
+    getApiUrl: function(url) {
+      var hostname = window.location.hostname;
+      if (hostname == "localhost") {
+        return `${Vue.prototype.$callback_url}/${url}?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`;
+      } else {
+        return `${Vue.prototype.$callback_url}/${url}`;
+      }
     }
   }
 });

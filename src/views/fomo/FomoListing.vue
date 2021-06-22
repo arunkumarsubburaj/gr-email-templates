@@ -231,7 +231,7 @@ import Loader from "@/components/Loader.vue";
 
 export default {
   name: "FomoListing",
-  mixins: ["createFormData"],
+  mixins: ["createFormData", "getApiUrl"],
   components: { Loader },
   data: function() {
     return {
@@ -255,9 +255,8 @@ export default {
   },
   methods: {
     fetchSiteFomo: function() {
-      Axios.get(
-        `${Vue.prototype.$callback_url}/fomo?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
-      )
+      const url = this.getApiUrl("fomo");
+      Axios.get(url)
         .then(({ data }) => {
           this.listData = data.data;
         })
@@ -269,9 +268,8 @@ export default {
     },
 
     fetchAllFomo: function() {
-      Axios.get(
-        `${Vue.prototype.$callback_url}/fomo/all?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`
-      )
+      const url = this.getApiUrl("fomo/all");
+      Axios.get(url)
         .then(({ data }) => {
           this.templates = data.data;
         })
@@ -282,10 +280,8 @@ export default {
         .finally(() => (this.loader = false));
     },
     createFomo: function(id) {
-      Axios.post(
-        `${Vue.prototype.$callback_url}/fomo?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
-        this.createFormData({ id: id })
-      ).then(({ data }) => {
+      const url = this.getApiUrl("fomo");
+      Axios.post(url, this.createFormData({ id: id })).then(({ data }) => {
         this.$router.push({
           name: "FomoSelectTemplate",
           params: {
@@ -296,15 +292,13 @@ export default {
       });
     },
     updateStatus: function(id, status) {
+      const url = this.getApiUrl("fomo/updateStatus");
       const params = {
         id: id,
         status: status == 0 ? 1 : 0
       };
       this.loader = true;
-      Axios.post(
-        `${Vue.prototype.$callback_url}/fomo/updateStatus?id_shop=${Vue.prototype.$shop_id}&admin_email=${Vue.prototype.$email}`,
-        this.createFormData(params)
-      )
+      Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
           if (data.data.status === "success") {
             this.listData = this.listData.map(item =>
