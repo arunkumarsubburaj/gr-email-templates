@@ -242,7 +242,6 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
 import Axios from "axios";
 import FomoDisplaySetup from "@/components/fomo/FomoDisplaySetup.vue";
 import FomoRewardSetup from "@/components/fomo/FomoRewardSetup.vue";

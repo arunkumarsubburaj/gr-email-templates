@@ -224,7 +224,6 @@
 
 <script>
 // @ is an alias to /src
-import Vue from "vue";
 import Axios from "axios";
 //import Loader from "@/components/Loader.vue";
 import Loader from "@/components/Loader.vue";
