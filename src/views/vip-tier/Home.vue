@@ -157,7 +157,7 @@ export default {
         }
       ],
       accordionData: this.newUserListData,
-      isNewUser: true
+      isNewUser: false
     };
   },
   mounted() {
@@ -171,7 +171,7 @@ export default {
     },
     accordionItemSelected(eve) {
       console.log("from home component", eve);
-      eve.data.title = "Arun Kumar Subburaj...";
+      // eve.data.title = "Arun Kumar Subburaj...";
     }
   }
 };

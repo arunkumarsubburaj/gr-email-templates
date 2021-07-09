@@ -7,7 +7,13 @@
         :md-expand="data.listType === 'expansionlist'"
         @click="listItemclick($event, data)"
       >
-        <span class="md-list-item-text">{{ data.title }}</span>
+        <div class="md-list-item-text">
+          <span>{{ data.title }}</span>
+          <i
+            class="fas fa-chevron-right routeIcon"
+            v-if="data.listType === 'routeList'"
+          ></i>
+        </div>
         <section
           slot="md-expand"
           class="list-content-wrapper"
@@ -36,7 +42,7 @@ export default {
   },
   props: ["expandSingle", "dataSource"],
   methods: {
-    listItemclick: function(eve, data) {
+    listItemclick(eve, data) {
       if (data.listType === "routeList") {
         this.$router.push(data.routeLink).catch(err => {
           console.log(err);
@@ -48,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @list-width: 450px;
 
 .full-control {
@@ -72,5 +78,14 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 16px;
+}
+.amvip--landingList {
+  .md-list-item-text {
+    justify-content: space-around;
+    align-items: center;
+  }
+  .routeIcon {
+    width: auto;
+  }
 }
 </style>
