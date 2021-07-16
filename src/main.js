@@ -2,6 +2,17 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import Vuelidate from "vuelidate";
+
+import VueMaterial from "vue-material";
+import VueSimpleAccordion from "vue-simple-accordion";
+import "vue-material/dist/vue-material.min.css";
+import "vue-material/dist/theme/black-green-light.css";
+
+Vue.use(Vuelidate);
+
+Vue.use(VueMaterial);
+Vue.use(VueSimpleAccordion);
 
 Vue.config.productionTip = false;
 

@@ -83,9 +83,9 @@ export default {
   components: { ExpansionList },
   directives: { visible: visible },
   model: {
-    prop: "accordionData"
+    prop: "accordionData",
   },
-  data: function() {
+  data: () => {
     return {
       newUserListData: [
         {
@@ -95,7 +95,7 @@ export default {
           showMoreBtn: true,
           moreBtnLink: "#",
           moreBtnText: "Show More...",
-          key: 1
+          key: 1,
         },
         {
           listType: "expansionlist",
@@ -104,7 +104,7 @@ export default {
           showMoreBtn: true,
           moreBtnLink: "#",
           moreBtnText: "Show More...",
-          key: 2
+          key: 2,
         },
         {
           listType: "expansionlist",
@@ -113,7 +113,7 @@ export default {
           showMoreBtn: true,
           moreBtnLink: "#",
           moreBtnText: "Show More...",
-          key: 3
+          key: 3,
         },
         {
           listType: "expansionlist",
@@ -121,43 +121,43 @@ export default {
           content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
           moreBtnLink: "#",
           moreBtnText: "Show More...",
-          key: 4
-        }
+          key: 4,
+        },
       ],
       existingUserListData: [
         {
           listType: "routeList",
           title: "Edit Program",
           routeLink: "setup",
-          key: 1
+          key: 1,
         },
         {
           listType: "routeList",
           title: "Manage Reward",
           routeLink: "manage-reward",
-          key: 2
+          key: 2,
         },
         {
           listType: "routeList",
           title: "Add Tier",
           routeLink: "add-tier",
-          key: 3
+          key: 3,
         },
         {
           listType: "routeList",
           title: "Manage Tier",
           routeLink: "manage-tier",
-          key: 4
+          key: 4,
         },
         {
           listType: "routeList",
           title: "Edit Tier",
           routeLink: "edit-tier",
-          key: 5
-        }
+          key: 5,
+        },
       ],
       accordionData: this.newUserListData,
-      isNewUser: false
+      isNewUser: true,
     };
   },
   mounted() {
@@ -172,7 +172,7 @@ export default {
     accordionItemSelected(eve) {
       console.log("from home component", eve);
       // eve.data.title = "Arun Kumar Subburaj...";
-    }
-  }
+    },
+  },
 };
 </script>

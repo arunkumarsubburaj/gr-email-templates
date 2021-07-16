@@ -13,87 +13,317 @@
       </div>
     </aside>
     <section class="amvip-twoColContent">
-      <section>
-        <h2>Setup VIP Tier Program</h2>
-        <div class="amvip--formRow">
-          <label>Title<span class="amvip--mandatory">*</span></label>
-          <input type="text" class="amvip--textbox textBoxLarge" />
-        </div>
-        <div class="amvip--formRow">
-          <label>Description</label>
-          <input type="text" class="amvip--textbox textBoxLarge" />
-        </div>
-        <div class="amvip--formRow">
-          <label>Select Date to begin the program</label>
-          <div class="amvip--dateRow">
-            <div class="dateWrap">
-              <span>11 / 12 / 2020</span>
-              <div class="icon-calendar"></div>
-            </div>
-            <div class="amvip--info">
-              <span class="icon-notification"></span>
+      <form novalidate class="md-layout" @submit.prevent="gotoManageTier">
+        <section>
+          <h2>Setup VIP Tier Program</h2>
+          <div class="amvip--formRow">
+            <!-- <label>Title<span class="amvip--mandatory">*</span></label>
+            <input type="text" class="amvip--textbox textBoxLarge" /> -->
+            <md-field :class="getValidationClass('title')">
+              <label for="title">
+                Title
+                <span class="amvip--mandatory">*</span>
+              </label>
+              <md-input
+                name="title"
+                id="title"
+                v-model="form.title"
+                :disabled="sending"
+              />
+              <span class="md-error" v-if="!$v.form.title.required">
+                Label is required
+              </span>
+              <span class="md-error" v-else-if="!$v.form.title.minLenght">
+                Minimum of 3 letters required
+              </span>
+            </md-field>
+          </div>
+          <div class="amvip--formRow">
+            <!-- <label>Description</label>
+            <input type="text" class="amvip--textbox textBoxLarge" /> -->
+            <md-field>
+              <label for="description">Description</label>
+              <md-input
+                name="description"
+                id="description"
+                v-model="form.description"
+                :disabled="sending"
+              />
+            </md-field>
+          </div>
+          <div class="amvip--formRow">
+            <!-- <label>Select Date to begin the program</label>
+              <div class="dateWrap">
+                <span>11 / 12 / 2020</span>
+                <div class="icon-calendar"></div>
+              </div>
+              <div class="amvip--info">
+                <span class="icon-notification"></span>
+                <span
+                  >Date cannot be older than program installed date
+                  (05/06/2019)</span
+                > -->
+            <div class="amvip--dateRow">
+              <md-datepicker
+                md-immediately
+                :class="getValidationClass('startDate')"
+                name="startDate"
+                id="startDate"
+                v-model="form.startDate"
+                :disabled="sending"
+              >
+                <label>Select Date to begin the program</label>
+              </md-datepicker>
               <span
-                >Date cannot be older than program installed date
-                (05/06/2019)</span
+                class="md-custom-error padLeft-35"
+                v-if="!$v.form.startDate.required && $v.form.startDate.$dirty"
               >
+                Date to bign the program is required.
+              </span>
+              <span
+                class="md-custom-error padLeft-35 top-minus-20"
+                v-if="
+                  !$v.form.startDate.price_greater && $v.form.startDate.$dirty
+                "
+              >
+                Date cannot be older than program installed date ({{
+                  installedDate | formatDate
+                }})
+              </span>
             </div>
           </div>
-        </div>
-        <div class="amvip--radioRow">
-          <div class="formLabel">What should define your Tiers</div>
-          <div>
-            <div class="amvip--customRadio">
-              <input type="radio" name="tierRewardType" id="purchase" />
-              <label for="purchase"><span>Purchase</span></label>
-            </div>
-            <div class="amvip--customRadio">
-              <input type="radio" name="tierRewardType" id="points" />
-              <label for="points"><span>Points</span></label>
+          <div class="amvip--radioRow">
+            <div class="formLabel">What should define your Tiers</div>
+            <div>
+              <div class="amvip--customRadio">
+                <!-- <input type="radio" name="tierRewardType" id="purchase" />
+                <label for="purchase"><span>Purchase</span></label> -->
+                <md-radio
+                  v-model="form.tierType"
+                  value="purchase"
+                  id="purchase"
+                  name="tierType"
+                >
+                  Purchase
+                </md-radio>
+              </div>
+              <div class="amvip--customRadio">
+                <!-- <input type="radio" name="tierRewardType" id="points" />
+                <label for="points"><span>Points</span></label> -->
+                <md-radio
+                  v-model="form.tierType"
+                  value="points"
+                  id="points"
+                  name="tierType"
+                >
+                  Points
+                </md-radio>
+              </div>
+              <span
+                class="md-custom-error top-minus-20"
+                v-if="!$v.form.tierType.required && $v.form.tierType.$dirty"
+              >
+                Tier Type is required
+              </span>
             </div>
           </div>
-        </div>
-        <div class="amvip--radioRow btmBorder">
-          <div class="formLabel">Time to achieve a VIP Tier</div>
-          <div>
-            <div class="amvip--customRadio">
-              <input type="radio" name="tierTimeline" id="lifetime" />
-              <label for="lifetime"><span>Lifetime</span></label>
-              <small
-                >Once a member achieves a tier, they will keep their status
-                forever.</small
+          <div class="amvip--radioRow btmBorder">
+            <div class="formLabel">Time to achieve a VIP Tier</div>
+            <div>
+              <div class="amvip--customRadio">
+                <!-- <input type="radio" name="tierTimeline" id="lifetime" />
+                <label for="lifetime"><span>Lifetime</span></label>
+                <small
+                  >Once a member achieves a tier, they will keep their status
+                  forever.</small
+                > -->
+                <md-radio
+                  v-model="form.achievementType"
+                  value="lifetime"
+                  id="lifetime"
+                  name="achievementType"
+                >
+                  Lifetime
+                </md-radio>
+                <small>
+                  Once a member achieves a tier, they will keep their status
+                  forever.
+                </small>
+              </div>
+              <div class="amvip--customRadio">
+                <!-- <input type="radio" name="tierTimeline" id="calendarYear" />
+                <label for="calendarYear"><span>One Calendar Year</span></label>
+                <small>
+                  A member qualifies for the calendar year (1st Jan - 31st Dec)
+                </small>
+              </div> -->
+                <md-radio
+                  v-model="form.achievementType"
+                  value="oneCalendarYear"
+                  id="calendarYear"
+                  name="achievementType"
+                >
+                  One Calendar Year
+                </md-radio>
+                <small>
+                  A member qualifies for the calendar year (1st Jan - 31st Dec)
+                </small>
+              </div>
+              <span
+                class="md-custom-error top-minus-20"
+                v-if="
+                  !$v.form.achievementType.required &&
+                    $v.form.achievementType.$dirty
+                "
               >
-            </div>
-            <div class="amvip--customRadio">
-              <input type="radio" name="tierTimeline" id="calendarYear" />
-              <label for="calendarYear"><span>One Calendar Year</span></label>
-              <small
-                >A member qualifies for the calendar year (1st Jan - 31st
-                Dec)</small
-              >
+                Tier Type is required
+              </span>
             </div>
           </div>
-        </div>
-        <br />
-        <br />
-        <footer class="amvip-actionFooter">
-          <button class="amvip--btnPri" @click="gotoManageTier">Save</button>
-        </footer>
-      </section>
+          <br />
+          <br />
+          <footer class="amvip-actionFooter">
+            <button class="amvip--btnPri">Save</button>
+          </footer>
+        </section>
+      </form>
     </section>
   </div>
 </template>
 <style lang="less">
 @import url("./../../assets/vip-tier/less/_home");
 @import url("./../../assets/vip-tier/less/_setup");
+.md-field.md-custom-invalid {
+  margin-bottom: 2px;
+  label {
+    color: var(--md-theme-default-fieldvariant, #ff1744);
+  }
+  &::after {
+    background-color: var(--md-theme-default-fieldvariant, #ff1744);
+  }
+}
+.md-custom-error {
+  color: var(--md-theme-default-fieldvariant, #ff1744);
+  font-size: 12px;
+  text-align: left;
+  &.padLeft-35 {
+    padding-left: 35px;
+  }
+  &.top-minus-20 {
+    top: -20px;
+    position: relative;
+  }
+}
 </style>
 <script>
+import { validationMixin } from "vuelidate";
+import { required, minLength } from "vuelidate/lib/validators";
+import "./../../filters/vip-tier/date.js";
+import Axios from "axios";
 export default {
   name: "Setup",
+  mixins: [validationMixin],
+  data: () => ({
+    form: {
+      title: null,
+      description: null,
+      startDate: null,
+      tierType: null,
+      achievementType: null,
+    },
+    userSaved: false,
+    installedDate: new Date("06/18/2021"),
+    sending: false,
+    lastUser: null,
+  }),
+  validations: {
+    form: {
+      title: {
+        required,
+        minLength: minLength(3),
+      },
+      startDate: {
+        required,
+        price_greater(value) {
+          return value < this.$data.installedDate;
+        },
+      },
+      tierType: {
+        required,
+      },
+      achievementType: {
+        required,
+      },
+    },
+  },
   components: {},
+  mounted() {
+    Axios.get(
+      "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45"
+    ).then(res => {
+      this.updateFormData(res.data);
+    });
+  },
   methods: {
     gotoManageTier() {
-      this.$router.push("manage-tier");
-    }
-  }
+      this.validateUser();
+      if (this.userSaved) {
+        console.log("from goto ", this.$v.form.title);
+      }
+    },
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty,
+        };
+      }
+    },
+    clearForm() {
+      this.$v.$reset();
+      this.form.title = null;
+      this.form.description = null;
+      this.form.startDate = null;
+      this.form.tierType = null;
+      this.form.achievementType = null;
+    },
+    saveUser() {
+      this.sending = true;
+      const returnData = this.getFormData();
+      this.userSaved = true;
+      this.sending = false;
+      Axios.post(
+        "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45",
+        returnData
+      ).then(response => {
+        console.log("response from server", response);
+      });
+    },
+    getFormData() {
+      const returnObj = {};
+      Object.keys(this.form).forEach(value => {
+        returnObj[value] = this.form[value];
+      });
+      return returnObj;
+    },
+    updateFormData(response) {
+      Object.keys(this.form).forEach(value => {
+        if (response[value]) {
+          if (value == "startDate") {
+            response[value] = new Date(response[value]);
+          }
+          this.form[value] = response[value];
+        }
+      });
+    },
+    validateUser() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        console.log("error");
+      } else {
+        this.saveUser();
+      }
+    },
+  },
 };
 </script>
