@@ -65,9 +65,14 @@
         v-on:listItemClicked="accordionItemSelected"
       ></ExpansionList>
       <div class="amvip--landingBtnwrap" v-visible="isNewUser">
-        <button class="amvip--btn amvip--btnHome" @click="gotoSetup">
+        <!-- <button class="amvip--btn amvip--btnHome" @click="gotoSetup">
           Start Program <span class="icon-next-arrow"></span>
-        </button>
+        </button> -->
+        <md-button
+          class="md-raised amvip--btn amvip--btnHome"
+          @click="gotoSetup"
+          >Start Program <span class="icon-next-arrow"></span
+        ></md-button>
       </div>
     </section>
   </div>
@@ -93,7 +98,7 @@ export default {
           title: "What is VIP Tiers?",
           content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
           showMoreBtn: true,
-          moreBtnLink: "#",
+          moreBtnLink: "intro",
           moreBtnText: "Show More...",
           key: 1,
         },
@@ -102,7 +107,7 @@ export default {
           title: `Benefits of VIP Tiers`,
           content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
           showMoreBtn: true,
-          moreBtnLink: "#",
+          moreBtnLink: "intro",
           moreBtnText: "Show More...",
           key: 2,
         },
@@ -111,7 +116,7 @@ export default {
           title: "Key Features",
           content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
           showMoreBtn: true,
-          moreBtnLink: "#",
+          moreBtnLink: "intro",
           moreBtnText: "Show More...",
           key: 3,
         },
@@ -119,7 +124,8 @@ export default {
           listType: "expansionlist",
           title: "Stats",
           content: `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, sed?`,
-          moreBtnLink: "#",
+          showMoreBtn: true,
+          moreBtnLink: "intro",
           moreBtnText: "Show More...",
           key: 4,
         },
@@ -128,7 +134,7 @@ export default {
         {
           listType: "routeList",
           title: "Edit Program",
-          routeLink: "setup",
+          routeLink: "editProgram",
           key: 1,
         },
         {
@@ -156,7 +162,7 @@ export default {
           key: 5,
         },
       ],
-      accordionData: this.newUserListData,
+      accordionData: [],
       isNewUser: true,
     };
   },
@@ -167,7 +173,7 @@ export default {
   },
   methods: {
     gotoSetup() {
-      this.$router.push({ path: "setup" });
+      this.$router.push({ path: "setupProgram" });
     },
     accordionItemSelected(eve) {
       console.log("from home component", eve);

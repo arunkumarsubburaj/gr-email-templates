@@ -15,14 +15,14 @@ export default {
   components: { VipBanner },
   data: function() {
     return {
-      showBanner: false
+      showBanner: false,
     };
   },
   watch: {
     $route(to) {
       const bannerDisabledRoutes = ["Home", "Intro", "Setup"];
       this.showBanner = !(bannerDisabledRoutes.indexOf(to.name) > -1);
-    }
-  }
+    },
+  },
 };
 </script>

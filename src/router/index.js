@@ -69,7 +69,18 @@ const routes = [
           ),
       },
       {
-        path: "setup",
+        path: "setupProgram",
+        name: "Setup",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(
+            /* webpackChunkName: "setup" */ "./../views/vip-tier/Setup.vue"
+          ),
+      },
+      {
+        path: "editProgram",
         name: "Setup",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route

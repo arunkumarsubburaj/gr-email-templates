@@ -176,7 +176,7 @@
                     $v.form.achievementType.$dirty
                 "
               >
-                Tier Type is required
+                Time to achieve a VIP Tier is required
               </span>
             </div>
           </div>
@@ -220,6 +220,11 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
 import Axios from "axios";
+// import { Mode } from "./model.js";
+const Mode = {
+  Create: "create",
+  Edit: "edit",
+};
 export default {
   name: "Setup",
   mixins: [validationMixin],
@@ -235,6 +240,7 @@ export default {
     installedDate: new Date("06/18/2021"),
     sending: false,
     lastUser: null,
+    mode: Mode.create,
   }),
   validations: {
     form: {
@@ -258,11 +264,27 @@ export default {
   },
   components: {},
   mounted() {
-    Axios.get(
-      "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45"
-    ).then(res => {
-      this.updateFormData(res.data);
-    });
+    debugger;
+    const currentRoute = this.$route.path.split("/")[
+      this.$route.path.split("/").length - 1
+    ];
+    switch (currentRoute) {
+      case "setupProgram":
+        this.mode = Mode.Create;
+        break;
+      case "editProgram":
+        this.mode = Mode.Edit;
+        break;
+      default:
+        break;
+    }
+    if (this.mode == Mode.Edit) {
+      Axios.get(
+        "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45"
+      ).then(res => {
+        this.updateFormData(res.data);
+      });
+    }
   },
   methods: {
     gotoManageTier() {

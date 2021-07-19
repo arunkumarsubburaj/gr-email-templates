@@ -266,6 +266,9 @@
         line-height: 1.12;
         margin-bottom: 1em;
     }
+    .md-list{
+        padding: 0;
+    }
 }
 
 .amvip-twoColContent {
@@ -340,28 +343,28 @@
     }
 }
 .amvip--accordionBody {
-    display: none;
     color: #000;
     animation: fadeFromBtm 0.5s ease both;
 
     > p {
         font-size: 1.4rem;
         margin-bottom: 1.5em;
+        white-space: normal;
     }
 }
 
-.amvip--rewardTabs {
-    input[type="radio"] {
-        display: none;
+// .amvip--rewardTabs {
+//     input[type="radio"] {
+//         display: none;
 
-        &:checked + .amvip--rewardTabItem {
-            display: block;
-        }
-    }
-}
+//         &:checked + .amvip--rewardTabItem {
+//             display: block;
+//         }
+//     }
+// }
 
 .amvip--rewardTabItem {
-    display: none;
+    // display: none;
     animation: fadeFromLft 0.5s ease both;
 }
 
@@ -422,8 +425,8 @@
         &:before {
             content: '';
             position: absolute;
-            top: 6px;
-            left: 0;
+            top: 10px;
+            left: 5px;
             width: 6px;
             height: 6px;
             border-radius: 50%;
