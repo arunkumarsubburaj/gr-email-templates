@@ -17,8 +17,6 @@
         <section>
           <h2>Setup VIP Tier Program</h2>
           <div class="amvip--formRow">
-            <!-- <label>Title<span class="amvip--mandatory">*</span></label>
-            <input type="text" class="amvip--textbox textBoxLarge" /> -->
             <md-field :class="getValidationClass('title')">
               <label for="title">
                 Title
@@ -39,8 +37,6 @@
             </md-field>
           </div>
           <div class="amvip--formRow">
-            <!-- <label>Description</label>
-            <input type="text" class="amvip--textbox textBoxLarge" /> -->
             <md-field>
               <label for="description">Description</label>
               <md-input
@@ -52,17 +48,6 @@
             </md-field>
           </div>
           <div class="amvip--formRow">
-            <!-- <label>Select Date to begin the program</label>
-              <div class="dateWrap">
-                <span>11 / 12 / 2020</span>
-                <div class="icon-calendar"></div>
-              </div>
-              <div class="amvip--info">
-                <span class="icon-notification"></span>
-                <span
-                  >Date cannot be older than program installed date
-                  (05/06/2019)</span
-                > -->
             <div class="amvip--dateRow">
               <md-datepicker
                 md-immediately
@@ -96,8 +81,6 @@
             <div class="formLabel">What should define your Tiers</div>
             <div>
               <div class="amvip--customRadio">
-                <!-- <input type="radio" name="tierRewardType" id="purchase" />
-                <label for="purchase"><span>Purchase</span></label> -->
                 <md-radio
                   v-model="form.tierType"
                   value="purchase"
@@ -108,8 +91,6 @@
                 </md-radio>
               </div>
               <div class="amvip--customRadio">
-                <!-- <input type="radio" name="tierRewardType" id="points" />
-                <label for="points"><span>Points</span></label> -->
                 <md-radio
                   v-model="form.tierType"
                   value="points"
@@ -131,12 +112,6 @@
             <div class="formLabel">Time to achieve a VIP Tier</div>
             <div>
               <div class="amvip--customRadio">
-                <!-- <input type="radio" name="tierTimeline" id="lifetime" />
-                <label for="lifetime"><span>Lifetime</span></label>
-                <small
-                  >Once a member achieves a tier, they will keep their status
-                  forever.</small
-                > -->
                 <md-radio
                   v-model="form.achievementType"
                   value="lifetime"
@@ -151,12 +126,6 @@
                 </small>
               </div>
               <div class="amvip--customRadio">
-                <!-- <input type="radio" name="tierTimeline" id="calendarYear" />
-                <label for="calendarYear"><span>One Calendar Year</span></label>
-                <small>
-                  A member qualifies for the calendar year (1st Jan - 31st Dec)
-                </small>
-              </div> -->
                 <md-radio
                   v-model="form.achievementType"
                   value="oneCalendarYear"
@@ -220,7 +189,6 @@ import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import "./../../filters/vip-tier/date.js";
 import Axios from "axios";
-// import { Mode } from "./model.js";
 const Mode = {
   Create: "create",
   Edit: "edit",

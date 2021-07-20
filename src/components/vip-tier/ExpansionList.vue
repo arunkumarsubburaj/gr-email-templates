@@ -38,7 +38,7 @@
 export default {
   name: "ExpansionList",
   model: {
-    event: "listItemClicked"
+    event: "listItemClicked",
   },
   props: ["expandSingle", "dataSource"],
   methods: {
@@ -49,8 +49,8 @@ export default {
         });
       }
       this.$emit("listItemClicked", { context: this, data: data });
-    }
-  }
+    },
+  },
 };
 </script>
 
