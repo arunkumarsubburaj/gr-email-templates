@@ -1,15 +1,5 @@
 <template>
   <div class="amvip--wrapper">
-    <!-- <header class="amvip--header">
-      <div class="amvip--headerLogo">
-        <span class="icon-crown"></span>
-        <div>
-          <h2>VIP</h2>
-          <h3>Tiers</h3>
-          <small>Beta</small>
-        </div>
-      </div>
-    </header> -->
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
         <h2>Manage Tiers</h2>
@@ -31,126 +21,11 @@
       </hgroup>
 
       <section class="amvip--tierWrap">
-        <div class="amvip--tierCol amvip--bronze">
-          <div>
-            <header>
-              <div class="amvip--cardImg">
-                <img
-                  src="./../../assets/vip-tier/images/tier-icon.png"
-                  alt=""
-                />
-                <span class="icon-amedit" @click="showIconPopup"></span>
-              </div>
-              <h3>Bronze</h3>
-              <div class="amvip--cardAction">
-                <span class="icon-amedit" @click="gotoEditTier"></span>
-                <span class="icon-amdelete"></span>
-              </div>
-            </header>
-            <div class="amvip--tierDetails">
-              <h4>Eligibility</h4>
-              <ul class="amvip--bulletList">
-                <li>Earn 500 Points</li>
-              </ul>
-              <h4>Benefits</h4>
-              <ul class="amvip--bulletList">
-                <li>2x points ongoing basis</li>
-                <li>50% coupon one time</li>
-                <li>Lorem lipsum dolor sit</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="amvip--tierCol amvip--silver">
-          <div>
-            <header>
-              <div class="amvip--cardImg">
-                <img
-                  src="./../../assets/vip-tier/images/tier-icon.png"
-                  alt=""
-                />
-                <span class="icon-amedit" @click="showIconPopup"></span>
-              </div>
-              <h3>Silver</h3>
-              <div class="amvip--cardAction">
-                <span class="icon-amedit" @click="gotoEditTier"></span>
-                <span class="icon-amdelete"></span>
-              </div>
-            </header>
-            <div class="amvip--tierDetails">
-              <h4>Eligibility</h4>
-              <ul class="amvip--bulletList">
-                <li>Earn 500 Points</li>
-              </ul>
-              <h4>Benefits</h4>
-              <ul class="amvip--bulletList">
-                <li>2x points ongoing basis</li>
-                <li>50% coupon one time</li>
-                <li>Lorem lipsum dolor sit</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="amvip--tierCol amvip--gold">
-          <div>
-            <header>
-              <div class="amvip--cardImg">
-                <img
-                  src="./../../assets/vip-tier/images/tier-icon.png"
-                  alt=""
-                />
-                <span class="icon-amedit" @click="showIconPopup"></span>
-              </div>
-              <h3>Gold</h3>
-              <div class="amvip--cardAction">
-                <span class="icon-amedit" @click="gotoEditTier"></span>
-                <span class="icon-amdelete"></span>
-              </div>
-            </header>
-            <div class="amvip--tierDetails">
-              <h4>Eligibility</h4>
-              <ul class="amvip--bulletList">
-                <li>Earn 500 Points</li>
-              </ul>
-              <h4>Benefits</h4>
-              <ul class="amvip--bulletList">
-                <li>2x points ongoing basis</li>
-                <li>50% coupon one time</li>
-                <li>Lorem lipsum dolor sit</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="amvip--tierCol amvip--platinum">
-          <div>
-            <header>
-              <div class="amvip--cardImg">
-                <img
-                  src="./../../assets/vip-tier/images/tier-icon.png"
-                  alt=""
-                />
-                <span class="icon-amedit" @click="showIconPopup"></span>
-              </div>
-              <h3>Platinum</h3>
-              <div class="amvip--cardAction">
-                <span class="icon-amedit" @click="gotoEditTier"></span>
-                <span class="icon-amdelete"></span>
-              </div>
-            </header>
-            <div class="amvip--tierDetails">
-              <h4>Eligibility</h4>
-              <ul class="amvip--bulletList">
-                <li>Earn 500 Points</li>
-              </ul>
-              <h4>Benefits</h4>
-              <ul class="amvip--bulletList">
-                <li>2x points ongoing basis</li>
-                <li>50% coupon one time</li>
-                <li>Lorem lipsum dolor sit</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <VipTierCard
+          :tierData="tierObj"
+          v-for="tierObj of tierData"
+          :key="tierObj.index"
+        ></VipTierCard>
       </section>
     </div>
     <IconPopup
@@ -172,16 +47,68 @@
 <script>
 import IconPopup from "./IconPopup";
 import ConfirmPopup from "./ConfirmPopup";
+import VipTierCard, { TierType } from "./../../components/vip-tier/TierCard";
 export default {
   name: "ManageTier",
   components: {
     IconPopup,
-    ConfirmPopup
+    ConfirmPopup,
+    VipTierCard,
   },
   data: function() {
     return {
       enableIcon: false,
-      showConfirmPopup: false
+      showConfirmPopup: false,
+      tierData: [
+        {
+          title: TierType.Gold,
+          imgurl: "tier-icon.png",
+          eleigibityTitle: "Eligibility",
+          elegibilityList: ["Earn 500 Points"],
+          benefitsTitle: "Benefits",
+          benefitsList: [
+            "2x points ongoing basis",
+            "50% coupon one time",
+            "Lorem lipsum dolor sit",
+          ],
+        },
+        {
+          title: TierType.Silver,
+          imgurl: "tier-icon.png",
+          eleigibityTitle: "Eligibility",
+          elegibilityList: ["Earn 500 Points"],
+          benefitsTitle: "Benefits",
+          benefitsList: [
+            "2x points ongoing basis",
+            "50% coupon one time",
+            "Lorem lipsum dolor sit",
+          ],
+        },
+        {
+          title: TierType.Bronze,
+          imgurl: "tier-icon.png",
+          eleigibityTitle: "Eligibility",
+          elegibilityList: ["Earn 500 Points"],
+          benefitsTitle: "Benefits",
+          benefitsList: [
+            "2x points ongoing basis",
+            "50% coupon one time",
+            "Lorem lipsum dolor sit",
+          ],
+        },
+        {
+          title: TierType.Platinum,
+          imgurl: "tier-icon.png",
+          eleigibityTitle: "Eligibility",
+          elegibilityList: ["Earn 500 Points"],
+          benefitsTitle: "Benefits",
+          benefitsList: [
+            "2x points ongoing basis",
+            "50% coupon one time",
+            "Lorem lipsum dolor sit",
+          ],
+        },
+      ],
     };
   },
   methods: {
@@ -207,7 +134,7 @@ export default {
       const checkboxEle = document.getElementById("statusToggle");
       checkboxEle.checked = !checkboxEle.checked;
       this.showConfirmPopup = false;
-    }
-  }
+    },
+  },
 };
 </script>
