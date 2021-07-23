@@ -1,6 +1,8 @@
 <template>
   <div class="amvip-rewardItem">
-    <img :src="rewardData.imgurl" alt="" /><span>{{ rewardData.value }}</span>
+    <img :src="getImgUrl(rewardData.imgurl)" alt="rewardData.imgurl" /><span>{{
+      rewardData.value
+    }}</span>
     <div class="amvip--rewardItemActions">
       <span class="icon-amedit" @click="editReward($event, rewardData)"></span
       ><span
@@ -32,6 +34,9 @@ export default {
     RewardType: RewardType,
   }),
   methods: {
+    getImgUrl(image) {
+      return require("./../../assets/vip-tier/images/" + image);
+    },
     editReward(eve, data) {
       console.log("editClicked", data);
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });

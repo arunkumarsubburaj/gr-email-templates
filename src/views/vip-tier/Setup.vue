@@ -39,12 +39,12 @@
           <div class="amvip--formRow">
             <md-field>
               <label for="description">Description</label>
-              <md-input
+              <md-textarea
                 name="description"
                 id="description"
                 v-model="form.description"
                 :disabled="sending"
-              />
+              ></md-textarea>
             </md-field>
           </div>
           <div class="amvip--formRow">
@@ -232,7 +232,6 @@ export default {
   },
   components: {},
   mounted() {
-    debugger;
     const currentRoute = this.$route.path.split("/")[
       this.$route.path.split("/").length - 1
     ];

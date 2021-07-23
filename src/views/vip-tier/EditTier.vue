@@ -136,23 +136,23 @@ export default {
     },
     rewardData: [
       {
-        imgurl: "./../../assets/vip-tier/images/tier-icon.png",
+        imgurl: "tier-icon.png",
         value: "10% Coupon",
         rewardType: RewardType.OnGoing,
       },
       {
-        imgurl: "./../../assets/vip-tier/images/tier-icon.png",
+        imgurl: "tier-icon.png",
         value: "20% Coupon",
         rewardType: RewardType.OnGoing,
       },
       {
-        imgurl: "./../../assets/vip-tier/images/tier-icon.png",
+        imgurl: "tier-icon.png",
         value:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, facere?",
         rewardType: RewardType.OneTime,
       },
       {
-        imgurl: "./../../assets/vip-tier/images/tier-icon.png",
+        imgurl: "tier-icon.png",
         value: "Test Value",
         rewardType: RewardType.OnGoing,
       },
