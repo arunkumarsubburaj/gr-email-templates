@@ -2,7 +2,7 @@
   <div class="amvip--wrapper amvip-manageReward">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
-        <span class="icon-next-arrow" @click="gotoManageTier"></span>
+        <span class="icon-next-arrow" @click="goBack"></span>
         <h2>Edit Rewards</h2>
       </hgroup>
       <div class="amvip--tabs">
@@ -247,6 +247,9 @@ export default {
         isValidated = true;
       }
       return isValidated;
+    },
+    goBack() {
+      history.back();
     },
   },
 };

@@ -4,15 +4,18 @@
       <header>
         <div class="amvip--cardImg">
           <img :src="getImgUrl(tierData.imgurl)" :alt="tierData.imgurl" />
-          <span class="icon-amedit" @click="editTier($event, tierData)"></span>
+          <span
+            class="icon-amedit"
+            @click="editTierIcon($event, tierData)"
+          ></span>
         </div>
         <h3>{{ tierData.title }}</h3>
         <div class="amvip--cardAction">
+          <span class="icon-amedit" @click="editTier($event, tierData)"></span>
           <span
-            class="icon-amedit"
+            class="icon-amdelete"
             @click="deleteTier($event, tierData)"
           ></span>
-          <span class="icon-amdelete"></span>
         </div>
       </header>
       <div class="amvip--tierDetails">
@@ -48,7 +51,7 @@ export default {
   name: "VipTierCard",
   props: ["tierData"],
   model: {
-    event: "editClicked, deleteClicked",
+    event: "editClicked, deleteClicked, editTierIconClicked",
   },
   data: () => ({}),
   methods: {
@@ -58,6 +61,14 @@ export default {
     editTier(eve, data) {
       console.log("editClicked", data);
       this.$emit("editClicked", { context: this, data: data, eventObj: eve });
+    },
+    editTierIcon(eve, data) {
+      console.log("editIconClicked", data);
+      this.$emit("editTierIconClicked", {
+        context: this,
+        data: data,
+        event: eve,
+      });
     },
     deleteTier(eve, data) {
       console.log("deleteClicked", data);

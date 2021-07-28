@@ -2,6 +2,7 @@
   <div class="amvip--wrapper amvip-editTier">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
+        <span class="icon-next-arrow" @click="goBack"></span>
         <h2>Edit Tier</h2>
       </hgroup>
       <section class="amvip--editTierRow">
@@ -228,6 +229,9 @@ export default {
         isValidated = true;
       }
       return isValidated;
+    },
+    goBack() {
+      history.back();
     },
   },
 };

@@ -94,14 +94,22 @@ export default {
   event: ["close-btn-click"],
   data: function() {
     return {
-      enablePopup: false
+      enablePopup: false,
+      active: false,
+      value: null,
     };
   },
   components: {},
+  onConfirm() {
+    this.value = "Agreed";
+  },
+  onCancel() {
+    this.value = "Disagreed";
+  },
   methods: {
     hidePopup(event) {
       this.$emit("close-btn-click", event);
-    }
-  }
+    },
+  },
 };
 </script>

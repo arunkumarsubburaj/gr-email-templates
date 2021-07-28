@@ -16,6 +16,6 @@
 <script>
 export default {
   name: "VipBanner",
-  props: ["showBanner"]
+  props: ["showBanner"],
 };
 </script>

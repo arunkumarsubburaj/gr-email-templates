@@ -286,6 +286,7 @@ export default {
         returnData
       ).then(response => {
         console.log("response from server", response);
+        this.$router.push("manage-tier");
       });
     },
     getFormData() {

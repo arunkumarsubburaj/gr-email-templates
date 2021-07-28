@@ -2,6 +2,7 @@
   <div class="amvip--wrapper">
     <div class="amvip--container">
       <hgroup class="amvip--pageHeader">
+        <span class="icon-next-arrow" @click="goBack"></span>
         <h2>Manage Tiers</h2>
         <div class="amvip--inlineFlex">
           <button class="amvip--btnCommon" @click="gotoAddTier">
@@ -25,6 +26,9 @@
           :tierData="tierObj"
           v-for="tierObj of tierData"
           :key="tierObj.index"
+          v-on:editTierIconClicked="showIconPopup"
+          v-on:editClicked="gotoEditTier"
+          v-on:deleteClicked="deleteTier"
         ></VipTierCard>
       </section>
     </div>
@@ -112,8 +116,12 @@ export default {
     };
   },
   methods: {
-    gotoEditTier() {
+    gotoEditTier(data) {
+      console.log("from edit tier fn=======", data);
       this.$router.push("edit-tier");
+    },
+    deleteTier(data) {
+      console.log("delete Tier fn=====", data);
     },
     gotoAddTier() {
       this.$router.push("add-tier");
@@ -134,6 +142,9 @@ export default {
       const checkboxEle = document.getElementById("statusToggle");
       checkboxEle.checked = !checkboxEle.checked;
       this.showConfirmPopup = false;
+    },
+    goBack() {
+      history.back();
     },
   },
 };

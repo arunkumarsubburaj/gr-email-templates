@@ -3,6 +3,7 @@
     <form novalidate class="md-layout">
       <div class="amvip--container amvip--addTier">
         <hgroup class="amvip--pageHeader">
+          <span class="icon-next-arrow" @click="goBack"></span>
           <h2>Add Tier</h2>
         </hgroup>
         <div class="amvip--formRow">
@@ -161,6 +162,9 @@ export default {
         isValidated = true;
       }
       return isValidated;
+    },
+    goBack() {
+      history.back();
     },
   },
 };
