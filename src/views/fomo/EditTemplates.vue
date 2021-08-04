@@ -197,7 +197,7 @@ function lineBreakMatcher() {
 var options = {
   modules: {
     clipboard: {
-      matchers: [["BR", lineBreakMatcher]]
+      matchers: [["BR", lineBreakMatcher]],
     },
     keyboard: {
       bindings: {
@@ -241,7 +241,7 @@ var options = {
               if (name === "link") return;
               this.quill.format(name, context.format[name], Quill.sources.USER);
             });
-          }
+          },
         },
         linebreak: {
           key: 13,
@@ -254,9 +254,9 @@ var options = {
               this.quill.insertEmbed(range.index, "break", true, "user");
             }
             this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-          }
-        }
-      }
+          },
+        },
+      },
     },
     toolbar: [
       [
@@ -267,7 +267,7 @@ var options = {
         { align: [] },
         { direction: "rtl" },
         { size: ["small", false, "large", "huge"] },
-        { header: [1, 2, 3, 4, 5, 6, false] }
+        { header: [1, 2, 3, 4, 5, 6, false] },
       ],
       [
         { color: [] },
@@ -276,10 +276,10 @@ var options = {
         "italic",
         "underline",
         "strike",
-        "link"
-      ]
-    ]
-  }
+        "link",
+      ],
+    ],
+  },
 };
 
 Break.prototype.insertInto = function(parent, ref) {
@@ -299,7 +299,7 @@ export default {
     ImgUploadPreview,
     quillEditor,
     CustomVariables,
-    Loader
+    Loader,
   },
   mixins: ["createFormData", "renderTemplate", "getImgUrl", "getApiUrl"],
   data: function() {
@@ -317,7 +317,7 @@ export default {
       hasError: {},
       loader: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
     };
   },
 
@@ -328,8 +328,8 @@ export default {
         id_template: this.tempId,
         show_screen: this.activeTab,
         template: {
-          settings: {}
-        }
+          settings: {},
+        },
       };
       this.fomoData.settings.forEach(data =>
         Object.keys(data.attributes).forEach(
@@ -337,7 +337,7 @@ export default {
         )
       );
       return JSON.stringify(dd);
-    }
+    },
   },
   methods: {
     setActiveTab: function(e) {
@@ -409,7 +409,7 @@ export default {
       this.loader = true;
       const params = {
         is_activated: 1,
-        settings: JSON.stringify(this.fomoData.settings)
+        settings: JSON.stringify(this.fomoData.settings),
       };
       Axios.post(url, this.createFormData(params))
         .then(({ data }) => {
@@ -422,7 +422,7 @@ export default {
           this.apiMessage = true;
         })
         .finally(() => (this.loader = false));
-    }
+    },
   },
   mounted: function() {
     this.fetchFomoData();
@@ -433,7 +433,7 @@ export default {
     );
     plugin.async = true;
     document.head.appendChild(plugin);
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

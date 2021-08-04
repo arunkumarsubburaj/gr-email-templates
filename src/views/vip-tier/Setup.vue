@@ -246,11 +246,11 @@ export default {
         break;
     }
     if (this.mode == Mode.Edit) {
-      Axios.get(
-        "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45"
-      ).then(res => {
-        this.updateFormData(res.data);
-      });
+      Axios.get("https://vip-tier.free.beeceptor.com/setupProgram").then(
+        res => {
+          this.updateFormData(res.data);
+        }
+      );
     }
   },
   methods: {
@@ -281,13 +281,23 @@ export default {
       const returnData = this.getFormData();
       this.userSaved = true;
       this.sending = false;
-      Axios.post(
-        "https://run.mocky.io/v3/a5c07983-6b99-4c29-99e6-c2a2b0b90c45",
-        returnData
-      ).then(response => {
-        console.log("response from server", response);
-        this.$router.push("manage-tier");
-      });
+      if (this.mode === Mode.Create) {
+        Axios.post(
+          "https://vip-tier.free.beeceptor.com/setupProgram",
+          returnData
+        ).then(response => {
+          console.log("response from server", response);
+          this.$router.push("manage-tier");
+        });
+      } else {
+        Axios.put(
+          "https://vip-tier.free.beeceptor.com/setupProgram",
+          returnData
+        ).then(response => {
+          console.log("response from server", response);
+          this.$router.push("manage-tier");
+        });
+      }
     },
     getFormData() {
       const returnObj = {};

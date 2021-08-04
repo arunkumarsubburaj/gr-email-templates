@@ -262,7 +262,7 @@ export default {
       activeEdit: false, // config || rewards || display
       loader: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
     };
   },
   computed: {
@@ -274,7 +274,7 @@ export default {
     },
     activeTemplate: function() {
       return this.templateData.find(item => item.attributes.is_activated == 1);
-    }
+    },
   },
   methods: {
     handleBack: function() {
@@ -321,7 +321,7 @@ export default {
           this.apiMessage = true;
         })
         .finally(() => (this.loader = false));
-    }
+    },
   },
   mounted: function() {
     const url = this.getApiUrl(`fomo/getDetails?id=${this.fomoId}`);
@@ -347,7 +347,7 @@ export default {
         console.log(data);
       })
       .finally(() => (this.loader = false));
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

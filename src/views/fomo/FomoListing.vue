@@ -242,7 +242,7 @@ export default {
       showNavigation: false,
       showSidepanel: false,
       apiMessage: false,
-      apiResponse: null
+      apiResponse: null,
     };
   },
   computed: {
@@ -251,7 +251,7 @@ export default {
     },
     inactiveFomo: function() {
       return this.listData.filter(({ attributes }) => attributes.status == 0);
-    }
+    },
   },
   methods: {
     fetchSiteFomo: function() {
@@ -286,8 +286,8 @@ export default {
           name: "FomoSelectTemplate",
           params: {
             fomoId: data.data.id,
-            newFomo: true
-          }
+            newFomo: true,
+          },
         });
       });
     },
@@ -295,7 +295,7 @@ export default {
       const url = this.getApiUrl("fomo/updateStatus");
       const params = {
         id: id,
-        status: status == 0 ? 1 : 0
+        status: status == 0 ? 1 : 0,
       };
       this.loader = true;
       Axios.post(url, this.createFormData(params))
@@ -305,7 +305,7 @@ export default {
               item.id === id
                 ? {
                     ...item,
-                    attributes: { ...item.attributes, status: params.status }
+                    attributes: { ...item.attributes, status: params.status },
                   }
                 : item
             );
@@ -323,12 +323,12 @@ export default {
         .finally(() => (this.loader = false));
 
       // Change status using ID & !status
-    }
+    },
   },
   mounted: function() {
     this.fetchSiteFomo();
     this.fetchAllFomo();
-  }
+  },
 };
 </script>
 

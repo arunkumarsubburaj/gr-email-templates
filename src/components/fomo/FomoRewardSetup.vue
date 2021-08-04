@@ -278,7 +278,7 @@ export default {
   data: function() {
     return {
       formData: { ...this.data },
-      errors: {}
+      errors: {},
     };
   },
   watch: {
@@ -308,14 +308,14 @@ export default {
             ? delete this.errors["instant_reward_lnk"]
             : (this.errors.instant_reward_lnk = "Invalid input");
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     handleSave: function() {
       this.save(this.formData);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

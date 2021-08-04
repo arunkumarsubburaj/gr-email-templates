@@ -15,7 +15,7 @@
 export default {
   name: "ImgUploadPreview",
   props: ["id", "handleFileChange", "data"],
-  mixins: ["getImgUrl"]
+  mixins: ["getImgUrl"],
 };
 </script>
 <style lang="less" scoped>

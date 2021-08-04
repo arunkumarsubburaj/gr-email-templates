@@ -45,8 +45,8 @@ Vue.mixin({
       } else {
         return `${Vue.prototype.$callback_url}/${url}`;
       }
-    }
-  }
+    },
+  },
 });
 
 export default {
@@ -54,7 +54,7 @@ export default {
   mounted: function() {
     document.documentElement.classList.remove("md-theme-default");
     document.querySelector("#app").classList.add("md-theme-default");
-  }
+  },
 };
 </script>
 

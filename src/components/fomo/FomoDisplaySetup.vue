@@ -176,7 +176,7 @@ export default {
   data: function() {
     return {
       formData: { ...this.data },
-      errors: {}
+      errors: {},
     };
   },
   watch: {
@@ -198,8 +198,8 @@ export default {
         val.scroll_percentage >= 0
           ? delete this.errors["scroll"]
           : (this.errors.scroll = "Invalid input");
-      }
-    }
+      },
+    },
   },
   computed: {
     geolocation: {
@@ -211,19 +211,19 @@ export default {
       },
       set: function(v) {
         this.formData.allowed_countries = v;
-      }
-    }
+      },
+    },
   },
   methods: {
     handleSave: function() {
       const { allowed_countries: ac } = this.formData;
       const params = {
         ...this.formData,
-        allowed_countries: typeof ac == "object" ? ac.join() : ac
+        allowed_countries: typeof ac == "object" ? ac.join() : ac,
       };
       this.save(params);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

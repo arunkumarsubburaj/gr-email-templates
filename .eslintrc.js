@@ -5,11 +5,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: [
-    "plugin:vue/essential",
-    "eslint:recommended",
-    "@vue/prettier",
-  ],
+  extends: ["plugin:vue/essential", "eslint:recommended", "@vue/prettier"],
   parserOptions: {
     parser: "babel-eslint",
   },
@@ -21,7 +17,7 @@ module.exports = {
       {
         endOfLine: "auto",
         trailingComma: "es5",
-      }
+      },
     ],
   },
 };
